@@ -19,15 +19,15 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_riscosevents_c_h_
-#define SDL_riscosevents_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_riscosevents_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_riscosevents_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#include "SDL_riscosvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_riscosvideo.h"
 
-extern bool RISCOS_InitEvents(SDL_VideoDevice *_this);
-extern void RISCOS_PumpEvents(SDL_VideoDevice *_this);
-extern void RISCOS_QuitEvents(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool RISCOS_InitEvents(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ RISCOS_PumpEvents(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ RISCOS_QuitEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_riscosevents_c_h_
+#ਜੇ_ਅੰਤ // SDL_riscosevents_c_h_

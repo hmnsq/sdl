@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_cocoametalview_h_
-#define SDL_cocoametalview_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_cocoametalview_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#ਜੇ defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -41,26 +41,26 @@
 
 @interface SDL3_cocoametalview : NSView
 
-- (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
-                     windowID:(Uint32)windowID
+- (instancetype)init_With_ਚੌਖਟਾ:(NSRect)ਚੌਖਟਾ
+                      ਉੱਚਾ_DPI:(BOOL)ਉੱਚਾ_DPI
+                     ਖਿੜਕੀ_ID:(Uint32)ਖਿੜਕੀ_ID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
-- (NSView *)hitTest:(NSPoint)point;
+- (ਖਾਲੀ)update_Drawable_ਮਾਪ;
+- (NSView *)ਪ੍ਰਾਪਤੀ_Test:(NSPoint)ਬਿੰਦੂ;
 
 // Override superclass tag so this class can set it.
-@property(assign, readonly) NSInteger tag;
+@property(ਸੌਂਪੋ, readonly) NSInteger ਟੈਗ;
 
-@property(nonatomic) BOOL highDPI;
-@property(nonatomic) Uint32 sdlWindowID;
+@property(nonatomic) BOOL ਉੱਚਾ_DPI;
+@property(nonatomic) Uint32 sdl_ਖਿੜਕੀ_ID;
 
-@end
+@ਸਿਰਾ
 
-SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਖਾਲੀ Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+ਖਾਲੀ *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_cocoametalview_h_
+#ਜੇ_ਅੰਤ // SDL_cocoametalview_h_

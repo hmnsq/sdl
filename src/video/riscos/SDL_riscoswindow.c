@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_riscosvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_riscoswindow.h"
 
-bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RISCOS_Create_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    ਅੰਕੜੇ = (SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(*ਅੰਕੜੇ));
+    ਜੇ (!ਅੰਕੜੇ) {
+        ਵਾਪਸ false;
     }
-    data->window = window;
+    ਅੰਕੜੇ->ਖਿੜਕੀ = ਖਿੜਕੀ;
 
-    SDL_SetMouseFocus(window);
+    SDL_ਸੈੱਟ_Mouse_Focus(ਖਿੜਕੀ);
 
     // All done!
-    window->internal = data;
-    return true;
+    ਖਿੜਕੀ->ਅੰਦਰੂਨੀ = ਅੰਕੜੇ;
+    ਵਾਪਸ true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RISCOS_Destroy_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    if (window->internal) {
-        SDL_free(window->internal);
-        window->internal = NULL;
+    ਜੇ (ਖਿੜਕੀ->ਅੰਦਰੂਨੀ) {
+        SDL_free(ਖਿੜਕੀ->ਅੰਦਰੂਨੀ);
+        ਖਿੜਕੀ->ਅੰਦਰੂਨੀ = ਨਿਰਾ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_RISCOS

@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_stb_c_h_
-#define SDL_stb_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_stb_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_stb_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
 // Image conversion functions
 
-extern bool SDL_ConvertPixels_STB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+ਬਾਹਰੀ bool SDL_ConvertPixels_STB(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ਅਚਲ ਖਾਲੀ *src, ਪੂਰਨ src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ਖਾਲੀ *dst, ਪੂਰਨ dst_pitch);
 
-#endif // SDL_stb_c_h_
+#ਜੇ_ਅੰਤ // SDL_stb_c_h_

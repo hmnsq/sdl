@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_sve2_blit_N_h_
-#define SDL_sve2_blit_N_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_sve2_blit_N_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_sve2_blit_N_h_
 
-#include "../../SDL_internal.h"
-#include "../SDL_blit.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_blit.h"
 
-#ifdef SDL_SVE2_INTRINSICS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_SVE2_INTRINSICS
 
-void Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info);
-void Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info);
-void Blit2to2KeySVE2(SDL_BlitInfo *info);
-void Blit4to4KeySVE2(SDL_BlitInfo *info);
+ਖਾਲੀ Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info);
+ਖਾਲੀ Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info);
+ਖਾਲੀ Blit2to2_ਕੁੰਜੀ_SVE2(SDL_BlitInfo *info);
+ਖਾਲੀ Blit4to4_ਕੁੰਜੀ_SVE2(SDL_BlitInfo *info);
 
-#endif /* SDL_SVE2_INTRINSICS */
+#ਜੇ_ਅੰਤ /* SDL_SVE2_INTRINSICS */
 
-#endif /* SDL_sve2_blitters_h_ */
+#ਜੇ_ਅੰਤ /* SDL_sve2_blitters_h_ */

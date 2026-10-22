@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_waylandmessagebox_h_
-#define SDL_waylandmessagebox_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_waylandmessagebox_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_waylandmessagebox_h_
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WAYLAND
 
-extern bool Wayland_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+ਬਾਹਰੀ bool Wayland_Show_ਸੁਨੇਹਾ_Box(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *messageboxdata, ਪੂਰਨ *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WAYLAND
 
-#endif // SDL_waylandmessagebox_h_
+#ਜੇ_ਅੰਤ // SDL_waylandmessagebox_h_

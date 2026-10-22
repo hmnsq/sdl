@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_RPI
 
 /* References
  * http://elinux.org/RPi_VideoCore_APIs
@@ -31,43 +31,43 @@
  */
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_keyboard_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_ਨਿਵੇਸ਼_LINUXEV
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/linux/SDL_evdev.h"
+#ਜੇ_ਅੰਤ
 
 // RPI declarations
-#include "SDL_rpivideo.h"
-#include "SDL_rpievents_c.h"
-#include "SDL_rpiopengles.h"
-#include "SDL_rpimouse.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpivideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpievents_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpiopengles.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpimouse.h"
 
-static void RPI_Destroy(SDL_VideoDevice *device)
+ਸਥਿਰ ਖਾਲੀ RPI_Destroy(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->ਅੰਦਰੂਨੀ);
     SDL_free(device);
 }
 
-static void RPI_GetRefreshRate(int *numerator, int *denominator)
+ਸਥਿਰ ਖਾਲੀ RPI_Get_Refresh_ਦਰ(ਪੂਰਨ *numerator, ਪੂਰਨ *denominator)
 {
     TV_DISPLAY_STATE_T tvstate;
-    if (vc_tv_get_display_state(&tvstate) == 0) {
+    ਜੇ (vc_tv_get_display_state(&tvstate) == 0) {
         // The width/height parameters are in the same position in the union
         // for HDMI and SDTV
         HDMI_PROPERTY_PARAM_T property;
         property.property = HDMI_PROPERTY_PIXEL_CLOCK_TYPE;
         vc_tv_hdmi_get_property(&property);
-        if (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
-            *numerator = tvstate.display.hdmi.frame_rate * 1000;
+        ਜੇ (property.param1 == HDMI_PIXEL_CLOCK_TYPE_NTSC) {
+            *numerator = tvstate.display.hdmi.ਚੌਖਟਾ_ਦਰ_2 * 1000;
             *denominator = 1001;
-        } else {
-            *numerator = tvstate.display.hdmi.frame_rate;
+        } ਨਹੀਂਤਾਂ {
+            *numerator = tvstate.display.hdmi.ਚੌਖਟਾ_ਦਰ_2;
             *denominator = 1;
         }
-        return;
+        ਵਾਪਸ;
     }
 
     // Failed to get display state, default to 60
@@ -75,67 +75,67 @@ static void RPI_GetRefreshRate(int *numerator, int *denominator)
     *denominator = 1;
 }
 
-static SDL_VideoDevice *RPI_Create(void)
+ਸਥਿਰ SDL_VideoDevice *RPI_Create(ਖਾਲੀ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
+    SDL_Video_ਅੰਕੜੇ *phdata;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ਆਕਾਰ(SDL_VideoDevice));
+    ਜੇ (!device) {
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
     // Initialize internal data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(SDL_Video_ਅੰਕੜੇ));
+    ਜੇ (!phdata) {
         SDL_free(device);
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    device->internal = phdata;
+    device->ਅੰਦਰੂਨੀ = phdata;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->ਅੰਕ_displays = 0;
 
     // Set device free function
-    device->free = RPI_Destroy;
+    device->ਮੁਕਤ = RPI_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = RPI_VideoInit;
     device->VideoQuit = RPI_VideoQuit;
-    device->CreateSDLWindow = RPI_CreateWindow;
-    device->SetWindowTitle = RPI_SetWindowTitle;
-    device->SetWindowPosition = RPI_SetWindowPosition;
-    device->SetWindowSize = RPI_SetWindowSize;
-    device->ShowWindow = RPI_ShowWindow;
-    device->HideWindow = RPI_HideWindow;
-    device->RaiseWindow = RPI_RaiseWindow;
-    device->MaximizeWindow = RPI_MaximizeWindow;
-    device->MinimizeWindow = RPI_MinimizeWindow;
-    device->RestoreWindow = RPI_RestoreWindow;
-    device->DestroyWindow = RPI_DestroyWindow;
-    device->GL_LoadLibrary = RPI_GLES_LoadLibrary;
-    device->GL_GetProcAddress = RPI_GLES_GetProcAddress;
+    device->CreateSDLWindow = RPI_Create_ਖਿੜਕੀ;
+    device->ਸੈੱਟ_ਖਿੜਕੀ_Title = RPI_ਸੈੱਟ_ਖਿੜਕੀ_Title;
+    device->ਸੈੱਟ_ਖਿੜਕੀ_Position = RPI_ਸੈੱਟ_ਖਿੜਕੀ_Position;
+    device->ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ = RPI_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ;
+    device->Show_ਖਿੜਕੀ = RPI_Show_ਖਿੜਕੀ;
+    device->Hide_ਖਿੜਕੀ = RPI_Hide_ਖਿੜਕੀ;
+    device->Raise_ਖਿੜਕੀ = RPI_Raise_ਖਿੜਕੀ;
+    device->Maximize_ਖਿੜਕੀ = RPI_Maximize_ਖਿੜਕੀ;
+    device->Minimize_ਖਿੜਕੀ = RPI_Minimize_ਖਿੜਕੀ;
+    device->Restore_ਖਿੜਕੀ = RPI_Restore_ਖਿੜਕੀ;
+    device->Destroy_ਖਿੜਕੀ = RPI_Destroy_ਖਿੜਕੀ;
+    device->GL_ਲੱਦੋ_Library = RPI_GLES_ਲੱਦੋ_Library;
+    device->GL_Get_Proc_ਪਤਾ = RPI_GLES_Get_Proc_ਪਤਾ;
     device->GL_UnloadLibrary = RPI_GLES_UnloadLibrary;
     device->GL_CreateContext = RPI_GLES_CreateContext;
     device->GL_MakeCurrent = RPI_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = RPI_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = RPI_GLES_GetSwapInterval;
-    device->GL_SwapWindow = RPI_GLES_SwapWindow;
+    device->GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval = RPI_GLES_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval;
+    device->GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval = RPI_GLES_Get_ਅਦਲਾ_ਬਦਲੀ_Interval;
+    device->GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ = RPI_GLES_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ;
     device->GL_DestroyContext = RPI_GLES_DestroyContext;
-    device->GL_SetDefaultProfileConfig = RPI_GLES_SetDefaultProfileConfig;
+    device->GL_ਸੈੱਟ_Default_Profile_Config = RPI_GLES_ਸੈੱਟ_Default_Profile_Config;
 
     device->PumpEvents = RPI_PumpEvents;
 
-    return device;
+    ਵਾਪਸ device;
 }
 
 VideoBootStrap RPI_bootstrap = {
     "rpi",
     "RPI Video Driver",
     RPI_Create,
-    NULL, // no ShowMessageBox implementation
+    ਨਿਰਾ, // no ShowMessageBox implementation
     false
 };
 
@@ -143,48 +143,48 @@ VideoBootStrap RPI_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static void AddDispManXDisplay(const int display_id)
+ਸਥਿਰ ਖਾਲੀ ਜੋੜੋ_Disp_Man_XDisplay(ਅਚਲ ਪੂਰਨ display_id)
 {
     DISPMANX_MODEINFO_T modeinfo;
     DISPMANX_DISPLAY_HANDLE_T handle;
     SDL_VideoDisplay display;
-    SDL_DisplayMode mode;
-    SDL_DisplayData *data;
+    SDL_Display_ਬਹੁਲਕ ਬਹੁਲਕ;
+    SDL_Display_ਅੰਕੜੇ *ਅੰਕੜੇ;
 
     handle = vc_dispmanx_display_open(display_id);
-    if (!handle) {
-        return; // this display isn't available
+    ਜੇ (!handle) {
+        ਵਾਪਸ; // this display isn't available
     }
 
-    if (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
+    ਜੇ (vc_dispmanx_display_get_info(handle, &modeinfo) < 0) {
         vc_dispmanx_display_close(handle);
-        return;
+        ਵਾਪਸ;
     }
 
     // RPI_GetRefreshRate() doesn't distinguish between displays. I'm not sure the hardware distinguishes either
-    SDL_zero(mode);
-    mode.w = modeinfo.width;
-    mode.h = modeinfo.height;
-    RPI_GetRefreshRate(&mode.refresh_rate_numerator, &mode.refresh_rate_denominator);
+    SDL_zero(ਬਹੁਲਕ);
+    ਬਹੁਲਕ.w = modeinfo.ਚੌੜਾਈ;
+    ਬਹੁਲਕ.h = modeinfo.ਉਚਾਈ;
+    RPI_Get_Refresh_ਦਰ(&ਬਹੁਲਕ.refresh_ਦਰ_numerator, &ਬਹੁਲਕ.refresh_ਦਰ_denominator);
 
     // 32 bpp for default
-    mode.format = SDL_PIXELFORMAT_ABGR8888;
+    ਬਹੁਲਕ.format = SDL_PIXELFORMAT_ABGR8888;
 
     SDL_zero(display);
-    display.desktop_mode = mode;
+    display.desktop_ਬਹੁਲਕ = ਬਹੁਲਕ;
 
     // Allocate display internal data
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
+    ਅੰਕੜੇ = (SDL_Display_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(SDL_Display_ਅੰਕੜੇ));
+    ਜੇ (!ਅੰਕੜੇ) {
         vc_dispmanx_display_close(handle);
-        return; // oh well
+        ਵਾਪਸ; // oh well
     }
 
-    data->dispman_display = handle;
+    ਅੰਕੜੇ->dispman_display = handle;
 
-    display.internal = data;
+    display.ਅੰਦਰੂਨੀ = ਅੰਕੜੇ;
 
-    SDL_AddVideoDisplay(&display, false);
+    SDL_ਜੋੜੋ_Video_Display(&display, false);
 }
 
 bool RPI_VideoInit(SDL_VideoDevice *_this)
@@ -192,86 +192,86 @@ bool RPI_VideoInit(SDL_VideoDevice *_this)
     // Initialize BCM Host
     bcm_host_init();
 
-    AddDispManXDisplay(DISPMANX_ID_MAIN_LCD);    // your default display
-    AddDispManXDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
+    ਜੋੜੋ_Disp_Man_XDisplay(DISPMANX_ID_MAIN_LCD);    // your default display
+    ਜੋੜੋ_Disp_Man_XDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
 
-#ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_ਨਿਵੇਸ਼_LINUXEV
+    ਜੇ (!SDL_EVDEV_Init()) {
+        ਵਾਪਸ false;
     }
-#endif
+#ਜੇ_ਅੰਤ
 
     RPI_InitMouse(_this);
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-void RPI_VideoQuit(SDL_VideoDevice *_this)
+ਖਾਲੀ RPI_VideoQuit(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_ਨਿਵੇਸ਼_LINUXEV
     SDL_EVDEV_Quit();
-#endif
+#ਜੇ_ਅੰਤ
 }
 
-static void RPI_vsync_callback(DISPMANX_UPDATE_HANDLE_T u, void *data)
+ਸਥਿਰ ਖਾਲੀ RPI_vsync_callback(DISPMANX_UPDATE_HANDLE_T u, ਖਾਲੀ *ਅੰਕੜੇ)
 {
-    SDL_WindowData *wdata = (SDL_WindowData *)data;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata = (SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *)ਅੰਕੜੇ;
 
-    SDL_LockMutex(wdata->vsync_cond_mutex);
+    SDL_ਤਾਲਾ_Mutex(wdata->vsync_cond_mutex);
     SDL_SignalCondition(wdata->vsync_cond);
     SDL_UnlockMutex(wdata->vsync_cond_mutex);
 }
 
-bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RPI_Create_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *wdata;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata;
     SDL_VideoDisplay *display;
-    SDL_DisplayData *displaydata;
+    SDL_Display_ਅੰਕੜੇ *displaydata;
     VC_RECT_T dst_rect;
     VC_RECT_T src_rect;
     VC_DISPMANX_ALPHA_T dispman_alpha;
     DISPMANX_UPDATE_HANDLE_T dispman_update;
     uint32_t layer = SDL_RPI_VIDEOLAYER;
-    const char *env;
+    ਅਚਲ ਅੱਖਰ *env;
 
     // Disable alpha, otherwise the app looks composed with whatever dispman is showing (X11, console,etc)
     dispman_alpha.flags = DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS;
     dispman_alpha.opacity = 0xFF;
-    dispman_alpha.mask = 0;
+    dispman_alpha.ਨਕਾਬ = 0;
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ));
+    ਜੇ (!wdata) {
+        ਵਾਪਸ false;
     }
-    display = SDL_GetVideoDisplayForWindow(window);
-    displaydata = display->internal;
+    display = SDL_Get_Video_Display_For_ਖਿੜਕੀ(ਖਿੜਕੀ);
+    displaydata = display->ਅੰਦਰੂਨੀ;
 
     // Windows have one size for now
-    window->w = display->desktop_mode.w;
-    window->h = display->desktop_mode.h;
+    ਖਿੜਕੀ->w = display->desktop_ਬਹੁਲਕ.w;
+    ਖਿੜਕੀ->h = display->desktop_ਬਹੁਲਕ.h;
 
     // OpenGL ES is the law here, buddy
-    window->flags |= SDL_WINDOW_OPENGL;
+    ਖਿੜਕੀ->flags |= SDL_ਖਿੜਕੀ_OPENGL;
 
     // Create a dispman element and associate a window to it
     dst_rect.x = 0;
     dst_rect.y = 0;
-    dst_rect.width = window->w;
-    dst_rect.height = window->h;
+    dst_rect.ਚੌੜਾਈ = ਖਿੜਕੀ->w;
+    dst_rect.ਉਚਾਈ = ਖਿੜਕੀ->h;
 
     src_rect.x = 0;
     src_rect.y = 0;
-    src_rect.width = window->w << 16;
-    src_rect.height = window->h << 16;
+    src_rect.ਚੌੜਾਈ = ਖਿੜਕੀ->w << 16;
+    src_rect.ਉਚਾਈ = ਖਿੜਕੀ->h << 16;
 
     env = SDL_GetHint(SDL_HINT_RPI_VIDEO_LAYER);
-    if (env) {
+    ਜੇ (env) {
         layer = SDL_atoi(env);
     }
 
-    dispman_update = vc_dispmanx_update_start(0);
-    wdata->dispman_window.element = vc_dispmanx_element_add(dispman_update,
+    dispman_update = vc_dispmanx_update_ਸ਼ੁਰੂ(0);
+    wdata->dispman_ਖਿੜਕੀ.element = vc_dispmanx_element_ਜੋੜੋ(dispman_update,
                                                             displaydata->dispman_display,
                                                             layer /* layer */,
                                                             &dst_rect,
@@ -281,96 +281,96 @@ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
                                                             &dispman_alpha /*alpha*/,
                                                             0 /*clamp*/,
                                                             0 /*transform*/);
-    wdata->dispman_window.width = window->w;
-    wdata->dispman_window.height = window->h;
+    wdata->dispman_ਖਿੜਕੀ.ਚੌੜਾਈ = ਖਿੜਕੀ->w;
+    wdata->dispman_ਖਿੜਕੀ.ਉਚਾਈ = ਖਿੜਕੀ->h;
     vc_dispmanx_update_submit_sync(dispman_update);
 
-    if (!_this->egl_data) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    ਜੇ (!_this->egl_ਅੰਕੜੇ) {
+        ਜੇ (!SDL_GL_ਲੱਦੋ_Library(ਨਿਰਾ)) {
+            ਵਾਪਸ false;
         }
     }
-    wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)&wdata->dispman_window);
+    wdata->egl_surface = SDL_EGL_CreateSurface(_this, ਖਿੜਕੀ, (Native_ਖਿੜਕੀ_Type)&wdata->dispman_ਖਿੜਕੀ);
 
-    if (wdata->egl_surface == EGL_NO_SURFACE) {
-        return SDL_SetError("Could not create GLES window surface");
+    ਜੇ (wdata->egl_surface == EGL_NO_SURFACE) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Could not create GLES window surface");
     }
 
     // Start generating vsync callbacks if necessary
-    wdata->double_buffer = false;
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
+    wdata->double_ਬਫਰ = false;
+    ਜੇ (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_ਬਫਰ, false)) {
         wdata->vsync_cond = SDL_CreateCondition();
         wdata->vsync_cond_mutex = SDL_CreateMutex();
-        wdata->double_buffer = true;
-        vc_dispmanx_vsync_callback(displaydata->dispman_display, RPI_vsync_callback, (void *)wdata);
+        wdata->double_ਬਫਰ = true;
+        vc_dispmanx_vsync_callback(displaydata->dispman_display, RPI_vsync_callback, (ਖਾਲੀ *)wdata);
     }
 
     // Setup driver data for this window
-    window->internal = wdata;
+    ਖਿੜਕੀ->ਅੰਦਰੂਨੀ = wdata;
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_ਸੈੱਟ_Mouse_Focus(ਖਿੜਕੀ);
+    SDL_ਸੈੱਟ_Keyboard_Focus(ਖਿੜਕੀ);
 
     // Window has been successfully created
-    return true;
+    ਵਾਪਸ true;
 }
 
-void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Destroy_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
+    SDL_Display_ਅੰਕੜੇ *displaydata = SDL_Get_Display_Driver_ਅੰਕੜੇ_For_ਖਿੜਕੀ(ਖਿੜਕੀ);
 
-    if (data) {
-        if (data->double_buffer) {
+    ਜੇ (ਅੰਕੜੇ) {
+        ਜੇ (ਅੰਕੜੇ->double_ਬਫਰ) {
             // Wait for vsync, and then stop vsync callbacks and destroy related stuff, if needed
-            SDL_LockMutex(data->vsync_cond_mutex);
-            SDL_WaitCondition(data->vsync_cond, data->vsync_cond_mutex);
-            SDL_UnlockMutex(data->vsync_cond_mutex);
+            SDL_ਤਾਲਾ_Mutex(ਅੰਕੜੇ->vsync_cond_mutex);
+            SDL_WaitCondition(ਅੰਕੜੇ->vsync_cond, ਅੰਕੜੇ->vsync_cond_mutex);
+            SDL_UnlockMutex(ਅੰਕੜੇ->vsync_cond_mutex);
 
-            vc_dispmanx_vsync_callback(displaydata->dispman_display, NULL, NULL);
+            vc_dispmanx_vsync_callback(displaydata->dispman_display, ਨਿਰਾ, ਨਿਰਾ);
 
-            SDL_DestroyCondition(data->vsync_cond);
-            SDL_DestroyMutex(data->vsync_cond_mutex);
+            SDL_DestroyCondition(ਅੰਕੜੇ->vsync_cond);
+            SDL_DestroyMutex(ਅੰਕੜੇ->vsync_cond_mutex);
         }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
-            SDL_EGL_DestroySurface(_this, data->egl_surface);
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
+        ਜੇ (ਅੰਕੜੇ->egl_surface != EGL_NO_SURFACE) {
+            SDL_EGL_DestroySurface(_this, ਅੰਕੜੇ->egl_surface);
         }
-#endif
-        SDL_free(data);
-        window->internal = NULL;
+#ਜੇ_ਅੰਤ
+        SDL_free(ਅੰਕੜੇ);
+        ਖਿੜਕੀ->ਅੰਦਰੂਨੀ = ਨਿਰਾ;
     }
 }
 
-void RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_ਸੈੱਟ_ਖਿੜਕੀ_Title(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool RPI_ਸੈੱਟ_ਖਿੜਕੀ_Position(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    return SDL_Unsupported();
+    ਵਾਪਸ SDL_Unsupported();
 }
-void RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
-{
-}
-void RPI_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-void RPI_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Show_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-void RPI_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Hide_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-void RPI_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Raise_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-void RPI_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Maximize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
-void RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ RPI_Minimize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
+{
+}
+ਖਾਲੀ RPI_Restore_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_RPI
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_RPI

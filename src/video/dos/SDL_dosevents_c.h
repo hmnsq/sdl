@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosevents_c_h_
-#define SDL_dosevents_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_dosevents_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_dosevents_c_h_
 
-#include "SDL_dosvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_dosvideo.h"
 
-void DOSVESA_PumpEvents(SDL_VideoDevice *device);
-void DOSVESA_InitKeyboard(SDL_VideoDevice *device);
-void DOSVESA_QuitKeyboard(SDL_VideoDevice *device);
+ਖਾਲੀ DOSVESA_PumpEvents(SDL_VideoDevice *device);
+ਖਾਲੀ DOSVESA_InitKeyboard(SDL_VideoDevice *device);
+ਖਾਲੀ DOSVESA_QuitKeyboard(SDL_VideoDevice *device);
 
-#endif // SDL_dosevents_c_h_
+#ਜੇ_ਅੰਤ // SDL_dosevents_c_h_

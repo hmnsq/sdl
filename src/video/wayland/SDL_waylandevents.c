@@ -19,106 +19,106 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_scancode_tables_c.h"
-#include "../../events/SDL_keysym_to_keycode_c.h"
-#include "../../core/linux/SDL_system_theme.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/unix/SDL_poll.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_events_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_scancode_tables_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_keysym_to_keycode_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/linux/SDL_system_theme.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandclipboard.h"
-#include "SDL_waylandkeyboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandevents_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandwindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandmouse.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandclipboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandkeyboard.h"
 
-#include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "relative-pointer-unstable-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
-#include "text-input-unstable-v3-client-protocol.h"
-#include "tablet-v2-client-protocol.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
-#include "input-timestamps-unstable-v1-client-protocol.h"
-#include "pointer-gestures-unstable-v1-client-protocol.h"
-#include "cursor-shape-v1-client-protocol.h"
-#include "viewporter-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "pointer-constraints-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "relative-pointer-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "xdg-shell-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "text-input-unstable-v3-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "tablet-v2-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "primary-selection-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "input-timestamps-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "pointer-gestures-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "cursor-shape-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "viewporter-client-protocol.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+#ਅਨ੍ਤਰ੍ਭਾਵ <libdecor.h>
+#ਜੇ_ਅੰਤ
 
 // Per the spec, Wayland mouse and stylus buttons are defined as Linux event codes.
-#ifdef SDL_INPUT_LINUXEV
-#include <linux/input.h>
-#else
-#define BTN_LEFT    (0x110)
-#define BTN_RIGHT   (0x111)
-#define BTN_MIDDLE  (0x112)
-#define BTN_SIDE    (0x113)
-#define BTN_EXTRA   (0x114)
-#define BTN_STYLUS  (0x14b)
-#define BTN_STYLUS2 (0x14c)
-#define BTN_STYLUS3 (0x149)
-#endif
-#include "../../events/SDL_keysym_to_scancode_c.h"
-#include "../../events/imKStoUCS.h"
-#include <errno.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <xkbcommon/xkbcommon-compose.h>
-#include <xkbcommon/xkbcommon.h>
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_ਨਿਵੇਸ਼_LINUXEV
+#ਅਨ੍ਤਰ੍ਭਾਵ <linux/input.h>
+#ਨਹੀਂਤਾਂ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_ਖੱਬਾ    (0x110)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_ਸੱਜਾ   (0x111)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_ਵਿਚਕਾਰ  (0x112)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_SIDE    (0x113)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_EXTRA   (0x114)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_STYLUS  (0x14b)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_STYLUS2 (0x14c)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BTN_STYLUS3 (0x149)
+#ਜੇ_ਅੰਤ
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_keysym_to_scancode_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/imKStoUCS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <errno.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <sys/mman.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <unistd.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <xkbcommon/xkbcommon-compose.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <xkbcommon/xkbcommon.h>
 
 // Weston uses a ratio of 10 units per scroll tick
-#define WAYLAND_WHEEL_AXIS_UNIT 10
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_WHEEL_AXIS_UNIT 10
 
-#ifndef XKB_MOD_NAME_MOD3
-#define XKB_MOD_NAME_MOD3 "Mod3"
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XKB_MOD_NAME_MOD3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XKB_MOD_NAME_MOD3 "Mod3"
+#ਜੇ_ਅੰਤ
 
-#ifndef XKB_MOD_NAME_MOD5
-#define XKB_MOD_NAME_MOD5 "Mod5"
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XKB_MOD_NAME_MOD5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XKB_MOD_NAME_MOD5 "Mod5"
+#ਜੇ_ਅੰਤ
 
 // Keyboard and mouse names to match XWayland
-#define WAYLAND_DEFAULT_KEYBOARD_NAME "Virtual core keyboard"
-#define WAYLAND_DEFAULT_POINTER_NAME "Virtual core pointer"
-#define WAYLAND_DEFAULT_TOUCH_NAME "Virtual core touch"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_DEFAULT_KEYBOARD_NAME "Virtual core keyboard"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_DEFAULT_ਸੂਚਕ_NAME "Virtual core pointer"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_DEFAULT_TOUCH_NAME "Virtual core touch"
 
 // Focus clickthrough timeout
-#define WAYLAND_FOCUS_CLICK_TIMEOUT_NS SDL_MS_TO_NS(10)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_FOCUS_CLICK_TIMEOUT_NS SDL_MS_ਮੰਜ਼ਿਲ_NS(10)
 
 // Timer rollover detection thresholds
-#define WAYLAND_TIMER_ROLLOVER_INTERVAL_LOW  (SDL_MAX_UINT32 / 16U)
-#define WAYLAND_TIMER_ROLLOVER_INTERVAL_HIGH (WAYLAND_TIMER_ROLLOVER_INTERVAL_LOW * 15U)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_TIMER_ROLLOVER_INTERVAL_ਨੀਵਾਂ  (SDL_MAX_UINT32 / 16U)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WAYLAND_TIMER_ROLLOVER_INTERVAL_ਉੱਚਾ (WAYLAND_TIMER_ROLLOVER_INTERVAL_ਨੀਵਾਂ * 15U)
 
 // Scoped function declarations
-static void Wayland_SeatUpdateKeyboardGrab(SDL_WaylandSeat *seat);
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatUpdateKeyboardGrab(SDL_WaylandSeat *seat);
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    Uint32 key;
+    Uint32 ਕੁੰਜੀ;
     SDL_Scancode scancode;
-} Wayland_ReservedKey;
+} Wayland_Reserved_ਕੁੰਜੀ;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
     SDL_TouchID id;
     wl_fixed_t fx;
     wl_fixed_t fy;
-    struct wl_surface *surface;
+    ਬਣਤਰ wl_surface *surface;
 
-    struct wl_list link;
-} SDL_WaylandTouchPoint;
+    ਬਣਤਰ wl_list link;
+} SDL_Wayland_Touch_ਬਿੰਦੂ;
 
-static void Wayland_SeatAddTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t fx, wl_fixed_t fy, struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_ਜੋੜੋ_Touch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t fx, wl_fixed_t fy, ਬਣਤਰ wl_surface *surface)
 {
-    SDL_WaylandTouchPoint *tp = SDL_malloc(sizeof(SDL_WaylandTouchPoint));
+    SDL_Wayland_Touch_ਬਿੰਦੂ *tp = SDL_malloc(ਆਕਾਰ(SDL_Wayland_Touch_ਬਿੰਦੂ));
 
     SDL_zerop(tp);
     tp->id = id;
@@ -126,29 +126,29 @@ static void Wayland_SeatAddTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed
     tp->fy = fy;
     tp->surface = surface;
 
-    WAYLAND_wl_list_insert(&seat->touch.points, &tp->link);
+    WAYLAND_wl_list_ਪਾਓ(&seat->touch.points, &tp->link);
 }
 
-static void Wayland_SeatCancelTouch(SDL_WaylandSeat *seat, SDL_WaylandTouchPoint *tp)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatCancelTouch(SDL_WaylandSeat *seat, SDL_Wayland_Touch_ਬਿੰਦੂ *tp)
 {
-    if (tp->surface) {
-        SDL_WindowData *window_data = Wayland_GetWindowDataForOwnedSurface(tp->surface);
+    ਜੇ (tp->surface) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(tp->surface);
 
-        if (window_data) {
-            const float x = (float)(wl_fixed_to_double(tp->fx) / window_data->current.logical_width);
-            const float y = (float)(wl_fixed_to_double(tp->fy) / window_data->current.logical_height);
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2) {
+            ਅਚਲ ਦਸ਼ਮਲਵ x = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(tp->fx) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਚੌੜਾਈ);
+            ਅਚਲ ਦਸ਼ਮਲਵ y = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(tp->fy) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਉਚਾਈ);
 
             SDL_SendTouch(0, (SDL_TouchID)(uintptr_t)seat->touch.wl_touch,
-                          (SDL_FingerID)(tp->id + 1), window_data->sdlwindow, SDL_EVENT_FINGER_CANCELED, x, y, 0.0f);
+                          (SDL_FingerID)(tp->id + 1), ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, SDL_EVENT_FINGER_CANCELED, x, y, 0.0f);
 
-            --window_data->active_touch_count;
+            --ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸਰਗਰਮ_touch_ਗਿਣਤੀ;
 
             /* If the window currently has mouse focus and has no currently active keyboards, pointers,
              * or touch events, then consider mouse focus to be lost.
              */
-            if (SDL_GetMouseFocus() == window_data->sdlwindow && !window_data->keyboard_focus_count &&
-                !window_data->pointer_focus_count && !window_data->active_touch_count) {
-                SDL_SetMouseFocus(NULL);
+            ਜੇ (SDL_GetMouseFocus() == ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow && !ਖਿੜਕੀ_ਅੰਕੜੇ_2->keyboard_focus_ਗਿਣਤੀ &&
+                !ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_focus_ਗਿਣਤੀ && !ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸਰਗਰਮ_touch_ਗਿਣਤੀ) {
+                SDL_ਸੈੱਟ_Mouse_Focus(ਨਿਰਾ);
             }
         }
     }
@@ -157,247 +157,247 @@ static void Wayland_SeatCancelTouch(SDL_WaylandSeat *seat, SDL_WaylandTouchPoint
     SDL_free(tp);
 }
 
-static void Wayland_SeatUpdateTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t fx, wl_fixed_t fy, struct wl_surface **surface)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatUpdateTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t fx, wl_fixed_t fy, ਬਣਤਰ wl_surface **surface)
 {
-    SDL_WaylandTouchPoint *tp;
+    SDL_Wayland_Touch_ਬਿੰਦੂ *tp;
 
     wl_list_for_each (tp, &seat->touch.points, link) {
-        if (tp->id == id) {
+        ਜੇ (tp->id == id) {
             tp->fx = fx;
             tp->fy = fy;
-            if (surface) {
+            ਜੇ (surface) {
                 *surface = tp->surface;
             }
-            break;
+            ਰੋਕੋ;
         }
     }
 }
 
-static void Wayland_SeatRemoveTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t *fx, wl_fixed_t *fy, struct wl_surface **surface)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatRemoveTouch(SDL_WaylandSeat *seat, SDL_TouchID id, wl_fixed_t *fx, wl_fixed_t *fy, ਬਣਤਰ wl_surface **surface)
 {
-    SDL_WaylandTouchPoint *tp;
+    SDL_Wayland_Touch_ਬਿੰਦੂ *tp;
 
     wl_list_for_each (tp, &seat->touch.points, link) {
-        if (tp->id == id) {
-            if (fx) {
+        ਜੇ (tp->id == id) {
+            ਜੇ (fx) {
                 *fx = tp->fx;
             }
-            if (fy) {
+            ਜੇ (fy) {
                 *fy = tp->fy;
             }
-            if (surface) {
+            ਜੇ (surface) {
                 *surface = tp->surface;
             }
 
             WAYLAND_wl_list_remove(&tp->link);
             SDL_free(tp);
-            break;
+            ਰੋਕੋ;
         }
     }
 }
 
-static void Wayland_GetScaledMouseRect(SDL_Window *window, SDL_Rect *scaled_rect)
+ਸਥਿਰ ਖਾਲੀ Wayland_GetScaledMouseRect(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_Rect *scaled_rect)
 {
-    SDL_WindowData *window_data = window->internal;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-    scaled_rect->x = (int)SDL_floor(window->mouse_rect.x / window_data->pointer_scale.x);
-    scaled_rect->y = (int)SDL_floor(window->mouse_rect.y / window_data->pointer_scale.y);
-    scaled_rect->w = (int)SDL_ceil(window->mouse_rect.w / window_data->pointer_scale.x);
-    scaled_rect->h = (int)SDL_ceil(window->mouse_rect.h / window_data->pointer_scale.y);
+    scaled_rect->x = (ਪੂਰਨ)SDL_floor(ਖਿੜਕੀ->mouse_rect.x / ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.x);
+    scaled_rect->y = (ਪੂਰਨ)SDL_floor(ਖਿੜਕੀ->mouse_rect.y / ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.y);
+    scaled_rect->w = (ਪੂਰਨ)SDL_ceil(ਖਿੜਕੀ->mouse_rect.w / ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.x);
+    scaled_rect->h = (ਪੂਰਨ)SDL_ceil(ਖਿੜਕੀ->mouse_rect.h / ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.y);
 }
 
-static Uint64 Wayland_AdjustEventTimestampBase(Uint64 nsTimestamp)
+ਸਥਿਰ Uint64 Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(Uint64 nsTimestamp)
 {
-    static Uint64 timestamp_offset = 0;
-    const Uint64 now = SDL_GetTicksNS();
+    ਸਥਿਰ Uint64 timestamp_ਵਿੱਥ = 0;
+    ਅਚਲ Uint64 now = SDL_GetTicksNS();
 
-    if (!timestamp_offset) {
-        timestamp_offset = (now - nsTimestamp);
+    ਜੇ (!timestamp_ਵਿੱਥ) {
+        timestamp_ਵਿੱਥ = (now - nsTimestamp);
     }
-    nsTimestamp += timestamp_offset;
+    nsTimestamp += timestamp_ਵਿੱਥ;
 
-    if (nsTimestamp > now) {
-        timestamp_offset -= (nsTimestamp - now);
+    ਜੇ (nsTimestamp > now) {
+        timestamp_ਵਿੱਥ -= (nsTimestamp - now);
         nsTimestamp = now;
     }
 
-    return nsTimestamp;
+    ਵਾਪਸ nsTimestamp;
 }
 
 /* This should only be called with 32-bit millisecond timestamps received in Wayland events!
  * No synthetic or high-res timestamps, as they can corrupt the rollover offset!
  */
-static Uint64 Wayland_EventTimestampMSToNS(Uint32 wl_timestamp_ms)
+ਸਥਿਰ Uint64 Wayland_EventTimestampMSToNS(Uint32 wl_timestamp_ms)
 {
-    static Uint64 timestamp_offset = 0;
-    static Uint32 last = 0;
-    Uint64 timestamp = SDL_MS_TO_NS(wl_timestamp_ms) + timestamp_offset;
+    ਸਥਿਰ Uint64 timestamp_ਵਿੱਥ = 0;
+    ਸਥਿਰ Uint32 ਆਖਰੀ = 0;
+    Uint64 timestamp = SDL_MS_ਮੰਜ਼ਿਲ_NS(wl_timestamp_ms) + timestamp_ਵਿੱਥ;
 
-    if (wl_timestamp_ms >= last) {
-        if (timestamp_offset && last < WAYLAND_TIMER_ROLLOVER_INTERVAL_LOW && wl_timestamp_ms > WAYLAND_TIMER_ROLLOVER_INTERVAL_HIGH) {
+    ਜੇ (wl_timestamp_ms >= ਆਖਰੀ) {
+        ਜੇ (timestamp_ਵਿੱਥ && ਆਖਰੀ < WAYLAND_TIMER_ROLLOVER_INTERVAL_ਨੀਵਾਂ && wl_timestamp_ms > WAYLAND_TIMER_ROLLOVER_INTERVAL_ਉੱਚਾ) {
             // A time that crossed backwards across zero was received. Subtract the increased time base offset.
-            timestamp -= SDL_MS_TO_NS(SDL_UINT64_C(0x100000000));
-        } else {
-            last = wl_timestamp_ms;
+            timestamp -= SDL_MS_ਮੰਜ਼ਿਲ_NS(SDL_UINT64_C(0x100000000));
+        } ਨਹੀਂਤਾਂ {
+            ਆਖਰੀ = wl_timestamp_ms;
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         /* Only increment the base time offset if the timer actually crossed forward across 0,
          * and not if this is just a timestamp from a slightly older event.
          */
-        if (wl_timestamp_ms < WAYLAND_TIMER_ROLLOVER_INTERVAL_LOW && last > WAYLAND_TIMER_ROLLOVER_INTERVAL_HIGH) {
-            timestamp_offset += SDL_MS_TO_NS(SDL_UINT64_C(0x100000000));
-            timestamp += SDL_MS_TO_NS(SDL_UINT64_C(0x100000000));
-            last = wl_timestamp_ms;
+        ਜੇ (wl_timestamp_ms < WAYLAND_TIMER_ROLLOVER_INTERVAL_ਨੀਵਾਂ && ਆਖਰੀ > WAYLAND_TIMER_ROLLOVER_INTERVAL_ਉੱਚਾ) {
+            timestamp_ਵਿੱਥ += SDL_MS_ਮੰਜ਼ਿਲ_NS(SDL_UINT64_C(0x100000000));
+            timestamp += SDL_MS_ਮੰਜ਼ਿਲ_NS(SDL_UINT64_C(0x100000000));
+            ਆਖਰੀ = wl_timestamp_ms;
         }
     }
 
-    return timestamp;
+    ਵਾਪਸ timestamp;
 }
 
 /* Even if high-res timestamps are available, the millisecond timestamps are still processed
  * to accumulate the rollover offset if needed later.
  */
 
-static Uint64 Wayland_GetKeyboardTimestamp(SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms)
+ਸਥਿਰ Uint64 Wayland_GetKeyboardTimestamp(SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms)
 {
-    const Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
-    return Wayland_AdjustEventTimestampBase(seat->keyboard.timestamps ? seat->keyboard.highres_timestamp_ns : adjustedTimestampNS);
+    ਅਚਲ Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
+    ਵਾਪਸ Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(seat->keyboard.timestamps ? seat->keyboard.highres_timestamp_ns : adjustedTimestampNS);
 }
 
-static Uint64 Wayland_GetPointerTimestamp(SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms)
+ਸਥਿਰ Uint64 Wayland_Get_ਸੂਚਕ_Timestamp(SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms)
 {
-    const Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
-    return Wayland_AdjustEventTimestampBase(seat->pointer.timestamps ? seat->pointer.highres_timestamp_ns : adjustedTimestampNS);
+    ਅਚਲ Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
+    ਵਾਪਸ Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(seat->ਸੂਚਕ_2.timestamps ? seat->ਸੂਚਕ_2.highres_timestamp_ns : adjustedTimestampNS);
 }
 
 Uint64 Wayland_GetTouchTimestamp(SDL_WaylandSeat *seat, Uint32 wl_timestamp_ms)
 {
-    const Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
-    return Wayland_AdjustEventTimestampBase(seat->touch.timestamps ? seat->touch.highres_timestamp_ns : adjustedTimestampNS);
+    ਅਚਲ Uint64 adjustedTimestampNS = Wayland_EventTimestampMSToNS(wl_timestamp_ms);
+    ਵਾਪਸ Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(seat->touch.timestamps ? seat->touch.highres_timestamp_ns : adjustedTimestampNS);
 }
 
-static void input_timestamp_listener(void *data, struct zwp_input_timestamps_v1 *zwp_input_timestamps_v1,
+ਸਥਿਰ ਖਾਲੀ ਨਿਵੇਸ਼_timestamp_listener(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_ਨਿਵੇਸ਼_timestamps_v1 *zwp_ਨਿਵੇਸ਼_timestamps_v1,
                                              uint32_t tv_sec_hi, uint32_t tv_sec_lo, uint32_t tv_nsec)
 {
-    *((Uint64 *)data) = ((((Uint64)tv_sec_hi << 32) | (Uint64)tv_sec_lo) * SDL_NS_PER_SECOND) + tv_nsec;
+    *((Uint64 *)ਅੰਕੜੇ) = ((((Uint64)tv_sec_hi << 32) | (Uint64)tv_sec_lo) * SDL_NS_ਪ੍ਰਤੀ_ਦੂਜਾ) + tv_nsec;
 }
 
-static const struct zwp_input_timestamps_v1_listener timestamp_listener = {
-    input_timestamp_listener
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_ਨਿਵੇਸ਼_timestamps_v1_listener timestamp_listener = {
+    ਨਿਵੇਸ਼_timestamp_listener
 };
 
-static void Wayland_SeatRegisterInputTimestampListeners(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_ਰਜਿਸਟਰ_ਨਿਵੇਸ਼_Timestamp_Listeners(SDL_WaylandSeat *seat)
 {
-    if (seat->display->input_timestamps_manager) {
-        if (seat->keyboard.wl_keyboard && !seat->keyboard.timestamps) {
-            seat->keyboard.timestamps = zwp_input_timestamps_manager_v1_get_keyboard_timestamps(seat->display->input_timestamps_manager, seat->keyboard.wl_keyboard);
-            zwp_input_timestamps_v1_add_listener(seat->keyboard.timestamps, &timestamp_listener, &seat->keyboard.highres_timestamp_ns);
+    ਜੇ (seat->display->ਨਿਵੇਸ਼_timestamps_manager) {
+        ਜੇ (seat->keyboard.wl_keyboard && !seat->keyboard.timestamps) {
+            seat->keyboard.timestamps = zwp_ਨਿਵੇਸ਼_timestamps_manager_v1_get_keyboard_timestamps(seat->display->ਨਿਵੇਸ਼_timestamps_manager, seat->keyboard.wl_keyboard);
+            zwp_ਨਿਵੇਸ਼_timestamps_v1_ਜੋੜੋ_listener(seat->keyboard.timestamps, &timestamp_listener, &seat->keyboard.highres_timestamp_ns);
         }
 
-        if (seat->pointer.wl_pointer && !seat->pointer.timestamps) {
-            seat->pointer.timestamps = zwp_input_timestamps_manager_v1_get_pointer_timestamps(seat->display->input_timestamps_manager, seat->pointer.wl_pointer);
-            zwp_input_timestamps_v1_add_listener(seat->pointer.timestamps, &timestamp_listener, &seat->pointer.highres_timestamp_ns);
+        ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ && !seat->ਸੂਚਕ_2.timestamps) {
+            seat->ਸੂਚਕ_2.timestamps = zwp_ਨਿਵੇਸ਼_timestamps_manager_v1_get_ਸੂਚਕ_timestamps(seat->display->ਨਿਵੇਸ਼_timestamps_manager, seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
+            zwp_ਨਿਵੇਸ਼_timestamps_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.timestamps, &timestamp_listener, &seat->ਸੂਚਕ_2.highres_timestamp_ns);
         }
 
-        if (seat->touch.wl_touch && !seat->touch.timestamps) {
-            seat->touch.timestamps = zwp_input_timestamps_manager_v1_get_touch_timestamps(seat->display->input_timestamps_manager, seat->touch.wl_touch);
-            zwp_input_timestamps_v1_add_listener(seat->touch.timestamps, &timestamp_listener, &seat->touch.highres_timestamp_ns);
+        ਜੇ (seat->touch.wl_touch && !seat->touch.timestamps) {
+            seat->touch.timestamps = zwp_ਨਿਵੇਸ਼_timestamps_manager_v1_get_touch_timestamps(seat->display->ਨਿਵੇਸ਼_timestamps_manager, seat->touch.wl_touch);
+            zwp_ਨਿਵੇਸ਼_timestamps_v1_ਜੋੜੋ_listener(seat->touch.timestamps, &timestamp_listener, &seat->touch.highres_timestamp_ns);
         }
     }
 }
 
-void Wayland_DisplayInitInputTimestampManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_Display_Init_ਨਿਵੇਸ਼_Timestamp_Manager(SDL_Video_ਅੰਕੜੇ *display)
 {
-    if (display->input_timestamps_manager) {
+    ਜੇ (display->ਨਿਵੇਸ਼_timestamps_manager) {
         SDL_WaylandSeat *seat;
         wl_list_for_each (seat, &display->seat_list, link) {
-            Wayland_SeatRegisterInputTimestampListeners(seat);
+            Wayland_Seat_ਰਜਿਸਟਰ_ਨਿਵੇਸ਼_Timestamp_Listeners(seat);
         }
     }
 }
 
-static void handle_pinch_begin(void *data, struct zwp_pointer_gesture_pinch_v1 *zwp_pointer_gesture_pinch_v1, uint32_t serial, uint32_t time, struct wl_surface *surface, uint32_t fingers)
+ਸਥਿਰ ਖਾਲੀ handle_pinch_begin(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_ਸੂਚਕ_gesture_pinch_v1 *zwp_ਸੂਚਕ_gesture_pinch_v1, uint32_t serial, uint32_t ਸਮਾਂ, ਬਣਤਰ wl_surface *surface, uint32_t fingers)
 {
-    if (!surface) {
-        return;
+    ਜੇ (!surface) {
+        ਵਾਪਸ;
     }
 
-    SDL_WindowData *wind = Wayland_GetWindowDataForOwnedSurface(surface);
-    if (wind) {
-        SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-        seat->pointer.gesture_focus = wind;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wind = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
+    ਜੇ (wind) {
+        SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+        seat->ਸੂਚਕ_2.gesture_focus = wind;
 
-        const Uint64 timestamp = Wayland_GetPointerTimestamp(seat, time);
+        ਅਚਲ Uint64 timestamp = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
         SDL_SendPinch(SDL_EVENT_PINCH_BEGIN, timestamp, wind->sdlwindow, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f);
     }
 }
 
-static void handle_pinch_update(void *data, struct zwp_pointer_gesture_pinch_v1 *zwp_pointer_gesture_pinch_v1, uint32_t time,
+ਸਥਿਰ ਖਾਲੀ handle_pinch_update(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_ਸੂਚਕ_gesture_pinch_v1 *zwp_ਸੂਚਕ_gesture_pinch_v1, uint32_t ਸਮਾਂ,
                                 wl_fixed_t dx, wl_fixed_t dy, wl_fixed_t scale, wl_fixed_t rotation)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
 
-    if (seat->pointer.gesture_focus) {
-        const Uint64 timestamp = Wayland_GetPointerTimestamp(seat, time);
-        const float s = (float)wl_fixed_to_double(scale);
-        SDL_SendPinch(SDL_EVENT_PINCH_UPDATE, timestamp, seat->pointer.gesture_focus->sdlwindow, s, -1.0f, -1.0f, -1.0f, -1.0f);
+    ਜੇ (seat->ਸੂਚਕ_2.gesture_focus) {
+        ਅਚਲ Uint64 timestamp = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
+        ਅਚਲ ਦਸ਼ਮਲਵ s = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(scale);
+        SDL_SendPinch(SDL_EVENT_PINCH_UPDATE, timestamp, seat->ਸੂਚਕ_2.gesture_focus->sdlwindow, s, -1.0f, -1.0f, -1.0f, -1.0f);
     }
 }
 
-static void handle_pinch_end(void *data, struct zwp_pointer_gesture_pinch_v1 *zwp_pointer_gesture_pinch_v1, uint32_t serial, uint32_t time, int32_t cancelled)
+ਸਥਿਰ ਖਾਲੀ handle_pinch_ਸਿਰਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_ਸੂਚਕ_gesture_pinch_v1 *zwp_ਸੂਚਕ_gesture_pinch_v1, uint32_t serial, uint32_t ਸਮਾਂ, int32_t cancelled)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
 
-    if (seat->pointer.gesture_focus) {
-        const Uint64 timestamp = Wayland_GetPointerTimestamp(seat, time);
-        SDL_SendPinch(SDL_EVENT_PINCH_END, timestamp, seat->pointer.gesture_focus->sdlwindow, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f);
+    ਜੇ (seat->ਸੂਚਕ_2.gesture_focus) {
+        ਅਚਲ Uint64 timestamp = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
+        SDL_SendPinch(SDL_EVENT_PINCH_ਸਿਰਾ, timestamp, seat->ਸੂਚਕ_2.gesture_focus->sdlwindow, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f);
 
-        seat->pointer.gesture_focus = NULL;
+        seat->ਸੂਚਕ_2.gesture_focus = ਨਿਰਾ;
     }
 }
 
-static const struct zwp_pointer_gesture_pinch_v1_listener gesture_pinch_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_ਸੂਚਕ_gesture_pinch_v1_listener gesture_pinch_listener = {
     handle_pinch_begin,
     handle_pinch_update,
-    handle_pinch_end
+    handle_pinch_ਸਿਰਾ
 };
 
-static void Wayland_SeatCreatePointerGestures(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_Create_ਸੂਚਕ_Gestures(SDL_WaylandSeat *seat)
 {
-    if (seat->display->zwp_pointer_gestures) {
-        if (seat->pointer.wl_pointer && !seat->pointer.gesture_pinch) {
-            seat->pointer.gesture_pinch = zwp_pointer_gestures_v1_get_pinch_gesture(seat->display->zwp_pointer_gestures, seat->pointer.wl_pointer);
-            zwp_pointer_gesture_pinch_v1_set_user_data(seat->pointer.gesture_pinch, seat);
-            zwp_pointer_gesture_pinch_v1_add_listener(seat->pointer.gesture_pinch, &gesture_pinch_listener, seat);
+    ਜੇ (seat->display->zwp_ਸੂਚਕ_gestures) {
+        ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ && !seat->ਸੂਚਕ_2.gesture_pinch) {
+            seat->ਸੂਚਕ_2.gesture_pinch = zwp_ਸੂਚਕ_gestures_v1_get_pinch_gesture(seat->display->zwp_ਸੂਚਕ_gestures, seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
+            zwp_ਸੂਚਕ_gesture_pinch_v1_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->ਸੂਚਕ_2.gesture_pinch, seat);
+            zwp_ਸੂਚਕ_gesture_pinch_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.gesture_pinch, &gesture_pinch_listener, seat);
         }
     }
 }
 
-void Wayland_DisplayInitPointerGestureManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_Display_Init_ਸੂਚਕ_Gesture_Manager(SDL_Video_ਅੰਕੜੇ *display)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
-        Wayland_SeatCreatePointerGestures(seat);
+        Wayland_Seat_Create_ਸੂਚਕ_Gestures(seat);
     }
 }
 
-static void Wayland_SeatCreateCursorShape(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatCreateCursorShape(SDL_WaylandSeat *seat)
 {
-    if (seat->display->cursor_shape_manager) {
-        if (seat->pointer.wl_pointer && !seat->pointer.cursor_state.cursor_shape) {
-            seat->pointer.cursor_state.cursor_shape = wp_cursor_shape_manager_v1_get_pointer(seat->display->cursor_shape_manager, seat->pointer.wl_pointer);
+    ਜੇ (seat->display->cursor_shape_manager) {
+        ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ && !seat->ਸੂਚਕ_2.cursor_state.cursor_shape) {
+            seat->ਸੂਚਕ_2.cursor_state.cursor_shape = wp_cursor_shape_manager_v1_get_ਸੂਚਕ(seat->display->cursor_shape_manager, seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
         }
 
         SDL_WaylandPenTool *tool;
         wl_list_for_each(tool, &seat->tablet.tool_list, link) {
-            if (!tool->cursor_state.cursor_shape) {
+            ਜੇ (!tool->cursor_state.cursor_shape) {
                 tool->cursor_state.cursor_shape = wp_cursor_shape_manager_v1_get_tablet_tool_v2(seat->display->cursor_shape_manager, tool->wltool);
             }
         }
     }
 }
 
-void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_DisplayInitCursorShapeManager(SDL_Video_ਅੰਕੜੇ *display)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
@@ -405,182 +405,182 @@ void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display)
     }
 }
 
-static void Wayland_SeatSetKeymap(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_ਸੈੱਟ_Keymap(SDL_WaylandSeat *seat)
 {
-    const bool send_event = !seat->display->initializing;
+    ਅਚਲ bool send_event = !seat->display->initializing;
 
-    if (seat->keyboard.sdl_keymap &&
-        seat->keyboard.xkb.current_layout < seat->keyboard.xkb.num_layouts &&
+    ਜੇ (seat->keyboard.sdl_keymap &&
+        seat->keyboard.xkb.current_layout < seat->keyboard.xkb.ਅੰਕ_layouts &&
         seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout] != SDL_GetCurrentKeymap(true)) {
-        SDL_SetKeymap(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout], send_event);
-        SDL_SetModState(seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers);
+        SDL_ਸੈੱਟ_Keymap(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout], send_event);
+        SDL_ਸੈੱਟ_Mod_State(seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers);
     }
 }
 
 // Synthesize key repeat events
-static void keyboard_repeat_handle(SDL_WaylandKeyboardRepeat *repeat_info, Uint64 elapsed)
+ਸਥਿਰ ਖਾਲੀ keyboard_repeat_handle(SDL_WaylandKeyboardRepeat *repeat_info, Uint64 elapsed)
 {
-    while (elapsed >= repeat_info->next_repeat_ns) {
-        if (repeat_info->scancode != SDL_SCANCODE_UNKNOWN) {
-            const Uint64 timestamp = repeat_info->base_time_ns + repeat_info->next_repeat_ns;
-            SDL_SendKeyboardKeyIgnoreModifiers(Wayland_AdjustEventTimestampBase(timestamp), repeat_info->keyboard_id, repeat_info->key, repeat_info->scancode, true);
+    ਜਦੋਂ (elapsed >= repeat_info->ਅਗਲਾ_repeat_ns) {
+        ਜੇ (repeat_info->scancode != SDL_SCANCODE_UNKNOWN) {
+            ਅਚਲ Uint64 timestamp = repeat_info->ਅਧਾਰ_ਸਮਾਂ_ns + repeat_info->ਅਗਲਾ_repeat_ns;
+            SDL_Send_Keyboard_ਕੁੰਜੀ_Ignore_Modifiers(Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(timestamp), repeat_info->keyboard_id, repeat_info->ਕੁੰਜੀ, repeat_info->scancode, true);
         }
-        if (repeat_info->text[0] && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-            SDL_SendKeyboardText(repeat_info->text);
+        ਜੇ (repeat_info->ਪਾਠ[0] && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+            SDL_Send_Keyboard_ਪਾਠ(repeat_info->ਪਾਠ);
         }
-        repeat_info->next_repeat_ns += SDL_NS_PER_SECOND / (Uint64)repeat_info->repeat_rate;
+        repeat_info->ਅਗਲਾ_repeat_ns += SDL_NS_ਪ੍ਰਤੀ_ਦੂਜਾ / (Uint64)repeat_info->repeat_ਦਰ;
     }
 }
 
-static void keyboard_repeat_set(SDL_WaylandKeyboardRepeat *repeat_info, Uint32 keyboard_id, uint32_t key, Uint32 wl_press_time_ms,
-                                Uint64 base_time_ns, uint32_t scancode, const char *text)
+ਸਥਿਰ ਖਾਲੀ keyboard_repeat_ਸੈੱਟ(SDL_WaylandKeyboardRepeat *repeat_info, Uint32 keyboard_id, uint32_t ਕੁੰਜੀ, Uint32 wl_press_ਸਮਾਂ_ms,
+                                Uint64 ਅਧਾਰ_ਸਮਾਂ_ns, uint32_t scancode, ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
-    if (!repeat_info->repeat_rate) {
-        return;
+    ਜੇ (!repeat_info->repeat_ਦਰ) {
+        ਵਾਪਸ;
     }
     repeat_info->keyboard_id = keyboard_id;
-    repeat_info->key = key;
-    repeat_info->wl_press_time_ms = wl_press_time_ms;
-    repeat_info->base_time_ns = base_time_ns;
-    repeat_info->sdl_press_time_ns = SDL_GetTicksNS();
-    repeat_info->next_repeat_ns = SDL_MS_TO_NS(repeat_info->repeat_delay_ms);
+    repeat_info->ਕੁੰਜੀ = ਕੁੰਜੀ;
+    repeat_info->wl_press_ਸਮਾਂ_ms = wl_press_ਸਮਾਂ_ms;
+    repeat_info->ਅਧਾਰ_ਸਮਾਂ_ns = ਅਧਾਰ_ਸਮਾਂ_ns;
+    repeat_info->sdl_press_ਸਮਾਂ_ns = SDL_GetTicksNS();
+    repeat_info->ਅਗਲਾ_repeat_ns = SDL_MS_ਮੰਜ਼ਿਲ_NS(repeat_info->repeat_delay_ms);
     repeat_info->scancode = scancode;
-    if (text) {
-        SDL_strlcpy(repeat_info->text, text, SDL_arraysize(repeat_info->text));
-    } else {
-        repeat_info->text[0] = '\0';
+    ਜੇ (ਪਾਠ) {
+        SDL_strlcpy(repeat_info->ਪਾਠ, ਪਾਠ, SDL_arraysize(repeat_info->ਪਾਠ));
+    } ਨਹੀਂਤਾਂ {
+        repeat_info->ਪਾਠ[0] = '\0';
     }
 }
 
-static void sync_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ਸਥਿਰ ਖਾਲੀ sync_ਪੂਰਾ_handler(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_callback *callback, uint32_t callback_ਅੰਕੜੇ)
 {
     // Nothing to do, just destroy the callback
     wl_callback_destroy(callback);
 }
 
-static struct wl_callback_listener sync_listener = {
-    sync_done_handler
+ਸਥਿਰ ਬਣਤਰ wl_callback_listener sync_listener = {
+    sync_ਪੂਰਾ_handler
 };
 
-void Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    SDL_VideoData *d = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *d = _this->ਅੰਦਰੂਨੀ;
 
     // Queue a sync event to unblock the main event queue if it's being waited on.
-    struct wl_callback *cb = wl_display_sync(d->display);
-    wl_callback_add_listener(cb, &sync_listener, NULL);
+    ਬਣਤਰ wl_callback *cb = wl_display_sync(d->display);
+    wl_callback_ਜੋੜੋ_listener(cb, &sync_listener, ਨਿਰਾ);
     WAYLAND_wl_display_flush(d->display);
 }
 
-int Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+ਪੂਰਨ Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    SDL_VideoData *d = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *d = _this->ਅੰਦਰੂਨੀ;
     SDL_WaylandSeat *seat;
-    Uint64 start = SDL_GetTicksNS();
-    const int display_fd = WAYLAND_wl_display_get_fd(d->display);
-    int ret;
-    bool poll_alarm_set = false;
+    Uint64 ਸ਼ੁਰੂ = SDL_GetTicksNS();
+    ਅਚਲ ਪੂਰਨ display_fd = WAYLAND_wl_display_get_fd(d->display);
+    ਪੂਰਨ ret;
+    bool poll_alarm_ਸੈੱਟ = false;
 
-#ifdef SDL_USE_IME
-    SDL_Window *keyboard_focus = SDL_GetKeyboardFocus();
-    if (!d->text_input_manager && keyboard_focus && SDL_TextInputActive(keyboard_focus)) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_IME
+    SDL_ਖਿੜਕੀ *keyboard_focus = SDL_GetKeyboardFocus();
+    ਜੇ (!d->ਪਾਠ_ਨਿਵੇਸ਼_manager && keyboard_focus && SDL_ਪਾਠ_ਨਿਵੇਸ਼_ਸਰਗਰਮ(keyboard_focus)) {
         // If a DBus IME is active with no text input protocol, periodically wake to poll it.
-        if (timeoutNS < 0 || SDL_MS_TO_NS(200) <= timeoutNS) {
-            timeoutNS = SDL_MS_TO_NS(200);
-            poll_alarm_set = true;
+        ਜੇ (timeoutNS < 0 || SDL_MS_ਮੰਜ਼ਿਲ_NS(200) <= timeoutNS) {
+            timeoutNS = SDL_MS_ਮੰਜ਼ਿਲ_NS(200);
+            poll_alarm_ਸੈੱਟ = true;
         }
     }
-#endif
+#ਜੇ_ਅੰਤ
 
     // If key repeat is active, we'll need to cap our maximum wait time to handle repeats
     wl_list_for_each (seat, &d->seat_list, link) {
-        if (seat->keyboard.repeat.key) {
-            const Uint64 elapsed = start - seat->keyboard.repeat.sdl_press_time_ns;
-            const Uint64 next_repeat_wait_time = (seat->keyboard.repeat.next_repeat_ns - elapsed) + 1;
-            if (timeoutNS < 0 || next_repeat_wait_time <= timeoutNS) {
-                timeoutNS = next_repeat_wait_time;
-                poll_alarm_set = true;
+        ਜੇ (seat->keyboard.repeat.ਕੁੰਜੀ) {
+            ਅਚਲ Uint64 elapsed = ਸ਼ੁਰੂ - seat->keyboard.repeat.sdl_press_ਸਮਾਂ_ns;
+            ਅਚਲ Uint64 ਅਗਲਾ_repeat_wait_ਸਮਾਂ = (seat->keyboard.repeat.ਅਗਲਾ_repeat_ns - elapsed) + 1;
+            ਜੇ (timeoutNS < 0 || ਅਗਲਾ_repeat_wait_ਸਮਾਂ <= timeoutNS) {
+                timeoutNS = ਅਗਲਾ_repeat_wait_ਸਮਾਂ;
+                poll_alarm_ਸੈੱਟ = true;
             }
         }
     }
 
-    if (WAYLAND_wl_display_prepare_read(d->display) == 0) {
-        if (timeoutNS > 0) {
-            const Uint64 now = SDL_GetTicksNS();
-            const Uint64 elapsed = now - start;
-            start = now;
+    ਜੇ (WAYLAND_wl_display_prepare_read(d->display) == 0) {
+        ਜੇ (timeoutNS > 0) {
+            ਅਚਲ Uint64 now = SDL_GetTicksNS();
+            ਅਚਲ Uint64 elapsed = now - ਸ਼ੁਰੂ;
+            ਸ਼ੁਰੂ = now;
             timeoutNS = elapsed <= timeoutNS ? timeoutNS - elapsed : 0;
         }
 
         ret = WAYLAND_wl_display_flush(d->display);
 
-        if (ret == -1 && errno == EAGAIN) {
+        ਜੇ (ret == -1 && errno == EAGAIN) {
             // Unable to write to the socket; poll until the socket can be written to, it times out, or is interrupted.
             ret = SDL_IOReady(display_fd, SDL_IOR_WRITE | SDL_IOR_NO_RETRY, timeoutNS);
 
-            if (ret <= 0) {
+            ਜੇ (ret <= 0) {
                 // The poll operation timed out or experienced an error, so see if there are any events to read without waiting.
                 timeoutNS = 0;
             }
         }
 
-        if (ret < 0) {
+        ਜੇ (ret < 0) {
             // Pump events on an interrupt or broken pipe to handle the error.
             WAYLAND_wl_display_cancel_read(d->display);
-            return errno == EINTR || errno == EPIPE ? 1 : ret;
+            ਵਾਪਸ errno == EINTR || errno == EPIPE ? 1 : ret;
         }
 
-        if (timeoutNS > 0) {
-            const Uint64 now = SDL_GetTicksNS();
-            const Uint64 elapsed = now - start;
-            start = now;
+        ਜੇ (timeoutNS > 0) {
+            ਅਚਲ Uint64 now = SDL_GetTicksNS();
+            ਅਚਲ Uint64 elapsed = now - ਸ਼ੁਰੂ;
+            ਸ਼ੁਰੂ = now;
             timeoutNS = elapsed <= timeoutNS ? timeoutNS - elapsed : 0;
         }
 
         // Use SDL_IOR_NO_RETRY to catch EINTR.
         ret = SDL_IOReady(display_fd, SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
-        if (ret <= 0) {
+        ਜੇ (ret <= 0) {
             // Timeout or error, cancel the read.
             WAYLAND_wl_display_cancel_read(d->display);
 
             // The poll timed out with no data to read, but signal the caller to pump events if polling is required.
-            if (ret == 0) {
-                return poll_alarm_set ? 1 : 0;
-            } else {
+            ਜੇ (ret == 0) {
+                ਵਾਪਸ poll_alarm_ਸੈੱਟ ? 1 : 0;
+            } ਨਹੀਂਤਾਂ {
                 // Pump events on an interrupt or broken pipe to handle the error.
-                return errno == EINTR || errno == EPIPE ? 1 : ret;
+                ਵਾਪਸ errno == EINTR || errno == EPIPE ? 1 : ret;
             }
         }
 
         ret = WAYLAND_wl_display_read_events(d->display);
-        if (ret == -1) {
-            return ret;
+        ਜੇ (ret == -1) {
+            ਵਾਪਸ ret;
         }
     }
 
     // Signal to the caller that there might be an event available.
-    return 1;
+    ਵਾਪਸ 1;
 }
 
-void Wayland_PumpEvents(SDL_VideoDevice *_this)
+ਖਾਲੀ Wayland_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *d = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *d = _this->ਅੰਦਰੂਨੀ;
     SDL_WaylandSeat *seat;
-    const int display_fd = WAYLAND_wl_display_get_fd(d->display);
-    int ret = 0;
+    ਅਚਲ ਪੂਰਨ display_fd = WAYLAND_wl_display_get_fd(d->display);
+    ਪੂਰਨ ret = 0;
 
-#ifdef SDL_USE_IME
-    SDL_Window *keyboard_focus = SDL_GetKeyboardFocus();
-    if (!d->text_input_manager && keyboard_focus && SDL_TextInputActive(keyboard_focus)) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_IME
+    SDL_ਖਿੜਕੀ *keyboard_focus = SDL_GetKeyboardFocus();
+    ਜੇ (!d->ਪਾਠ_ਨਿਵੇਸ਼_manager && keyboard_focus && SDL_ਪਾਠ_ਨਿਵੇਸ਼_ਸਰਗਰਮ(keyboard_focus)) {
         SDL_IME_PumpEvents();
     }
-#endif
+#ਜੇ_ਅੰਤ
 
-#ifdef HAVE_LIBDECOR_H
-    if (d->shell.libdecor) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+    ਜੇ (d->shell.libdecor) {
         libdecor_dispatch(d->shell.libdecor, 0);
     }
-#endif
+#ਜੇ_ਅੰਤ
 
     /* If the queue isn't empty, dispatch any old events, and try to prepare for reading again.
      * If preparing to read returns -1 on the second try, wl_display_read_events() enqueued new
@@ -588,223 +588,223 @@ void Wayland_PumpEvents(SDL_VideoDevice *_this)
      * probably from another thread, which means that the events in the queue are current.
      */
     ret = WAYLAND_wl_display_prepare_read(d->display);
-    if (ret == -1) {
+    ਜੇ (ret == -1) {
         ret = WAYLAND_wl_display_dispatch_pending(d->display);
-        if (ret < 0) {
-            goto connection_error;
+        ਜੇ (ret < 0) {
+            ਜਾਓ connection_error;
         }
 
         ret = WAYLAND_wl_display_prepare_read(d->display);
     }
 
-    if (ret == 0) {
+    ਜੇ (ret == 0) {
         ret = WAYLAND_wl_display_flush(d->display);
 
-        if (ret == -1 && errno == EAGAIN) {
+        ਜੇ (ret == -1 && errno == EAGAIN) {
             // Unable to write to the socket; wait a brief time to see if it becomes writable.
-            ret = SDL_IOReady(display_fd, SDL_IOR_WRITE, SDL_MS_TO_NS(4));
-            if (ret > 0) {
+            ret = SDL_IOReady(display_fd, SDL_IOR_WRITE, SDL_MS_ਮੰਜ਼ਿਲ_NS(4));
+            ਜੇ (ret > 0) {
                 ret = WAYLAND_wl_display_flush(d->display);
             }
         }
 
         // If the compositor closed the socket, just jump to the error handler.
-        if (ret < 0 && errno == EPIPE) {
+        ਜੇ (ret < 0 && errno == EPIPE) {
             WAYLAND_wl_display_cancel_read(d->display);
-            goto connection_error;
+            ਜਾਓ connection_error;
         }
 
         ret = SDL_IOReady(display_fd, SDL_IOR_READ, 0);
-        if (ret > 0) {
+        ਜੇ (ret > 0) {
             ret = WAYLAND_wl_display_read_events(d->display);
-            if (ret == 0) {
+            ਜੇ (ret == 0) {
                 ret = WAYLAND_wl_display_dispatch_pending(d->display);
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             WAYLAND_wl_display_cancel_read(d->display);
         }
 
-    } else {
+    } ਨਹੀਂਤਾਂ {
         ret = WAYLAND_wl_display_dispatch_pending(d->display);
     }
 
-    if (ret >= 0) {
+    ਜੇ (ret >= 0) {
         // Synthesize key repeat events.
         wl_list_for_each (seat, &d->seat_list, link) {
-            if (seat->keyboard.repeat.key) {
-                Wayland_SeatSetKeymap(seat);
+            ਜੇ (seat->keyboard.repeat.ਕੁੰਜੀ) {
+                Wayland_Seat_ਸੈੱਟ_Keymap(seat);
 
-                const Uint64 elapsed = SDL_GetTicksNS() - seat->keyboard.repeat.sdl_press_time_ns;
+                ਅਚਲ Uint64 elapsed = SDL_GetTicksNS() - seat->keyboard.repeat.sdl_press_ਸਮਾਂ_ns;
                 keyboard_repeat_handle(&seat->keyboard.repeat, elapsed);
             }
         }
     }
 
 connection_error:
-    if (ret < 0) {
+    ਜੇ (ret < 0) {
         Wayland_HandleDisplayDisconnected(_this);
     }
 }
 
-static void pointer_dispatch_absolute_motion(SDL_WaylandSeat *seat, bool warp)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_absolute_motion(SDL_WaylandSeat *seat, bool warp)
 {
-    SDL_WindowData *window_data = seat->pointer.focus;
-    SDL_Window *window = window_data ? window_data->sdlwindow : NULL;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = seat->ਸੂਚਕ_2.focus;
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = ਖਿੜਕੀ_ਅੰਕੜੇ_2 ? ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow : ਨਿਰਾ;
 
-    if (window_data) {
-        double sx = wl_fixed_to_double(seat->pointer.pending_frame.absolute.sx);
-        double sy = wl_fixed_to_double(seat->pointer.pending_frame.absolute.sy);
+    ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2) {
+        ਦੁੱਗਣਾ sx = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sx);
+        ਦੁੱਗਣਾ sy = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sy);
 
-        if (seat->pointer.focus_surface == window_data->mask.surface) {
-            sx += (double)window_data->mask.offset_x;
-            sy += (double)window_data->mask.offset_y;
+        ਜੇ (seat->ਸੂਚਕ_2.focus_surface == ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.surface) {
+            sx += (ਦੁੱਗਣਾ)ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.ਵਿੱਥ_x;
+            sy += (ਦੁੱਗਣਾ)ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.ਵਿੱਥ_y;
         }
 
-        sx *= window_data->pointer_scale.x;
-        sy *= window_data->pointer_scale.y;
-        if (!warp) {
-            SDL_SendMouseMotion(seat->pointer.pending_frame.timestamp_ns, window_data->sdlwindow, seat->pointer.sdl_id, false, (float)sx, (float)sy);
-        } else {
-            SDL_SendMouseWarp(seat->pointer.pending_frame.timestamp_ns, window_data->sdlwindow, seat->pointer.sdl_id, (float)sx, (float)sy);
+        sx *= ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.x;
+        sy *= ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.y;
+        ਜੇ (!warp) {
+            SDL_SendMouseMotion(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns, ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, false, (ਦਸ਼ਮਲਵ)sx, (ਦਸ਼ਮਲਵ)sy);
+        } ਨਹੀਂਤਾਂ {
+            SDL_SendMouseWarp(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns, ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, (ਦਸ਼ਮਲਵ)sx, (ਦਸ਼ਮਲਵ)sy);
         }
 
-        seat->pointer.last_motion.x = (int)SDL_floor(sx);
-        seat->pointer.last_motion.y = (int)SDL_floor(sy);
+        seat->ਸੂਚਕ_2.ਆਖਰੀ_motion.x = (ਪੂਰਨ)SDL_floor(sx);
+        seat->ਸੂਚਕ_2.ਆਖਰੀ_motion.y = (ਪੂਰਨ)SDL_floor(sy);
 
         // If the pointer should be confined, but wasn't for some reason, keep trying until it is.
-        if (!SDL_RectEmpty(&window->mouse_rect) && !seat->pointer.is_confined) {
-            Wayland_SeatUpdatePointerGrab(seat);
+        ਜੇ (!SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ(&ਖਿੜਕੀ->mouse_rect) && !seat->ਸੂਚਕ_2.is_confined) {
+            Wayland_Seat_Update_ਸੂਚਕ_Grab(seat);
         }
 
         // Don't perform hit testing if an implicit grab is active.
-        if (!(window->flags & SDL_WINDOW_MOUSE_CAPTURE) && window->hit_test) {
-            SDL_HitTestResult rc = window->hit_test(window, &seat->pointer.last_motion, window->hit_test_data);
+        ਜੇ (!(ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_MOUSE_CAPTURE) && ਖਿੜਕੀ->ਪ੍ਰਾਪਤੀ_test) {
+            SDL_ਪ੍ਰਾਪਤੀ_Test_ਨਤੀਜਾ rc = ਖਿੜਕੀ->ਪ੍ਰਾਪਤੀ_test(ਖਿੜਕੀ, &seat->ਸੂਚਕ_2.ਆਖਰੀ_motion, ਖਿੜਕੀ->ਪ੍ਰਾਪਤੀ_test_ਅੰਕੜੇ);
 
             // Apply the toplevel constraints if the window isn't resizable from those directions.
-            switch (rc) {
-            case SDL_HITTEST_RESIZE_TOPLEFT:
-                if ((window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_TOP) &&
-                    (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_LEFT)) {
-                    rc = SDL_HITTEST_NORMAL;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_TOP) {
-                    rc = SDL_HITTEST_RESIZE_LEFT;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_LEFT) {
-                    rc = SDL_HITTEST_RESIZE_TOP;
+            ਚੋਣ (rc) {
+            ਹਾਲਤ SDL_HITTEST_RESIZE_TOPLEFT:
+                ਜੇ ((ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸਿਖਰ) &&
+                    (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਖੱਬਾ)) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸਿਖਰ) {
+                    rc = SDL_HITTEST_RESIZE_ਖੱਬਾ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਖੱਬਾ) {
+                    rc = SDL_HITTEST_RESIZE_ਸਿਖਰ;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_TOP:
-                if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_TOP) {
-                    rc = SDL_HITTEST_NORMAL;
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_ਸਿਖਰ:
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸਿਖਰ) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_TOPRIGHT:
-                if ((window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_TOP) &&
-                    (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT)) {
-                    rc = SDL_HITTEST_NORMAL;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_TOP) {
-                    rc = SDL_HITTEST_RESIZE_RIGHT;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT) {
-                    rc = SDL_HITTEST_RESIZE_TOP;
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_TOPRIGHT:
+                ਜੇ ((ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸਿਖਰ) &&
+                    (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸੱਜਾ)) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸਿਖਰ) {
+                    rc = SDL_HITTEST_RESIZE_ਸੱਜਾ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸੱਜਾ) {
+                    rc = SDL_HITTEST_RESIZE_ਸਿਖਰ;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_RIGHT:
-                if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT) {
-                    rc = SDL_HITTEST_NORMAL;
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_ਸੱਜਾ:
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸੱਜਾ) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-                if ((window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) &&
-                    (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT)) {
-                    rc = SDL_HITTEST_NORMAL;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
-                    rc = SDL_HITTEST_RESIZE_RIGHT;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT) {
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+                ਜੇ ((ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) &&
+                    (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸੱਜਾ)) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
+                    rc = SDL_HITTEST_RESIZE_ਸੱਜਾ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਸੱਜਾ) {
                     rc = SDL_HITTEST_RESIZE_BOTTOM;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_BOTTOM:
-                if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
-                    rc = SDL_HITTEST_NORMAL;
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOM:
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-                if ((window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) &&
-                    (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_LEFT)) {
-                    rc = SDL_HITTEST_NORMAL;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
-                    rc = SDL_HITTEST_RESIZE_LEFT;
-                } else if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_LEFT) {
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMLEFT:
+                ਜੇ ((ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) &&
+                    (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਖੱਬਾ)) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM) {
+                    rc = SDL_HITTEST_RESIZE_ਖੱਬਾ;
+                } ਨਹੀਂਤਾਂ ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਖੱਬਾ) {
                     rc = SDL_HITTEST_RESIZE_BOTTOM;
                 }
-                break;
-            case SDL_HITTEST_RESIZE_LEFT:
-                if (window_data->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_LEFT) {
-                    rc = SDL_HITTEST_NORMAL;
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_HITTEST_RESIZE_ਖੱਬਾ:
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->toplevel_constraints & WAYLAND_TOPLEVEL_CONSTRAINED_ਖੱਬਾ) {
+                    rc = SDL_HITTEST_ਸਾਧਾਰਨ;
                 }
-                break;
-            default:
-                break;
+                ਰੋਕੋ;
+            ਮੂਲ:
+                ਰੋਕੋ;
             }
 
-            if (rc != window_data->hit_test_result) {
-                window_data->hit_test_result = rc;
-                Wayland_SeatUpdatePointerCursor(seat);
+            ਜੇ (rc != ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ) {
+                ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ = rc;
+                Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
             }
         }
     }
 }
 
-static void pointer_handle_motion(void *data, struct wl_pointer *pointer,
-                                  uint32_t time, wl_fixed_t sx, wl_fixed_t sy)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_motion(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                  uint32_t ਸਮਾਂ, wl_fixed_t sx, wl_fixed_t sy)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    const Uint64 timestamp = Wayland_GetPointerTimestamp(seat, time);
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    ਅਚਲ Uint64 timestamp = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
 
-    seat->pointer.pending_frame.absolute.sx = sx;
-    seat->pointer.pending_frame.absolute.sy = sy;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sx = sx;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sy = sy;
 
-    if (wl_pointer_get_version(seat->pointer.wl_pointer) >= WL_POINTER_FRAME_SINCE_VERSION) {
-        seat->pointer.pending_frame.have_absolute = true;
+    ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) >= WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_absolute = true;
 
         /* The relative pointer timestamp is higher resolution than the default millisecond timestamp,
          * but lower than the highres timestamp. Use the best timer available for this frame,
          */
-        if (!seat->pointer.pending_frame.have_relative || seat->pointer.timestamps) {
-            seat->pointer.pending_frame.timestamp_ns = timestamp;
+        ਜੇ (!seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_relative || seat->ਸੂਚਕ_2.timestamps) {
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = timestamp;
         }
-    } else {
-        seat->pointer.pending_frame.timestamp_ns = timestamp;
-        pointer_dispatch_absolute_motion(seat, false);
+    } ਨਹੀਂਤਾਂ {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = timestamp;
+        ਸੂਚਕ_dispatch_absolute_motion(seat, false);
     }
 }
 
-static void pointer_dispatch_enter(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_enter(SDL_WaylandSeat *seat)
 {
-    SDL_WindowData *window = Wayland_GetWindowDataForOwnedSurface(seat->pointer.pending_frame.enter_surface);
-    if (!window) {
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface);
+    ਜੇ (!ਖਿੜਕੀ) {
         // Entering a surface not managed by SDL; just set the cursor reset flag.
         Wayland_SeatResetCursor(seat);
-        return;
+        ਵਾਪਸ;
     }
 
-    if (window->surface != seat->pointer.pending_frame.enter_surface) {
+    ਜੇ (ਖਿੜਕੀ->surface != seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface) {
         /* This surface is part of the window managed by SDL, but it is not the main content
          * surface and doesn't get focus. Just set the default cursor and leave.
          */
-        Wayland_SeatSetDefaultCursor(seat);
-        return;
+        Wayland_Seat_ਸੈੱਟ_Default_Cursor(seat);
+        ਵਾਪਸ;
     }
 
-    seat->pointer.focus = window;
-    seat->pointer.focus_surface = seat->pointer.pending_frame.enter_surface;
-    ++window->pointer_focus_count;
-    SDL_SetMouseFocus(window->sdlwindow);
+    seat->ਸੂਚਕ_2.focus = ਖਿੜਕੀ;
+    seat->ਸੂਚਕ_2.focus_surface = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface;
+    ++ਖਿੜਕੀ->ਸੂਚਕ_focus_ਗਿਣਤੀ;
+    SDL_ਸੈੱਟ_Mouse_Focus(ਖਿੜਕੀ->sdlwindow);
 
     // Send the initial position.
-    pointer_dispatch_absolute_motion(seat, false);
+    ਸੂਚਕ_dispatch_absolute_motion(seat, false);
 
     // Update the pointer grab state.
-    Wayland_SeatUpdatePointerGrab(seat);
+    Wayland_Seat_Update_ਸੂਚਕ_Grab(seat);
 
     /* If the cursor was changed while our window didn't have pointer
      * focus, we might need to trigger another call to
@@ -814,198 +814,198 @@ static void pointer_dispatch_enter(SDL_WaylandSeat *seat)
      * window that already has focus, as the focus change sequence
      * won't be run.
      */
-    Wayland_SeatUpdatePointerCursor(seat);
+    Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
 }
 
-static void pointer_handle_enter(void *data, struct wl_pointer *pointer,
-                                 uint32_t serial, struct wl_surface *surface,
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_enter(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                 uint32_t serial, ਬਣਤਰ wl_surface *surface,
                                  wl_fixed_t sx_w, wl_fixed_t sy_w)
 {
-    if (!surface) {
+    ਜੇ (!surface) {
         // Enter event for a destroyed surface.
-        return;
+        ਵਾਪਸ;
     }
 
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.pending_frame.enter_surface = surface;
-    seat->pointer.enter_serial = serial;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface = surface;
+    seat->ਸੂਚਕ_2.enter_serial = serial;
 
     /* In the case of e.g. a pointer confine warp, we may receive an enter
      * event with no following motion event, but with the new coordinates
      * as part of the enter event.
      */
-    seat->pointer.pending_frame.absolute.sx = sx_w;
-    seat->pointer.pending_frame.absolute.sy = sy_w;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sx = sx_w;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sy = sy_w;
 
-    if (wl_pointer_get_version(seat->pointer.wl_pointer) < WL_POINTER_FRAME_SINCE_VERSION) {
+    ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) < WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
         // Dispatching an enter event generates an absolute motion event, for which there is no timestamp.
-        seat->pointer.pending_frame.timestamp_ns = 0;
-        pointer_dispatch_enter(seat);
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = 0;
+        ਸੂਚਕ_dispatch_enter(seat);
     }
 }
 
-static void pointer_dispatch_leave(SDL_WaylandSeat *seat, bool update_pointer)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_leave(SDL_WaylandSeat *seat, bool update_ਸੂਚਕ)
 {
-    SDL_WindowData *window = Wayland_GetWindowDataForOwnedSurface(seat->pointer.pending_frame.leave_surface);
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface);
 
-    if (window) {
-        if (seat->pointer.focus) {
-            if (seat->pointer.focus->surface == seat->pointer.pending_frame.leave_surface) {
+    ਜੇ (ਖਿੜਕੀ) {
+        ਜੇ (seat->ਸੂਚਕ_2.focus) {
+            ਜੇ (seat->ਸੂਚਕ_2.focus->surface == seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface) {
                 // Clear the capture flag and raise all buttons
-                window->sdlwindow->flags &= ~SDL_WINDOW_MOUSE_CAPTURE;
+                ਖਿੜਕੀ->sdlwindow->flags &= ~SDL_ਖਿੜਕੀ_MOUSE_CAPTURE;
 
-                seat->pointer.focus = NULL;
-                seat->pointer.focus_surface = NULL;
-                for (Uint8 i = 1; seat->pointer.buttons_pressed; ++i) {
-                    if (seat->pointer.buttons_pressed & SDL_BUTTON_MASK(i)) {
-                        SDL_SendMouseButton(0, window->sdlwindow, seat->pointer.sdl_id, i, false);
-                        seat->pointer.buttons_pressed &= ~SDL_BUTTON_MASK(i);
+                seat->ਸੂਚਕ_2.focus = ਨਿਰਾ;
+                seat->ਸੂਚਕ_2.focus_surface = ਨਿਰਾ;
+                ਲਈ (Uint8 i = 1; seat->ਸੂਚਕ_2.buttons_pressed; ++i) {
+                    ਜੇ (seat->ਸੂਚਕ_2.buttons_pressed & SDL_BUTTON_ਨਕਾਬ(i)) {
+                        SDL_SendMouseButton(0, ਖਿੜਕੀ->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, i, false);
+                        seat->ਸੂਚਕ_2.buttons_pressed &= ~SDL_BUTTON_ਨਕਾਬ(i);
                     }
                 }
 
                 /* A pointer leave event may be emitted if the compositor hides the pointer in response to receiving a touch event.
                  * Don't relinquish focus if the surface has active touches, as the compositor is just transitioning from mouse to touch mode.
                  */
-                SDL_Window *mouse_focus = SDL_GetMouseFocus();
-                const bool had_focus = mouse_focus && window->sdlwindow == mouse_focus;
-                if (!--window->pointer_focus_count && had_focus && !window->active_touch_count) {
-                    SDL_SetMouseFocus(NULL);
+                SDL_ਖਿੜਕੀ *mouse_focus = SDL_GetMouseFocus();
+                ਅਚਲ bool had_focus = mouse_focus && ਖਿੜਕੀ->sdlwindow == mouse_focus;
+                ਜੇ (!--ਖਿੜਕੀ->ਸੂਚਕ_focus_ਗਿਣਤੀ && had_focus && !ਖਿੜਕੀ->ਸਰਗਰਮ_touch_ਗਿਣਤੀ) {
+                    SDL_ਸੈੱਟ_Mouse_Focus(ਨਿਰਾ);
                 }
 
-                if (update_pointer) {
-                    Wayland_SeatUpdatePointerGrab(seat);
-                    Wayland_SeatUpdatePointerCursor(seat);
+                ਜੇ (update_ਸੂਚਕ) {
+                    Wayland_Seat_Update_ਸੂਚਕ_Grab(seat);
+                    Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
                 }
             }
-        } else if (update_pointer) {
+        } ਨਹੀਂਤਾਂ ਜੇ (update_ਸੂਚਕ) {
             // Leaving a non-content surface managed by SDL; just set the cursor reset flag.
             Wayland_SeatResetCursor(seat);
         }
     }
 }
 
-static void pointer_handle_leave(void *data, struct wl_pointer *pointer,
-                                 uint32_t serial, struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_leave(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                 uint32_t serial, ਬਣਤਰ wl_surface *surface)
 {
-    if (!surface) {
+    ਜੇ (!surface) {
         // Leave event for a destroyed surface.
-        return;
+        ਵਾਪਸ;
     }
 
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.pending_frame.leave_surface = surface;
-    if (wl_pointer_get_version(seat->pointer.wl_pointer) < WL_POINTER_FRAME_SINCE_VERSION) {
-        pointer_dispatch_leave(seat, true);
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = surface;
+    ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) < WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
+        ਸੂਚਕ_dispatch_leave(seat, true);
     }
 }
 
-static bool Wayland_ProcessHitTest(SDL_WaylandSeat *seat, Uint32 serial)
+ਸਥਿਰ bool Wayland_Process_ਪ੍ਰਾਪਤੀ_Test(SDL_WaylandSeat *seat, Uint32 serial)
 {
     // Pointer is immobilized, do nothing.
-    if (seat->pointer.locked_pointer) {
-        return false;
+    ਜੇ (seat->ਸੂਚਕ_2.locked_ਸੂਚਕ) {
+        ਵਾਪਸ false;
     }
 
-    SDL_WindowData *window_data = seat->pointer.focus;
-    SDL_Window *window = window_data->sdlwindow;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = seat->ਸੂਚਕ_2.focus;
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow;
 
-    if (window->hit_test) {
-        static const uint32_t directions[] = {
-            XDG_TOPLEVEL_RESIZE_EDGE_TOP_LEFT, XDG_TOPLEVEL_RESIZE_EDGE_TOP,
-            XDG_TOPLEVEL_RESIZE_EDGE_TOP_RIGHT, XDG_TOPLEVEL_RESIZE_EDGE_RIGHT,
-            XDG_TOPLEVEL_RESIZE_EDGE_BOTTOM_RIGHT, XDG_TOPLEVEL_RESIZE_EDGE_BOTTOM,
-            XDG_TOPLEVEL_RESIZE_EDGE_BOTTOM_LEFT, XDG_TOPLEVEL_RESIZE_EDGE_LEFT
+    ਜੇ (ਖਿੜਕੀ->ਪ੍ਰਾਪਤੀ_test) {
+        ਸਥਿਰ ਅਚਲ uint32_t directions[] = {
+            XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ_ਖੱਬਾ, XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ,
+            XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ_ਸੱਜਾ, XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_ਸੱਜਾ,
+            XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_BOTTOM_ਸੱਜਾ, XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_BOTTOM,
+            XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_BOTTOM_ਖੱਬਾ, XDG_TOPLEVEL_RESIZE_ਕਿਨਾਰਾ_ਖੱਬਾ
         };
 
-#ifdef HAVE_LIBDECOR_H
-        static const uint32_t directions_libdecor[] = {
-            LIBDECOR_RESIZE_EDGE_TOP_LEFT, LIBDECOR_RESIZE_EDGE_TOP,
-            LIBDECOR_RESIZE_EDGE_TOP_RIGHT, LIBDECOR_RESIZE_EDGE_RIGHT,
-            LIBDECOR_RESIZE_EDGE_BOTTOM_RIGHT, LIBDECOR_RESIZE_EDGE_BOTTOM,
-            LIBDECOR_RESIZE_EDGE_BOTTOM_LEFT, LIBDECOR_RESIZE_EDGE_LEFT
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+        ਸਥਿਰ ਅਚਲ uint32_t directions_libdecor[] = {
+            LIBDECOR_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ_ਖੱਬਾ, LIBDECOR_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ,
+            LIBDECOR_RESIZE_ਕਿਨਾਰਾ_ਸਿਖਰ_ਸੱਜਾ, LIBDECOR_RESIZE_ਕਿਨਾਰਾ_ਸੱਜਾ,
+            LIBDECOR_RESIZE_ਕਿਨਾਰਾ_BOTTOM_ਸੱਜਾ, LIBDECOR_RESIZE_ਕਿਨਾਰਾ_BOTTOM,
+            LIBDECOR_RESIZE_ਕਿਨਾਰਾ_BOTTOM_ਖੱਬਾ, LIBDECOR_RESIZE_ਕਿਨਾਰਾ_ਖੱਬਾ
         };
-#endif
+#ਜੇ_ਅੰਤ
 
-        switch (window_data->hit_test_result) {
-        case SDL_HITTEST_DRAGGABLE:
-#ifdef HAVE_LIBDECOR_H
-            if (window_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-                if (window_data->shell_surface.libdecor.frame) {
-                    libdecor_frame_move(window_data->shell_surface.libdecor.frame,
+        ਚੋਣ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ) {
+        ਹਾਲਤ SDL_HITTEST_DRAGGABLE:
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+            ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.libdecor.ਚੌਖਟਾ) {
+                    libdecor_ਚੌਖਟਾ_move(ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.libdecor.ਚੌਖਟਾ,
                                         seat->wl_seat,
                                         serial);
                 }
-            } else
-#endif
-                if (window_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-                if (window_data->shell_surface.xdg.toplevel.xdg_toplevel) {
-                    xdg_toplevel_move(window_data->shell_surface.xdg.toplevel.xdg_toplevel,
+            } ਨਹੀਂਤਾਂ
+#ਜੇ_ਅੰਤ
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.xdg.toplevel.xdg_toplevel) {
+                    xdg_toplevel_move(ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.xdg.toplevel.xdg_toplevel,
                                       seat->wl_seat,
                                       serial);
                 }
             }
-            return true;
+            ਵਾਪਸ true;
 
-        case SDL_HITTEST_RESIZE_TOPLEFT:
-        case SDL_HITTEST_RESIZE_TOP:
-        case SDL_HITTEST_RESIZE_TOPRIGHT:
-        case SDL_HITTEST_RESIZE_RIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOM:
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-        case SDL_HITTEST_RESIZE_LEFT:
-#ifdef HAVE_LIBDECOR_H
-            if (window_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-                if (window_data->shell_surface.libdecor.frame) {
-                    libdecor_frame_resize(window_data->shell_surface.libdecor.frame,
+        ਹਾਲਤ SDL_HITTEST_RESIZE_TOPLEFT:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਸਿਖਰ:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_TOPRIGHT:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਸੱਜਾ:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOM:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMLEFT:
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਖੱਬਾ:
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+            ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.libdecor.ਚੌਖਟਾ) {
+                    libdecor_ਚੌਖਟਾ_resize(ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.libdecor.ਚੌਖਟਾ,
                                           seat->wl_seat,
                                           serial,
-                                          directions_libdecor[window_data->hit_test_result - SDL_HITTEST_RESIZE_TOPLEFT]);
+                                          directions_libdecor[ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ - SDL_HITTEST_RESIZE_TOPLEFT]);
                 }
-            } else
-#endif
-                if (window_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-                if (window_data->shell_surface.xdg.toplevel.xdg_toplevel) {
-                    xdg_toplevel_resize(window_data->shell_surface.xdg.toplevel.xdg_toplevel,
+            } ਨਹੀਂਤਾਂ
+#ਜੇ_ਅੰਤ
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+                ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.xdg.toplevel.xdg_toplevel) {
+                    xdg_toplevel_resize(ਖਿੜਕੀ_ਅੰਕੜੇ_2->shell_surface.xdg.toplevel.xdg_toplevel,
                                         seat->wl_seat,
                                         serial,
-                                        directions[window_data->hit_test_result - SDL_HITTEST_RESIZE_TOPLEFT]);
+                                        directions[ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ - SDL_HITTEST_RESIZE_TOPLEFT]);
                 }
             }
-            return true;
+            ਵਾਪਸ true;
 
-        default:
-            return false;
+        ਮੂਲ:
+            ਵਾਪਸ false;
         }
     }
 
-    return false;
+    ਵਾਪਸ false;
 }
 
-static void pointer_dispatch_button(SDL_WaylandSeat *seat, Uint8 sdl_button, bool down)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_button(SDL_WaylandSeat *seat, Uint8 sdl_button, bool ਥੱਲੇ)
 {
-    SDL_WindowData *window = seat->pointer.focus;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = seat->ਸੂਚਕ_2.focus;
 
-    if (window) {
+    ਜੇ (ਖਿੜਕੀ) {
         bool ignore_click = false;
 
-        if (down) {
-            seat->pointer.buttons_pressed |= SDL_BUTTON_MASK(sdl_button);
+        ਜੇ (ਥੱਲੇ) {
+            seat->ਸੂਚਕ_2.buttons_pressed |= SDL_BUTTON_ਨਕਾਬ(sdl_button);
 
-            if (sdl_button == SDL_BUTTON_LEFT && Wayland_ProcessHitTest(seat, seat->last_implicit_grab_serial)) {
-                return; // don't pass this event on to app.
+            ਜੇ (sdl_button == SDL_BUTTON_ਖੱਬਾ && Wayland_Process_ਪ੍ਰਾਪਤੀ_Test(seat, seat->ਆਖਰੀ_implicit_grab_serial)) {
+                ਵਾਪਸ; // don't pass this event on to app.
             }
-        } else {
-            seat->pointer.buttons_pressed &= ~SDL_BUTTON_MASK(sdl_button);
+        } ਨਹੀਂਤਾਂ {
+            seat->ਸੂਚਕ_2.buttons_pressed &= ~SDL_BUTTON_ਨਕਾਬ(sdl_button);
         }
 
         // Possibly ignore this click if it was to gain focus.
-        if (window->last_focus_event_time_ns) {
-            if (down && (SDL_GetTicksNS() - window->last_focus_event_time_ns) < WAYLAND_FOCUS_CLICK_TIMEOUT_NS) {
+        ਜੇ (ਖਿੜਕੀ->ਆਖਰੀ_focus_event_ਸਮਾਂ_ns) {
+            ਜੇ (ਥੱਲੇ && (SDL_GetTicksNS() - ਖਿੜਕੀ->ਆਖਰੀ_focus_event_ਸਮਾਂ_ns) < WAYLAND_FOCUS_CLICK_TIMEOUT_NS) {
                 ignore_click = !SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false);
             }
 
-            window->last_focus_event_time_ns = 0;
+            ਖਿੜਕੀ->ਆਖਰੀ_focus_event_ਸਮਾਂ_ns = 0;
         }
 
         /* Wayland won't let you "capture" the mouse, but it will automatically track
@@ -1015,815 +1015,815 @@ static void pointer_dispatch_button(SDL_WaylandSeat *seat, Uint8 sdl_button, boo
          *
          * The mouse is not captured in relative mode.
          */
-        if (!seat->pointer.relative_pointer) {
-            if (seat->pointer.buttons_pressed != 0) {
-                window->sdlwindow->flags |= SDL_WINDOW_MOUSE_CAPTURE;
-            } else {
-                window->sdlwindow->flags &= ~SDL_WINDOW_MOUSE_CAPTURE;
+        ਜੇ (!seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+            ਜੇ (seat->ਸੂਚਕ_2.buttons_pressed != 0) {
+                ਖਿੜਕੀ->sdlwindow->flags |= SDL_ਖਿੜਕੀ_MOUSE_CAPTURE;
+            } ਨਹੀਂਤਾਂ {
+                ਖਿੜਕੀ->sdlwindow->flags &= ~SDL_ਖਿੜਕੀ_MOUSE_CAPTURE;
 
                 // If ending the capture on a subsurface, dispatch a leave event to remove focus.
-                if (seat->pointer.focus_surface != window->surface) {
-                    seat->pointer.pending_frame.leave_surface = window->surface;
+                ਜੇ (seat->ਸੂਚਕ_2.focus_surface != ਖਿੜਕੀ->surface) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = ਖਿੜਕੀ->surface;
                 }
             }
         }
 
-        if (!ignore_click) {
-            SDL_SendMouseButton(seat->pointer.pending_frame.timestamp_ns, window->sdlwindow, seat->pointer.sdl_id, sdl_button, down);
+        ਜੇ (!ignore_click) {
+            SDL_SendMouseButton(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns, ਖਿੜਕੀ->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, sdl_button, ਥੱਲੇ);
         }
     }
 }
 
-static void pointer_handle_button(void *data, struct wl_pointer *pointer, uint32_t serial,
-                                  uint32_t time, uint32_t button, uint32_t state_w)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_button(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2, uint32_t serial,
+                                  uint32_t ਸਮਾਂ, uint32_t button, uint32_t state_w)
 {
-    SDL_WaylandSeat *seat = data;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
     Uint8 sdl_button;
 
-    switch (button) {
-    case BTN_LEFT:
-        sdl_button = SDL_BUTTON_LEFT;
-        break;
-    case BTN_MIDDLE:
-        sdl_button = SDL_BUTTON_MIDDLE;
-        break;
-    case BTN_RIGHT:
-        sdl_button = SDL_BUTTON_RIGHT;
-        break;
-    default:
+    ਚੋਣ (button) {
+    ਹਾਲਤ BTN_ਖੱਬਾ:
+        sdl_button = SDL_BUTTON_ਖੱਬਾ;
+        ਰੋਕੋ;
+    ਹਾਲਤ BTN_ਵਿਚਕਾਰ:
+        sdl_button = SDL_BUTTON_ਵਿਚਕਾਰ;
+        ਰੋਕੋ;
+    ਹਾਲਤ BTN_ਸੱਜਾ:
+        sdl_button = SDL_BUTTON_ਸੱਜਾ;
+        ਰੋਕੋ;
+    ਮੂਲ:
         sdl_button = SDL_BUTTON_X1 + (button - BTN_SIDE);
-        break;
+        ਰੋਕੋ;
     }
 
-    if (state_w) {
+    ਜੇ (state_w) {
         Wayland_UpdateImplicitGrabSerial(seat, serial);
     }
 
-    seat->pointer.pending_frame.timestamp_ns = Wayland_GetPointerTimestamp(seat, time);
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
 
-    if (wl_seat_get_version(seat->wl_seat) >= WL_POINTER_FRAME_SINCE_VERSION) {
-        if (state_w) {
-            seat->pointer.pending_frame.buttons_pressed |= SDL_BUTTON_MASK(sdl_button);
-        } else {
-            seat->pointer.pending_frame.buttons_released |= SDL_BUTTON_MASK(sdl_button);
+    ਜੇ (wl_seat_get_ਸੰਸਕਰਣ(seat->wl_seat) >= WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
+        ਜੇ (state_w) {
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_pressed |= SDL_BUTTON_ਨਕਾਬ(sdl_button);
+        } ਨਹੀਂਤਾਂ {
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_released |= SDL_BUTTON_ਨਕਾਬ(sdl_button);
         }
-    } else {
-        pointer_dispatch_button(seat, sdl_button, state_w != 0);
+    } ਨਹੀਂਤਾਂ {
+        ਸੂਚਕ_dispatch_button(seat, sdl_button, state_w != 0);
     }
 }
 
-static void pointer_handle_axis_common_v1(SDL_WaylandSeat *seat,
-                                          Uint64 nsTimestamp, uint32_t axis, wl_fixed_t value)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_common_v1(SDL_WaylandSeat *seat,
+                                          Uint64 nsTimestamp, uint32_t axis, wl_fixed_t ਮੁੱਲ)
 {
-    SDL_WindowData *window = seat->pointer.focus;
-    const enum wl_pointer_axis a = axis;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = seat->ਸੂਚਕ_2.focus;
+    ਅਚਲ ਗਿਣਤੀ wl_ਸੂਚਕ_axis a = axis;
 
-    if (seat->pointer.focus) {
-        float x, y;
+    ਜੇ (seat->ਸੂਚਕ_2.focus) {
+        ਦਸ਼ਮਲਵ x, y;
 
-        switch (a) {
-        case WL_POINTER_AXIS_VERTICAL_SCROLL:
+        ਚੋਣ (a) {
+        ਹਾਲਤ WL_ਸੂਚਕ_AXIS_VERTICAL_SCROLL:
             x = 0;
-            y = 0 - (float)wl_fixed_to_double(value);
-            break;
-        case WL_POINTER_AXIS_HORIZONTAL_SCROLL:
-            x = (float)wl_fixed_to_double(value);
+            y = 0 - (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
+            ਰੋਕੋ;
+        ਹਾਲਤ WL_ਸੂਚਕ_AXIS_HORIZONTAL_SCROLL:
+            x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
             y = 0;
-            break;
-        default:
-            return;
+            ਰੋਕੋ;
+        ਮੂਲ:
+            ਵਾਪਸ;
         }
 
         x /= WAYLAND_WHEEL_AXIS_UNIT;
         y /= WAYLAND_WHEEL_AXIS_UNIT;
 
-        SDL_SendMouseWheel(nsTimestamp, window->sdlwindow, seat->pointer.sdl_id, x, y, SDL_MOUSEWHEEL_NORMAL);
+        SDL_SendMouseWheel(nsTimestamp, ਖਿੜਕੀ->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, x, y, SDL_MOUSEWHEEL_ਸਾਧਾਰਨ);
     }
 }
 
-static void pointer_handle_axis_common(SDL_WaylandSeat *seat, enum SDL_WaylandAxisEvent type,
-                                       uint32_t axis, wl_fixed_t value)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_common(SDL_WaylandSeat *seat, ਗਿਣਤੀ SDL_WaylandAxisEvent type,
+                                       uint32_t axis, wl_fixed_t ਮੁੱਲ)
 {
-    const enum wl_pointer_axis a = axis;
+    ਅਚਲ ਗਿਣਤੀ wl_ਸੂਚਕ_axis a = axis;
 
-    if (seat->pointer.focus) {
-        seat->pointer.pending_frame.have_axis = true;
+    ਜੇ (seat->ਸੂਚਕ_2.focus) {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_axis = true;
 
-        switch (a) {
-        case WL_POINTER_AXIS_VERTICAL_SCROLL:
-            switch (type) {
-            case SDL_WAYLAND_AXIS_EVENT_VALUE120:
+        ਚੋਣ (a) {
+        ਹਾਲਤ WL_ਸੂਚਕ_AXIS_VERTICAL_SCROLL:
+            ਚੋਣ (type) {
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_VALUE120:
                 /*
                  * High resolution scroll event. The spec doesn't state that axis_value120
                  * events are limited to one per frame, so the values are accumulated.
                  */
-                if (seat->pointer.pending_frame.axis.y_axis_type != SDL_WAYLAND_AXIS_EVENT_VALUE120) {
-                    seat->pointer.pending_frame.axis.y_axis_type = SDL_WAYLAND_AXIS_EVENT_VALUE120;
-                    seat->pointer.pending_frame.axis.y = 0.0f;
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type != SDL_WAYLAND_AXIS_EVENT_VALUE120) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type = SDL_WAYLAND_AXIS_EVENT_VALUE120;
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y = 0.0f;
                 }
-                seat->pointer.pending_frame.axis.y += 0 - (float)wl_fixed_to_double(value);
-                break;
-            case SDL_WAYLAND_AXIS_EVENT_DISCRETE:
+                seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y += 0 - (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_DISCRETE:
                 /*
                  * This is a discrete axis event, so we process it and set the
                  * flag to ignore future continuous axis events in this frame.
                  */
-                if (seat->pointer.pending_frame.axis.y_axis_type != SDL_WAYLAND_AXIS_EVENT_DISCRETE) {
-                    seat->pointer.pending_frame.axis.y_axis_type = SDL_WAYLAND_AXIS_EVENT_DISCRETE;
-                    seat->pointer.pending_frame.axis.y = 0 - (float)wl_fixed_to_double(value);
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type != SDL_WAYLAND_AXIS_EVENT_DISCRETE) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type = SDL_WAYLAND_AXIS_EVENT_DISCRETE;
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y = 0 - (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
                 }
-                break;
-            case SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
                 // Only process continuous events if no discrete events have been received.
-                if (seat->pointer.pending_frame.axis.y_axis_type == SDL_WAYLAND_AXIS_EVENT_CONTINUOUS) {
-                    seat->pointer.pending_frame.axis.y = 0 - (float)wl_fixed_to_double(value);
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type == SDL_WAYLAND_AXIS_EVENT_CONTINUOUS) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y = 0 - (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
                 }
-                break;
+                ਰੋਕੋ;
             }
-            break;
-        case WL_POINTER_AXIS_HORIZONTAL_SCROLL:
-            switch (type) {
-            case SDL_WAYLAND_AXIS_EVENT_VALUE120:
+            ਰੋਕੋ;
+        ਹਾਲਤ WL_ਸੂਚਕ_AXIS_HORIZONTAL_SCROLL:
+            ਚੋਣ (type) {
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_VALUE120:
                 /*
                  * High resolution scroll event. The spec doesn't state that axis_value120
                  * events are limited to one per frame, so the values are accumulated.
                  */
-                if (seat->pointer.pending_frame.axis.x_axis_type != SDL_WAYLAND_AXIS_EVENT_VALUE120) {
-                    seat->pointer.pending_frame.axis.x_axis_type = SDL_WAYLAND_AXIS_EVENT_VALUE120;
-                    seat->pointer.pending_frame.axis.x = 0.0f;
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type != SDL_WAYLAND_AXIS_EVENT_VALUE120) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type = SDL_WAYLAND_AXIS_EVENT_VALUE120;
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x = 0.0f;
                 }
-                seat->pointer.pending_frame.axis.x += (float)wl_fixed_to_double(value);
-                break;
-            case SDL_WAYLAND_AXIS_EVENT_DISCRETE:
+                seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x += (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_DISCRETE:
                 /*
                  * This is a discrete axis event, so we process it and set the
                  * flag to ignore future continuous axis events in this frame.
                  */
-                if (seat->pointer.pending_frame.axis.x_axis_type != SDL_WAYLAND_AXIS_EVENT_DISCRETE) {
-                    seat->pointer.pending_frame.axis.x_axis_type = SDL_WAYLAND_AXIS_EVENT_DISCRETE;
-                    seat->pointer.pending_frame.axis.x = (float)wl_fixed_to_double(value);
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type != SDL_WAYLAND_AXIS_EVENT_DISCRETE) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type = SDL_WAYLAND_AXIS_EVENT_DISCRETE;
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
                 }
-                break;
-            case SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
                 // Only process continuous events if no discrete events have been received.
-                if (seat->pointer.pending_frame.axis.x_axis_type == SDL_WAYLAND_AXIS_EVENT_CONTINUOUS) {
-                    seat->pointer.pending_frame.axis.x = (float)wl_fixed_to_double(value);
+                ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type == SDL_WAYLAND_AXIS_EVENT_CONTINUOUS) {
+                    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(ਮੁੱਲ);
                 }
-                break;
+                ਰੋਕੋ;
             }
-            break;
+            ਰੋਕੋ;
         }
     }
 }
 
-static void pointer_handle_axis(void *data, struct wl_pointer *pointer,
-                                uint32_t time, uint32_t axis, wl_fixed_t value)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                uint32_t ਸਮਾਂ, uint32_t axis, wl_fixed_t ਮੁੱਲ)
 {
-    SDL_WaylandSeat *seat = data;
-    const Uint64 nsTimestamp = Wayland_GetPointerTimestamp(seat, time);
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਅਚਲ Uint64 nsTimestamp = Wayland_Get_ਸੂਚਕ_Timestamp(seat, ਸਮਾਂ);
 
-    if (wl_seat_get_version(seat->wl_seat) >= WL_POINTER_FRAME_SINCE_VERSION) {
-        seat->pointer.pending_frame.timestamp_ns = nsTimestamp;
-        pointer_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_CONTINUOUS, axis, value);
-    } else {
-        pointer_handle_axis_common_v1(seat, nsTimestamp, axis, value);
+    ਜੇ (wl_seat_get_ਸੰਸਕਰਣ(seat->wl_seat) >= WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = nsTimestamp;
+        ਸੂਚਕ_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_CONTINUOUS, axis, ਮੁੱਲ);
+    } ਨਹੀਂਤਾਂ {
+        ਸੂਚਕ_handle_axis_common_v1(seat, nsTimestamp, axis, ਮੁੱਲ);
     }
 }
 
-static void pointer_handle_axis_relative_direction(void *data, struct wl_pointer *pointer,
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_relative_direction(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
                                                    uint32_t axis, uint32_t axis_relative_direction)
 {
-    SDL_WaylandSeat *seat = data;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
 
-    switch (axis_relative_direction) {
-    case WL_POINTER_AXIS_RELATIVE_DIRECTION_IDENTICAL:
-        seat->pointer.pending_frame.axis.direction = SDL_MOUSEWHEEL_NORMAL;
-        break;
-    case WL_POINTER_AXIS_RELATIVE_DIRECTION_INVERTED:
-        seat->pointer.pending_frame.axis.direction = SDL_MOUSEWHEEL_FLIPPED;
-        break;
+    ਚੋਣ (axis_relative_direction) {
+    ਹਾਲਤ WL_ਸੂਚਕ_AXIS_RELATIVE_DIRECTION_IDENTICAL:
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.direction = SDL_MOUSEWHEEL_ਸਾਧਾਰਨ;
+        ਰੋਕੋ;
+    ਹਾਲਤ WL_ਸੂਚਕ_AXIS_RELATIVE_DIRECTION_INVERTED:
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.direction = SDL_MOUSEWHEEL_FLIPPED;
+        ਰੋਕੋ;
     }
 }
 
-static void pointer_dispatch_relative_motion(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_relative_motion(SDL_WaylandSeat *seat)
 {
-    SDL_WindowData *window = seat->pointer.focus;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = seat->ਸੂਚਕ_2.focus;
 
-    if (window) {
+    ਜੇ (ਖਿੜਕੀ) {
         SDL_Mouse *mouse = SDL_GetMouse();
-        double dx;
-        double dy;
-        if (mouse->InputTransform || !mouse->enable_relative_system_scale) {
-            dx = wl_fixed_to_double(seat->pointer.pending_frame.relative.dx_unaccel);
-            dy = wl_fixed_to_double(seat->pointer.pending_frame.relative.dy_unaccel);
-        } else {
-            dx = wl_fixed_to_double(seat->pointer.pending_frame.relative.dx) * window->pointer_scale.x;
-            dy = wl_fixed_to_double(seat->pointer.pending_frame.relative.dy) * window->pointer_scale.y;
+        ਦੁੱਗਣਾ dx;
+        ਦੁੱਗਣਾ dy;
+        ਜੇ (mouse->ਨਿਵੇਸ਼_Transform || !mouse->enable_relative_system_scale) {
+            dx = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dx_unaccel);
+            dy = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dy_unaccel);
+        } ਨਹੀਂਤਾਂ {
+            dx = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dx) * ਖਿੜਕੀ->ਸੂਚਕ_scale.x;
+            dy = wl_fixed_ਮੰਜ਼ਿਲ_double(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dy) * ਖਿੜਕੀ->ਸੂਚਕ_scale.y;
         }
 
-        SDL_SendMouseMotion(seat->pointer.pending_frame.timestamp_ns, window->sdlwindow, seat->pointer.sdl_id, true, (float)dx, (float)dy);
+        SDL_SendMouseMotion(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns, ਖਿੜਕੀ->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, true, (ਦਸ਼ਮਲਵ)dx, (ਦਸ਼ਮਲਵ)dy);
     }
 }
 
-static void pointer_dispatch_axis(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_dispatch_axis(SDL_WaylandSeat *seat)
 {
-    float x, y;
-    SDL_MouseWheelDirection direction = seat->pointer.pending_frame.axis.direction;
+    ਦਸ਼ਮਲਵ x, y;
+    SDL_MouseWheelDirection direction = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.direction;
 
-    switch (seat->pointer.pending_frame.axis.x_axis_type) {
-    case SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
-        x = seat->pointer.pending_frame.axis.x / WAYLAND_WHEEL_AXIS_UNIT;
-        break;
-    case SDL_WAYLAND_AXIS_EVENT_DISCRETE:
-        x = seat->pointer.pending_frame.axis.x;
-        break;
-    case SDL_WAYLAND_AXIS_EVENT_VALUE120:
-        x = seat->pointer.pending_frame.axis.x / 120.0f;
-        break;
-    default:
+    ਚੋਣ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x_axis_type) {
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
+        x = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x / WAYLAND_WHEEL_AXIS_UNIT;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_DISCRETE:
+        x = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_VALUE120:
+        x = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.x / 120.0f;
+        ਰੋਕੋ;
+    ਮੂਲ:
         x = 0.0f;
-        break;
+        ਰੋਕੋ;
     }
 
-    switch (seat->pointer.pending_frame.axis.y_axis_type) {
-    case SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
-        y = seat->pointer.pending_frame.axis.y / WAYLAND_WHEEL_AXIS_UNIT;
-        break;
-    case SDL_WAYLAND_AXIS_EVENT_DISCRETE:
-        y = seat->pointer.pending_frame.axis.y;
-        break;
-    case SDL_WAYLAND_AXIS_EVENT_VALUE120:
-        y = seat->pointer.pending_frame.axis.y / 120.0f;
-        break;
-    default:
+    ਚੋਣ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y_axis_type) {
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_CONTINUOUS:
+        y = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y / WAYLAND_WHEEL_AXIS_UNIT;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_DISCRETE:
+        y = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_WAYLAND_AXIS_EVENT_VALUE120:
+        y = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis.y / 120.0f;
+        ਰੋਕੋ;
+    ਮੂਲ:
         y = 0.0f;
-        break;
+        ਰੋਕੋ;
     }
 
-    SDL_SendMouseWheel(seat->pointer.pending_frame.timestamp_ns,
-                       seat->pointer.focus->sdlwindow, seat->pointer.sdl_id, x, y, direction);
+    SDL_SendMouseWheel(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns,
+                       seat->ਸੂਚਕ_2.focus->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, x, y, direction);
 }
 
-static void pointer_handle_frame(void *data, struct wl_pointer *pointer)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_ਚੌਖਟਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2)
 {
-    SDL_WaylandSeat *seat = data;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
 
-    if (seat->pointer.pending_frame.enter_surface) {
-        if (seat->pointer.pending_frame.leave_surface) {
-            SDL_WindowData *window_data = seat->pointer.focus;
-            SDL_WindowData *new_focus = Wayland_GetWindowDataForOwnedSurface(seat->pointer.pending_frame.enter_surface);
+    ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface) {
+        ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface) {
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = seat->ਸੂਚਕ_2.focus;
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *new_focus = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface);
 
-            if (window_data && (window_data->sdlwindow->flags & SDL_WINDOW_MOUSE_CAPTURE) && window_data == new_focus) {
+            ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2 && (ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow->flags & SDL_ਖਿੜਕੀ_MOUSE_CAPTURE) && ਖਿੜਕੀ_ਅੰਕੜੇ_2 == new_focus) {
                 // The mouse is captured and moving between owned window surfaces. Just change the focused surface.
-                seat->pointer.focus_surface = seat->pointer.pending_frame.enter_surface;
-                seat->pointer.pending_frame.enter_surface = NULL;
-                seat->pointer.pending_frame.leave_surface = NULL;
-            } else {
+                seat->ਸੂਚਕ_2.focus_surface = seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface;
+                seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface = ਨਿਰਾ;
+                seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = ਨਿਰਾ;
+            } ਨਹੀਂਤਾਂ {
                 // Leaving the previous surface before entering a new surface.
-                pointer_dispatch_leave(seat, false);
-                seat->pointer.pending_frame.leave_surface = NULL;
+                ਸੂਚਕ_dispatch_leave(seat, false);
+                seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = ਨਿਰਾ;
             }
         }
 
-        if (seat->pointer.pending_frame.enter_surface) {
-            pointer_dispatch_enter(seat);
+        ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.enter_surface) {
+            ਸੂਚਕ_dispatch_enter(seat);
         }
     }
 
-    if (seat->pointer.pending_frame.have_absolute) {
-        pointer_dispatch_absolute_motion(seat, seat->pointer.pending_frame.have_warp);
+    ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_absolute) {
+        ਸੂਚਕ_dispatch_absolute_motion(seat, seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_warp);
     }
 
-    if (seat->pointer.pending_frame.have_relative) {
-        pointer_dispatch_relative_motion(seat);
+    ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_relative) {
+        ਸੂਚਕ_dispatch_relative_motion(seat);
     }
 
-    for (Uint8 i = 1; seat->pointer.pending_frame.buttons_pressed || seat->pointer.pending_frame.buttons_released; ++i) {
-        const Uint32 mask = SDL_BUTTON_MASK(i);
-        if (seat->pointer.pending_frame.buttons_pressed & mask) {
-            pointer_dispatch_button(seat, i, true);
-            seat->pointer.pending_frame.buttons_pressed &= ~mask;
+    ਲਈ (Uint8 i = 1; seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_pressed || seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_released; ++i) {
+        ਅਚਲ Uint32 ਨਕਾਬ = SDL_BUTTON_ਨਕਾਬ(i);
+        ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_pressed & ਨਕਾਬ) {
+            ਸੂਚਕ_dispatch_button(seat, i, true);
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_pressed &= ~ਨਕਾਬ;
         }
-        if (seat->pointer.pending_frame.buttons_released & mask) {
-            pointer_dispatch_button(seat, i, false);
-            seat->pointer.pending_frame.buttons_released &= ~mask;
+        ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_released & ਨਕਾਬ) {
+            ਸੂਚਕ_dispatch_button(seat, i, false);
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.buttons_released &= ~ਨਕਾਬ;
         }
     }
 
-    if (seat->pointer.pending_frame.have_axis) {
-        pointer_dispatch_axis(seat);
+    ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_axis) {
+        ਸੂਚਕ_dispatch_axis(seat);
     }
 
-    if (seat->pointer.pending_frame.leave_surface) {
-        pointer_dispatch_leave(seat, true);
+    ਜੇ (seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface) {
+        ਸੂਚਕ_dispatch_leave(seat, true);
     }
 
-    SDL_zero(seat->pointer.pending_frame);
+    SDL_zero(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ);
 }
 
-static void pointer_handle_axis_source(void *data, struct wl_pointer *pointer,
-                                       uint32_t axis_source)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_ਸਰੋਤ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                       uint32_t axis_ਸਰੋਤ)
 {
     // unimplemented
 }
 
-static void pointer_handle_axis_stop(void *data, struct wl_pointer *pointer,
-                                     uint32_t time, uint32_t axis)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_stop(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
+                                     uint32_t ਸਮਾਂ, uint32_t axis)
 {
     // unimplemented
 }
 
-static void pointer_handle_axis_discrete(void *data, struct wl_pointer *pointer,
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_discrete(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
                                          uint32_t axis, int32_t discrete)
 {
-    SDL_WaylandSeat *seat = data;
-    pointer_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_DISCRETE, axis, wl_fixed_from_int(discrete));
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਸੂਚਕ_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_DISCRETE, axis, wl_fixed_from_int(discrete));
 }
 
-static void pointer_handle_axis_value120(void *data, struct wl_pointer *pointer,
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_axis_value120(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *ਸੂਚਕ_2,
                                          uint32_t axis, int32_t value120)
 {
-    SDL_WaylandSeat *seat = data;
-    pointer_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_VALUE120, axis, wl_fixed_from_int(value120));
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਸੂਚਕ_handle_axis_common(seat, SDL_WAYLAND_AXIS_EVENT_VALUE120, axis, wl_fixed_from_int(value120));
 }
 
-static void pointer_handle_warp(void *data, struct wl_pointer *wl_pointer, wl_fixed_t surface_x, wl_fixed_t surface_y)
+ਸਥਿਰ ਖਾਲੀ ਸੂਚਕ_handle_warp(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਸੂਚਕ *wl_ਸੂਚਕ, wl_fixed_t surface_x, wl_fixed_t surface_y)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
 
-    seat->pointer.pending_frame.have_absolute = true;
-    seat->pointer.pending_frame.have_warp = true;
-    seat->pointer.pending_frame.absolute.sx = surface_x;
-    seat->pointer.pending_frame.absolute.sy = surface_y;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_absolute = true;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_warp = true;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sx = surface_x;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.absolute.sy = surface_y;
 }
 
-static const struct wl_pointer_listener pointer_listener = {
-    pointer_handle_enter,
-    pointer_handle_leave,
-    pointer_handle_motion,
-    pointer_handle_button,
-    pointer_handle_axis,
-    pointer_handle_frame,                   // Version 5
-    pointer_handle_axis_source,             // Version 5
-    pointer_handle_axis_stop,               // Version 5
-    pointer_handle_axis_discrete,           // Version 5
-    pointer_handle_axis_value120,           // Version 8
-    pointer_handle_axis_relative_direction, // Version 9
-    pointer_handle_warp                     // Version 11
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_ਸੂਚਕ_listener ਸੂਚਕ_listener = {
+    ਸੂਚਕ_handle_enter,
+    ਸੂਚਕ_handle_leave,
+    ਸੂਚਕ_handle_motion,
+    ਸੂਚਕ_handle_button,
+    ਸੂਚਕ_handle_axis,
+    ਸੂਚਕ_handle_ਚੌਖਟਾ,                   // Version 5
+    ਸੂਚਕ_handle_axis_ਸਰੋਤ,             // Version 5
+    ਸੂਚਕ_handle_axis_stop,               // Version 5
+    ਸੂਚਕ_handle_axis_discrete,           // Version 5
+    ਸੂਚਕ_handle_axis_value120,           // Version 8
+    ਸੂਚਕ_handle_axis_relative_direction, // Version 9
+    ਸੂਚਕ_handle_warp                     // Version 11
 };
 
-static void relative_pointer_handle_relative_motion(void *data,
-                                                    struct zwp_relative_pointer_v1 *pointer,
-                                                    uint32_t time_hi,
-                                                    uint32_t time_lo,
+ਸਥਿਰ ਖਾਲੀ relative_ਸੂਚਕ_handle_relative_motion(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                    ਬਣਤਰ zwp_relative_ਸੂਚਕ_v1 *ਸੂਚਕ_2,
+                                                    uint32_t ਸਮਾਂ_hi,
+                                                    uint32_t ਸਮਾਂ_lo,
                                                     wl_fixed_t dx,
                                                     wl_fixed_t dy,
                                                     wl_fixed_t dx_unaccel,
                                                     wl_fixed_t dy_unaccel)
 {
-    SDL_WaylandSeat *seat = data;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
 
     // Relative pointer event times are in microsecond granularity.
-    seat->pointer.pending_frame.relative.dx = dx;
-    seat->pointer.pending_frame.relative.dy = dy;
-    seat->pointer.pending_frame.relative.dx_unaccel = dx_unaccel;
-    seat->pointer.pending_frame.relative.dy_unaccel = dy_unaccel;
-    seat->pointer.pending_frame.timestamp_ns = Wayland_AdjustEventTimestampBase(SDL_US_TO_NS(((Uint64)time_hi << 32) | (Uint64)time_lo));
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dx = dx;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dy = dy;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dx_unaccel = dx_unaccel;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.relative.dy_unaccel = dy_unaccel;
+    seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.timestamp_ns = Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(SDL_US_ਮੰਜ਼ਿਲ_NS(((Uint64)ਸਮਾਂ_hi << 32) | (Uint64)ਸਮਾਂ_lo));
 
-    if (wl_pointer_get_version(seat->pointer.wl_pointer) >= WL_POINTER_FRAME_SINCE_VERSION) {
-        seat->pointer.pending_frame.have_relative = true;
-    } else {
-        pointer_dispatch_relative_motion(seat);
+    ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) >= WL_ਸੂਚਕ_ਚੌਖਟਾ_SINCE_ਸੰਸਕਰਣ) {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.have_relative = true;
+    } ਨਹੀਂਤਾਂ {
+        ਸੂਚਕ_dispatch_relative_motion(seat);
     }
 }
 
-static const struct zwp_relative_pointer_v1_listener relative_pointer_listener = {
-    relative_pointer_handle_relative_motion,
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_relative_ਸੂਚਕ_v1_listener relative_ਸੂਚਕ_listener = {
+    relative_ਸੂਚਕ_handle_relative_motion,
 };
 
-static void locked_pointer_locked(void *data, struct zwp_locked_pointer_v1 *locked_pointer)
+ਸਥਿਰ ਖਾਲੀ locked_ਸੂਚਕ_locked(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_locked_ਸੂਚਕ_v1 *locked_ਸੂਚਕ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.is_confined = true;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.is_confined = true;
 }
 
-static void locked_pointer_unlocked(void *data, struct zwp_locked_pointer_v1 *locked_pointer)
+ਸਥਿਰ ਖਾਲੀ locked_ਸੂਚਕ_unlocked(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_locked_ਸੂਚਕ_v1 *locked_ਸੂਚਕ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.is_confined = false;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.is_confined = false;
 }
 
-static const struct zwp_locked_pointer_v1_listener locked_pointer_listener = {
-    locked_pointer_locked,
-    locked_pointer_unlocked,
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_locked_ਸੂਚਕ_v1_listener locked_ਸੂਚਕ_listener = {
+    locked_ਸੂਚਕ_locked,
+    locked_ਸੂਚਕ_unlocked,
 };
 
-static void confined_pointer_confined(void *data, struct zwp_confined_pointer_v1 *confined_pointer)
+ਸਥਿਰ ਖਾਲੀ confined_ਸੂਚਕ_confined(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_confined_ਸੂਚਕ_v1 *confined_ਸੂਚਕ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.is_confined = true;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.is_confined = true;
 }
 
-static void confined_pointer_unconfined(void *data, struct zwp_confined_pointer_v1 *confined_pointer)
+ਸਥਿਰ ਖਾਲੀ confined_ਸੂਚਕ_unconfined(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_confined_ਸੂਚਕ_v1 *confined_ਸੂਚਕ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->pointer.is_confined = false;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਸੂਚਕ_2.is_confined = false;
 }
 
-static const struct zwp_confined_pointer_v1_listener confined_pointer_listener = {
-    confined_pointer_confined,
-    confined_pointer_unconfined,
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_confined_ਸੂਚਕ_v1_listener confined_ਸੂਚਕ_listener = {
+    confined_ਸੂਚਕ_confined,
+    confined_ਸੂਚਕ_unconfined,
 };
 
-static void touch_handler_down(void *data, struct wl_touch *touch, uint32_t serial,
-                               uint32_t timestamp, struct wl_surface *surface,
-                               int id, wl_fixed_t fx, wl_fixed_t fy)
+ਸਥਿਰ ਖਾਲੀ touch_handler_ਥੱਲੇ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *touch, uint32_t serial,
+                               uint32_t timestamp, ਬਣਤਰ wl_surface *surface,
+                               ਪੂਰਨ id, wl_fixed_t fx, wl_fixed_t fy)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    SDL_WindowData *window_data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2;
 
     // Check that this surface is valid.
-    if (!surface) {
-        return;
+    ਜੇ (!surface) {
+        ਵਾਪਸ;
     }
 
-    Wayland_SeatAddTouch(seat, id, fx, fy, surface);
+    Wayland_Seat_ਜੋੜੋ_Touch(seat, id, fx, fy, surface);
     Wayland_UpdateImplicitGrabSerial(seat, serial);
-    window_data = Wayland_GetWindowDataForOwnedSurface(surface);
+    ਖਿੜਕੀ_ਅੰਕੜੇ_2 = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
 
-    if (window_data && window_data->surface == surface) {
-        float x, y;
+    ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2 && ਖਿੜਕੀ_ਅੰਕੜੇ_2->surface == surface) {
+        ਦਸ਼ਮਲਵ x, y;
 
-        if (window_data->current.logical_width <= 1) {
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਚੌੜਾਈ <= 1) {
             x = 0.5f;
-        } else {
-            x = (float)wl_fixed_to_double(fx) / (window_data->current.logical_width - 1);
+        } ਨਹੀਂਤਾਂ {
+            x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fx) / (ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਚੌੜਾਈ - 1);
         }
-        if (window_data->current.logical_height <= 1) {
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਉਚਾਈ <= 1) {
             y = 0.5f;
-        } else {
-            y = (float)wl_fixed_to_double(fy) / (window_data->current.logical_height - 1);
+        } ਨਹੀਂਤਾਂ {
+            y = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fy) / (ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਉਚਾਈ - 1);
         }
 
-        ++window_data->active_touch_count;
-        SDL_SetMouseFocus(window_data->sdlwindow);
+        ++ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸਰਗਰਮ_touch_ਗਿਣਤੀ;
+        SDL_ਸੈੱਟ_Mouse_Focus(ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow);
 
         SDL_SendTouch(Wayland_GetTouchTimestamp(seat, timestamp), (SDL_TouchID)(uintptr_t)touch,
-                      (SDL_FingerID)(id + 1), window_data->sdlwindow, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
+                      (SDL_FingerID)(id + 1), ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, SDL_EVENT_FINGER_ਥੱਲੇ, x, y, 1.0f);
     }
 }
 
-static void touch_handler_up(void *data, struct wl_touch *touch, uint32_t serial, uint32_t timestamp, int id)
+ਸਥਿਰ ਖਾਲੀ touch_handler_ਉੱਪਰ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *touch, uint32_t serial, uint32_t timestamp, ਪੂਰਨ id)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
     wl_fixed_t fx = 0, fy = 0;
-    struct wl_surface *surface = NULL;
+    ਬਣਤਰ wl_surface *surface = ਨਿਰਾ;
 
     Wayland_SeatRemoveTouch(seat, id, &fx, &fy, &surface);
 
-    if (surface) {
-        SDL_WindowData *window_data = Wayland_GetWindowDataForOwnedSurface(surface);
+    ਜੇ (surface) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
 
-        if (window_data && window_data->surface == surface) {
-            const float x = (float)wl_fixed_to_double(fx) / window_data->current.logical_width;
-            const float y = (float)wl_fixed_to_double(fy) / window_data->current.logical_height;
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2 && ਖਿੜਕੀ_ਅੰਕੜੇ_2->surface == surface) {
+            ਅਚਲ ਦਸ਼ਮਲਵ x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fx) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਚੌੜਾਈ;
+            ਅਚਲ ਦਸ਼ਮਲਵ y = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fy) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਉਚਾਈ;
 
             SDL_SendTouch(Wayland_GetTouchTimestamp(seat, timestamp), (SDL_TouchID)(uintptr_t)touch,
-                          (SDL_FingerID)(id + 1), window_data->sdlwindow, SDL_EVENT_FINGER_UP, x, y, 0.0f);
+                          (SDL_FingerID)(id + 1), ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, SDL_EVENT_FINGER_ਉੱਪਰ, x, y, 0.0f);
 
-            --window_data->active_touch_count;
+            --ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸਰਗਰਮ_touch_ਗਿਣਤੀ;
 
             /* If the window currently has mouse focus and has no currently active keyboards, pointers,
              * or touch events, then consider mouse focus to be lost.
              */
-            if (SDL_GetMouseFocus() == window_data->sdlwindow && !window_data->keyboard_focus_count &&
-                !window_data->pointer_focus_count && !window_data->active_touch_count) {
-                SDL_SetMouseFocus(NULL);
+            ਜੇ (SDL_GetMouseFocus() == ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow && !ਖਿੜਕੀ_ਅੰਕੜੇ_2->keyboard_focus_ਗਿਣਤੀ &&
+                !ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_focus_ਗਿਣਤੀ && !ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸਰਗਰਮ_touch_ਗਿਣਤੀ) {
+                SDL_ਸੈੱਟ_Mouse_Focus(ਨਿਰਾ);
             }
         }
     }
 }
 
-static void touch_handler_motion(void *data, struct wl_touch *touch, uint32_t timestamp, int id, wl_fixed_t fx, wl_fixed_t fy)
+ਸਥਿਰ ਖਾਲੀ touch_handler_motion(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *touch, uint32_t timestamp, ਪੂਰਨ id, wl_fixed_t fx, wl_fixed_t fy)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    struct wl_surface *surface = NULL;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    ਬਣਤਰ wl_surface *surface = ਨਿਰਾ;
 
     Wayland_SeatUpdateTouch(seat, id, fx, fy, &surface);
 
-    if (surface) {
-        SDL_WindowData *window_data = Wayland_GetWindowDataForOwnedSurface(surface);
+    ਜੇ (surface) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
 
-        if (window_data && window_data->surface == surface) {
-            const float x = (float)wl_fixed_to_double(fx) / window_data->current.logical_width;
-            const float y = (float)wl_fixed_to_double(fy) / window_data->current.logical_height;
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2 && ਖਿੜਕੀ_ਅੰਕੜੇ_2->surface == surface) {
+            ਅਚਲ ਦਸ਼ਮਲਵ x = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fx) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਚੌੜਾਈ;
+            ਅਚਲ ਦਸ਼ਮਲਵ y = (ਦਸ਼ਮਲਵ)wl_fixed_ਮੰਜ਼ਿਲ_double(fy) / ਖਿੜਕੀ_ਅੰਕੜੇ_2->current.logical_ਉਚਾਈ;
 
             SDL_SendTouchMotion(Wayland_GetTouchTimestamp(seat, timestamp), (SDL_TouchID)(uintptr_t)touch,
-                                (SDL_FingerID)(id + 1), window_data->sdlwindow, x, y, 1.0f);
+                                (SDL_FingerID)(id + 1), ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, x, y, 1.0f);
         }
     }
 }
 
-static void touch_handler_frame(void *data, struct wl_touch *touch)
+ਸਥਿਰ ਖਾਲੀ touch_handler_ਚੌਖਟਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *touch)
 {
 }
 
-static void touch_handler_cancel(void *data, struct wl_touch *touch)
+ਸਥਿਰ ਖਾਲੀ touch_handler_cancel(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *touch)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    SDL_WaylandTouchPoint *tp, *temp;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    SDL_Wayland_Touch_ਬਿੰਦੂ *tp, *ਆਰਜ਼ੀ;
 
     // Need the safe loop variant here as cancelling a touch point removes it from the list.
-    wl_list_for_each_safe (tp, temp, &seat->touch.points, link) {
+    wl_list_for_each_ਸੁਰੱਖਿਅਤ (tp, ਆਰਜ਼ੀ, &seat->touch.points, link) {
         Wayland_SeatCancelTouch(seat, tp);
     }
 }
 
-static void touch_handler_shape(void *data, struct wl_touch *wl_touch, int32_t id, wl_fixed_t major, wl_fixed_t minor)
+ਸਥਿਰ ਖਾਲੀ touch_handler_shape(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *wl_touch, int32_t id, wl_fixed_t major, wl_fixed_t minor)
 {
 }
 
-static void touch_handler_orientation(void *data, struct wl_touch *wl_touch, int32_t id, wl_fixed_t orientation)
+ਸਥਿਰ ਖਾਲੀ touch_handler_orientation(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_touch *wl_touch, int32_t id, wl_fixed_t orientation)
 {
 }
 
-static const struct wl_touch_listener touch_listener = {
-    touch_handler_down,
-    touch_handler_up,
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_touch_listener touch_listener = {
+    touch_handler_ਥੱਲੇ,
+    touch_handler_ਉੱਪਰ,
     touch_handler_motion,
-    touch_handler_frame,
+    touch_handler_ਚੌਖਟਾ,
     touch_handler_cancel,
     touch_handler_shape,      // Version 6
     touch_handler_orientation // Version 6
 };
 
 // Fallback for xkb_keymap_key_get_mods_for_level(), which is only available from 1.0.0, while the SDL minimum is 0.5.0.
-#if !SDL_XKBCOMMON_CHECK_VERSION(1, 0, 0)
-static size_t xkb_legacy_get_mods_for_level(SDL_WaylandSeat *seat, xkb_keycode_t key, xkb_layout_index_t layout, xkb_level_index_t level, xkb_mod_mask_t *masks_out, size_t masks_size)
+#ਜੇ !SDL_XKBCOMMON_CHECK_ਸੰਸਕਰਣ(1, 0, 0)
+ਸਥਿਰ size_t xkb_legacy_get_mods_for_level(SDL_WaylandSeat *seat, xkb_keycode_t ਕੁੰਜੀ, xkb_layout_ਸੂਚਕਾਂਕ_t layout, xkb_level_ਸੂਚਕਾਂਕ_t level, xkb_mod_ਨਕਾਬ_t *masks_ਬਾਹਰਲਾ, size_t masks_ਮਾਪ)
 {
-    if (!masks_out || !masks_size) {
-        return 0;
+    ਜੇ (!masks_ਬਾਹਰਲਾ || !masks_ਮਾਪ) {
+        ਵਾਪਸ 0;
     }
 
     // Level 0 is always unmodified, so early out.
-    if (level == 0) {
-        *masks_out = 0;
-        return 1;
+    ਜੇ (level == 0) {
+        *masks_ਬਾਹਰਲਾ = 0;
+        ਵਾਪਸ 1;
     }
 
-    size_t mask_idx = 0;
-    const xkb_mod_mask_t keymod_masks[] = {
+    size_t ਨਕਾਬ_idx = 0;
+    ਅਚਲ xkb_mod_ਨਕਾਬ_t keymod_masks[] = {
         0,
-        seat->keyboard.xkb.shift_mask,
-        seat->keyboard.xkb.caps_mask,
-        seat->keyboard.xkb.shift_mask | seat->keyboard.xkb.caps_mask,
-        seat->keyboard.xkb.level3_mask,
-        seat->keyboard.xkb.level3_mask | seat->keyboard.xkb.shift_mask,
-        seat->keyboard.xkb.level3_mask | seat->keyboard.xkb.caps_mask,
-        seat->keyboard.xkb.level3_mask | seat->keyboard.xkb.shift_mask | seat->keyboard.xkb.caps_mask,
-        seat->keyboard.xkb.level5_mask,
-        seat->keyboard.xkb.level5_mask | seat->keyboard.xkb.shift_mask,
-        seat->keyboard.xkb.level5_mask | seat->keyboard.xkb.caps_mask,
-        seat->keyboard.xkb.level5_mask | seat->keyboard.xkb.shift_mask | seat->keyboard.xkb.caps_mask
+        seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ,
+        seat->keyboard.xkb.caps_ਨਕਾਬ_2,
+        seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ | seat->keyboard.xkb.caps_ਨਕਾਬ_2,
+        seat->keyboard.xkb.level3_ਨਕਾਬ,
+        seat->keyboard.xkb.level3_ਨਕਾਬ | seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ,
+        seat->keyboard.xkb.level3_ਨਕਾਬ | seat->keyboard.xkb.caps_ਨਕਾਬ_2,
+        seat->keyboard.xkb.level3_ਨਕਾਬ | seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ | seat->keyboard.xkb.caps_ਨਕਾਬ_2,
+        seat->keyboard.xkb.level5_ਨਕਾਬ,
+        seat->keyboard.xkb.level5_ਨਕਾਬ | seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ,
+        seat->keyboard.xkb.level5_ਨਕਾਬ | seat->keyboard.xkb.caps_ਨਕਾਬ_2,
+        seat->keyboard.xkb.level5_ਨਕਾਬ | seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ | seat->keyboard.xkb.caps_ਨਕਾਬ_2
     };
-    const xkb_mod_mask_t pressed_mod_mask = seat->keyboard.xkb.shift_mask | seat->keyboard.xkb.level3_mask | seat->keyboard.xkb.level5_mask;
-    const xkb_mod_mask_t locked_mod_mask = seat->keyboard.xkb.caps_mask;
+    ਅਚਲ xkb_mod_ਨਕਾਬ_t pressed_mod_ਨਕਾਬ = seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ | seat->keyboard.xkb.level3_ਨਕਾਬ | seat->keyboard.xkb.level5_ਨਕਾਬ;
+    ਅਚਲ xkb_mod_ਨਕਾਬ_t locked_mod_ਨਕਾਬ = seat->keyboard.xkb.caps_ਨਕਾਬ_2;
 
-    for (size_t i = 0; i < SDL_arraysize(keymod_masks); ++i) {
-        WAYLAND_xkb_state_update_mask(seat->keyboard.xkb.state, keymod_masks[i] & pressed_mod_mask, 0, keymod_masks[i] & locked_mod_mask, 0, 0, layout);
-        if (WAYLAND_xkb_state_key_get_level(seat->keyboard.xkb.state, key, layout) == level) {
-            masks_out[mask_idx] = keymod_masks[i];
+    ਲਈ (size_t i = 0; i < SDL_arraysize(keymod_masks); ++i) {
+        WAYLAND_xkb_state_update_ਨਕਾਬ(seat->keyboard.xkb.state, keymod_masks[i] & pressed_mod_ਨਕਾਬ, 0, keymod_masks[i] & locked_mod_ਨਕਾਬ, 0, 0, layout);
+        ਜੇ (WAYLAND_xkb_state_ਕੁੰਜੀ_get_level(seat->keyboard.xkb.state, ਕੁੰਜੀ, layout) == level) {
+            masks_ਬਾਹਰਲਾ[ਨਕਾਬ_idx] = keymod_masks[i];
 
-            if (++mask_idx == masks_size) {
-                break;
+            ਜੇ (++ਨਕਾਬ_idx == masks_ਮਾਪ) {
+                ਰੋਕੋ;
             }
         }
     }
 
-    return mask_idx;
+    ਵਾਪਸ ਨਕਾਬ_idx;
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-static void Wayland_KeymapIterator(struct xkb_keymap *keymap, xkb_keycode_t key, void *data)
+ਸਥਿਰ ਖਾਲੀ Wayland_KeymapIterator(ਬਣਤਰ xkb_keymap *keymap, xkb_keycode_t ਕੁੰਜੀ, ਖਾਲੀ *ਅੰਕੜੇ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    const xkb_keysym_t *syms;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    ਅਚਲ xkb_keysym_t *syms;
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
     // Only the shift, alt, level 3, level 5 and caps lock modifiers affect SDL keymaps.
-    const xkb_mod_mask_t xkb_valid_mod_mask = seat->keyboard.xkb.shift_mask |
-                                              seat->keyboard.xkb.alt_mask |
-                                              seat->keyboard.xkb.level3_mask |
-                                              seat->keyboard.xkb.level5_mask |
-                                              seat->keyboard.xkb.caps_mask;
+    ਅਚਲ xkb_mod_ਨਕਾਬ_t xkb_valid_mod_ਨਕਾਬ = seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ |
+                                              seat->keyboard.xkb.alt_ਨਕਾਬ |
+                                              seat->keyboard.xkb.level3_ਨਕਾਬ |
+                                              seat->keyboard.xkb.level5_ਨਕਾਬ |
+                                              seat->keyboard.xkb.caps_ਨਕਾਬ_2;
 
     // Look up the scancode for hardware keyboards. Virtual keyboards get the scancode from the keysym.
-    if (!seat->keyboard.is_virtual) {
-        scancode = SDL_GetScancodeFromTable(SDL_SCANCODE_TABLE_LINUX, key - 8);
+    ਜੇ (!seat->keyboard.is_virtual) {
+        scancode = SDL_Get_Scancode_From_ਸਾਰਣੀ(SDL_SCANCODE_ਸਾਰਣੀ_LINUX, ਕੁੰਜੀ - 8);
     }
 
-    for (xkb_layout_index_t layout = 0; layout < seat->keyboard.xkb.num_layouts; ++layout) {
-        const xkb_level_index_t num_levels = WAYLAND_xkb_keymap_num_levels_for_key(seat->keyboard.xkb.keymap, key, layout);
-        for (xkb_level_index_t level = 0; level < num_levels; ++level) {
-            if (WAYLAND_xkb_keymap_key_get_syms_by_level(seat->keyboard.xkb.keymap, key, layout, level, &syms) > 0) {
+    ਲਈ (xkb_layout_ਸੂਚਕਾਂਕ_t layout = 0; layout < seat->keyboard.xkb.ਅੰਕ_layouts; ++layout) {
+        ਅਚਲ xkb_level_ਸੂਚਕਾਂਕ_t ਅੰਕ_ਪੱਧਰ = WAYLAND_xkb_keymap_ਅੰਕ_ਪੱਧਰ_for_ਕੁੰਜੀ(seat->keyboard.xkb.keymap, ਕੁੰਜੀ, layout);
+        ਲਈ (xkb_level_ਸੂਚਕਾਂਕ_t level = 0; level < ਅੰਕ_ਪੱਧਰ; ++level) {
+            ਜੇ (WAYLAND_xkb_keymap_ਕੁੰਜੀ_get_syms_by_level(seat->keyboard.xkb.keymap, ਕੁੰਜੀ, layout, level, &syms) > 0) {
                 /* If the keyboard is virtual, try to look up the scancode from the keysym. If there is still no corresponding
                  * scancode, skip this mapping for now, as it will be dynamically added with a reserved scancode on first use.
                  */
-                if (scancode == SDL_SCANCODE_UNKNOWN && seat->keyboard.is_virtual) {
-                    scancode = SDL_GetScancodeFromKeySym(syms[0], key);
-                    if (scancode == SDL_SCANCODE_UNKNOWN) {
-                        continue;
+                ਜੇ (scancode == SDL_SCANCODE_UNKNOWN && seat->keyboard.is_virtual) {
+                    scancode = SDL_Get_Scancode_From_ਕੁੰਜੀ_Sym(syms[0], ਕੁੰਜੀ);
+                    ਜੇ (scancode == SDL_SCANCODE_UNKNOWN) {
+                        ਜਾਰੀ;
                     }
                 }
 
-                xkb_mod_mask_t xkb_mod_masks[16];
-#if SDL_XKBCOMMON_CHECK_VERSION(1, 0, 0)
-                const size_t num_masks = WAYLAND_xkb_keymap_key_get_mods_for_level(seat->keyboard.xkb.keymap, key, layout, level, xkb_mod_masks, SDL_arraysize(xkb_mod_masks));
-#else
-                const size_t num_masks = xkb_legacy_get_mods_for_level(seat, key, layout, level, xkb_mod_masks, SDL_arraysize(xkb_mod_masks));
-#endif
-                for (size_t mask = 0; mask < num_masks; ++mask) {
+                xkb_mod_ਨਕਾਬ_t xkb_mod_masks[16];
+#ਜੇ SDL_XKBCOMMON_CHECK_ਸੰਸਕਰਣ(1, 0, 0)
+                ਅਚਲ size_t ਅੰਕ_masks = WAYLAND_xkb_keymap_ਕੁੰਜੀ_get_mods_for_level(seat->keyboard.xkb.keymap, ਕੁੰਜੀ, layout, level, xkb_mod_masks, SDL_arraysize(xkb_mod_masks));
+#ਨਹੀਂਤਾਂ
+                ਅਚਲ size_t ਅੰਕ_masks = xkb_legacy_get_mods_for_level(seat, ਕੁੰਜੀ, layout, level, xkb_mod_masks, SDL_arraysize(xkb_mod_masks));
+#ਜੇ_ਅੰਤ
+                ਲਈ (size_t ਨਕਾਬ = 0; ਨਕਾਬ < ਅੰਕ_masks; ++ਨਕਾਬ) {
                     // Ignore this modifier set if it uses unsupported modifier types.
-                    if ((xkb_mod_masks[mask] | xkb_valid_mod_mask) != xkb_valid_mod_mask) {
-                        continue;
+                    ਜੇ ((xkb_mod_masks[ਨਕਾਬ] | xkb_valid_mod_ਨਕਾਬ) != xkb_valid_mod_ਨਕਾਬ) {
+                        ਜਾਰੀ;
                     }
 
-                    const SDL_Keymod sdl_mod = (xkb_mod_masks[mask] & seat->keyboard.xkb.shift_mask ? SDL_KMOD_SHIFT : 0) |
-                                               (xkb_mod_masks[mask] & seat->keyboard.xkb.alt_mask ? SDL_KMOD_ALT : 0) |
-                                               (xkb_mod_masks[mask] & seat->keyboard.xkb.level3_mask ? SDL_KMOD_MODE : 0) |
-                                               (xkb_mod_masks[mask] & seat->keyboard.xkb.level5_mask ? SDL_KMOD_LEVEL5 : 0) |
-                                               (xkb_mod_masks[mask] & seat->keyboard.xkb.caps_mask ? SDL_KMOD_CAPS : 0);
+                    ਅਚਲ SDL_Keymod sdl_mod = (xkb_mod_masks[ਨਕਾਬ] & seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ ? SDL_KMOD_ਖਿਸਕਾਓ : 0) |
+                                               (xkb_mod_masks[ਨਕਾਬ] & seat->keyboard.xkb.alt_ਨਕਾਬ ? SDL_KMOD_ALT : 0) |
+                                               (xkb_mod_masks[ਨਕਾਬ] & seat->keyboard.xkb.level3_ਨਕਾਬ ? SDL_KMOD_ਬਹੁਲਕ : 0) |
+                                               (xkb_mod_masks[ਨਕਾਬ] & seat->keyboard.xkb.level5_ਨਕਾਬ ? SDL_KMOD_LEVEL5 : 0) |
+                                               (xkb_mod_masks[ਨਕਾਬ] & seat->keyboard.xkb.caps_ਨਕਾਬ_2 ? SDL_KMOD_CAPS : 0);
 
-                    SDL_Keycode keycode = SDL_GetKeyCodeFromKeySym(syms[0], key, sdl_mod);
+                    SDL_Keycode keycode = SDL_Get_ਕੁੰਜੀ_ਕੋਡ_From_ਕੁੰਜੀ_Sym(syms[0], ਕੁੰਜੀ, sdl_mod);
 
                     /* For hardware keyboards, map unknown keys with valid keycodes to the reserved scancode range.
                      * Reserved codes are always assigned from layout zero to avoid potential overlap.
                      */
-                    if (keycode != SDLK_UNKNOWN && scancode == SDL_SCANCODE_UNKNOWN) {
-                        scancode = SDL_GetKeymapNextReservedScancode(seat->keyboard.sdl_keymap[0]);
-                        if (level) {
+                    ਜੇ (keycode != SDLK_UNKNOWN && scancode == SDL_SCANCODE_UNKNOWN) {
+                        scancode = SDL_Get_Keymap_ਅਗਲਾ_Reserved_Scancode(seat->keyboard.sdl_keymap[0]);
+                        ਜੇ (level) {
                             // Make sure the base level always has this scancode mapped, since it is a unique key.
-                            SDL_SetKeymapEntry(seat->keyboard.sdl_keymap[layout], scancode, 0, SDLK_UNKNOWN);
+                            SDL_ਸੈੱਟ_Keymap_ਇੰਦਰਾਜ(seat->keyboard.sdl_keymap[layout], scancode, 0, SDLK_UNKNOWN);
                         }
-                        Wayland_ReservedKey *res = WAYLAND_wl_array_add(&seat->keyboard.reserved_scancodes, sizeof(Wayland_ReservedKey));
-                        if (res) {
+                        Wayland_Reserved_ਕੁੰਜੀ *res = WAYLAND_wl_array_ਜੋੜੋ(&seat->keyboard.reserved_scancodes, ਆਕਾਰ(Wayland_Reserved_ਕੁੰਜੀ));
+                        ਜੇ (res) {
                             res->scancode = scancode;
-                            res->key = key - 8;
+                            res->ਕੁੰਜੀ = ਕੁੰਜੀ - 8;
                         }
                     }
 
-                    if (!keycode) {
-                        switch (scancode) {
-                        case SDL_SCANCODE_RETURN:
+                    ਜੇ (!keycode) {
+                        ਚੋਣ (scancode) {
+                        ਹਾਲਤ SDL_SCANCODE_RETURN:
                             keycode = SDLK_RETURN;
-                            break;
-                        case SDL_SCANCODE_ESCAPE:
+                            ਰੋਕੋ;
+                        ਹਾਲਤ SDL_SCANCODE_ESCAPE:
                             keycode = SDLK_ESCAPE;
-                            break;
-                        case SDL_SCANCODE_BACKSPACE:
+                            ਰੋਕੋ;
+                        ਹਾਲਤ SDL_SCANCODE_BACKSPACE:
                             keycode = SDLK_BACKSPACE;
-                            break;
-                        case SDL_SCANCODE_DELETE:
+                            ਰੋਕੋ;
+                        ਹਾਲਤ SDL_SCANCODE_DELETE:
                             keycode = SDLK_DELETE;
-                            break;
-                        default:
-                            keycode = SDL_SCANCODE_TO_KEYCODE(scancode);
-                            break;
+                            ਰੋਕੋ;
+                        ਮੂਲ:
+                            keycode = SDL_SCANCODE_ਮੰਜ਼ਿਲ_KEYCODE(scancode);
+                            ਰੋਕੋ;
                         }
                     }
 
-                    SDL_SetKeymapEntry(seat->keyboard.sdl_keymap[layout], scancode, sdl_mod, keycode);
+                    SDL_ਸੈੱਟ_Keymap_ਇੰਦਰਾਜ(seat->keyboard.sdl_keymap[layout], scancode, sdl_mod, keycode);
                 }
             }
         }
     }
 }
 
-static void keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
-                                   uint32_t format, int fd, uint32_t size)
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_keymap(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *keyboard,
+                                   uint32_t format, ਪੂਰਨ fd, uint32_t ਮਾਪ)
 {
-    SDL_WaylandSeat *seat = data;
-    char *map_str;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਅੱਖਰ *map_str;
 
-    if (!data) {
+    ਜੇ (!ਅੰਕੜੇ) {
         close(fd);
-        return;
+        ਵਾਪਸ;
     }
 
-    if (format != WL_KEYBOARD_KEYMAP_FORMAT_XKB_V1) {
+    ਜੇ (format != WL_KEYBOARD_KEYMAP_FORMAT_XKB_V1) {
         close(fd);
-        return;
+        ਵਾਪਸ;
     }
 
-    map_str = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
-    if (map_str == MAP_FAILED) {
+    map_str = mmap(ਨਿਰਾ, ਮਾਪ, PROT_READ, MAP_PRIVATE, fd, 0);
+    ਜੇ (map_str == MAP_FAILED) {
         close(fd);
-        return;
+        ਵਾਪਸ;
     }
 
-    if (seat->keyboard.xkb.keymap != NULL) {
+    ਜੇ (seat->keyboard.xkb.keymap != ਨਿਰਾ) {
         /* if there's already a keymap loaded, throw it away rather than leaking it before
          * parsing the new one
          */
         WAYLAND_xkb_keymap_unref(seat->keyboard.xkb.keymap);
-        seat->keyboard.xkb.keymap = NULL;
+        seat->keyboard.xkb.keymap = ਨਿਰਾ;
     }
     seat->keyboard.xkb.keymap = WAYLAND_xkb_keymap_new_from_string(seat->display->xkb_context,
                                                                    map_str,
-                                                                   XKB_KEYMAP_FORMAT_TEXT_V1,
+                                                                   XKB_KEYMAP_FORMAT_ਪਾਠ_V1,
                                                                    0);
-    munmap(map_str, size);
+    munmap(map_str, ਮਾਪ);
     close(fd);
 
-    if (!seat->keyboard.xkb.keymap) {
-        SDL_SetError("failed to compile keymap");
-        return;
+    ਜੇ (!seat->keyboard.xkb.keymap) {
+        SDL_ਸੈੱਟ_Error("failed to compile keymap");
+        ਵਾਪਸ;
     }
 
     // Clear the old layouts.
-    for (xkb_layout_index_t i = 0; i < seat->keyboard.xkb.num_layouts; ++i) {
+    ਲਈ (xkb_layout_ਸੂਚਕਾਂਕ_t i = 0; i < seat->keyboard.xkb.ਅੰਕ_layouts; ++i) {
         SDL_DestroyKeymap(seat->keyboard.sdl_keymap[i]);
     }
     SDL_free(seat->keyboard.sdl_keymap);
-    seat->keyboard.sdl_keymap = NULL;
+    seat->keyboard.sdl_keymap = ਨਿਰਾ;
     WAYLAND_wl_array_release(&seat->keyboard.reserved_scancodes);
     WAYLAND_wl_array_init(&seat->keyboard.reserved_scancodes);
-    seat->keyboard.xkb.num_layouts = 0;
+    seat->keyboard.xkb.ਅੰਕ_layouts = 0;
 
-#if SDL_XKBCOMMON_CHECK_VERSION(1, 10, 0)
-    seat->keyboard.xkb.shift_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_MOD_NAME_SHIFT);
-    seat->keyboard.xkb.ctrl_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_MOD_NAME_CTRL);
-    seat->keyboard.xkb.alt_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_ALT);
-    seat->keyboard.xkb.gui_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_SUPER);
-    seat->keyboard.xkb.level3_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_LEVEL3);
-    seat->keyboard.xkb.level5_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_LEVEL5);
-    seat->keyboard.xkb.num_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_NUM);
-    seat->keyboard.xkb.caps_mask = WAYLAND_xkb_keymap_mod_get_mask(seat->keyboard.xkb.keymap, XKB_MOD_NAME_CAPS);
-#else
-#define GET_MOD_INDEX(mod) \
-    WAYLAND_xkb_keymap_mod_get_index(seat->keyboard.xkb.keymap, XKB_MOD_NAME_##mod)
-    seat->keyboard.xkb.shift_mask = 1 << GET_MOD_INDEX(SHIFT);
-    seat->keyboard.xkb.ctrl_mask = 1 << GET_MOD_INDEX(CTRL);
-    seat->keyboard.xkb.alt_mask = 1 << GET_MOD_INDEX(ALT);
-    seat->keyboard.xkb.gui_mask = 1 << GET_MOD_INDEX(LOGO);
+#ਜੇ SDL_XKBCOMMON_CHECK_ਸੰਸਕਰਣ(1, 10, 0)
+    seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_MOD_NAME_ਖਿਸਕਾਓ);
+    seat->keyboard.xkb.ctrl_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_MOD_NAME_CTRL);
+    seat->keyboard.xkb.alt_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_ALT);
+    seat->keyboard.xkb.gui_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_SUPER);
+    seat->keyboard.xkb.level3_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_LEVEL3);
+    seat->keyboard.xkb.level5_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_LEVEL5);
+    seat->keyboard.xkb.ਅੰਕ_ਨਕਾਬ = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_VMOD_NAME_ਅੰਕ);
+    seat->keyboard.xkb.caps_ਨਕਾਬ_2 = WAYLAND_xkb_keymap_mod_get_ਨਕਾਬ(seat->keyboard.xkb.keymap, XKB_MOD_NAME_CAPS);
+#ਨਹੀਂਤਾਂ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ GET_MOD_ਸੂਚਕਾਂਕ(mod) \
+    WAYLAND_xkb_keymap_mod_get_ਸੂਚਕਾਂਕ(seat->keyboard.xkb.keymap, XKB_MOD_NAME_##mod)
+    seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(ਖਿਸਕਾਓ_2);
+    seat->keyboard.xkb.ctrl_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(CTRL);
+    seat->keyboard.xkb.alt_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(ALT);
+    seat->keyboard.xkb.gui_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(LOGO);
     // Note: This is correct: Mod3 is typically level 5 shift, and Mod5 is typically level 3 shift.
-    seat->keyboard.xkb.level3_mask = 1 << GET_MOD_INDEX(MOD5);
-    seat->keyboard.xkb.level5_mask = 1 << GET_MOD_INDEX(MOD3);
-    seat->keyboard.xkb.num_mask = 1 << GET_MOD_INDEX(NUM);
-    seat->keyboard.xkb.caps_mask = 1 << GET_MOD_INDEX(CAPS);
-#undef GET_MOD_INDEX
-#endif
+    seat->keyboard.xkb.level3_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(MOD5);
+    seat->keyboard.xkb.level5_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(MOD3);
+    seat->keyboard.xkb.ਅੰਕ_ਨਕਾਬ = 1 << GET_MOD_ਸੂਚਕਾਂਕ(ਅੰਕ_2);
+    seat->keyboard.xkb.caps_ਨਕਾਬ_2 = 1 << GET_MOD_ਸੂਚਕਾਂਕ(CAPS);
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ GET_MOD_ਸੂਚਕਾਂਕ
+#ਜੇ_ਅੰਤ
 
-    if (seat->keyboard.xkb.state != NULL) {
+    ਜੇ (seat->keyboard.xkb.state != ਨਿਰਾ) {
         /* if there's already a state, throw it away rather than leaking it before
          * trying to create a new one with the new keymap.
          */
         WAYLAND_xkb_state_unref(seat->keyboard.xkb.state);
-        seat->keyboard.xkb.state = NULL;
+        seat->keyboard.xkb.state = ਨਿਰਾ;
     }
     seat->keyboard.xkb.state = WAYLAND_xkb_state_new(seat->keyboard.xkb.keymap);
-    if (!seat->keyboard.xkb.state) {
-        SDL_SetError("failed to create XKB state");
+    ਜੇ (!seat->keyboard.xkb.state) {
+        SDL_ਸੈੱਟ_Error("failed to create XKB state");
         WAYLAND_xkb_keymap_unref(seat->keyboard.xkb.keymap);
-        seat->keyboard.xkb.keymap = NULL;
-        return;
+        seat->keyboard.xkb.keymap = ਨਿਰਾ;
+        ਵਾਪਸ;
     }
 
     /*
      * Assume that a nameless layout implies a virtual keyboard with an arbitrary layout.
      * TODO: Use a better method of detection?
      */
-    seat->keyboard.is_virtual = WAYLAND_xkb_keymap_layout_get_name(seat->keyboard.xkb.keymap, 0) == NULL;
+    seat->keyboard.is_virtual = WAYLAND_xkb_keymap_layout_get_name(seat->keyboard.xkb.keymap, 0) == ਨਿਰਾ;
 
     // Allocate and populate the new layout maps.
-    seat->keyboard.xkb.num_layouts = WAYLAND_xkb_keymap_num_layouts(seat->keyboard.xkb.keymap);
-    if (seat->keyboard.xkb.num_layouts) {
-        seat->keyboard.sdl_keymap = SDL_calloc(seat->keyboard.xkb.num_layouts, sizeof(SDL_Keymap *));
-        if (!seat->keyboard.sdl_keymap) {
-            return;
+    seat->keyboard.xkb.ਅੰਕ_layouts = WAYLAND_xkb_keymap_ਅੰਕ_layouts(seat->keyboard.xkb.keymap);
+    ਜੇ (seat->keyboard.xkb.ਅੰਕ_layouts) {
+        seat->keyboard.sdl_keymap = SDL_calloc(seat->keyboard.xkb.ਅੰਕ_layouts, ਆਕਾਰ(SDL_Keymap *));
+        ਜੇ (!seat->keyboard.sdl_keymap) {
+            ਵਾਪਸ;
         }
 
         WAYLAND_wl_array_init(&seat->keyboard.reserved_scancodes);
 
-        for (xkb_layout_index_t i = 0; i < seat->keyboard.xkb.num_layouts; ++i) {
+        ਲਈ (xkb_layout_ਸੂਚਕਾਂਕ_t i = 0; i < seat->keyboard.xkb.ਅੰਕ_layouts; ++i) {
             seat->keyboard.sdl_keymap[i] = SDL_CreateKeymap(false);
-            if (!seat->keyboard.sdl_keymap[i]) {
-                for (xkb_layout_index_t j = 0; j < i; ++j) {
+            ਜੇ (!seat->keyboard.sdl_keymap[i]) {
+                ਲਈ (xkb_layout_ਸੂਚਕਾਂਕ_t j = 0; j < i; ++j) {
                     SDL_DestroyKeymap(seat->keyboard.sdl_keymap[j]);
                 }
                 SDL_free(seat->keyboard.sdl_keymap);
-                seat->keyboard.sdl_keymap = NULL;
-                return;
+                seat->keyboard.sdl_keymap = ਨਿਰਾ;
+                ਵਾਪਸ;
             }
         }
 
-        WAYLAND_xkb_keymap_key_for_each(seat->keyboard.xkb.keymap, Wayland_KeymapIterator, seat);
+        WAYLAND_xkb_keymap_ਕੁੰਜੀ_for_each(seat->keyboard.xkb.keymap, Wayland_KeymapIterator, seat);
 
         // Restore any previously set modifier/layout information, if valid.
-        WAYLAND_xkb_state_update_mask(seat->keyboard.xkb.state,
+        WAYLAND_xkb_state_update_ਨਕਾਬ(seat->keyboard.xkb.state,
                                       seat->keyboard.xkb.wl_pressed_modifiers, seat->keyboard.xkb.wl_latched_modifiers, seat->keyboard.xkb.wl_locked_modifiers,
-                                      0, 0, seat->keyboard.xkb.current_layout < seat->keyboard.xkb.num_layouts ? seat->keyboard.xkb.current_layout : 0);
-        Wayland_SeatSetKeymap(seat);
+                                      0, 0, seat->keyboard.xkb.current_layout < seat->keyboard.xkb.ਅੰਕ_layouts ? seat->keyboard.xkb.current_layout : 0);
+        Wayland_Seat_ਸੈੱਟ_Keymap(seat);
     }
 
     /*
@@ -1832,12 +1832,12 @@ static void keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
      */
 
     // Look up the preferred locale, falling back to "C" as default
-    const char *locale = SDL_getenv("LC_ALL");
-    if (!locale) {
+    ਅਚਲ ਅੱਖਰ *locale = SDL_getenv("LC_ALL");
+    ਜੇ (!locale) {
         locale = SDL_getenv("LC_CTYPE");
-        if (!locale) {
+        ਜੇ (!locale) {
             locale = SDL_getenv("LANG");
-            if (!locale) {
+            ਜੇ (!locale) {
                 locale = "C";
             }
         }
@@ -1848,32 +1848,32 @@ static void keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
      * This is a very slow operation, so it is only done during initialization,
      * or if the locale envvar changed during runtime.
      */
-    if (!seat->keyboard.current_locale || SDL_strcmp(seat->keyboard.current_locale, locale) != 0) {
+    ਜੇ (!seat->keyboard.current_locale || SDL_strcmp(seat->keyboard.current_locale, locale) != 0) {
         // Cache the current locale for later comparison.
         SDL_free(seat->keyboard.current_locale);
         seat->keyboard.current_locale = SDL_strdup(locale);
 
-        if (seat->keyboard.xkb.compose_table != NULL) {
-            WAYLAND_xkb_compose_table_unref(seat->keyboard.xkb.compose_table);
-            seat->keyboard.xkb.compose_table = NULL;
+        ਜੇ (seat->keyboard.xkb.compose_ਸਾਰਣੀ != ਨਿਰਾ) {
+            WAYLAND_xkb_compose_ਸਾਰਣੀ_unref(seat->keyboard.xkb.compose_ਸਾਰਣੀ);
+            seat->keyboard.xkb.compose_ਸਾਰਣੀ = ਨਿਰਾ;
         }
-        seat->keyboard.xkb.compose_table = WAYLAND_xkb_compose_table_new_from_locale(seat->display->xkb_context,
+        seat->keyboard.xkb.compose_ਸਾਰਣੀ = WAYLAND_xkb_compose_ਸਾਰਣੀ_new_from_locale(seat->display->xkb_context,
                                                                                      locale, XKB_COMPOSE_COMPILE_NO_FLAGS);
-        if (seat->keyboard.xkb.compose_table) {
+        ਜੇ (seat->keyboard.xkb.compose_ਸਾਰਣੀ) {
             // Set up XKB compose state
-            if (seat->keyboard.xkb.compose_state != NULL) {
+            ਜੇ (seat->keyboard.xkb.compose_state != ਨਿਰਾ) {
                 WAYLAND_xkb_compose_state_unref(seat->keyboard.xkb.compose_state);
-                seat->keyboard.xkb.compose_state = NULL;
+                seat->keyboard.xkb.compose_state = ਨਿਰਾ;
             }
-            seat->keyboard.xkb.compose_state = WAYLAND_xkb_compose_state_new(seat->keyboard.xkb.compose_table,
+            seat->keyboard.xkb.compose_state = WAYLAND_xkb_compose_state_new(seat->keyboard.xkb.compose_ਸਾਰਣੀ,
                                                                              XKB_COMPOSE_STATE_NO_FLAGS);
-            if (!seat->keyboard.xkb.compose_state) {
-                SDL_SetError("could not create XKB compose state");
-                WAYLAND_xkb_compose_table_unref(seat->keyboard.xkb.compose_table);
-                seat->keyboard.xkb.compose_table = NULL;
+            ਜੇ (!seat->keyboard.xkb.compose_state) {
+                SDL_ਸੈੱਟ_Error("could not create XKB compose state");
+                WAYLAND_xkb_compose_ਸਾਰਣੀ_unref(seat->keyboard.xkb.compose_ਸਾਰਣੀ);
+                seat->keyboard.xkb.compose_ਸਾਰਣੀ = ਨਿਰਾ;
             }
         }
-    } else if (seat->keyboard.xkb.compose_state) {
+    } ਨਹੀਂਤਾਂ ਜੇ (seat->keyboard.xkb.compose_state) {
         WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
     }
 }
@@ -1881,88 +1881,88 @@ static void keyboard_handle_keymap(void *data, struct wl_keyboard *keyboard,
 /* Virtual keyboards can have arbitrary layouts, arbitrary scancodes/keycodes, etc...
  * Key presses from these devices must be looked up by their keysym value.
  */
-static SDL_Scancode Wayland_GetScancodeForKey(SDL_WaylandSeat *seat, Uint32 key, const xkb_keysym_t **syms)
+ਸਥਿਰ SDL_Scancode Wayland_Get_Scancode_For_ਕੁੰਜੀ(SDL_WaylandSeat *seat, Uint32 ਕੁੰਜੀ, ਅਚਲ xkb_keysym_t **syms)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (!seat->keyboard.is_virtual) {
-        scancode = SDL_GetScancodeFromTable(SDL_SCANCODE_TABLE_LINUX, key);
+    ਜੇ (!seat->keyboard.is_virtual) {
+        scancode = SDL_Get_Scancode_From_ਸਾਰਣੀ(SDL_SCANCODE_ਸਾਰਣੀ_LINUX, ਕੁੰਜੀ);
 
         // No table entry? Check the reserved list.
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
-            Wayland_ReservedKey *i;
+        ਜੇ (scancode == SDL_SCANCODE_UNKNOWN) {
+            Wayland_Reserved_ਕੁੰਜੀ *i;
             wl_array_for_each(i, &seat->keyboard.reserved_scancodes) {
-                if (i->key == key) {
-                    return i->scancode;
+                ਜੇ (i->ਕੁੰਜੀ == ਕੁੰਜੀ) {
+                    ਵਾਪਸ i->scancode;
                 }
             }
         }
-    } else {
-        const xkb_keysym_t *keysym;
-        if (WAYLAND_xkb_state_key_get_syms(seat->keyboard.xkb.state, key + 8, &keysym) > 0) {
-            scancode = SDL_GetScancodeFromKeySym(keysym[0], key + 8);
-            if (syms) {
+    } ਨਹੀਂਤਾਂ {
+        ਅਚਲ xkb_keysym_t *keysym;
+        ਜੇ (WAYLAND_xkb_state_ਕੁੰਜੀ_get_syms(seat->keyboard.xkb.state, ਕੁੰਜੀ + 8, &keysym) > 0) {
+            scancode = SDL_Get_Scancode_From_ਕੁੰਜੀ_Sym(keysym[0], ਕੁੰਜੀ + 8);
+            ਜੇ (syms) {
                 *syms = keysym;
             }
         }
     }
 
-    return scancode;
+    ਵਾਪਸ scancode;
 }
 
-static void Wayland_ReconcileModifiers(SDL_WaylandSeat *seat, bool key_pressed)
+ਸਥਿਰ ਖਾਲੀ Wayland_ReconcileModifiers(SDL_WaylandSeat *seat, bool ਕੁੰਜੀ_pressed)
 {
     /* Handle explicit pressed modifier state. This will correct the modifier state
      * if common modifier keys were remapped and the modifiers presumed to be set
      * during a key press event were incorrect, or if the modifier was set to the
      * pressed state via means other than pressing the physical key.
      */
-    if (!key_pressed) {
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.shift_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_SHIFT)) {
-                seat->keyboard.pressed_modifiers |= SDL_KMOD_SHIFT;
+    ਜੇ (!ਕੁੰਜੀ_pressed) {
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_ਖਿਸਕਾਓ)) {
+                seat->keyboard.pressed_modifiers |= SDL_KMOD_ਖਿਸਕਾਓ;
             }
-        } else {
-            seat->keyboard.pressed_modifiers &= ~SDL_KMOD_SHIFT;
+        } ਨਹੀਂਤਾਂ {
+            seat->keyboard.pressed_modifiers &= ~SDL_KMOD_ਖਿਸਕਾਓ;
         }
 
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.ctrl_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_CTRL)) {
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.ctrl_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_CTRL)) {
                 seat->keyboard.pressed_modifiers |= SDL_KMOD_CTRL;
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             seat->keyboard.pressed_modifiers &= ~SDL_KMOD_CTRL;
         }
 
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.alt_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_ALT)) {
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.alt_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_ALT)) {
                 seat->keyboard.pressed_modifiers |= SDL_KMOD_ALT;
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             seat->keyboard.pressed_modifiers &= ~SDL_KMOD_ALT;
         }
 
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.gui_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_GUI)) {
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.gui_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_GUI)) {
                 seat->keyboard.pressed_modifiers |= SDL_KMOD_GUI;
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             seat->keyboard.pressed_modifiers &= ~SDL_KMOD_GUI;
         }
 
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.level3_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_MODE)) {
-                seat->keyboard.pressed_modifiers |= SDL_KMOD_MODE;
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.level3_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_ਬਹੁਲਕ)) {
+                seat->keyboard.pressed_modifiers |= SDL_KMOD_ਬਹੁਲਕ;
             }
-        } else {
-            seat->keyboard.pressed_modifiers &= ~SDL_KMOD_MODE;
+        } ਨਹੀਂਤਾਂ {
+            seat->keyboard.pressed_modifiers &= ~SDL_KMOD_ਬਹੁਲਕ;
         }
 
-        if (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.level5_mask) {
-            if (!(seat->keyboard.pressed_modifiers & SDL_KMOD_LEVEL5)) {
+        ਜੇ (seat->keyboard.xkb.wl_pressed_modifiers & seat->keyboard.xkb.level5_ਨਕਾਬ) {
+            ਜੇ (!(seat->keyboard.pressed_modifiers & SDL_KMOD_LEVEL5)) {
                 seat->keyboard.pressed_modifiers |= SDL_KMOD_LEVEL5;
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             seat->keyboard.pressed_modifiers &= ~SDL_KMOD_LEVEL5;
         }
     }
@@ -1974,83 +1974,83 @@ static void Wayland_ReconcileModifiers(SDL_WaylandSeat *seat, bool key_pressed)
      * The modifier will remain active until the latch/lock is released by
      * the system.
      */
-    const xkb_mod_mask_t xkb_locked_modifiers = seat->keyboard.xkb.wl_latched_modifiers | seat->keyboard.xkb.wl_locked_modifiers;
+    ਅਚਲ xkb_mod_ਨਕਾਬ_t xkb_locked_modifiers = seat->keyboard.xkb.wl_latched_modifiers | seat->keyboard.xkb.wl_locked_modifiers;
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.shift_mask) {
-        if (seat->keyboard.pressed_modifiers & SDL_KMOD_SHIFT) {
-            seat->keyboard.locked_modifiers &= ~SDL_KMOD_SHIFT;
-            seat->keyboard.locked_modifiers |= (seat->keyboard.pressed_modifiers & SDL_KMOD_SHIFT);
-        } else if (!(seat->keyboard.locked_modifiers & SDL_KMOD_SHIFT)) {
-            seat->keyboard.locked_modifiers |= SDL_KMOD_SHIFT;
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.ਖਿਸਕਾਓ_ਨਕਾਬ) {
+        ਜੇ (seat->keyboard.pressed_modifiers & SDL_KMOD_ਖਿਸਕਾਓ) {
+            seat->keyboard.locked_modifiers &= ~SDL_KMOD_ਖਿਸਕਾਓ;
+            seat->keyboard.locked_modifiers |= (seat->keyboard.pressed_modifiers & SDL_KMOD_ਖਿਸਕਾਓ);
+        } ਨਹੀਂਤਾਂ ਜੇ (!(seat->keyboard.locked_modifiers & SDL_KMOD_ਖਿਸਕਾਓ)) {
+            seat->keyboard.locked_modifiers |= SDL_KMOD_ਖਿਸਕਾਓ;
         }
-    } else {
-        seat->keyboard.locked_modifiers &= ~SDL_KMOD_SHIFT;
+    } ਨਹੀਂਤਾਂ {
+        seat->keyboard.locked_modifiers &= ~SDL_KMOD_ਖਿਸਕਾਓ;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.ctrl_mask) {
-        if (seat->keyboard.pressed_modifiers & SDL_KMOD_CTRL) {
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.ctrl_ਨਕਾਬ) {
+        ਜੇ (seat->keyboard.pressed_modifiers & SDL_KMOD_CTRL) {
             seat->keyboard.locked_modifiers &= ~SDL_KMOD_CTRL;
             seat->keyboard.locked_modifiers |= (seat->keyboard.pressed_modifiers & SDL_KMOD_CTRL);
-        } else if (!(seat->keyboard.locked_modifiers & SDL_KMOD_CTRL)) {
+        } ਨਹੀਂਤਾਂ ਜੇ (!(seat->keyboard.locked_modifiers & SDL_KMOD_CTRL)) {
             seat->keyboard.locked_modifiers |= SDL_KMOD_CTRL;
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.locked_modifiers &= ~SDL_KMOD_CTRL;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.alt_mask) {
-        if (seat->keyboard.pressed_modifiers & SDL_KMOD_ALT) {
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.alt_ਨਕਾਬ) {
+        ਜੇ (seat->keyboard.pressed_modifiers & SDL_KMOD_ALT) {
             seat->keyboard.locked_modifiers &= ~SDL_KMOD_ALT;
             seat->keyboard.locked_modifiers |= (seat->keyboard.pressed_modifiers & SDL_KMOD_ALT);
-        } else if (!(seat->keyboard.locked_modifiers & SDL_KMOD_ALT)) {
+        } ਨਹੀਂਤਾਂ ਜੇ (!(seat->keyboard.locked_modifiers & SDL_KMOD_ALT)) {
             seat->keyboard.locked_modifiers |= SDL_KMOD_ALT;
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.locked_modifiers &= ~SDL_KMOD_ALT;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.gui_mask) {
-        if (seat->keyboard.pressed_modifiers & SDL_KMOD_GUI) {
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.gui_ਨਕਾਬ) {
+        ਜੇ (seat->keyboard.pressed_modifiers & SDL_KMOD_GUI) {
             seat->keyboard.locked_modifiers &= ~SDL_KMOD_GUI;
             seat->keyboard.locked_modifiers |= (seat->keyboard.pressed_modifiers & SDL_KMOD_GUI);
-        } else if (!(seat->keyboard.locked_modifiers & SDL_KMOD_GUI)) {
+        } ਨਹੀਂਤਾਂ ਜੇ (!(seat->keyboard.locked_modifiers & SDL_KMOD_GUI)) {
             seat->keyboard.locked_modifiers |= SDL_KMOD_GUI;
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.locked_modifiers &= ~SDL_KMOD_GUI;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.level3_mask) {
-        seat->keyboard.locked_modifiers |= SDL_KMOD_MODE;
-    } else {
-        seat->keyboard.locked_modifiers &= ~SDL_KMOD_MODE;
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.level3_ਨਕਾਬ) {
+        seat->keyboard.locked_modifiers |= SDL_KMOD_ਬਹੁਲਕ;
+    } ਨਹੀਂਤਾਂ {
+        seat->keyboard.locked_modifiers &= ~SDL_KMOD_ਬਹੁਲਕ;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.level5_mask) {
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.level5_ਨਕਾਬ) {
         seat->keyboard.locked_modifiers |= SDL_KMOD_LEVEL5;
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.locked_modifiers &= ~SDL_KMOD_LEVEL5;
     }
 
     // Capslock and Numlock can only be locked, not pressed.
-    if (xkb_locked_modifiers & seat->keyboard.xkb.caps_mask) {
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.caps_ਨਕਾਬ_2) {
         seat->keyboard.locked_modifiers |= SDL_KMOD_CAPS;
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.locked_modifiers &= ~SDL_KMOD_CAPS;
     }
 
-    if (xkb_locked_modifiers & seat->keyboard.xkb.num_mask) {
-        seat->keyboard.locked_modifiers |= SDL_KMOD_NUM;
-    } else {
-        seat->keyboard.locked_modifiers &= ~SDL_KMOD_NUM;
+    ਜੇ (xkb_locked_modifiers & seat->keyboard.xkb.ਅੰਕ_ਨਕਾਬ) {
+        seat->keyboard.locked_modifiers |= SDL_KMOD_ਅੰਕ;
+    } ਨਹੀਂਤਾਂ {
+        seat->keyboard.locked_modifiers &= ~SDL_KMOD_ਅੰਕ;
     }
 
-    SDL_SetModState(seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers);
+    SDL_ਸੈੱਟ_Mod_State(seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers);
 }
 
-static void Wayland_HandleModifierKeys(SDL_WaylandSeat *seat, SDL_Scancode scancode, bool pressed)
+ਸਥਿਰ ਖਾਲੀ Wayland_Handle_Modifier_ਕੁੰਜੀਆਂ(SDL_WaylandSeat *seat, SDL_Scancode scancode, bool pressed)
 {
-    const SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode, seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers, false);
+    ਅਚਲ SDL_Keycode keycode = SDL_Get_ਕੁੰਜੀ_From_Scancode(scancode, seat->keyboard.pressed_modifiers | seat->keyboard.locked_modifiers, false);
     SDL_Keymod mod;
 
     /* SDL clients expect modifier state to be activated at the same time as the
@@ -2059,502 +2059,502 @@ static void Wayland_HandleModifierKeys(SDL_WaylandSeat *seat, SDL_Scancode scanc
      * keypress event. If this is wrong, it will be corrected when the explicit
      * modifier state is sent at a later time.
      */
-    switch (keycode) {
-    case SDLK_LSHIFT:
+    ਚੋਣ (keycode) {
+    ਹਾਲਤ SDLK_LSHIFT:
         mod = SDL_KMOD_LSHIFT;
-        break;
-    case SDLK_RSHIFT:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_RSHIFT:
         mod = SDL_KMOD_RSHIFT;
-        break;
-    case SDLK_LCTRL:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_LCTRL:
         mod = SDL_KMOD_LCTRL;
-        break;
-    case SDLK_RCTRL:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_RCTRL:
         mod = SDL_KMOD_RCTRL;
-        break;
-    case SDLK_LALT:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_LALT:
         mod = SDL_KMOD_LALT;
-        break;
-    case SDLK_RALT:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_RALT:
         mod = SDL_KMOD_RALT;
-        break;
-    case SDLK_LGUI:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_LGUI:
         mod = SDL_KMOD_LGUI;
-        break;
-    case SDLK_RGUI:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_RGUI:
         mod = SDL_KMOD_RGUI;
-        break;
-    case SDLK_MODE:
-        mod = SDL_KMOD_MODE;
-        break;
-    case SDLK_LEVEL5_SHIFT:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_ਬਹੁਲਕ:
+        mod = SDL_KMOD_ਬਹੁਲਕ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDLK_LEVEL5_ਖਿਸਕਾਓ:
         mod = SDL_KMOD_LEVEL5;
-        break;
-    default:
-        return;
+        ਰੋਕੋ;
+    ਮੂਲ:
+        ਵਾਪਸ;
     }
 
-    if (pressed) {
+    ਜੇ (pressed) {
         seat->keyboard.pressed_modifiers |= mod;
-    } else {
+    } ਨਹੀਂਤਾਂ {
         seat->keyboard.pressed_modifiers &= ~mod;
     }
 
     Wayland_ReconcileModifiers(seat, true);
 }
 
-static void keyboard_handle_enter(void *data, struct wl_keyboard *keyboard,
-                                  uint32_t serial, struct wl_surface *surface,
-                                  struct wl_array *keys)
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_enter(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *keyboard,
+                                  uint32_t serial, ਬਣਤਰ wl_surface *surface,
+                                  ਬਣਤਰ wl_array *ਕੁੰਜੀਆਂ)
 {
-    SDL_WaylandSeat *seat = data;
-    uint32_t *key;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    uint32_t *ਕੁੰਜੀ;
 
-    if (!surface) {
+    ਜੇ (!surface) {
         // Enter event for a destroyed surface.
-        return;
+        ਵਾਪਸ;
     }
 
     Wayland_UpdateImplicitGrabSerial(seat, serial);
 
-    SDL_WindowData *window = Wayland_GetWindowDataForOwnedSurface(surface);
-    if (!window) {
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
+    ਜੇ (!ਖਿੜਕੀ) {
         // Not a surface owned by SDL.
-        return;
+        ਵਾਪਸ;
     }
 
-    ++window->keyboard_focus_count;
-    seat->keyboard.focus = window;
+    ++ਖਿੜਕੀ->keyboard_focus_ਗਿਣਤੀ;
+    seat->keyboard.focus = ਖਿੜਕੀ;
 
     // Restore the keyboard focus to the child popup that was holding it
-    SDL_SetKeyboardFocus(window->sdlwindow->keyboard_focus ? window->sdlwindow->keyboard_focus : window->sdlwindow);
+    SDL_ਸੈੱਟ_Keyboard_Focus(ਖਿੜਕੀ->sdlwindow->keyboard_focus ? ਖਿੜਕੀ->sdlwindow->keyboard_focus : ਖਿੜਕੀ->sdlwindow);
 
     // Update the keyboard grab and any relative pointer grabs related to this keyboard focus.
     Wayland_SeatUpdateKeyboardGrab(seat);
-    Wayland_DisplayUpdatePointerGrabs(seat->display, window);
+    Wayland_Display_Update_ਸੂਚਕ_Grabs(seat->display, ਖਿੜਕੀ);
 
     // Update text input and IME focus.
-    Wayland_SeatUpdateTextInput(seat);
+    Wayland_Seat_Update_ਪਾਠ_ਨਿਵੇਸ਼(seat);
 
-#ifdef SDL_USE_IME
-    if (!seat->text_input.zwp_text_input) {
-        SDL_IME_SetFocus(true);
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_IME
+    ਜੇ (!seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼) {
+        SDL_IME_ਸੈੱਟ_Focus(true);
     }
-#endif
+#ਜੇ_ਅੰਤ
 
     Uint64 timestamp = SDL_GetTicksNS();
-    window->last_focus_event_time_ns = timestamp;
+    ਖਿੜਕੀ->ਆਖਰੀ_focus_event_ਸਮਾਂ_ns = timestamp;
 
-    Wayland_SeatSetKeymap(seat);
+    Wayland_Seat_ਸੈੱਟ_Keymap(seat);
 
-    wl_array_for_each (key, keys) {
-        const SDL_Scancode scancode = Wayland_GetScancodeForKey(seat, *key, NULL);
-        if (scancode != SDL_SCANCODE_UNKNOWN) {
-            const SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false);
+    wl_array_for_each (ਕੁੰਜੀ, ਕੁੰਜੀਆਂ) {
+        ਅਚਲ SDL_Scancode scancode = Wayland_Get_Scancode_For_ਕੁੰਜੀ(seat, *ਕੁੰਜੀ, ਨਿਰਾ);
+        ਜੇ (scancode != SDL_SCANCODE_UNKNOWN) {
+            ਅਚਲ SDL_Keycode keycode = SDL_Get_ਕੁੰਜੀ_From_Scancode(scancode, SDL_KMOD_NONE, false);
 
-            switch (keycode) {
-            case SDLK_LSHIFT:
-            case SDLK_RSHIFT:
-            case SDLK_LCTRL:
-            case SDLK_RCTRL:
-            case SDLK_LALT:
-            case SDLK_RALT:
-            case SDLK_LGUI:
-            case SDLK_RGUI:
-            case SDLK_MODE:
-            case SDLK_LEVEL5_SHIFT:
-                Wayland_HandleModifierKeys(seat, scancode, true);
-                SDL_SendKeyboardKeyIgnoreModifiers(timestamp, seat->keyboard.sdl_id, *key, scancode, true);
-                break;
-            default:
-                break;
+            ਚੋਣ (keycode) {
+            ਹਾਲਤ SDLK_LSHIFT:
+            ਹਾਲਤ SDLK_RSHIFT:
+            ਹਾਲਤ SDLK_LCTRL:
+            ਹਾਲਤ SDLK_RCTRL:
+            ਹਾਲਤ SDLK_LALT:
+            ਹਾਲਤ SDLK_RALT:
+            ਹਾਲਤ SDLK_LGUI:
+            ਹਾਲਤ SDLK_RGUI:
+            ਹਾਲਤ SDLK_ਬਹੁਲਕ:
+            ਹਾਲਤ SDLK_LEVEL5_ਖਿਸਕਾਓ:
+                Wayland_Handle_Modifier_ਕੁੰਜੀਆਂ(seat, scancode, true);
+                SDL_Send_Keyboard_ਕੁੰਜੀ_Ignore_Modifiers(timestamp, seat->keyboard.sdl_id, *ਕੁੰਜੀ, scancode, true);
+                ਰੋਕੋ;
+            ਮੂਲ:
+                ਰੋਕੋ;
             }
         }
     }
 }
 
-static void keyboard_handle_leave(void *data, struct wl_keyboard *keyboard,
-                                  uint32_t serial, struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_leave(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *keyboard,
+                                  uint32_t serial, ਬਣਤਰ wl_surface *surface)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
 
-    if (!surface) {
+    ਜੇ (!surface) {
         // Leave event for a destroyed surface.
-        return;
+        ਵਾਪਸ;
     }
 
-    SDL_WindowData *window = Wayland_GetWindowDataForOwnedSurface(surface);
-    if (!window) {
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface);
+    ਜੇ (!ਖਿੜਕੀ) {
         // Not a surface owned by SDL.
-        return;
+        ਵਾਪਸ;
     }
 
     // Stop key repeat before clearing keyboard focus
-    seat->keyboard.repeat.key = 0;
+    seat->keyboard.repeat.ਕੁੰਜੀ = 0;
 
-    SDL_Window *keyboard_focus = SDL_GetKeyboardFocus();
+    SDL_ਖਿੜਕੀ *keyboard_focus = SDL_GetKeyboardFocus();
 
     // The keyboard focus may be a child popup
-    while (keyboard_focus && SDL_WINDOW_IS_POPUP(keyboard_focus)) {
-        keyboard_focus = keyboard_focus->parent;
+    ਜਦੋਂ (keyboard_focus && SDL_ਖਿੜਕੀ_IS_POPUP(keyboard_focus)) {
+        keyboard_focus = keyboard_focus->ਮਾਪਾ;
     }
 
-    const bool had_focus = keyboard_focus && window->sdlwindow == keyboard_focus;
-    seat->keyboard.focus = NULL;
-    --window->keyboard_focus_count;
+    ਅਚਲ bool had_focus = keyboard_focus && ਖਿੜਕੀ->sdlwindow == keyboard_focus;
+    seat->keyboard.focus = ਨਿਰਾ;
+    --ਖਿੜਕੀ->keyboard_focus_ਗਿਣਤੀ;
 
     // Only relinquish focus if this window has the active focus, and no other keyboards have focus on the window.
-    if (!window->keyboard_focus_count && had_focus) {
-        SDL_SetKeyboardFocus(NULL);
+    ਜੇ (!ਖਿੜਕੀ->keyboard_focus_ਗਿਣਤੀ && had_focus) {
+        SDL_ਸੈੱਟ_Keyboard_Focus(ਨਿਰਾ);
     }
 
     // Release the keyboard grab and any relative pointer grabs related to this keyboard focus.
     Wayland_SeatUpdateKeyboardGrab(seat);
-    Wayland_DisplayUpdatePointerGrabs(seat->display, window);
+    Wayland_Display_Update_ਸੂਚਕ_Grabs(seat->display, ਖਿੜਕੀ);
 
     // Clear the pressed modifiers.
     seat->keyboard.pressed_modifiers = SDL_KMOD_NONE;
 
     // Update text input and IME focus.
-    Wayland_SeatUpdateTextInput(seat);
+    Wayland_Seat_Update_ਪਾਠ_ਨਿਵੇਸ਼(seat);
 
-#ifdef SDL_USE_IME
-    if (!seat->text_input.zwp_text_input && !window->keyboard_focus_count) {
-        SDL_IME_SetFocus(false);
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_IME
+    ਜੇ (!seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼ && !ਖਿੜਕੀ->keyboard_focus_ਗਿਣਤੀ) {
+        SDL_IME_ਸੈੱਟ_Focus(false);
     }
-#endif
+#ਜੇ_ਅੰਤ
 
     /* If the window has mouse focus, has no pointers within it, and no active touches, consider
      * mouse focus to be lost.
      */
-    if (SDL_GetMouseFocus() == window->sdlwindow && !window->pointer_focus_count && !window->active_touch_count) {
-        SDL_SetMouseFocus(NULL);
+    ਜੇ (SDL_GetMouseFocus() == ਖਿੜਕੀ->sdlwindow && !ਖਿੜਕੀ->ਸੂਚਕ_focus_ਗਿਣਤੀ && !ਖਿੜਕੀ->ਸਰਗਰਮ_touch_ਗਿਣਤੀ) {
+        SDL_ਸੈੱਟ_Mouse_Focus(ਨਿਰਾ);
     }
 
     // The spec says that data offers are no longer valid when keyboard focus is lost.
-    Wayland_DataDeviceSetSelectionOffer(seat->data_device, NULL);
+    Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_Selection_Offer(seat->ਅੰਕੜੇ_device, ਨਿਰਾ);
 }
 
-static bool keyboard_input_get_text(char text[8], const SDL_WaylandSeat *seat, uint32_t key, bool down, bool *handled_by_ime)
+ਸਥਿਰ bool keyboard_ਨਿਵੇਸ਼_get_ਪਾਠ(ਅੱਖਰ ਪਾਠ[8], ਅਚਲ SDL_WaylandSeat *seat, uint32_t ਕੁੰਜੀ, bool ਥੱਲੇ, bool *handled_by_ime)
 {
-    const xkb_keysym_t *syms;
+    ਅਚਲ xkb_keysym_t *syms;
     xkb_keysym_t sym;
 
-    if (!seat->keyboard.focus || !seat->keyboard.xkb.state) {
-        return false;
+    ਜੇ (!seat->keyboard.focus || !seat->keyboard.xkb.state) {
+        ਵਾਪਸ false;
     }
 
     // TODO: Can this happen?
-    if (WAYLAND_xkb_state_key_get_syms(seat->keyboard.xkb.state, key + 8, &syms) != 1) {
-        return false;
+    ਜੇ (WAYLAND_xkb_state_ਕੁੰਜੀ_get_syms(seat->keyboard.xkb.state, ਕੁੰਜੀ + 8, &syms) != 1) {
+        ਵਾਪਸ false;
     }
     sym = syms[0];
 
-#ifdef SDL_USE_IME
-    if (SDL_IME_ProcessKeyEvent(sym, key + 8, down)) {
-        if (handled_by_ime) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_IME
+    ਜੇ (SDL_IME_Process_ਕੁੰਜੀ_Event(sym, ਕੁੰਜੀ + 8, ਥੱਲੇ)) {
+        ਜੇ (handled_by_ime) {
             *handled_by_ime = true;
         }
-        return true;
+        ਵਾਪਸ true;
     }
-#endif
+#ਜੇ_ਅੰਤ
 
-    if (!down) {
-        return false;
+    ਜੇ (!ਥੱਲੇ) {
+        ਵਾਪਸ false;
     }
 
-    if (seat->keyboard.xkb.compose_state && WAYLAND_xkb_compose_state_feed(seat->keyboard.xkb.compose_state, sym) == XKB_COMPOSE_FEED_ACCEPTED) {
-        switch (WAYLAND_xkb_compose_state_get_status(seat->keyboard.xkb.compose_state)) {
-        case XKB_COMPOSE_COMPOSING:
-            if (handled_by_ime) {
+    ਜੇ (seat->keyboard.xkb.compose_state && WAYLAND_xkb_compose_state_feed(seat->keyboard.xkb.compose_state, sym) == XKB_COMPOSE_FEED_ACCEPTED) {
+        ਚੋਣ (WAYLAND_xkb_compose_state_get_ਸਥਿਤੀ(seat->keyboard.xkb.compose_state)) {
+        ਹਾਲਤ XKB_COMPOSE_COMPOSING:
+            ਜੇ (handled_by_ime) {
                 *handled_by_ime = true;
             }
-            return true;
-        case XKB_COMPOSE_CANCELLED:
-        default:
-            sym = XKB_KEY_NoSymbol;
-            break;
-        case XKB_COMPOSE_NOTHING:
-            break;
-        case XKB_COMPOSE_COMPOSED:
+            ਵਾਪਸ true;
+        ਹਾਲਤ XKB_COMPOSE_CANCELLED:
+        ਮੂਲ:
+            sym = XKB_ਕੁੰਜੀ_No_ਚਿੰਨ੍ਹ;
+            ਰੋਕੋ;
+        ਹਾਲਤ XKB_COMPOSE_NOTHING:
+            ਰੋਕੋ;
+        ਹਾਲਤ XKB_COMPOSE_COMPOSED:
             sym = WAYLAND_xkb_compose_state_get_one_sym(seat->keyboard.xkb.compose_state);
-            break;
+            ਰੋਕੋ;
         }
     }
 
-    return WAYLAND_xkb_keysym_to_utf8(sym, text, 8) > 0;
+    ਵਾਪਸ WAYLAND_xkb_keysym_ਮੰਜ਼ਿਲ_utf8(sym, ਪਾਠ, 8) > 0;
 }
 
-static void keyboard_handle_key(void *data, struct wl_keyboard *keyboard,
-                                uint32_t serial, uint32_t time, uint32_t key,
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_ਕੁੰਜੀ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *keyboard,
+                                uint32_t serial, uint32_t ਸਮਾਂ, uint32_t ਕੁੰਜੀ,
                                 uint32_t state_w)
 {
-    SDL_WaylandSeat *seat = data;
-    enum wl_keyboard_key_state state = state_w;
-    char text[8];
-    bool has_text = false;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਗਿਣਤੀ wl_keyboard_ਕੁੰਜੀ_state state = state_w;
+    ਅੱਖਰ ਪਾਠ[8];
+    bool has_ਪਾਠ = false;
     bool handled_by_ime = false;
-    const Uint64 timestamp_ns = Wayland_GetKeyboardTimestamp(seat, time);
+    ਅਚਲ Uint64 timestamp_ns = Wayland_GetKeyboardTimestamp(seat, ਸਮਾਂ);
 
     Wayland_UpdateImplicitGrabSerial(seat, serial);
 
-    if (state == WL_KEYBOARD_KEY_STATE_REPEATED) {
+    ਜੇ (state == WL_KEYBOARD_ਕੁੰਜੀ_STATE_REPEATED) {
         // If this key shouldn't be repeated, just return.
-        if (seat->keyboard.xkb.keymap && !WAYLAND_xkb_keymap_key_repeats(seat->keyboard.xkb.keymap, key + 8)) {
-            return;
+        ਜੇ (seat->keyboard.xkb.keymap && !WAYLAND_xkb_keymap_ਕੁੰਜੀ_repeats(seat->keyboard.xkb.keymap, ਕੁੰਜੀ + 8)) {
+            ਵਾਪਸ;
         }
 
         // SDL automatically handles key tracking and repeat status, so just map 'repeated' to 'pressed'.
-        state = WL_KEYBOARD_KEY_STATE_PRESSED;
+        state = WL_KEYBOARD_ਕੁੰਜੀ_STATE_PRESSED;
     }
 
-    Wayland_SeatSetKeymap(seat);
+    Wayland_Seat_ਸੈੱਟ_Keymap(seat);
 
-    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
-        SDL_Window *keyboard_focus = SDL_GetKeyboardFocus();
-        if (keyboard_focus && SDL_TextInputActive(keyboard_focus)) {
-            has_text = keyboard_input_get_text(text, seat, key, true, &handled_by_ime);
+    ਜੇ (state == WL_KEYBOARD_ਕੁੰਜੀ_STATE_PRESSED) {
+        SDL_ਖਿੜਕੀ *keyboard_focus = SDL_GetKeyboardFocus();
+        ਜੇ (keyboard_focus && SDL_ਪਾਠ_ਨਿਵੇਸ਼_ਸਰਗਰਮ(keyboard_focus)) {
+            has_ਪਾਠ = keyboard_ਨਿਵੇਸ਼_get_ਪਾਠ(ਪਾਠ, seat, ਕੁੰਜੀ, true, &handled_by_ime);
         }
-    } else {
-        if (key == seat->keyboard.repeat.key) {
+    } ਨਹੀਂਤਾਂ {
+        ਜੇ (ਕੁੰਜੀ == seat->keyboard.repeat.ਕੁੰਜੀ) {
             /* Send any due key repeat events before stopping the repeat and generating the key up event.
              * Compute time based on the Wayland time, as it reports when the release event happened.
              * Using SDL_GetTicks would be wrong, as it would report when the release event is processed,
              * which may be off if the application hasn't pumped events for a while.
              */
-            const Uint64 elapsed = SDL_MS_TO_NS(time - seat->keyboard.repeat.wl_press_time_ms);
+            ਅਚਲ Uint64 elapsed = SDL_MS_ਮੰਜ਼ਿਲ_NS(ਸਮਾਂ - seat->keyboard.repeat.wl_press_ਸਮਾਂ_ms);
             keyboard_repeat_handle(&seat->keyboard.repeat, elapsed);
-            seat->keyboard.repeat.key = 0;
+            seat->keyboard.repeat.ਕੁੰਜੀ = 0;
         }
-        keyboard_input_get_text(text, seat, key, false, &handled_by_ime);
+        keyboard_ਨਿਵੇਸ਼_get_ਪਾਠ(ਪਾਠ, seat, ਕੁੰਜੀ, false, &handled_by_ime);
     }
 
-    const xkb_keysym_t *syms = NULL;
-    SDL_Scancode scancode = Wayland_GetScancodeForKey(seat, key, &syms);
-    Wayland_HandleModifierKeys(seat, scancode, state == WL_KEYBOARD_KEY_STATE_PRESSED);
+    ਅਚਲ xkb_keysym_t *syms = ਨਿਰਾ;
+    SDL_Scancode scancode = Wayland_Get_Scancode_For_ਕੁੰਜੀ(seat, ਕੁੰਜੀ, &syms);
+    Wayland_Handle_Modifier_ਕੁੰਜੀਆਂ(seat, scancode, state == WL_KEYBOARD_ਕੁੰਜੀ_STATE_PRESSED);
 
     // If we have a key with unknown scancode, check if the keysym corresponds to a valid Unicode value, and assign it a reserved scancode.
-    if (scancode == SDL_SCANCODE_UNKNOWN && syms && seat->keyboard.sdl_keymap) {
-        const SDL_Keycode keycode = (SDL_Keycode)SDL_KeySymToUcs4(syms[0]);
-        if (keycode != SDLK_UNKNOWN) {
+    ਜੇ (scancode == SDL_SCANCODE_UNKNOWN && syms && seat->keyboard.sdl_keymap) {
+        ਅਚਲ SDL_Keycode keycode = (SDL_Keycode)SDL_ਕੁੰਜੀ_Sym_ਮੰਜ਼ਿਲ_Ucs4(syms[0]);
+        ਜੇ (keycode != SDLK_UNKNOWN) {
             SDL_Keymod modstate = SDL_KMOD_NONE;
 
             // Check if this keycode already exists in the keymap.
             scancode = SDL_GetKeymapScancode(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout], keycode, &modstate);
 
             // Make sure we have this keycode in our keymap
-            if (scancode == SDL_SCANCODE_UNKNOWN && keycode < SDLK_SCANCODE_MASK) {
-                scancode = SDL_GetKeymapNextReservedScancode(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout]);
-                SDL_SetKeymapEntry(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout], scancode, modstate, keycode);
+            ਜੇ (scancode == SDL_SCANCODE_UNKNOWN && keycode < SDLK_SCANCODE_ਨਕਾਬ) {
+                scancode = SDL_Get_Keymap_ਅਗਲਾ_Reserved_Scancode(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout]);
+                SDL_ਸੈੱਟ_Keymap_ਇੰਦਰਾਜ(seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout], scancode, modstate, keycode);
             }
         }
     }
 
-    SDL_SendKeyboardKeyIgnoreModifiers(timestamp_ns, seat->keyboard.sdl_id, key, scancode, state == WL_KEYBOARD_KEY_STATE_PRESSED);
+    SDL_Send_Keyboard_ਕੁੰਜੀ_Ignore_Modifiers(timestamp_ns, seat->keyboard.sdl_id, ਕੁੰਜੀ, scancode, state == WL_KEYBOARD_ਕੁੰਜੀ_STATE_PRESSED);
 
-    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
-        if (handled_by_ime) {
-            has_text = false;
+    ਜੇ (state == WL_KEYBOARD_ਕੁੰਜੀ_STATE_PRESSED) {
+        ਜੇ (handled_by_ime) {
+            has_ਪਾਠ = false;
         }
-        if (has_text && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-            SDL_SendKeyboardText(text);
+        ਜੇ (has_ਪਾਠ && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+            SDL_Send_Keyboard_ਪਾਠ(ਪਾਠ);
         }
-        if (seat->keyboard.xkb.keymap && WAYLAND_xkb_keymap_key_repeats(seat->keyboard.xkb.keymap, key + 8)) {
-            keyboard_repeat_set(&seat->keyboard.repeat, seat->keyboard.sdl_id, key, time, timestamp_ns, scancode, has_text ? text : NULL);
+        ਜੇ (seat->keyboard.xkb.keymap && WAYLAND_xkb_keymap_ਕੁੰਜੀ_repeats(seat->keyboard.xkb.keymap, ਕੁੰਜੀ + 8)) {
+            keyboard_repeat_ਸੈੱਟ(&seat->keyboard.repeat, seat->keyboard.sdl_id, ਕੁੰਜੀ, ਸਮਾਂ, timestamp_ns, scancode, has_ਪਾਠ ? ਪਾਠ : ਨਿਰਾ);
         }
     }
 }
 
-static void keyboard_handle_modifiers(void *data, struct wl_keyboard *keyboard,
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_modifiers(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *keyboard,
                                       uint32_t serial, uint32_t mods_depressed,
                                       uint32_t mods_latched, uint32_t mods_locked,
-                                      uint32_t group)
+                                      uint32_t ਸਮੂਹ)
 {
-    SDL_WaylandSeat *seat = data;
-    const uint32_t previous_layout = seat->keyboard.xkb.current_layout;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    ਅਚਲ uint32_t ਪਿਛਲਾ_layout = seat->keyboard.xkb.current_layout;
 
     seat->keyboard.xkb.wl_pressed_modifiers = mods_depressed;
     seat->keyboard.xkb.wl_latched_modifiers = mods_latched;
     seat->keyboard.xkb.wl_locked_modifiers = mods_locked;
-    seat->keyboard.xkb.current_layout = group;
+    seat->keyboard.xkb.current_layout = ਸਮੂਹ;
 
     Wayland_ReconcileModifiers(seat, false);
 
     // If we get a modifier notification before the keymap, there's no further state to update yet.
-    if (!seat->keyboard.xkb.state) {
-        return;
+    ਜੇ (!seat->keyboard.xkb.state) {
+        ਵਾਪਸ;
     }
 
-    WAYLAND_xkb_state_update_mask(seat->keyboard.xkb.state,
+    WAYLAND_xkb_state_update_ਨਕਾਬ(seat->keyboard.xkb.state,
                                   mods_depressed, mods_latched, mods_locked,
-                                  0, 0, group);
+                                  0, 0, ਸਮੂਹ);
 
     // If a key is repeating, update the text to apply the modifier.
-    if (seat->keyboard.repeat.key) {
-        char text[8];
+    ਜੇ (seat->keyboard.repeat.ਕੁੰਜੀ) {
+        ਅੱਖਰ ਪਾਠ[8];
 
-        if (keyboard_input_get_text(text, seat, seat->keyboard.repeat.key, true, NULL)) {
-            SDL_strlcpy(seat->keyboard.repeat.text, text, SDL_arraysize(seat->keyboard.repeat.text));
+        ਜੇ (keyboard_ਨਿਵੇਸ਼_get_ਪਾਠ(ਪਾਠ, seat, seat->keyboard.repeat.ਕੁੰਜੀ, true, ਨਿਰਾ)) {
+            SDL_strlcpy(seat->keyboard.repeat.ਪਾਠ, ਪਾਠ, SDL_arraysize(seat->keyboard.repeat.ਪਾਠ));
         }
     }
 
-    if (group != previous_layout) {
-        Wayland_SeatSetKeymap(seat);
+    ਜੇ (ਸਮੂਹ != ਪਿਛਲਾ_layout) {
+        Wayland_Seat_ਸੈੱਟ_Keymap(seat);
 
-        if (seat->keyboard.xkb.compose_state) {
+        ਜੇ (seat->keyboard.xkb.compose_state) {
             // Reset the compose state so composite and dead keys don't carry over.
             WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
         }
     }
 }
 
-static void keyboard_handle_repeat_info(void *data, struct wl_keyboard *wl_keyboard,
-                                        int32_t rate, int32_t delay)
+ਸਥਿਰ ਖਾਲੀ keyboard_handle_repeat_info(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_keyboard *wl_keyboard,
+                                        int32_t ਦਰ, int32_t delay)
 {
-    SDL_WaylandSeat *seat = data;
-    seat->keyboard.repeat.repeat_rate = rate;
+    SDL_WaylandSeat *seat = ਅੰਕੜੇ;
+    seat->keyboard.repeat.repeat_ਦਰ = ਦਰ;
     seat->keyboard.repeat.repeat_delay_ms = delay;
 
-    if (!rate) {
-        seat->keyboard.repeat.key = 0; // Cancel the repeat to avoid dividing by a rate of zero.
+    ਜੇ (!ਦਰ) {
+        seat->keyboard.repeat.ਕੁੰਜੀ = 0; // Cancel the repeat to avoid dividing by a rate of zero.
     }
 }
 
-static const struct wl_keyboard_listener keyboard_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_keyboard_listener keyboard_listener = {
     keyboard_handle_keymap,
     keyboard_handle_enter,
     keyboard_handle_leave,
-    keyboard_handle_key,
+    keyboard_handle_ਕੁੰਜੀ,
     keyboard_handle_modifiers,
     keyboard_handle_repeat_info, // Version 4
 };
 
-static void Wayland_SeatDestroyPointer(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_Destroy_ਸੂਚਕ(SDL_WaylandSeat *seat)
 {
-    Wayland_CursorStateRelease(&seat->pointer.cursor_state);
+    Wayland_CursorStateRelease(&seat->ਸੂਚਕ_2.cursor_state);
 
     // End any active gestures.
-    if (seat->pointer.gesture_focus) {
-        SDL_SendPinch(SDL_EVENT_PINCH_END, 0, seat->pointer.gesture_focus->sdlwindow, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f);
+    ਜੇ (seat->ਸੂਚਕ_2.gesture_focus) {
+        SDL_SendPinch(SDL_EVENT_PINCH_ਸਿਰਾ, 0, seat->ਸੂਚਕ_2.gesture_focus->sdlwindow, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f);
     }
 
     // Make sure focus is removed from a surface before the pointer is destroyed.
-    if (seat->pointer.focus) {
-        seat->pointer.pending_frame.leave_surface = seat->pointer.focus->surface;
-        pointer_dispatch_leave(seat, false);
-        seat->pointer.pending_frame.leave_surface = NULL;
+    ਜੇ (seat->ਸੂਚਕ_2.focus) {
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = seat->ਸੂਚਕ_2.focus->surface;
+        ਸੂਚਕ_dispatch_leave(seat, false);
+        seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = ਨਿਰਾ;
     }
 
-    SDL_RemoveMouse(seat->pointer.sdl_id);
+    SDL_RemoveMouse(seat->ਸੂਚਕ_2.sdl_id);
 
-    if (seat->pointer.confined_pointer) {
-        zwp_confined_pointer_v1_destroy(seat->pointer.confined_pointer);
+    ਜੇ (seat->ਸੂਚਕ_2.confined_ਸੂਚਕ) {
+        zwp_confined_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.confined_ਸੂਚਕ);
     }
 
-    if (seat->pointer.locked_pointer) {
-        zwp_locked_pointer_v1_destroy(seat->pointer.locked_pointer);
+    ਜੇ (seat->ਸੂਚਕ_2.locked_ਸੂਚਕ) {
+        zwp_locked_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.locked_ਸੂਚਕ);
     }
 
-    if (seat->pointer.relative_pointer) {
-        zwp_relative_pointer_v1_destroy(seat->pointer.relative_pointer);
+    ਜੇ (seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+        zwp_relative_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.relative_ਸੂਚਕ);
     }
 
-    if (seat->pointer.timestamps) {
-        zwp_input_timestamps_v1_destroy(seat->pointer.timestamps);
+    ਜੇ (seat->ਸੂਚਕ_2.timestamps) {
+        zwp_ਨਿਵੇਸ਼_timestamps_v1_destroy(seat->ਸੂਚਕ_2.timestamps);
     }
 
-    if (seat->pointer.gesture_pinch) {
-        zwp_pointer_gesture_pinch_v1_destroy(seat->pointer.gesture_pinch);
+    ਜੇ (seat->ਸੂਚਕ_2.gesture_pinch) {
+        zwp_ਸੂਚਕ_gesture_pinch_v1_destroy(seat->ਸੂਚਕ_2.gesture_pinch);
     }
 
-    if (seat->pointer.wl_pointer) {
-        if (wl_pointer_get_version(seat->pointer.wl_pointer) >= WL_POINTER_RELEASE_SINCE_VERSION) {
-            wl_pointer_release(seat->pointer.wl_pointer);
-        } else {
-            wl_pointer_destroy(seat->pointer.wl_pointer);
+    ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
+        ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) >= WL_ਸੂਚਕ_RELEASE_SINCE_ਸੰਸਕਰਣ) {
+            wl_ਸੂਚਕ_release(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
+        } ਨਹੀਂਤਾਂ {
+            wl_ਸੂਚਕ_destroy(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
         }
     }
 
-    SDL_zero(seat->pointer);
+    SDL_zero(seat->ਸੂਚਕ_2);
 }
 
-static void Wayland_SeatDestroyKeyboard(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatDestroyKeyboard(SDL_WaylandSeat *seat)
 {
     // Make sure focus is removed from a surface before the keyboard is destroyed.
-    if (seat->keyboard.focus) {
+    ਜੇ (seat->keyboard.focus) {
         keyboard_handle_leave(seat, seat->keyboard.wl_keyboard, 0, seat->keyboard.focus->surface);
     }
 
     SDL_RemoveKeyboard(seat->keyboard.sdl_id);
 
-    if (seat->keyboard.sdl_keymap) {
-        if (seat->keyboard.xkb.current_layout < seat->keyboard.xkb.num_layouts &&
+    ਜੇ (seat->keyboard.sdl_keymap) {
+        ਜੇ (seat->keyboard.xkb.current_layout < seat->keyboard.xkb.ਅੰਕ_layouts &&
             seat->keyboard.sdl_keymap[seat->keyboard.xkb.current_layout] == SDL_GetCurrentKeymap(true)) {
-            SDL_SetModState(SDL_KMOD_NONE);
+            SDL_ਸੈੱਟ_Mod_State(SDL_KMOD_NONE);
         }
-        for (xkb_layout_index_t i = 0; i < seat->keyboard.xkb.num_layouts; ++i) {
+        ਲਈ (xkb_layout_ਸੂਚਕਾਂਕ_t i = 0; i < seat->keyboard.xkb.ਅੰਕ_layouts; ++i) {
             SDL_DestroyKeymap(seat->keyboard.sdl_keymap[i]);
         }
         SDL_free(seat->keyboard.sdl_keymap);
-        seat->keyboard.sdl_keymap = NULL;
+        seat->keyboard.sdl_keymap = ਨਿਰਾ;
     }
 
     WAYLAND_wl_array_release(&seat->keyboard.reserved_scancodes);
 
-    if (seat->keyboard.key_inhibitor) {
-        zwp_keyboard_shortcuts_inhibitor_v1_destroy(seat->keyboard.key_inhibitor);
+    ਜੇ (seat->keyboard.ਕੁੰਜੀ_inhibitor) {
+        zwp_keyboard_shortcuts_inhibitor_v1_destroy(seat->keyboard.ਕੁੰਜੀ_inhibitor);
     }
 
-    if (seat->keyboard.timestamps) {
-        zwp_input_timestamps_v1_destroy(seat->keyboard.timestamps);
+    ਜੇ (seat->keyboard.timestamps) {
+        zwp_ਨਿਵੇਸ਼_timestamps_v1_destroy(seat->keyboard.timestamps);
     }
 
-    if (seat->keyboard.wl_keyboard) {
-        if (wl_keyboard_get_version(seat->keyboard.wl_keyboard) >= WL_KEYBOARD_RELEASE_SINCE_VERSION) {
+    ਜੇ (seat->keyboard.wl_keyboard) {
+        ਜੇ (wl_keyboard_get_ਸੰਸਕਰਣ(seat->keyboard.wl_keyboard) >= WL_KEYBOARD_RELEASE_SINCE_ਸੰਸਕਰਣ) {
             wl_keyboard_release(seat->keyboard.wl_keyboard);
-        } else {
+        } ਨਹੀਂਤਾਂ {
             wl_keyboard_destroy(seat->keyboard.wl_keyboard);
         }
     }
 
     SDL_free(seat->keyboard.current_locale);
 
-    if (seat->keyboard.xkb.compose_state) {
+    ਜੇ (seat->keyboard.xkb.compose_state) {
         WAYLAND_xkb_compose_state_unref(seat->keyboard.xkb.compose_state);
     }
 
-    if (seat->keyboard.xkb.compose_table) {
-        WAYLAND_xkb_compose_table_unref(seat->keyboard.xkb.compose_table);
+    ਜੇ (seat->keyboard.xkb.compose_ਸਾਰਣੀ) {
+        WAYLAND_xkb_compose_ਸਾਰਣੀ_unref(seat->keyboard.xkb.compose_ਸਾਰਣੀ);
     }
 
-    if (seat->keyboard.xkb.state) {
+    ਜੇ (seat->keyboard.xkb.state) {
         WAYLAND_xkb_state_unref(seat->keyboard.xkb.state);
     }
 
-    if (seat->keyboard.xkb.keymap) {
+    ਜੇ (seat->keyboard.xkb.keymap) {
         WAYLAND_xkb_keymap_unref(seat->keyboard.xkb.keymap);
     }
 
     SDL_zero(seat->keyboard);
 }
 
-static void Wayland_SeatDestroyTouch(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatDestroyTouch(SDL_WaylandSeat *seat)
 {
     // Cancel any active touches before the touch object is destroyed.
-    if (seat->touch.wl_touch) {
+    ਜੇ (seat->touch.wl_touch) {
         touch_handler_cancel(seat, seat->touch.wl_touch);
     }
 
     SDL_DelTouch((SDL_TouchID)(uintptr_t)seat->touch.wl_touch);
 
-    if (seat->touch.timestamps) {
-        zwp_input_timestamps_v1_destroy(seat->touch.timestamps);
+    ਜੇ (seat->touch.timestamps) {
+        zwp_ਨਿਵੇਸ਼_timestamps_v1_destroy(seat->touch.timestamps);
     }
 
-    if (seat->touch.wl_touch) {
-        if (wl_touch_get_version(seat->touch.wl_touch) >= WL_TOUCH_RELEASE_SINCE_VERSION) {
+    ਜੇ (seat->touch.wl_touch) {
+        ਜੇ (wl_touch_get_ਸੰਸਕਰਣ(seat->touch.wl_touch) >= WL_TOUCH_RELEASE_SINCE_ਸੰਸਕਰਣ) {
             wl_touch_release(seat->touch.wl_touch);
-        } else {
+        } ਨਹੀਂਤਾਂ {
             wl_touch_destroy(seat->touch.wl_touch);
         }
     }
@@ -2563,675 +2563,675 @@ static void Wayland_SeatDestroyTouch(SDL_WaylandSeat *seat)
     WAYLAND_wl_list_init(&seat->touch.points);
 }
 
-static void seat_handle_capabilities(void *data, struct wl_seat *wl_seat, uint32_t capabilities)
+ਸਥਿਰ ਖਾਲੀ seat_handle_capabilities(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_seat *wl_seat, uint32_t capabilities)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    char name_fmt[256];
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    ਅੱਖਰ name_fmt[256];
 
-    if ((capabilities & WL_SEAT_CAPABILITY_POINTER) && !seat->pointer.wl_pointer) {
-        seat->pointer.wl_pointer = wl_seat_get_pointer(wl_seat);
-        SDL_zero(seat->pointer.pending_frame.axis);
+    ਜੇ ((capabilities & WL_SEAT_CAPABILITY_ਸੂਚਕ) && !seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
+        seat->ਸੂਚਕ_2.wl_ਸੂਚਕ = wl_seat_get_ਸੂਚਕ(wl_seat);
+        SDL_zero(seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.axis);
 
         Wayland_SeatCreateCursorShape(seat);
 
-        wl_pointer_set_user_data(seat->pointer.wl_pointer, seat);
-        wl_pointer_add_listener(seat->pointer.wl_pointer, &pointer_listener, seat);
+        wl_ਸੂਚਕ_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ, seat);
+        wl_ਸੂਚਕ_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ, &ਸੂਚਕ_listener, seat);
 
         // Pointer gestures
-        Wayland_SeatCreatePointerGestures(seat);
+        Wayland_Seat_Create_ਸੂਚਕ_Gestures(seat);
 
-        seat->pointer.sdl_id = SDL_GetNextObjectID();
+        seat->ਸੂਚਕ_2.sdl_id = SDL_Get_ਅਗਲਾ_Object_ID();
 
-        if (seat->name) {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s (%s)", WAYLAND_DEFAULT_POINTER_NAME, seat->name);
-        } else {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s %" SDL_PRIu32, WAYLAND_DEFAULT_POINTER_NAME, seat->pointer.sdl_id);
+        ਜੇ (seat->name) {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s (%s)", WAYLAND_DEFAULT_ਸੂਚਕ_NAME, seat->name);
+        } ਨਹੀਂਤਾਂ {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s %" SDL_PRIu32, WAYLAND_DEFAULT_ਸੂਚਕ_NAME, seat->ਸੂਚਕ_2.sdl_id);
         }
 
-        SDL_AddMouse(seat->pointer.sdl_id, name_fmt);
-    } else if (!(capabilities & WL_SEAT_CAPABILITY_POINTER) && seat->pointer.wl_pointer) {
-        Wayland_SeatDestroyPointer(seat);
+        SDL_ਜੋੜੋ_Mouse(seat->ਸੂਚਕ_2.sdl_id, name_fmt);
+    } ਨਹੀਂਤਾਂ ਜੇ (!(capabilities & WL_SEAT_CAPABILITY_ਸੂਚਕ) && seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
+        Wayland_Seat_Destroy_ਸੂਚਕ(seat);
     }
 
-    if ((capabilities & WL_SEAT_CAPABILITY_TOUCH) && !seat->touch.wl_touch) {
+    ਜੇ ((capabilities & WL_SEAT_CAPABILITY_TOUCH) && !seat->touch.wl_touch) {
         seat->touch.wl_touch = wl_seat_get_touch(wl_seat);
-        wl_touch_set_user_data(seat->touch.wl_touch, seat);
-        wl_touch_add_listener(seat->touch.wl_touch, &touch_listener, seat);
+        wl_touch_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->touch.wl_touch, seat);
+        wl_touch_ਜੋੜੋ_listener(seat->touch.wl_touch, &touch_listener, seat);
 
-        if (seat->name) {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s (%s)", WAYLAND_DEFAULT_TOUCH_NAME, seat->name);
-        } else {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s %" SDL_PRIu64, WAYLAND_DEFAULT_TOUCH_NAME, (SDL_TouchID)(uintptr_t)seat->touch.wl_touch);
+        ਜੇ (seat->name) {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s (%s)", WAYLAND_DEFAULT_TOUCH_NAME, seat->name);
+        } ਨਹੀਂਤਾਂ {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s %" SDL_PRIu64, WAYLAND_DEFAULT_TOUCH_NAME, (SDL_TouchID)(uintptr_t)seat->touch.wl_touch);
         }
 
-        SDL_AddTouch((SDL_TouchID)(uintptr_t)seat->touch.wl_touch, SDL_TOUCH_DEVICE_DIRECT, name_fmt);
-    } else if (!(capabilities & WL_SEAT_CAPABILITY_TOUCH) && seat->touch.wl_touch) {
+        SDL_ਜੋੜੋ_Touch((SDL_TouchID)(uintptr_t)seat->touch.wl_touch, SDL_TOUCH_DEVICE_ਸਿੱਧਾ, name_fmt);
+    } ਨਹੀਂਤਾਂ ਜੇ (!(capabilities & WL_SEAT_CAPABILITY_TOUCH) && seat->touch.wl_touch) {
         Wayland_SeatDestroyTouch(seat);
     }
 
-    if ((capabilities & WL_SEAT_CAPABILITY_KEYBOARD) && !seat->keyboard.wl_keyboard) {
+    ਜੇ ((capabilities & WL_SEAT_CAPABILITY_KEYBOARD) && !seat->keyboard.wl_keyboard) {
         seat->keyboard.wl_keyboard = wl_seat_get_keyboard(wl_seat);
         WAYLAND_wl_array_init(&seat->keyboard.reserved_scancodes);
-        wl_keyboard_set_user_data(seat->keyboard.wl_keyboard, seat);
-        wl_keyboard_add_listener(seat->keyboard.wl_keyboard, &keyboard_listener, seat);
+        wl_keyboard_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->keyboard.wl_keyboard, seat);
+        wl_keyboard_ਜੋੜੋ_listener(seat->keyboard.wl_keyboard, &keyboard_listener, seat);
 
-        seat->keyboard.sdl_id = SDL_GetNextObjectID();
+        seat->keyboard.sdl_id = SDL_Get_ਅਗਲਾ_Object_ID();
 
-        if (seat->name) {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s (%s)", WAYLAND_DEFAULT_KEYBOARD_NAME, seat->name);
-        } else {
-            SDL_snprintf(name_fmt, sizeof(name_fmt), "%s %" SDL_PRIu32, WAYLAND_DEFAULT_KEYBOARD_NAME, seat->keyboard.sdl_id);
+        ਜੇ (seat->name) {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s (%s)", WAYLAND_DEFAULT_KEYBOARD_NAME, seat->name);
+        } ਨਹੀਂਤਾਂ {
+            SDL_snprintf(name_fmt, ਆਕਾਰ(name_fmt), "%s %" SDL_PRIu32, WAYLAND_DEFAULT_KEYBOARD_NAME, seat->keyboard.sdl_id);
         }
 
-        SDL_AddKeyboard(seat->keyboard.sdl_id, name_fmt);
-    } else if (!(capabilities & WL_SEAT_CAPABILITY_KEYBOARD) && seat->keyboard.wl_keyboard) {
+        SDL_ਜੋੜੋ_Keyboard(seat->keyboard.sdl_id, name_fmt);
+    } ਨਹੀਂਤਾਂ ਜੇ (!(capabilities & WL_SEAT_CAPABILITY_KEYBOARD) && seat->keyboard.wl_keyboard) {
         Wayland_SeatDestroyKeyboard(seat);
     }
 
-    Wayland_SeatRegisterInputTimestampListeners(seat);
+    Wayland_Seat_ਰਜਿਸਟਰ_ਨਿਵੇਸ਼_Timestamp_Listeners(seat);
 }
 
-static void seat_handle_name(void *data, struct wl_seat *wl_seat, const char *name)
+ਸਥਿਰ ਖਾਲੀ seat_handle_name(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_seat *wl_seat, ਅਚਲ ਅੱਖਰ *name)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
 
-    if (name && *name != '\0') {
+    ਜੇ (name && *name != '\0') {
         seat->name = SDL_strdup(name);
     }
 }
 
-static const struct wl_seat_listener seat_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_seat_listener seat_listener = {
     seat_handle_capabilities,
     seat_handle_name, // Version 2
 };
 
-static void data_offer_handle_offer(void *data, struct wl_data_offer *wl_data_offer,
-                                    const char *mime_type)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_offer_handle_offer(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_offer *wl_ਅੰਕੜੇ_offer,
+                                    ਅਚਲ ਅੱਖਰ *mime_type)
 {
-    SDL_WaylandDataOffer *offer = data;
-    Wayland_DataOfferAddMIME(offer, mime_type);
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_Wayland_ਅੰਕੜੇ_Offer *offer = ਅੰਕੜੇ;
+    Wayland_ਅੰਕੜੇ_Offer_ਜੋੜੋ_MIME(offer, mime_type);
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In wl_data_offer_listener . data_offer_handle_offer on data_offer 0x%08x for MIME '%s'",
-                 (wl_data_offer ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)wl_data_offer) : -1),
+                 (wl_ਅੰਕੜੇ_offer ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)wl_ਅੰਕੜੇ_offer) : -1),
                  mime_type);
 }
 
-static void data_offer_handle_source_actions(void *data, struct wl_data_offer *wl_data_offer,
-                                             uint32_t source_actions)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_offer_handle_ਸਰੋਤ_actions(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_offer *wl_ਅੰਕੜੇ_offer,
+                                             uint32_t ਸਰੋਤ_actions)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In wl_data_offer_listener . data_offer_handle_source_actions on data_offer 0x%08x for Source Actions '%d'",
-                 (wl_data_offer ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)wl_data_offer) : -1),
-                 source_actions);
+                 (wl_ਅੰਕੜੇ_offer ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)wl_ਅੰਕੜੇ_offer) : -1),
+                 ਸਰੋਤ_actions);
 }
 
-static void data_offer_handle_actions(void *data, struct wl_data_offer *wl_data_offer,
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_offer_handle_actions(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_offer *wl_ਅੰਕੜੇ_offer,
                                       uint32_t dnd_action)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In wl_data_offer_listener . data_offer_handle_actions on data_offer 0x%08x for DND Actions '%d'",
-                 (wl_data_offer ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)wl_data_offer) : -1),
+                 (wl_ਅੰਕੜੇ_offer ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)wl_ਅੰਕੜੇ_offer) : -1),
                  dnd_action);
 }
 
-static const struct wl_data_offer_listener data_offer_listener = {
-    data_offer_handle_offer,
-    data_offer_handle_source_actions, // Version 3
-    data_offer_handle_actions,        // Version 3
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_ਅੰਕੜੇ_offer_listener ਅੰਕੜੇ_offer_listener = {
+    ਅੰਕੜੇ_offer_handle_offer,
+    ਅੰਕੜੇ_offer_handle_ਸਰੋਤ_actions, // Version 3
+    ਅੰਕੜੇ_offer_handle_actions,        // Version 3
 };
 
-static void primary_selection_offer_handle_offer(void *data, struct zwp_primary_selection_offer_v1 *zwp_primary_selection_offer_v1,
-                                                 const char *mime_type)
+ਸਥਿਰ ਖਾਲੀ primary_selection_offer_handle_offer(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_primary_selection_offer_v1 *zwp_primary_selection_offer_v1,
+                                                 ਅਚਲ ਅੱਖਰ *mime_type)
 {
-    SDL_WaylandPrimarySelectionOffer *offer = data;
-    Wayland_PrimarySelectionOfferAddMIME(offer, mime_type);
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_WaylandPrimarySelectionOffer *offer = ਅੰਕੜੇ;
+    Wayland_Primary_Selection_Offer_ਜੋੜੋ_MIME(offer, mime_type);
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In zwp_primary_selection_offer_v1_listener . primary_selection_offer_handle_offer on primary_selection_offer 0x%08x for MIME '%s'",
-                 (zwp_primary_selection_offer_v1 ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)zwp_primary_selection_offer_v1) : -1),
+                 (zwp_primary_selection_offer_v1 ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)zwp_primary_selection_offer_v1) : -1),
                  mime_type);
 }
 
-static const struct zwp_primary_selection_offer_v1_listener primary_selection_offer_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_primary_selection_offer_v1_listener primary_selection_offer_listener = {
     primary_selection_offer_handle_offer,
 };
 
-static void data_device_handle_data_offer(void *data, struct wl_data_device *wl_data_device,
-                                          struct wl_data_offer *id)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_ਅੰਕੜੇ_offer(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device,
+                                          ਬਣਤਰ wl_ਅੰਕੜੇ_offer *id)
 {
-    SDL_WaylandDataOffer *data_offer = SDL_calloc(1, sizeof(*data_offer));
-    if (data_offer) {
-        SDL_WaylandDataDevice *data_device = (SDL_WaylandDataDevice *)data;
-        data_offer->offer = id;
-        data_offer->data_device = data_device;
-        data_offer->read_fd = -1;
-        WAYLAND_wl_array_init(&(data_offer->mimes));
-        wl_data_offer_set_user_data(id, data_offer);
-        wl_data_offer_add_listener(id, &data_offer_listener, data_offer);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_Wayland_ਅੰਕੜੇ_Offer *ਅੰਕੜੇ_offer = SDL_calloc(1, ਆਕਾਰ(*ਅੰਕੜੇ_offer));
+    ਜੇ (ਅੰਕੜੇ_offer) {
+        SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = (SDL_Wayland_ਅੰਕੜੇ_Device *)ਅੰਕੜੇ;
+        ਅੰਕੜੇ_offer->offer = id;
+        ਅੰਕੜੇ_offer->ਅੰਕੜੇ_device = ਅੰਕੜੇ_device;
+        ਅੰਕੜੇ_offer->read_fd = -1;
+        WAYLAND_wl_array_init(&(ਅੰਕੜੇ_offer->mimes));
+        wl_ਅੰਕੜੇ_offer_ਸੈੱਟ_user_ਅੰਕੜੇ(id, ਅੰਕੜੇ_offer);
+        wl_ਅੰਕੜੇ_offer_ਜੋੜੋ_listener(id, &ਅੰਕੜੇ_offer_listener, ਅੰਕੜੇ_offer);
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_data_offer on data_offer 0x%08x",
-                     (id ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)id) : -1));
+                     (id ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id) : -1));
     }
 }
 
-static void data_device_handle_enter(void *data, struct wl_data_device *wl_data_device,
-                                     uint32_t serial, struct wl_surface *surface,
-                                     wl_fixed_t x, wl_fixed_t y, struct wl_data_offer *id)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_enter(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device,
+                                     uint32_t serial, ਬਣਤਰ wl_surface *surface,
+                                     wl_fixed_t x, wl_fixed_t y, ਬਣਤਰ wl_ਅੰਕੜੇ_offer *id)
 {
-    SDL_WaylandDataDevice *data_device = data;
-    SDL_WindowData *window = surface ? Wayland_GetWindowDataForOwnedSurface(surface) : NULL;
-    data_device->has_mime_file = false;
-    data_device->text_mime_type = NULL;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = ਅੰਕੜੇ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ = surface ? Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface) : ਨਿਰਾ;
+    ਅੰਕੜੇ_device->has_mime_file = false;
+    ਅੰਕੜੇ_device->ਪਾਠ_mime_type = ਨਿਰਾ;
 
-    data_device->drag_serial = serial;
+    ਅੰਕੜੇ_device->drag_serial = serial;
 
     // Save the drag offer so it can be freed later.
-    if (id) {
-        data_device->drag_offer = wl_data_offer_get_user_data(id);
+    ਜੇ (id) {
+        ਅੰਕੜੇ_device->drag_offer = wl_ਅੰਕੜੇ_offer_get_user_ਅੰਕੜੇ(id);
     }
 
-    if (data_device->drag_offer && window && window->accepts_drag_and_drop) {
-#ifdef SDL_USE_LIBDBUS
-        if (Wayland_DataOfferHasMIME(data_device->drag_offer, FILE_PORTAL_MIME)) {
-            data_device->has_mime_file = true;
-            wl_data_offer_accept(id, serial, FILE_PORTAL_MIME);
+    ਜੇ (ਅੰਕੜੇ_device->drag_offer && ਖਿੜਕੀ && ਖਿੜਕੀ->ਮੰਨਦਾ_drag_and_drop) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
+        ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(ਅੰਕੜੇ_device->drag_offer, FILE_PORTAL_MIME)) {
+            ਅੰਕੜੇ_device->has_mime_file = true;
+            wl_ਅੰਕੜੇ_offer_accept(id, serial, FILE_PORTAL_MIME);
         }
-#endif
-        if (Wayland_DataOfferHasMIME(data_device->drag_offer, FILE_MIME)) {
-            data_device->has_mime_file = true;
-            wl_data_offer_accept(id, serial, FILE_MIME);
+#ਜੇ_ਅੰਤ
+        ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(ਅੰਕੜੇ_device->drag_offer, FILE_MIME)) {
+            ਅੰਕੜੇ_device->has_mime_file = true;
+            wl_ਅੰਕੜੇ_offer_accept(id, serial, FILE_MIME);
         }
 
-        if (!data_device->has_mime_file) {
-            size_t mime_count = 0;
-            const char *const *text_mime_types = Wayland_GetTextMimeTypes(SDL_GetVideoDevice(), &mime_count);
-            for (size_t i = 0; i < mime_count; ++i) {
-                if (Wayland_DataOfferHasMIME(data_device->drag_offer, text_mime_types[i])) {
-                    data_device->text_mime_type = text_mime_types[i];
-                    wl_data_offer_accept(id, serial, text_mime_types[i]);
-                    break;
+        ਜੇ (!ਅੰਕੜੇ_device->has_mime_file) {
+            size_t mime_ਗਿਣਤੀ = 0;
+            ਅਚਲ ਅੱਖਰ *ਅਚਲ *ਪਾਠ_mime_types = Wayland_Get_ਪਾਠ_Mime_Types(SDL_GetVideoDevice(), &mime_ਗਿਣਤੀ);
+            ਲਈ (size_t i = 0; i < mime_ਗਿਣਤੀ; ++i) {
+                ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(ਅੰਕੜੇ_device->drag_offer, ਪਾਠ_mime_types[i])) {
+                    ਅੰਕੜੇ_device->ਪਾਠ_mime_type = ਪਾਠ_mime_types[i];
+                    wl_ਅੰਕੜੇ_offer_accept(id, serial, ਪਾਠ_mime_types[i]);
+                    ਰੋਕੋ;
                 }
             }
         }
 
-        if (data_device->has_mime_file || data_device->text_mime_type) {
+        ਜੇ (ਅੰਕੜੇ_device->has_mime_file || ਅੰਕੜੇ_device->ਪਾਠ_mime_type) {
             // SDL only supports "copy" style drag and drop
-            if (wl_data_offer_get_version(data_device->drag_offer->offer) >= WL_DATA_OFFER_SET_ACTIONS_SINCE_VERSION) {
-                wl_data_offer_set_actions(data_device->drag_offer->offer, WL_DATA_DEVICE_MANAGER_DND_ACTION_COPY, WL_DATA_DEVICE_MANAGER_DND_ACTION_COPY);
+            ਜੇ (wl_ਅੰਕੜੇ_offer_get_ਸੰਸਕਰਣ(ਅੰਕੜੇ_device->drag_offer->offer) >= WL_ਅੰਕੜੇ_OFFER_ਸੈੱਟ_ACTIONS_SINCE_ਸੰਸਕਰਣ) {
+                wl_ਅੰਕੜੇ_offer_ਸੈੱਟ_actions(ਅੰਕੜੇ_device->drag_offer->offer, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_COPY, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_COPY);
             }
 
             // Set the destination window and send the initial position.
-            data_device->dnd_window = window->sdlwindow;
-            data_device->dnd_surface = surface;
-            double dx = wl_fixed_to_double(x);
-            double dy = wl_fixed_to_double(y);
+            ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ = ਖਿੜਕੀ->sdlwindow;
+            ਅੰਕੜੇ_device->dnd_surface = surface;
+            ਦੁੱਗਣਾ dx = wl_fixed_ਮੰਜ਼ਿਲ_double(x);
+            ਦੁੱਗਣਾ dy = wl_fixed_ਮੰਜ਼ਿਲ_double(y);
 
             // If over the mask, adjust the offset.
-            if (surface == window->mask.surface) {
-                dx += (double)window->mask.offset_x;
-                dy += (double)window->mask.offset_y;
+            ਜੇ (surface == ਖਿੜਕੀ->ਨਕਾਬ.surface) {
+                dx += (ਦੁੱਗਣਾ)ਖਿੜਕੀ->ਨਕਾਬ.ਵਿੱਥ_x;
+                dy += (ਦੁੱਗਣਾ)ਖਿੜਕੀ->ਨਕਾਬ.ਵਿੱਥ_y;
             }
 
-            dx *= window->pointer_scale.x;
-            dy *= window->pointer_scale.y;
+            dx *= ਖਿੜਕੀ->ਸੂਚਕ_scale.x;
+            dy *= ਖਿੜਕੀ->ਸੂਚਕ_scale.y;
 
-            SDL_SendDropPosition(data_device->dnd_window, (float)dx, (float)dy);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_SendDropPosition(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ, (ਦਸ਼ਮਲਵ)dx, (ਦਸ਼ਮਲਵ)dy);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                          ". In wl_data_device_listener . data_device_handle_enter on data_offer 0x%08x at %d x %d into window %d for serial %d",
-                         WAYLAND_wl_proxy_get_id((struct wl_proxy *)id),
-                         wl_fixed_to_int(x), wl_fixed_to_int(y), SDL_GetWindowID(data_device->dnd_window), serial);
-        } else {
+                         WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id),
+                         wl_fixed_ਮੰਜ਼ਿਲ_int(x), wl_fixed_ਮੰਜ਼ਿਲ_int(y), SDL_Get_ਖਿੜਕੀ_ID(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ), serial);
+        } ਨਹੀਂਤਾਂ {
             // Decline the offer.
-            wl_data_offer_accept(id, serial, NULL);
-            if (wl_data_offer_get_version(data_device->drag_offer->offer) >= WL_DATA_OFFER_SET_ACTIONS_SINCE_VERSION) {
-                wl_data_offer_set_actions(data_device->drag_offer->offer, WL_DATA_DEVICE_MANAGER_DND_ACTION_NONE, WL_DATA_DEVICE_MANAGER_DND_ACTION_NONE);
+            wl_ਅੰਕੜੇ_offer_accept(id, serial, ਨਿਰਾ);
+            ਜੇ (wl_ਅੰਕੜੇ_offer_get_ਸੰਸਕਰਣ(ਅੰਕੜੇ_device->drag_offer->offer) >= WL_ਅੰਕੜੇ_OFFER_ਸੈੱਟ_ACTIONS_SINCE_ਸੰਸਕਰਣ) {
+                wl_ਅੰਕੜੇ_offer_ਸੈੱਟ_actions(ਅੰਕੜੇ_device->drag_offer->offer, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_NONE, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_NONE);
             }
 
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                          ". In wl_data_device_listener . data_device_handle_enter on data_offer 0x%08x at %d x %d for serial %d",
-                         WAYLAND_wl_proxy_get_id((struct wl_proxy *)id), wl_fixed_to_int(x), wl_fixed_to_int(y), serial);
+                         WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id), wl_fixed_ਮੰਜ਼ਿਲ_int(x), wl_fixed_ਮੰਜ਼ਿਲ_int(y), serial);
         }
-    } else {
-        data_device->dnd_window = NULL;
-        data_device->dnd_surface = NULL;
+    } ਨਹੀਂਤਾਂ {
+        ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ = ਨਿਰਾ;
+        ਅੰਕੜੇ_device->dnd_surface = ਨਿਰਾ;
 
         // Decline the offer.
-        if (id) {
-            wl_data_offer_accept(id, serial, NULL);
-            if (wl_data_offer_get_version(data_device->drag_offer->offer) >= WL_DATA_OFFER_SET_ACTIONS_SINCE_VERSION) {
-                wl_data_offer_set_actions(data_device->drag_offer->offer, WL_DATA_DEVICE_MANAGER_DND_ACTION_NONE, WL_DATA_DEVICE_MANAGER_DND_ACTION_NONE);
+        ਜੇ (id) {
+            wl_ਅੰਕੜੇ_offer_accept(id, serial, ਨਿਰਾ);
+            ਜੇ (wl_ਅੰਕੜੇ_offer_get_ਸੰਸਕਰਣ(ਅੰਕੜੇ_device->drag_offer->offer) >= WL_ਅੰਕੜੇ_OFFER_ਸੈੱਟ_ACTIONS_SINCE_ਸੰਸਕਰਣ) {
+                wl_ਅੰਕੜੇ_offer_ਸੈੱਟ_actions(ਅੰਕੜੇ_device->drag_offer->offer, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_NONE, WL_ਅੰਕੜੇ_DEVICE_MANAGER_DND_ACTION_NONE);
             }
         }
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_enter on data_offer 0x%08x at %d x %d for serial %d",
-                     id ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)id) : -1,
-                     wl_fixed_to_int(x), wl_fixed_to_int(y), serial);
+                     id ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id) : -1,
+                     wl_fixed_ਮੰਜ਼ਿਲ_int(x), wl_fixed_ਮੰਜ਼ਿਲ_int(y), serial);
     }
 }
 
-static void data_device_handle_leave(void *data, struct wl_data_device *wl_data_device)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_leave(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device)
 {
-    SDL_WaylandDataDevice *data_device = data;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = ਅੰਕੜੇ;
 
-    if (data_device->drag_offer) {
-        if (data_device->dnd_window) {
-            SDL_SendDropComplete(data_device->dnd_window);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    ਜੇ (ਅੰਕੜੇ_device->drag_offer) {
+        ਜੇ (ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ) {
+            SDL_SendDropComplete(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ);
+            SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                          ". In wl_data_device_listener . data_device_handle_leave on data_offer 0x%08x from window %d for serial %d",
-                         WAYLAND_wl_proxy_get_id((struct wl_proxy *)data_device->drag_offer->offer),
-                         SDL_GetWindowID(data_device->dnd_window), data_device->drag_serial);
-        } else {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                         WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)ਅੰਕੜੇ_device->drag_offer->offer),
+                         SDL_Get_ਖਿੜਕੀ_ID(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ), ਅੰਕੜੇ_device->drag_serial);
+        } ਨਹੀਂਤਾਂ {
+            SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                          ". In wl_data_device_listener . data_device_handle_leave on data_offer 0x%08x for serial %d",
-                         WAYLAND_wl_proxy_get_id((struct wl_proxy *)data_device->drag_offer->offer),
-                         data_device->drag_serial);
+                         WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)ਅੰਕੜੇ_device->drag_offer->offer),
+                         ਅੰਕੜੇ_device->drag_serial);
         }
-        Wayland_DataOfferDestroy(data_device->drag_offer);
-        data_device->drag_offer = NULL;
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        Wayland_ਅੰਕੜੇ_Offer_Destroy(ਅੰਕੜੇ_device->drag_offer);
+        ਅੰਕੜੇ_device->drag_offer = ਨਿਰਾ;
+    } ਨਹੀਂਤਾਂ {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_leave on data_offer 0x%08x for serial %d",
                      -1, -1);
     }
-    data_device->has_mime_file = false;
-    data_device->text_mime_type = NULL;
+    ਅੰਕੜੇ_device->has_mime_file = false;
+    ਅੰਕੜੇ_device->ਪਾਠ_mime_type = ਨਿਰਾ;
 }
 
-static void data_device_handle_motion(void *data, struct wl_data_device *wl_data_device,
-                                      uint32_t time, wl_fixed_t x, wl_fixed_t y)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_motion(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device,
+                                      uint32_t ਸਮਾਂ, wl_fixed_t x, wl_fixed_t y)
 {
-    SDL_WaylandDataDevice *data_device = data;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = ਅੰਕੜੇ;
 
-    if (data_device->drag_offer && data_device->dnd_window && (data_device->has_mime_file || data_device->text_mime_type)) {
-        SDL_WindowData *window_data = data_device->dnd_window->internal;
-        double dx = wl_fixed_to_double(x);
-        double dy = wl_fixed_to_double(y);
+    ਜੇ (ਅੰਕੜੇ_device->drag_offer && ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ && (ਅੰਕੜੇ_device->has_mime_file || ਅੰਕੜੇ_device->ਪਾਠ_mime_type)) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
+        ਦੁੱਗਣਾ dx = wl_fixed_ਮੰਜ਼ਿਲ_double(x);
+        ਦੁੱਗਣਾ dy = wl_fixed_ਮੰਜ਼ਿਲ_double(y);
 
         // If over the mask, adjust the offset.
-        if (data_device->dnd_surface == window_data->mask.surface) {
-            dx += (double)window_data->mask.offset_x;
-            dy += (double)window_data->mask.offset_y;
+        ਜੇ (ਅੰਕੜੇ_device->dnd_surface == ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.surface) {
+            dx += (ਦੁੱਗਣਾ)ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.ਵਿੱਥ_x;
+            dy += (ਦੁੱਗਣਾ)ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਨਕਾਬ.ਵਿੱਥ_y;
         }
 
-        dx *= window_data->pointer_scale.x;
-        dy *= window_data->pointer_scale.y;
+        dx *= ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.x;
+        dy *= ਖਿੜਕੀ_ਅੰਕੜੇ_2->ਸੂਚਕ_scale.y;
 
         /* XXX: Send the filename here if the event system ever starts passing it though.
          *      Any future implementation should cache the filenames, as otherwise this could
          *      hammer the DBus interface hundreds or even thousands of times per second.
          */
-        SDL_SendDropPosition(data_device->dnd_window, (float)dx, (float)dy);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_SendDropPosition(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ, (ਦਸ਼ਮਲਵ)dx, (ਦਸ਼ਮਲਵ)dy);
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_motion on data_offer 0x%08x at %d x %d in window %d serial %d",
-                     WAYLAND_wl_proxy_get_id((struct wl_proxy *)data_device->drag_offer->offer),
-                     wl_fixed_to_int(x), wl_fixed_to_int(y),
-                     SDL_GetWindowID(data_device->dnd_window), data_device->drag_serial);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                     WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)ਅੰਕੜੇ_device->drag_offer->offer),
+                     wl_fixed_ਮੰਜ਼ਿਲ_int(x), wl_fixed_ਮੰਜ਼ਿਲ_int(y),
+                     SDL_Get_ਖਿੜਕੀ_ID(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ), ਅੰਕੜੇ_device->drag_serial);
+    } ਨਹੀਂਤਾਂ {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_motion on data_offer 0x%08x at %d x %d serial %d",
-                     -1, wl_fixed_to_int(x), wl_fixed_to_int(y), -1);
+                     -1, wl_fixed_ਮੰਜ਼ਿਲ_int(x), wl_fixed_ਮੰਜ਼ਿਲ_int(y), -1);
     }
 }
 
-static void drop_cleanup_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ਸਥਿਰ ਖਾਲੀ drop_cleanup_handler(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_callback *callback, uint32_t callback_ਅੰਕੜੇ)
 {
-    Wayland_DropData *drop = (Wayland_DropData *)data;
+    Wayland_Drop_ਅੰਕੜੇ *drop = (Wayland_Drop_ਅੰਕੜੇ *)ਅੰਕੜੇ;
 
     wl_callback_destroy(drop->cleanup_callback);
     WAYLAND_wl_list_remove(&drop->link);
     SDL_free(drop);
 }
 
-static const struct wl_callback_listener drop_cleanup_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_callback_listener drop_cleanup_listener = {
     drop_cleanup_handler
 };
 
-static void drop_dispatch_handler(void *data)
+ਸਥਿਰ ਖਾਲੀ drop_dispatch_handler(ਖਾਲੀ *ਅੰਕੜੇ)
 {
-    Wayland_DropData *drop = (Wayland_DropData *)data;
-    SDL_WaylandDataOffer *offer = drop->offer;
-    SDL_WaylandDataDevice *data_device = offer->data_device;
+    Wayland_Drop_ਅੰਕੜੇ *drop = (Wayland_Drop_ਅੰਕੜੇ *)ਅੰਕੜੇ;
+    SDL_Wayland_ਅੰਕੜੇ_Offer *offer = drop->offer;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = offer->ਅੰਕੜੇ_device;
 
-    if (drop->dnd_window) {
-        size_t length;
+    ਜੇ (drop->dnd_ਖਿੜਕੀ) {
+        size_t ਲੰਮਾਈ;
         bool drop_handled = false;
 
-#ifdef SDL_USE_LIBDBUS
-        if (Wayland_DataOfferHasMIME(offer, FILE_PORTAL_MIME)) {
-            void *buffer = Wayland_DataOfferReceive(offer, FILE_PORTAL_MIME, &length);
-            if (buffer) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
+        ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(offer, FILE_PORTAL_MIME)) {
+            ਖਾਲੀ *ਬਫਰ_2 = Wayland_ਅੰਕੜੇ_Offer_Receive(offer, FILE_PORTAL_MIME, &ਲੰਮਾਈ);
+            ਜੇ (ਬਫਰ_2) {
                 SDL_DBusContext *dbus = SDL_DBus_GetContext();
-                if (dbus) {
-                    int path_count = 0;
-                    char **paths = SDL_DBus_DocumentsPortalRetrieveFiles(buffer, &path_count);
+                ਜੇ (dbus) {
+                    ਪੂਰਨ ਰਸਤਾ_ਗਿਣਤੀ = 0;
+                    ਅੱਖਰ **paths = SDL_DBus_DocumentsPortalRetrieveFiles(ਬਫਰ_2, &ਰਸਤਾ_ਗਿਣਤੀ);
                     // If dropped files contain a directory the list is empty
-                    if (paths && path_count > 0) {
-                        for (int i = 0; i < path_count; i++) {
-                            SDL_SendDropFile(drop->dnd_window, NULL, paths[i]);
+                    ਜੇ (paths && ਰਸਤਾ_ਗਿਣਤੀ > 0) {
+                        ਲਈ (ਪੂਰਨ i = 0; i < ਰਸਤਾ_ਗਿਣਤੀ; i++) {
+                            SDL_SendDropFile(drop->dnd_ਖਿੜਕੀ, ਨਿਰਾ, paths[i]);
                         }
                         dbus->free_string_array(paths);
                         drop_handled = true;
                     }
                 }
-                SDL_free(buffer);
+                SDL_free(ਬਫਰ_2);
             }
         }
-#endif
+#ਜੇ_ਅੰਤ
         /* If the XDG document portal fails, fall back to text/uri-list, if available.
          * When running inside of a flatpak sandbox, this will most likely be a list of
          * non-paths that are not visible to the application.
          */
-        if (!drop_handled) {
-            if (Wayland_DataOfferHasMIME(offer, FILE_MIME)) {
-                void *buffer = Wayland_DataOfferReceive(offer, FILE_MIME, &length);
-                if (buffer) {
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r((char *)buffer, "\r\n", &saveptr);
-                    while (token) {
-                        if (SDL_URIToLocal(token, token) >= 0) {
-                            SDL_SendDropFile(drop->dnd_window, NULL, token);
+        ਜੇ (!drop_handled) {
+            ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(offer, FILE_MIME)) {
+                ਖਾਲੀ *ਬਫਰ_2 = Wayland_ਅੰਕੜੇ_Offer_Receive(offer, FILE_MIME, &ਲੰਮਾਈ);
+                ਜੇ (ਬਫਰ_2) {
+                    ਅੱਖਰ *saveptr = ਨਿਰਾ;
+                    ਅੱਖਰ *token = SDL_strtok_r((ਅੱਖਰ *)ਬਫਰ_2, "\r\n", &saveptr);
+                    ਜਦੋਂ (token) {
+                        ਜੇ (SDL_URIToLocal(token, token) >= 0) {
+                            SDL_SendDropFile(drop->dnd_ਖਿੜਕੀ, ਨਿਰਾ, token);
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(ਨਿਰਾ, "\r\n", &saveptr);
                     }
-                    SDL_free(buffer);
+                    SDL_free(ਬਫਰ_2);
                     drop_handled = true;
                 }
-            } else if (Wayland_DataOfferHasMIME(offer, drop->text_mime_type)) {
-                void *buffer = Wayland_DataOfferReceive(offer, drop->text_mime_type, &length);
-                if (buffer) {
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r((char *)buffer, "\r\n", &saveptr);
-                    while (token) {
-                        SDL_SendDropText(drop->dnd_window, token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+            } ਨਹੀਂਤਾਂ ਜੇ (Wayland_ਅੰਕੜੇ_Offer_Has_MIME(offer, drop->ਪਾਠ_mime_type)) {
+                ਖਾਲੀ *ਬਫਰ_2 = Wayland_ਅੰਕੜੇ_Offer_Receive(offer, drop->ਪਾਠ_mime_type, &ਲੰਮਾਈ);
+                ਜੇ (ਬਫਰ_2) {
+                    ਅੱਖਰ *saveptr = ਨਿਰਾ;
+                    ਅੱਖਰ *token = SDL_strtok_r((ਅੱਖਰ *)ਬਫਰ_2, "\r\n", &saveptr);
+                    ਜਦੋਂ (token) {
+                        SDL_Send_Drop_ਪਾਠ(drop->dnd_ਖਿੜਕੀ, token);
+                        token = SDL_strtok_r(ਨਿਰਾ, "\r\n", &saveptr);
                     }
-                    SDL_free(buffer);
+                    SDL_free(ਬਫਰ_2);
                     drop_handled = true;
                 }
             }
         }
 
-        if (drop_handled && wl_data_offer_get_version(offer->offer) >= WL_DATA_OFFER_FINISH_SINCE_VERSION) {
-            wl_data_offer_finish(offer->offer);
+        ਜੇ (drop_handled && wl_ਅੰਕੜੇ_offer_get_ਸੰਸਕਰਣ(offer->offer) >= WL_ਅੰਕੜੇ_OFFER_ਅੰਤ_SINCE_ਸੰਸਕਰਣ) {
+            wl_ਅੰਕੜੇ_offer_ਅੰਤ(offer->offer);
         }
 
-        SDL_SendDropComplete(drop->dnd_window);
+        SDL_SendDropComplete(drop->dnd_ਖਿੜਕੀ);
     }
 
-    Wayland_DataOfferDestroy(drop->offer);
-    drop->offer = NULL;
+    Wayland_ਅੰਕੜੇ_Offer_Destroy(drop->offer);
+    drop->offer = ਨਿਰਾ;
 
     // Queue a cleanup event to delete the drop object on the event queue thread.
-    drop->cleanup_callback = wl_display_sync(data_device->seat->display->display);
-    wl_callback_add_listener(drop->cleanup_callback, &drop_cleanup_listener, drop);
+    drop->cleanup_callback = wl_display_sync(ਅੰਕੜੇ_device->seat->display->display);
+    wl_callback_ਜੋੜੋ_listener(drop->cleanup_callback, &drop_cleanup_listener, drop);
 }
 
-static void data_device_handle_drop(void *data, struct wl_data_device *wl_data_device)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_drop(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device)
 {
-    SDL_WaylandDataDevice *data_device = data;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = ਅੰਕੜੇ;
 
-    if (data_device->drag_offer && data_device->dnd_window &&
-        (data_device->has_mime_file || data_device->text_mime_type)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    ਜੇ (ਅੰਕੜੇ_device->drag_offer && ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ &&
+        (ਅੰਕੜੇ_device->has_mime_file || ਅੰਕੜੇ_device->ਪਾਠ_mime_type)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_drop on data_offer 0x%08x in window %d serial %d",
-                     WAYLAND_wl_proxy_get_id((struct wl_proxy *)data_device->drag_offer->offer),
-                     SDL_GetWindowID(data_device->dnd_window), data_device->drag_serial);
+                     WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)ਅੰਕੜੇ_device->drag_offer->offer),
+                     SDL_Get_ਖਿੜਕੀ_ID(ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ), ਅੰਕੜੇ_device->drag_serial);
 
-        Wayland_JobThreadContext *ctx = data_device->seat->display->job_thread_context;
+        Wayland_ਕੰਮ_Thread_Context *ctx = ਅੰਕੜੇ_device->seat->display->ਕੰਮ_thread_context;
 
         /* Dispatch the read on the event thread, as the remote end may be slow to respond,
          * and we don't want to block the main event loop for an excessive time.
          */
-        Wayland_DropData *drop = SDL_calloc(1, sizeof(Wayland_DropData));
-        if (drop) {
-            drop->offer = data_device->drag_offer;
-            drop->dnd_window = data_device->dnd_window;
-            drop->text_mime_type = data_device->text_mime_type;
+        Wayland_Drop_ਅੰਕੜੇ *drop = SDL_calloc(1, ਆਕਾਰ(Wayland_Drop_ਅੰਕੜੇ));
+        ਜੇ (drop) {
+            drop->offer = ਅੰਕੜੇ_device->drag_offer;
+            drop->dnd_ਖਿੜਕੀ = ਅੰਕੜੇ_device->dnd_ਖਿੜਕੀ;
+            drop->ਪਾਠ_mime_type = ਅੰਕੜੇ_device->ਪਾਠ_mime_type;
 
-            WAYLAND_wl_list_insert(&data_device->pending_drops, &drop->link);
-            Wayland_JobThreadAddJob(ctx, drop_dispatch_handler, drop, &drop->id);
-        } else {
-            Wayland_DataOfferDestroy(data_device->drag_offer);
+            WAYLAND_wl_list_ਪਾਓ(&ਅੰਕੜੇ_device->pending_drops, &drop->link);
+            Wayland_ਕੰਮ_Thread_ਜੋੜੋ_ਕੰਮ(ctx, drop_dispatch_handler, drop, &drop->id);
+        } ਨਹੀਂਤਾਂ {
+            Wayland_ਅੰਕੜੇ_Offer_Destroy(ਅੰਕੜੇ_device->drag_offer);
         }
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } ਨਹੀਂਤਾਂ {
+        SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                      ". In wl_data_device_listener . data_device_handle_drop on data_offer 0x%08x serial %d",
                      -1, -1);
 
-        Wayland_DataOfferDestroy(data_device->drag_offer);
+        Wayland_ਅੰਕੜੇ_Offer_Destroy(ਅੰਕੜੇ_device->drag_offer);
     }
 
-    data_device->drag_offer = NULL;
+    ਅੰਕੜੇ_device->drag_offer = ਨਿਰਾ;
 }
 
-static void data_device_handle_selection(void *data, struct wl_data_device *wl_data_device,
-                                         struct wl_data_offer *id)
+ਸਥਿਰ ਖਾਲੀ ਅੰਕੜੇ_device_handle_selection(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_ਅੰਕੜੇ_device *wl_ਅੰਕੜੇ_device,
+                                         ਬਣਤਰ wl_ਅੰਕੜੇ_offer *id)
 {
-    SDL_WaylandDataDevice *data_device = data;
-    SDL_WaylandDataOffer *offer = NULL;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = ਅੰਕੜੇ;
+    SDL_Wayland_ਅੰਕੜੇ_Offer *offer = ਨਿਰਾ;
 
-    if (id) {
-        offer = wl_data_offer_get_user_data(id);
+    ਜੇ (id) {
+        offer = wl_ਅੰਕੜੇ_offer_get_user_ਅੰਕੜੇ(id);
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In data_device_listener . data_device_handle_selection on data_offer 0x%08x",
-                 (id ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)id) : -1));
+                 (id ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id) : -1));
 
-    Wayland_DataDeviceSetSelectionOffer(data_device, offer);
+    Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_Selection_Offer(ਅੰਕੜੇ_device, offer);
 }
 
-static const struct wl_data_device_listener data_device_listener = {
-    data_device_handle_data_offer,
-    data_device_handle_enter,
-    data_device_handle_leave,
-    data_device_handle_motion,
-    data_device_handle_drop,
-    data_device_handle_selection
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_ਅੰਕੜੇ_device_listener ਅੰਕੜੇ_device_listener = {
+    ਅੰਕੜੇ_device_handle_ਅੰਕੜੇ_offer,
+    ਅੰਕੜੇ_device_handle_enter,
+    ਅੰਕੜੇ_device_handle_leave,
+    ਅੰਕੜੇ_device_handle_motion,
+    ਅੰਕੜੇ_device_handle_drop,
+    ਅੰਕੜੇ_device_handle_selection
 };
 
-static void primary_selection_device_handle_offer(void *data, struct zwp_primary_selection_device_v1 *zwp_primary_selection_device_v1,
-                                                  struct zwp_primary_selection_offer_v1 *id)
+ਸਥਿਰ ਖਾਲੀ primary_selection_device_handle_offer(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_primary_selection_device_v1 *zwp_primary_selection_device_v1,
+                                                  ਬਣਤਰ zwp_primary_selection_offer_v1 *id)
 {
-    SDL_WaylandPrimarySelectionOffer *primary_selection_offer = SDL_calloc(1, sizeof(*primary_selection_offer));
-    if (primary_selection_offer) {
-        SDL_WaylandPrimarySelectionDevice *primary_selection_device = (SDL_WaylandPrimarySelectionDevice *)data;
+    SDL_WaylandPrimarySelectionOffer *primary_selection_offer = SDL_calloc(1, ਆਕਾਰ(*primary_selection_offer));
+    ਜੇ (primary_selection_offer) {
+        SDL_WaylandPrimarySelectionDevice *primary_selection_device = (SDL_WaylandPrimarySelectionDevice *)ਅੰਕੜੇ;
         primary_selection_device->seat->display->current_primary_selection_seat = primary_selection_device->seat;
         primary_selection_offer->offer = id;
         primary_selection_offer->primary_selection_device = primary_selection_device;
         WAYLAND_wl_array_init(&(primary_selection_offer->mimes));
-        zwp_primary_selection_offer_v1_set_user_data(id, primary_selection_offer);
-        zwp_primary_selection_offer_v1_add_listener(id, &primary_selection_offer_listener, primary_selection_offer);
+        zwp_primary_selection_offer_v1_ਸੈੱਟ_user_ਅੰਕੜੇ(id, primary_selection_offer);
+        zwp_primary_selection_offer_v1_ਜੋੜੋ_listener(id, &primary_selection_offer_listener, primary_selection_offer);
     }
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In zwp_primary_selection_device_v1_listener . primary_selection_device_handle_offer on primary_selection_offer 0x%08x",
-                 (id ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)id) : -1));
+                 (id ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id) : -1));
 }
 
-static void primary_selection_device_handle_selection(void *data, struct zwp_primary_selection_device_v1 *zwp_primary_selection_device_v1,
-                                                      struct zwp_primary_selection_offer_v1 *id)
+ਸਥਿਰ ਖਾਲੀ primary_selection_device_handle_selection(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_primary_selection_device_v1 *zwp_primary_selection_device_v1,
+                                                      ਬਣਤਰ zwp_primary_selection_offer_v1 *id)
 {
-    SDL_WaylandPrimarySelectionDevice *primary_selection_device = data;
-    SDL_WaylandPrimarySelectionOffer *offer = NULL;
+    SDL_WaylandPrimarySelectionDevice *primary_selection_device = ਅੰਕੜੇ;
+    SDL_WaylandPrimarySelectionOffer *offer = ਨਿਰਾ;
 
-    if (id) {
-        offer = zwp_primary_selection_offer_v1_get_user_data(id);
+    ਜੇ (id) {
+        offer = zwp_primary_selection_offer_v1_get_user_ਅੰਕੜੇ(id);
     }
 
-    if (primary_selection_device->selection_offer != offer) {
+    ਜੇ (primary_selection_device->selection_offer != offer) {
         Wayland_PrimarySelectionOfferDestroy(primary_selection_device->selection_offer);
         primary_selection_device->selection_offer = offer;
     }
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ਨਿਵੇਸ਼,
                  ". In zwp_primary_selection_device_v1_listener . primary_selection_device_handle_selection on primary_selection_offer 0x%08x",
-                 (id ? WAYLAND_wl_proxy_get_id((struct wl_proxy *)id) : -1));
+                 (id ? WAYLAND_wl_proxy_get_id((ਬਣਤਰ wl_proxy *)id) : -1));
 }
 
-static const struct zwp_primary_selection_device_v1_listener primary_selection_device_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_primary_selection_device_v1_listener primary_selection_device_listener = {
     primary_selection_device_handle_offer,
     primary_selection_device_handle_selection
 };
 
-static void text_input_enter(void *data,
-                             struct zwp_text_input_v3 *zwp_text_input_v3,
-                             struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_enter(ਖਾਲੀ *ਅੰਕੜੇ,
+                             ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
+                             ਬਣਤਰ wl_surface *surface)
 {
     // No-op
 }
 
-static void text_input_leave(void *data,
-                             struct zwp_text_input_v3 *zwp_text_input_v3,
-                             struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_leave(ਖਾਲੀ *ਅੰਕੜੇ,
+                             ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
+                             ਬਣਤਰ wl_surface *surface)
 {
     // No-op
 }
 
-static void text_input_preedit_string(void *data,
-                                      struct zwp_text_input_v3 *zwp_text_input_v3,
-                                      const char *text,
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_preedit_string(ਖਾਲੀ *ਅੰਕੜੇ,
+                                      ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
+                                      ਅਚਲ ਅੱਖਰ *ਪਾਠ,
                                       int32_t cursor_begin,
-                                      int32_t cursor_end)
+                                      int32_t cursor_ਸਿਰਾ)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    seat->text_input.has_preedit = true;
-    if (text) {
-        int cursor_begin_utf8 = cursor_begin >= 0 ? (int)SDL_utf8strnlen(text, cursor_begin) : -1;
-        int cursor_end_utf8 = cursor_end >= 0 ? (int)SDL_utf8strnlen(text, cursor_end) : -1;
-        int cursor_size_utf8;
-        if (cursor_end_utf8 >= 0) {
-            if (cursor_begin_utf8 >= 0) {
-                cursor_size_utf8 = cursor_end_utf8 - cursor_begin_utf8;
-            } else {
-                cursor_size_utf8 = cursor_end_utf8;
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    seat->ਪਾਠ_ਨਿਵੇਸ਼.has_preedit = true;
+    ਜੇ (ਪਾਠ) {
+        ਪੂਰਨ cursor_begin_utf8 = cursor_begin >= 0 ? (ਪੂਰਨ)SDL_utf8strnlen(ਪਾਠ, cursor_begin) : -1;
+        ਪੂਰਨ cursor_ਸਿਰਾ_utf8 = cursor_ਸਿਰਾ >= 0 ? (ਪੂਰਨ)SDL_utf8strnlen(ਪਾਠ, cursor_ਸਿਰਾ) : -1;
+        ਪੂਰਨ cursor_ਮਾਪ_utf8;
+        ਜੇ (cursor_ਸਿਰਾ_utf8 >= 0) {
+            ਜੇ (cursor_begin_utf8 >= 0) {
+                cursor_ਮਾਪ_utf8 = cursor_ਸਿਰਾ_utf8 - cursor_begin_utf8;
+            } ਨਹੀਂਤਾਂ {
+                cursor_ਮਾਪ_utf8 = cursor_ਸਿਰਾ_utf8;
             }
-        } else {
-            cursor_size_utf8 = -1;
+        } ਨਹੀਂਤਾਂ {
+            cursor_ਮਾਪ_utf8 = -1;
         }
-        SDL_SendEditingText(text, cursor_begin_utf8, cursor_size_utf8);
-    } else {
-        SDL_SendEditingText("", 0, 0);
+        SDL_Send_Editing_ਪਾਠ(ਪਾਠ, cursor_begin_utf8, cursor_ਮਾਪ_utf8);
+    } ਨਹੀਂਤਾਂ {
+        SDL_Send_Editing_ਪਾਠ("", 0, 0);
     }
 }
 
-static void text_input_commit_string(void *data,
-                                     struct zwp_text_input_v3 *zwp_text_input_v3,
-                                     const char *text)
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_commit_string(ਖਾਲੀ *ਅੰਕੜੇ,
+                                     ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
+                                     ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
-    SDL_SendKeyboardText(text);
+    SDL_Send_Keyboard_ਪਾਠ(ਪਾਠ);
 }
 
-static void text_input_delete_surrounding_text(void *data,
-                                               struct zwp_text_input_v3 *zwp_text_input_v3,
-                                               uint32_t before_length,
-                                               uint32_t after_length)
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_delete_surrounding_ਪਾਠ(ਖਾਲੀ *ਅੰਕੜੇ,
+                                               ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
+                                               uint32_t before_ਲੰਮਾਈ,
+                                               uint32_t after_ਲੰਮਾਈ)
 {
     // FIXME: Do we care about this event?
 }
 
-static void text_input_done(void *data,
-                            struct zwp_text_input_v3 *zwp_text_input_v3,
+ਸਥਿਰ ਖਾਲੀ ਪਾਠ_ਨਿਵੇਸ਼_ਪੂਰਾ(ਖਾਲੀ *ਅੰਕੜੇ,
+                            ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3 *zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3,
                             uint32_t serial)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    if (!seat->text_input.has_preedit) {
-        SDL_SendEditingText("", 0, 0);
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    ਜੇ (!seat->ਪਾਠ_ਨਿਵੇਸ਼.has_preedit) {
+        SDL_Send_Editing_ਪਾਠ("", 0, 0);
     }
-    seat->text_input.has_preedit = false;
+    seat->ਪਾਠ_ਨਿਵੇਸ਼.has_preedit = false;
 }
 
-static const struct zwp_text_input_v3_listener text_input_listener = {
-    text_input_enter,
-    text_input_leave,
-    text_input_preedit_string,
-    text_input_commit_string,
-    text_input_delete_surrounding_text,
-    text_input_done
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3_listener ਪਾਠ_ਨਿਵੇਸ਼_listener = {
+    ਪਾਠ_ਨਿਵੇਸ਼_enter,
+    ਪਾਠ_ਨਿਵੇਸ਼_leave,
+    ਪਾਠ_ਨਿਵੇਸ਼_preedit_string,
+    ਪਾਠ_ਨਿਵੇਸ਼_commit_string,
+    ਪਾਠ_ਨਿਵੇਸ਼_delete_surrounding_ਪਾਠ,
+    ਪਾਠ_ਨਿਵੇਸ਼_ਪੂਰਾ
 };
 
-static void Wayland_DataDeviceSetID(SDL_WaylandDataDevice *data_device)
+ਸਥਿਰ ਖਾਲੀ Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_ID(SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device)
 {
-    if (!data_device->id_str)
-#ifdef SDL_USE_LIBDBUS
+    ਜੇ (!ਅੰਕੜੇ_device->id_str)
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
     {
         SDL_DBusContext *dbus = SDL_DBus_GetContext();
-        if (dbus) {
-            const char *id = dbus->bus_get_unique_name(dbus->session_conn);
-            if (id) {
-                data_device->id_str = SDL_strdup(id);
+        ਜੇ (dbus) {
+            ਅਚਲ ਅੱਖਰ *id = dbus->bus_get_unique_name(dbus->session_conn);
+            ਜੇ (id) {
+                ਅੰਕੜੇ_device->id_str = SDL_strdup(id);
             }
         }
     }
-    if (!data_device->id_str)
-#endif
+    ਜੇ (!ਅੰਕੜੇ_device->id_str)
+#ਜੇ_ਅੰਤ
     {
-        char id[24];
+        ਅੱਖਰ id[24];
         Uint64 pid = (Uint64)getpid();
-        SDL_snprintf(id, sizeof(id), "%" SDL_PRIu64, pid);
-        data_device->id_str = SDL_strdup(id);
+        SDL_snprintf(id, ਆਕਾਰ(id), "%" SDL_PRIu64, pid);
+        ਅੰਕੜੇ_device->id_str = SDL_strdup(id);
     }
 }
 
-static void Wayland_SeatCreateDataDevice(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_Create_ਅੰਕੜੇ_Device(SDL_WaylandSeat *seat)
 {
-    if (!seat->display->data_device_manager) {
-        return;
+    ਜੇ (!seat->display->ਅੰਕੜੇ_device_manager) {
+        ਵਾਪਸ;
     }
 
-    SDL_WaylandDataDevice *data_device = SDL_calloc(1, sizeof(*data_device));
-    if (!data_device) {
-        return;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device = SDL_calloc(1, ਆਕਾਰ(*ਅੰਕੜੇ_device));
+    ਜੇ (!ਅੰਕੜੇ_device) {
+        ਵਾਪਸ;
     }
 
-    data_device->data_device = wl_data_device_manager_get_data_device(
-        seat->display->data_device_manager, seat->wl_seat);
-    data_device->seat = seat;
+    ਅੰਕੜੇ_device->ਅੰਕੜੇ_device = wl_ਅੰਕੜੇ_device_manager_get_ਅੰਕੜੇ_device(
+        seat->display->ਅੰਕੜੇ_device_manager, seat->wl_seat);
+    ਅੰਕੜੇ_device->seat = seat;
 
-    if (!data_device->data_device) {
-        SDL_free(data_device);
-        return;
+    ਜੇ (!ਅੰਕੜੇ_device->ਅੰਕੜੇ_device) {
+        SDL_free(ਅੰਕੜੇ_device);
+        ਵਾਪਸ;
     }
 
-    Wayland_DataDeviceSetID(data_device);
-    WAYLAND_wl_list_init(&data_device->pending_drops);
-    wl_data_device_set_user_data(data_device->data_device, data_device);
-    wl_data_device_add_listener(data_device->data_device, &data_device_listener, data_device);
-    seat->data_device = data_device;
+    Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_ID(ਅੰਕੜੇ_device);
+    WAYLAND_wl_list_init(&ਅੰਕੜੇ_device->pending_drops);
+    wl_ਅੰਕੜੇ_device_ਸੈੱਟ_user_ਅੰਕੜੇ(ਅੰਕੜੇ_device->ਅੰਕੜੇ_device, ਅੰਕੜੇ_device);
+    wl_ਅੰਕੜੇ_device_ਜੋੜੋ_listener(ਅੰਕੜੇ_device->ਅੰਕੜੇ_device, &ਅੰਕੜੇ_device_listener, ਅੰਕੜੇ_device);
+    seat->ਅੰਕੜੇ_device = ਅੰਕੜੇ_device;
 }
 
-void Wayland_DisplayInitDataDeviceManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_Display_Init_ਅੰਕੜੇ_Device_Manager(SDL_Video_ਅੰਕੜੇ *display)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
-        Wayland_SeatCreateDataDevice(seat);
+        Wayland_Seat_Create_ਅੰਕੜੇ_Device(seat);
     }
 }
 
-static void Wayland_SeatCreatePrimarySelectionDevice(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatCreatePrimarySelectionDevice(SDL_WaylandSeat *seat)
 {
-    if (!seat->display->primary_selection_device_manager) {
-        return;
+    ਜੇ (!seat->display->primary_selection_device_manager) {
+        ਵਾਪਸ;
     }
 
-    SDL_WaylandPrimarySelectionDevice *primary_selection_device = SDL_calloc(1, sizeof(*primary_selection_device));
-    if (!primary_selection_device) {
-        return;
+    SDL_WaylandPrimarySelectionDevice *primary_selection_device = SDL_calloc(1, ਆਕਾਰ(*primary_selection_device));
+    ਜੇ (!primary_selection_device) {
+        ਵਾਪਸ;
     }
 
     primary_selection_device->primary_selection_device = zwp_primary_selection_device_manager_v1_get_device(
         seat->display->primary_selection_device_manager, seat->wl_seat);
     primary_selection_device->seat = seat;
 
-    if (!primary_selection_device->primary_selection_device) {
+    ਜੇ (!primary_selection_device->primary_selection_device) {
         SDL_free(primary_selection_device);
-    } else {
-        zwp_primary_selection_device_v1_set_user_data(primary_selection_device->primary_selection_device,
+    } ਨਹੀਂਤਾਂ {
+        zwp_primary_selection_device_v1_ਸੈੱਟ_user_ਅੰਕੜੇ(primary_selection_device->primary_selection_device,
                                                       primary_selection_device);
-        zwp_primary_selection_device_v1_add_listener(primary_selection_device->primary_selection_device,
+        zwp_primary_selection_device_v1_ਜੋੜੋ_listener(primary_selection_device->primary_selection_device,
                                                      &primary_selection_device_listener, primary_selection_device);
         seat->primary_selection_device = primary_selection_device;
     }
 }
 
-void Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_Video_ਅੰਕੜੇ *display)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
@@ -3239,84 +3239,84 @@ void Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *display)
     }
 }
 
-static void Wayland_SeatCreateTextInput(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_Create_ਪਾਠ_ਨਿਵੇਸ਼(SDL_WaylandSeat *seat)
 {
-    if (seat->display->text_input_manager) {
-        seat->text_input.zwp_text_input = zwp_text_input_manager_v3_get_text_input(seat->display->text_input_manager, seat->wl_seat);
+    ਜੇ (seat->display->ਪਾਠ_ਨਿਵੇਸ਼_manager) {
+        seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼ = zwp_ਪਾਠ_ਨਿਵੇਸ਼_manager_v3_get_ਪਾਠ_ਨਿਵੇਸ਼(seat->display->ਪਾਠ_ਨਿਵੇਸ਼_manager, seat->wl_seat);
 
-        if (seat->text_input.zwp_text_input) {
-            zwp_text_input_v3_set_user_data(seat->text_input.zwp_text_input, seat);
-            zwp_text_input_v3_add_listener(seat->text_input.zwp_text_input,
-                                           &text_input_listener, seat);
+        ਜੇ (seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼) {
+            zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼, seat);
+            zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3_ਜੋੜੋ_listener(seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼,
+                                           &ਪਾਠ_ਨਿਵੇਸ਼_listener, seat);
         }
     }
 }
 
-void Wayland_DisplayInitTextInputManager(SDL_VideoData *d, uint32_t id)
+ਖਾਲੀ Wayland_Display_Init_ਪਾਠ_ਨਿਵੇਸ਼_Manager(SDL_Video_ਅੰਕੜੇ *d, uint32_t id)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each(seat, &d->seat_list, link) {
-        Wayland_SeatCreateTextInput(seat);
+        Wayland_Seat_Create_ਪਾਠ_ਨਿਵੇਸ਼(seat);
     }
 }
 
 // Pen/Tablet support...
-static void tablet_tool_handle_type(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t type)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_type(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t type)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    switch (type) {
-        #define CASE(typ) case ZWP_TABLET_TOOL_V2_TYPE_##typ: sdltool->info.subtype = SDL_PEN_TYPE_##typ; return
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਚੋਣ (type) {
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CASE(typ) ਹਾਲਤ ZWP_TABLET_TOOL_V2_TYPE_##typ: sdltool->info.subtype = SDL_PEN_TYPE_##typ; ਵਾਪਸ
         CASE(ERASER);
         CASE(PEN);
         CASE(PENCIL);
         CASE(AIRBRUSH);
         CASE(BRUSH);
-        #undef CASE
-        default: sdltool->info.subtype = SDL_PEN_TYPE_UNKNOWN;  // we'll decline to add this when the `done` event comes through.
+        #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ CASE
+        ਮੂਲ: sdltool->info.subtype = SDL_PEN_TYPE_UNKNOWN;  // we'll decline to add this when the `done` event comes through.
     }
 }
 
-static void tablet_tool_handle_hardware_serial(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t serial_hi, uint32_t serial_lo)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_hardware_serial(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t serial_hi, uint32_t serial_lo)
 {
     // don't care about this atm.
 }
 
-static void tablet_tool_handle_hardware_id_wacom(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t id_hi, uint32_t id_lo)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_hardware_id_wacom(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t id_hi, uint32_t id_lo)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
     sdltool->info.wacom_id = id_lo;
 }
 
-static void tablet_tool_handle_capability(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t capability)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_capability(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t capability)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    switch (capability) {
-        #define CASE(wltyp,sdltyp) case ZWP_TABLET_TOOL_V2_CAPABILITY_##wltyp: sdltool->info.capabilities |= sdltyp; return
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਚੋਣ (capability) {
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CASE(wltyp,sdltyp) ਹਾਲਤ ZWP_TABLET_TOOL_V2_CAPABILITY_##wltyp: sdltool->info.capabilities |= sdltyp; ਵਾਪਸ
         CASE(TILT, SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT);
         CASE(PRESSURE, SDL_PEN_CAPABILITY_PRESSURE);
-        CASE(DISTANCE, SDL_PEN_CAPABILITY_DISTANCE);
+        CASE(ਦੂਰੀ_2, SDL_PEN_CAPABILITY_ਦੂਰੀ);
         CASE(ROTATION, SDL_PEN_CAPABILITY_ROTATION);
         CASE(SLIDER, SDL_PEN_CAPABILITY_SLIDER);
-        #undef CASE
-        default: break;  // unsupported here.
+        #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ CASE
+        ਮੂਲ: ਰੋਕੋ;  // unsupported here.
     }
 }
 
-static void tablet_tool_handle_done(void *data, struct zwp_tablet_tool_v2 *tool)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_ਪੂਰਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    if (sdltool->info.subtype != SDL_PEN_TYPE_UNKNOWN) {   // don't tell SDL about it if we don't know its role.
-        SDL_Window *window = sdltool->focus ? sdltool->focus->sdlwindow : NULL;
-        sdltool->instance_id = SDL_AddPenDevice(0, NULL, window, &sdltool->info, sdltool, false);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਜੇ (sdltool->info.subtype != SDL_PEN_TYPE_UNKNOWN) {   // don't tell SDL about it if we don't know its role.
+        SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = sdltool->focus ? sdltool->focus->sdlwindow : ਨਿਰਾ;
+        sdltool->instance_id = SDL_ਜੋੜੋ_Pen_Device(0, ਨਿਰਾ, ਖਿੜਕੀ, &sdltool->info, sdltool, false);
     }
 }
 
-static void tablet_tool_handle_removed(void *data, struct zwp_tablet_tool_v2 *tool)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_removed(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    if (sdltool->instance_id) {
-        SDL_Window *window = sdltool->focus ? sdltool->focus->sdlwindow : NULL;
-        SDL_RemovePenDevice(0, window, sdltool->instance_id);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਜੇ (sdltool->instance_id) {
+        SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = sdltool->focus ? sdltool->focus->sdlwindow : ਨਿਰਾ;
+        SDL_RemovePenDevice(0, ਖਿੜਕੀ, sdltool->instance_id);
     }
 
     Wayland_CursorStateRelease(&sdltool->cursor_state);
@@ -3325,250 +3325,250 @@ static void tablet_tool_handle_removed(void *data, struct zwp_tablet_tool_v2 *to
     SDL_free(sdltool);
 }
 
-static void tablet_tool_handle_proximity_in(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t serial, struct zwp_tablet_v2 *tablet, struct wl_surface *surface)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_proximity_ਵਿੱਚ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t serial, ਬਣਤਰ zwp_tablet_v2 *tablet, ਬਣਤਰ wl_surface *surface)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    SDL_WindowData *windowdata = surface ? Wayland_GetWindowDataForOwnedSurface(surface) : NULL;
-    sdltool->focus = windowdata && windowdata->surface == surface ? windowdata : NULL;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *windowdata = surface ? Wayland_Get_ਖਿੜਕੀ_ਅੰਕੜੇ_For_Owned_Surface(surface) : ਨਿਰਾ;
+    sdltool->focus = windowdata && windowdata->surface == surface ? windowdata : ਨਿਰਾ;
     sdltool->proximity_serial = serial;
-    sdltool->frame.have_proximity = true;
-    sdltool->frame.in_proximity = true;
+    sdltool->ਚੌਖਟਾ.have_proximity = true;
+    sdltool->ਚੌਖਟਾ.ਵਿੱਚ_proximity = true;
 
     // According to the docs, this should be followed by a frame event, where we'll send our SDL events.
 }
 
-static void tablet_tool_handle_proximity_out(void *data, struct zwp_tablet_tool_v2 *tool)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_proximity_ਬਾਹਰਲਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.have_proximity = true;
-    sdltool->frame.in_proximity = false;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.have_proximity = true;
+    sdltool->ਚੌਖਟਾ.ਵਿੱਚ_proximity = false;
 }
 
-static void tablet_tool_handle_down(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t serial)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_ਥੱਲੇ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t serial)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.tool_state = WAYLAND_TABLET_TOOL_STATE_DOWN;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.tool_state = WAYLAND_TABLET_TOOL_STATE_ਥੱਲੇ;
 }
 
-static void tablet_tool_handle_up(void *data, struct zwp_tablet_tool_v2 *tool)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_ਉੱਪਰ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.tool_state = WAYLAND_TABLET_TOOL_STATE_UP;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.tool_state = WAYLAND_TABLET_TOOL_STATE_ਉੱਪਰ;
 }
 
-static void tablet_tool_handle_motion(void *data, struct zwp_tablet_tool_v2 *tool, wl_fixed_t sx_w, wl_fixed_t sy_w)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_motion(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, wl_fixed_t sx_w, wl_fixed_t sy_w)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    SDL_WindowData *windowdata = sdltool->focus;
-    if (windowdata) {
-        sdltool->frame.x = (float)(wl_fixed_to_double(sx_w) * windowdata->pointer_scale.x);
-        sdltool->frame.y = (float)(wl_fixed_to_double(sy_w) * windowdata->pointer_scale.y);
-        sdltool->frame.have_motion = true;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *windowdata = sdltool->focus;
+    ਜੇ (windowdata) {
+        sdltool->ਚੌਖਟਾ.x = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(sx_w) * windowdata->ਸੂਚਕ_scale.x);
+        sdltool->ਚੌਖਟਾ.y = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(sy_w) * windowdata->ਸੂਚਕ_scale.y);
+        sdltool->ਚੌਖਟਾ.have_motion = true;
     }
 }
 
-static void tablet_tool_handle_pressure(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t pressure)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_pressure(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t pressure)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.axes[SDL_PEN_AXIS_PRESSURE] = ((float) pressure) / 65535.0f;
-    sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_PRESSURE);
-    if (pressure) {
-        sdltool->frame.axes[SDL_PEN_AXIS_DISTANCE] = 0.0f;
-        sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_DISTANCE);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_PRESSURE] = ((ਦਸ਼ਮਲਵ) pressure) / 65535.0f;
+    sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_PRESSURE);
+    ਜੇ (pressure) {
+        sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_ਦੂਰੀ] = 0.0f;
+        sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_ਦੂਰੀ);
     }
 }
 
-static void tablet_tool_handle_distance(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t distance)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_ਦੂਰੀ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t ਦੂਰੀ)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.axes[SDL_PEN_AXIS_DISTANCE] = ((float) distance) / 65535.0f;
-    sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_DISTANCE);
-    if (distance) {
-        sdltool->frame.axes[SDL_PEN_AXIS_PRESSURE] = 0.0f;
-        sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_PRESSURE);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_ਦੂਰੀ] = ((ਦਸ਼ਮਲਵ) ਦੂਰੀ) / 65535.0f;
+    sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_ਦੂਰੀ);
+    ਜੇ (ਦੂਰੀ) {
+        sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_PRESSURE] = 0.0f;
+        sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_PRESSURE);
     }
 }
 
-static void tablet_tool_handle_tilt(void *data, struct zwp_tablet_tool_v2 *tool, wl_fixed_t xtilt, wl_fixed_t ytilt)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_tilt(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, wl_fixed_t xtilt, wl_fixed_t ytilt)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.axes[SDL_PEN_AXIS_XTILT] = (float)(wl_fixed_to_double(xtilt));
-    sdltool->frame.axes[SDL_PEN_AXIS_YTILT] = (float)(wl_fixed_to_double(ytilt));
-    sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_XTILT) | (1u << SDL_PEN_AXIS_YTILT);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_XTILT] = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(xtilt));
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_YTILT] = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(ytilt));
+    sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_XTILT) | (1u << SDL_PEN_AXIS_YTILT);
 }
 
-static void tablet_tool_handle_button(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t serial, uint32_t button, uint32_t state)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_button(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t serial, uint32_t button, uint32_t state)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    int sdlbutton;
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਪੂਰਨ sdlbutton;
 
-    switch (button) {
-    case BTN_STYLUS:
+    ਚੋਣ (button) {
+    ਹਾਲਤ BTN_STYLUS:
         sdlbutton = 1;
-        break;
-    case BTN_STYLUS2:
+        ਰੋਕੋ;
+    ਹਾਲਤ BTN_STYLUS2:
         sdlbutton = 2;
-        break;
-    case BTN_STYLUS3:
+        ਰੋਕੋ;
+    ਹਾਲਤ BTN_STYLUS3:
         sdlbutton = 3;
-        break;
-    default:
-        return;  // don't care about this button, I guess.
+        ਰੋਕੋ;
+    ਮੂਲ:
+        ਵਾਪਸ;  // don't care about this button, I guess.
     }
 
-    SDL_assert((sdlbutton >= 1) && (sdlbutton <= SDL_arraysize(sdltool->frame.buttons)));
-    sdltool->frame.buttons[sdlbutton-1] = (state == ZWP_TABLET_PAD_V2_BUTTON_STATE_PRESSED) ? WAYLAND_TABLET_TOOL_BUTTON_DOWN : WAYLAND_TABLET_TOOL_BUTTON_UP;
+    SDL_assert((sdlbutton >= 1) && (sdlbutton <= SDL_arraysize(sdltool->ਚੌਖਟਾ.buttons)));
+    sdltool->ਚੌਖਟਾ.buttons[sdlbutton-1] = (state == ZWP_TABLET_PAD_V2_BUTTON_STATE_PRESSED) ? WAYLAND_TABLET_TOOL_BUTTON_ਥੱਲੇ : WAYLAND_TABLET_TOOL_BUTTON_ਉੱਪਰ;
 }
 
-static void tablet_tool_handle_rotation(void *data, struct zwp_tablet_tool_v2 *tool, wl_fixed_t degrees)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_rotation(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, wl_fixed_t degrees)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    const float rotation = (float)(wl_fixed_to_double(degrees));
-    sdltool->frame.axes[SDL_PEN_AXIS_ROTATION] = (rotation > 180.0f) ? (rotation - 360.0f) : rotation;  // map to -180.0f ... 179.0f range
-    sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_ROTATION);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਅਚਲ ਦਸ਼ਮਲਵ rotation = (ਦਸ਼ਮਲਵ)(wl_fixed_ਮੰਜ਼ਿਲ_double(degrees));
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_ROTATION] = (rotation > 180.0f) ? (rotation - 360.0f) : rotation;  // map to -180.0f ... 179.0f range
+    sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_ROTATION);
 }
 
-static void tablet_tool_handle_slider(void *data, struct zwp_tablet_tool_v2 *tool, int32_t position)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_slider(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, int32_t position)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    sdltool->frame.axes[SDL_PEN_AXIS_SLIDER] = position / 65535.f;
-    sdltool->frame.axes_set |= (1u << SDL_PEN_AXIS_SLIDER);
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    sdltool->ਚੌਖਟਾ.axes[SDL_PEN_AXIS_SLIDER] = position / 65535.f;
+    sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ |= (1u << SDL_PEN_AXIS_SLIDER);
 }
 
-static void tablet_tool_handle_wheel(void *data, struct zwp_tablet_tool_v2 *tool, int32_t degrees, int32_t clicks)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_wheel(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, int32_t degrees, int32_t clicks)
 {
     // not supported at the moment
 }
 
-static void tablet_tool_handle_frame(void *data, struct zwp_tablet_tool_v2 *tool, uint32_t time)
+ਸਥਿਰ ਖਾਲੀ tablet_tool_handle_ਚੌਖਟਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_tool_v2 *tool, uint32_t ਸਮਾਂ)
 {
-    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) data;
-    const SDL_PenID instance_id = sdltool->instance_id;
-    if (!instance_id) {
-        return;  // Not a pen we report on.
+    SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) ਅੰਕੜੇ;
+    ਅਚਲ SDL_PenID instance_id = sdltool->instance_id;
+    ਜੇ (!instance_id) {
+        ਵਾਪਸ;  // Not a pen we report on.
     }
 
-    const Uint64 timestamp = Wayland_AdjustEventTimestampBase(Wayland_EventTimestampMSToNS(time));
-    SDL_Window *window = sdltool->focus ? sdltool->focus->sdlwindow : NULL;
-    const bool is_eraser = sdltool->info.subtype == SDL_PEN_TYPE_ERASER;
+    ਅਚਲ Uint64 timestamp = Wayland_Adjust_Event_Timestamp_ਅਧਾਰ(Wayland_EventTimestampMSToNS(ਸਮਾਂ));
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = sdltool->focus ? sdltool->focus->sdlwindow : ਨਿਰਾ;
+    ਅਚਲ bool is_eraser = sdltool->info.subtype == SDL_PEN_TYPE_ERASER;
 
-    if (sdltool->frame.have_proximity && sdltool->frame.in_proximity) {
-        SDL_SendPenProximity(timestamp, instance_id, window, true, true);
+    ਜੇ (sdltool->ਚੌਖਟਾ.have_proximity && sdltool->ਚੌਖਟਾ.ਵਿੱਚ_proximity) {
+        SDL_SendPenProximity(timestamp, instance_id, ਖਿੜਕੀ, true, true);
         Wayland_TabletToolUpdateCursor(sdltool);
     }
 
     // !!! FIXME: Should hit testing be done if pens generate pointer motion?
 
     // I don't know if this is necessary (or makes sense), but send motion before pen downs, but after pen ups, so you don't get unexpected lines drawn.
-    if (sdltool->frame.have_motion && sdltool->frame.tool_state) {
-        if (sdltool->frame.tool_state == WAYLAND_TABLET_TOOL_STATE_DOWN) {
-            SDL_SendPenMotion(timestamp, instance_id, window, sdltool->frame.x, sdltool->frame.y);
-            SDL_SendPenTouch(timestamp, instance_id, window, is_eraser, true);
-        } else {
-            SDL_SendPenTouch(timestamp, instance_id, window, is_eraser, false);
-            SDL_SendPenMotion(timestamp, instance_id, window, sdltool->frame.x, sdltool->frame.y);
+    ਜੇ (sdltool->ਚੌਖਟਾ.have_motion && sdltool->ਚੌਖਟਾ.tool_state) {
+        ਜੇ (sdltool->ਚੌਖਟਾ.tool_state == WAYLAND_TABLET_TOOL_STATE_ਥੱਲੇ) {
+            SDL_SendPenMotion(timestamp, instance_id, ਖਿੜਕੀ, sdltool->ਚੌਖਟਾ.x, sdltool->ਚੌਖਟਾ.y);
+            SDL_SendPenTouch(timestamp, instance_id, ਖਿੜਕੀ, is_eraser, true);
+        } ਨਹੀਂਤਾਂ {
+            SDL_SendPenTouch(timestamp, instance_id, ਖਿੜਕੀ, is_eraser, false);
+            SDL_SendPenMotion(timestamp, instance_id, ਖਿੜਕੀ, sdltool->ਚੌਖਟਾ.x, sdltool->ਚੌਖਟਾ.y);
         }
-    } else {
-        if (sdltool->frame.tool_state) {
-            SDL_SendPenTouch(timestamp, instance_id, window, is_eraser, sdltool->frame.tool_state == WAYLAND_TABLET_TOOL_STATE_DOWN);
+    } ਨਹੀਂਤਾਂ {
+        ਜੇ (sdltool->ਚੌਖਟਾ.tool_state) {
+            SDL_SendPenTouch(timestamp, instance_id, ਖਿੜਕੀ, is_eraser, sdltool->ਚੌਖਟਾ.tool_state == WAYLAND_TABLET_TOOL_STATE_ਥੱਲੇ);
         }
 
-        if (sdltool->frame.have_motion) {
-            SDL_SendPenMotion(timestamp, instance_id, window, sdltool->frame.x, sdltool->frame.y);
+        ਜੇ (sdltool->ਚੌਖਟਾ.have_motion) {
+            SDL_SendPenMotion(timestamp, instance_id, ਖਿੜਕੀ, sdltool->ਚੌਖਟਾ.x, sdltool->ਚੌਖਟਾ.y);
         }
     }
 
-    for (SDL_PenAxis i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
-        if (sdltool->frame.axes_set & (1u << i)) {
-            SDL_SendPenAxis(timestamp, instance_id, window, i, sdltool->frame.axes[i]);
+    ਲਈ (SDL_PenAxis i = 0; i < SDL_PEN_AXIS_ਗਿਣਤੀ; i++) {
+        ਜੇ (sdltool->ਚੌਖਟਾ.axes_ਸੈੱਟ & (1u << i)) {
+            SDL_SendPenAxis(timestamp, instance_id, ਖਿੜਕੀ, i, sdltool->ਚੌਖਟਾ.axes[i]);
         }
     }
 
-    for (int i = 0; i < SDL_arraysize(sdltool->frame.buttons); i++) {
-        const int state = sdltool->frame.buttons[i];
-        if (state) {
-            SDL_SendPenButton(timestamp, instance_id, window, (Uint8)(i + 1), state == WAYLAND_TABLET_TOOL_BUTTON_DOWN);
+    ਲਈ (ਪੂਰਨ i = 0; i < SDL_arraysize(sdltool->ਚੌਖਟਾ.buttons); i++) {
+        ਅਚਲ ਪੂਰਨ state = sdltool->ਚੌਖਟਾ.buttons[i];
+        ਜੇ (state) {
+            SDL_SendPenButton(timestamp, instance_id, ਖਿੜਕੀ, (Uint8)(i + 1), state == WAYLAND_TABLET_TOOL_BUTTON_ਥੱਲੇ);
         }
     }
 
-    if (sdltool->frame.have_proximity && !sdltool->frame.in_proximity) {
-        SDL_SendPenProximity(timestamp, instance_id, window, false, false);
-        sdltool->focus = NULL;
+    ਜੇ (sdltool->ਚੌਖਟਾ.have_proximity && !sdltool->ਚੌਖਟਾ.ਵਿੱਚ_proximity) {
+        SDL_SendPenProximity(timestamp, instance_id, ਖਿੜਕੀ, false, false);
+        sdltool->focus = ਨਿਰਾ;
         Wayland_TabletToolUpdateCursor(sdltool);
     }
 
     // Reset for the next frame.
-    SDL_zero(sdltool->frame);
+    SDL_zero(sdltool->ਚੌਖਟਾ);
 }
 
-static const struct zwp_tablet_tool_v2_listener tablet_tool_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_tablet_tool_v2_listener tablet_tool_listener = {
     tablet_tool_handle_type,
     tablet_tool_handle_hardware_serial,
     tablet_tool_handle_hardware_id_wacom,
     tablet_tool_handle_capability,
-    tablet_tool_handle_done,
+    tablet_tool_handle_ਪੂਰਾ,
     tablet_tool_handle_removed,
-    tablet_tool_handle_proximity_in,
-    tablet_tool_handle_proximity_out,
-    tablet_tool_handle_down,
-    tablet_tool_handle_up,
+    tablet_tool_handle_proximity_ਵਿੱਚ,
+    tablet_tool_handle_proximity_ਬਾਹਰਲਾ,
+    tablet_tool_handle_ਥੱਲੇ,
+    tablet_tool_handle_ਉੱਪਰ,
     tablet_tool_handle_motion,
     tablet_tool_handle_pressure,
-    tablet_tool_handle_distance,
+    tablet_tool_handle_ਦੂਰੀ,
     tablet_tool_handle_tilt,
     tablet_tool_handle_rotation,
     tablet_tool_handle_slider,
     tablet_tool_handle_wheel,
     tablet_tool_handle_button,
-    tablet_tool_handle_frame
+    tablet_tool_handle_ਚੌਖਟਾ
 };
 
 
-static void tablet_seat_handle_tablet_added(void *data, struct zwp_tablet_seat_v2 *zwp_tablet_seat_v2, struct zwp_tablet_v2 *tablet)
+ਸਥਿਰ ਖਾਲੀ tablet_seat_handle_tablet_added(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_seat_v2 *zwp_tablet_seat_v2, ਬਣਤਰ zwp_tablet_v2 *tablet)
 {
     // don't care atm.
 }
 
-static void tablet_seat_handle_tool_added(void *data, struct zwp_tablet_seat_v2 *zwp_tablet_seat_v2, struct zwp_tablet_tool_v2 *tool)
+ਸਥਿਰ ਖਾਲੀ tablet_seat_handle_tool_added(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_seat_v2 *zwp_tablet_seat_v2, ਬਣਤਰ zwp_tablet_tool_v2 *tool)
 {
-    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)data;
-    SDL_WaylandPenTool *sdltool = SDL_calloc(1, sizeof(*sdltool));
+    SDL_WaylandSeat *seat = (SDL_WaylandSeat *)ਅੰਕੜੇ;
+    SDL_WaylandPenTool *sdltool = SDL_calloc(1, ਆਕਾਰ(*sdltool));
 
-    if (sdltool) {  // if allocation failed, oh well, we won't report this device.
+    ਜੇ (sdltool) {  // if allocation failed, oh well, we won't report this device.
         sdltool->wltool = tool;
         sdltool->info.max_tilt = -1.0f;
-        sdltool->info.num_buttons = -1;
+        sdltool->info.ਅੰਕ_buttons = -1;
 
-        if (seat->display->cursor_shape_manager) {
+        ਜੇ (seat->display->cursor_shape_manager) {
             sdltool->cursor_state.cursor_shape = wp_cursor_shape_manager_v1_get_tablet_tool_v2(seat->display->cursor_shape_manager, tool);
         }
 
-        WAYLAND_wl_list_insert(&seat->tablet.tool_list, &sdltool->link);
+        WAYLAND_wl_list_ਪਾਓ(&seat->tablet.tool_list, &sdltool->link);
 
         // this will send a bunch of zwp_tablet_tool_v2 events right up front to tell
         // us device details, with a "done" event to let us know we have everything.
-        zwp_tablet_tool_v2_add_listener(tool, &tablet_tool_listener, sdltool);
+        zwp_tablet_tool_v2_ਜੋੜੋ_listener(tool, &tablet_tool_listener, sdltool);
     }
 }
 
-static void tablet_seat_handle_pad_added(void *data, struct zwp_tablet_seat_v2 *zwp_tablet_seat_v2, struct zwp_tablet_pad_v2 *pad)
+ਸਥਿਰ ਖਾਲੀ tablet_seat_handle_pad_added(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ zwp_tablet_seat_v2 *zwp_tablet_seat_v2, ਬਣਤਰ zwp_tablet_pad_v2 *pad)
 {
     // we don't care atm.
 }
 
-static const struct zwp_tablet_seat_v2_listener tablet_seat_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ zwp_tablet_seat_v2_listener tablet_seat_listener = {
     tablet_seat_handle_tablet_added,
     tablet_seat_handle_tool_added,
     tablet_seat_handle_pad_added
 };
 
-static void Wayland_SeatInitTabletSupport(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatInitTabletSupport(SDL_WaylandSeat *seat)
 {
     seat->tablet.wl_tablet_seat = zwp_tablet_manager_v2_get_tablet_seat(seat->display->tablet_manager, seat->wl_seat);
-    zwp_tablet_seat_v2_add_listener(seat->tablet.wl_tablet_seat, &tablet_seat_listener, seat);
+    zwp_tablet_seat_v2_ਜੋੜੋ_listener(seat->tablet.wl_tablet_seat, &tablet_seat_listener, seat);
 }
 
-void Wayland_DisplayInitTabletManager(SDL_VideoData *display)
+ਖਾਲੀ Wayland_DisplayInitTabletManager(SDL_Video_ਅੰਕੜੇ *display)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
@@ -3576,7 +3576,7 @@ void Wayland_DisplayInitTabletManager(SDL_VideoData *display)
     }
 }
 
-static void Wayland_remove_all_pens_callback(SDL_PenID instance_id, void *handle, void *userdata)
+ਸਥਿਰ ਖਾਲੀ Wayland_remove_all_pens_callback(SDL_PenID instance_id, ਖਾਲੀ *handle, ਖਾਲੀ *userdata)
 {
     SDL_WaylandPenTool *sdltool = (SDL_WaylandPenTool *) handle;
 
@@ -3585,37 +3585,37 @@ static void Wayland_remove_all_pens_callback(SDL_PenID instance_id, void *handle
     SDL_free(sdltool);
 }
 
-static void Wayland_SeatDestroyTablet(SDL_WaylandSeat *seat, bool shutting_down)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatDestroyTablet(SDL_WaylandSeat *seat, bool shutting_ਥੱਲੇ)
 {
-    if (!shutting_down) {
-        SDL_WaylandPenTool *tool, *temp;
-        wl_list_for_each_safe (tool, temp, &seat->tablet.tool_list, link) {
+    ਜੇ (!shutting_ਥੱਲੇ) {
+        SDL_WaylandPenTool *tool, *ਆਰਜ਼ੀ;
+        wl_list_for_each_ਸੁਰੱਖਿਅਤ (tool, ਆਰਜ਼ੀ, &seat->tablet.tool_list, link) {
             // Remove all tools for this seat, sending PROXIMITY_OUT events.
             tablet_tool_handle_removed(tool, tool->wltool);
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         // Shutting down, just delete everything.
-        SDL_RemoveAllPenDevices(Wayland_remove_all_pens_callback, NULL);
+        SDL_RemoveAllPenDevices(Wayland_remove_all_pens_callback, ਨਿਰਾ);
     }
 
-    if (seat->tablet.wl_tablet_seat) {
+    ਜੇ (seat->tablet.wl_tablet_seat) {
         zwp_tablet_seat_v2_destroy(seat->tablet.wl_tablet_seat);
-        seat->tablet.wl_tablet_seat = NULL;
+        seat->tablet.wl_tablet_seat = ਨਿਰਾ;
     }
 
     SDL_zero(seat->tablet);
     WAYLAND_wl_list_init(&seat->tablet.tool_list);
 }
 
-void Wayland_DisplayCreateSeat(SDL_VideoData *display, struct wl_seat *wl_seat, Uint32 id)
+ਖਾਲੀ Wayland_DisplayCreateSeat(SDL_Video_ਅੰਕੜੇ *display, ਬਣਤਰ wl_seat *wl_seat, Uint32 id)
 {
-    SDL_WaylandSeat *seat = SDL_calloc(1, sizeof(SDL_WaylandSeat));
-    if (!seat) {
-        return;
+    SDL_WaylandSeat *seat = SDL_calloc(1, ਆਕਾਰ(SDL_WaylandSeat));
+    ਜੇ (!seat) {
+        ਵਾਪਸ;
     }
 
     // Keep the seats in the order in which they were added.
-    WAYLAND_wl_list_insert(display->seat_list.prev, &seat->link);
+    WAYLAND_wl_list_ਪਾਓ(display->seat_list.prev, &seat->link);
 
     WAYLAND_wl_array_init(&seat->keyboard.reserved_scancodes);
     WAYLAND_wl_list_init(&seat->touch.points);
@@ -3624,63 +3624,63 @@ void Wayland_DisplayCreateSeat(SDL_VideoData *display, struct wl_seat *wl_seat, 
     seat->display = display;
     seat->registry_id = id;
 
-    Wayland_SeatCreateDataDevice(seat);
+    Wayland_Seat_Create_ਅੰਕੜੇ_Device(seat);
     Wayland_SeatCreatePrimarySelectionDevice(seat);
-    Wayland_SeatCreateTextInput(seat);
+    Wayland_Seat_Create_ਪਾਠ_ਨਿਵੇਸ਼(seat);
 
-    wl_seat_set_user_data(seat->wl_seat, seat);
-    wl_seat_add_listener(seat->wl_seat, &seat_listener, seat);
+    wl_seat_ਸੈੱਟ_user_ਅੰਕੜੇ(seat->wl_seat, seat);
+    wl_seat_ਜੋੜੋ_listener(seat->wl_seat, &seat_listener, seat);
 
-    if (display->tablet_manager) {
+    ਜੇ (display->tablet_manager) {
         Wayland_SeatInitTabletSupport(seat);
     }
 }
 
-void Wayland_DisplayRemoveWindowReferencesFromSeats(SDL_VideoData *display, SDL_WindowData *window)
+ਖਾਲੀ Wayland_Display_Remove_ਖਿੜਕੀ_References_From_Seats(SDL_Video_ਅੰਕੜੇ *display, SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link)
     {
-        if (seat->keyboard.focus == window) {
-            keyboard_handle_leave(seat, seat->keyboard.wl_keyboard, 0, window->surface);
+        ਜੇ (seat->keyboard.focus == ਖਿੜਕੀ) {
+            keyboard_handle_leave(seat, seat->keyboard.wl_keyboard, 0, ਖਿੜਕੀ->surface);
         }
 
-        if (seat->pointer.focus == window) {
-            seat->pointer.pending_frame.leave_surface = seat->pointer.focus->surface;
-            pointer_dispatch_leave(seat, true);
-            seat->pointer.pending_frame.leave_surface = NULL;
+        ਜੇ (seat->ਸੂਚਕ_2.focus == ਖਿੜਕੀ) {
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = seat->ਸੂਚਕ_2.focus->surface;
+            ਸੂਚਕ_dispatch_leave(seat, true);
+            seat->ਸੂਚਕ_2.pending_ਚੌਖਟਾ.leave_surface = ਨਿਰਾ;
         }
 
         // Need the safe loop variant here as cancelling a touch point removes it from the list.
-        SDL_WaylandTouchPoint *tp, *temp;
-        wl_list_for_each_safe (tp, temp, &seat->touch.points, link) {
-            if (tp->surface == window->surface) {
+        SDL_Wayland_Touch_ਬਿੰਦੂ *tp, *ਆਰਜ਼ੀ;
+        wl_list_for_each_ਸੁਰੱਖਿਅਤ (tp, ਆਰਜ਼ੀ, &seat->touch.points, link) {
+            ਜੇ (tp->surface == ਖਿੜਕੀ->surface) {
                 Wayland_SeatCancelTouch(seat, tp);
             }
         }
 
         SDL_WaylandPenTool *tool;
         wl_list_for_each (tool, &seat->tablet.tool_list, link) {
-            if (tool->focus == window) {
-                tool->focus = NULL;
+            ਜੇ (tool->focus == ਖਿੜਕੀ) {
+                tool->focus = ਨਿਰਾ;
                 Wayland_TabletToolUpdateCursor(tool);
-                if (tool->instance_id) {
-                    SDL_RemovePenDevice(0, window->sdlwindow, tool->instance_id);
+                ਜੇ (tool->instance_id) {
+                    SDL_RemovePenDevice(0, ਖਿੜਕੀ->sdlwindow, tool->instance_id);
                     tool->instance_id = 0;
                 }
             }
         }
 
         // Cancel any pending drop events.
-        Wayland_DropData *drop, *drop_temp;
-        wl_list_for_each_safe (drop, drop_temp, &seat->data_device->pending_drops, link) {
-            if (drop->dnd_window == window->sdlwindow) {
-                Wayland_JobThreadCancelJob(display->job_thread_context, drop->id);
+        Wayland_Drop_ਅੰਕੜੇ *drop, *drop_ਆਰਜ਼ੀ;
+        wl_list_for_each_ਸੁਰੱਖਿਅਤ (drop, drop_ਆਰਜ਼ੀ, &seat->ਅੰਕੜੇ_device->pending_drops, link) {
+            ਜੇ (drop->dnd_ਖਿੜਕੀ == ਖਿੜਕੀ->sdlwindow) {
+                Wayland_ਕੰਮ_Thread_Cancel_ਕੰਮ(display->ਕੰਮ_thread_context, drop->id);
 
-                if (drop->cleanup_callback) {
+                ਜੇ (drop->cleanup_callback) {
                     wl_callback_destroy(drop->cleanup_callback);
                 }
-                Wayland_DataOfferDestroy(drop->offer);
+                Wayland_ਅੰਕੜੇ_Offer_Destroy(drop->offer);
                 WAYLAND_wl_list_remove(&drop->link);
                 SDL_free(drop);
             }
@@ -3688,74 +3688,74 @@ void Wayland_DisplayRemoveWindowReferencesFromSeats(SDL_VideoData *display, SDL_
     }
 }
 
-void Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down)
+ਖਾਲੀ Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_ਥੱਲੇ)
 {
-    if (!seat) {
-        return;
+    ਜੇ (!seat) {
+        ਵਾਪਸ;
     }
 
     SDL_free(seat->name);
 
-    if (seat->data_device) {
-        if (seat->data_device->selection_offer) {
-            Wayland_DataOfferDestroy(seat->data_device->selection_offer);
+    ਜੇ (seat->ਅੰਕੜੇ_device) {
+        ਜੇ (seat->ਅੰਕੜੇ_device->selection_offer) {
+            Wayland_ਅੰਕੜੇ_Offer_Destroy(seat->ਅੰਕੜੇ_device->selection_offer);
         }
-        if (seat->data_device->selection_source) {
-            Wayland_DataSourceDestroy(seat->data_device->selection_source);
+        ਜੇ (seat->ਅੰਕੜੇ_device->selection_ਸਰੋਤ) {
+            Wayland_ਅੰਕੜੇ_ਸਰੋਤ_Destroy(seat->ਅੰਕੜੇ_device->selection_ਸਰੋਤ);
         }
-        if (seat->data_device->drag_offer) {
-            Wayland_DataOfferDestroy(seat->data_device->drag_offer);
+        ਜੇ (seat->ਅੰਕੜੇ_device->drag_offer) {
+            Wayland_ਅੰਕੜੇ_Offer_Destroy(seat->ਅੰਕੜੇ_device->drag_offer);
         }
 
         // Free any remaining drop events.
-        Wayland_DropData *drop, *drop_temp;
-        wl_list_for_each_safe (drop, drop_temp, &seat->data_device->pending_drops, link) {
-            Wayland_JobThreadCancelJob(seat->display->job_thread_context, drop->id);
+        Wayland_Drop_ਅੰਕੜੇ *drop, *drop_ਆਰਜ਼ੀ;
+        wl_list_for_each_ਸੁਰੱਖਿਅਤ (drop, drop_ਆਰਜ਼ੀ, &seat->ਅੰਕੜੇ_device->pending_drops, link) {
+            Wayland_ਕੰਮ_Thread_Cancel_ਕੰਮ(seat->display->ਕੰਮ_thread_context, drop->id);
 
-            if (drop->cleanup_callback) {
+            ਜੇ (drop->cleanup_callback) {
                 wl_callback_destroy(drop->cleanup_callback);
             }
-            Wayland_DataOfferDestroy(drop->offer);
+            Wayland_ਅੰਕੜੇ_Offer_Destroy(drop->offer);
             WAYLAND_wl_list_remove(&drop->link);
             SDL_free(drop);
         }
 
-        if (seat->data_device->data_device) {
-            if (wl_data_device_get_version(seat->data_device->data_device) >= WL_DATA_DEVICE_RELEASE_SINCE_VERSION) {
-                wl_data_device_release(seat->data_device->data_device);
-            } else {
-                wl_data_device_destroy(seat->data_device->data_device);
+        ਜੇ (seat->ਅੰਕੜੇ_device->ਅੰਕੜੇ_device) {
+            ਜੇ (wl_ਅੰਕੜੇ_device_get_ਸੰਸਕਰਣ(seat->ਅੰਕੜੇ_device->ਅੰਕੜੇ_device) >= WL_ਅੰਕੜੇ_DEVICE_RELEASE_SINCE_ਸੰਸਕਰਣ) {
+                wl_ਅੰਕੜੇ_device_release(seat->ਅੰਕੜੇ_device->ਅੰਕੜੇ_device);
+            } ਨਹੀਂਤਾਂ {
+                wl_ਅੰਕੜੇ_device_destroy(seat->ਅੰਕੜੇ_device->ਅੰਕੜੇ_device);
             }
         }
-        SDL_free(seat->data_device->id_str);
-        SDL_free(seat->data_device);
+        SDL_free(seat->ਅੰਕੜੇ_device->id_str);
+        SDL_free(seat->ਅੰਕੜੇ_device);
     }
 
-    if (seat->primary_selection_device) {
-        if (seat->primary_selection_device->selection_offer) {
+    ਜੇ (seat->primary_selection_device) {
+        ਜੇ (seat->primary_selection_device->selection_offer) {
             Wayland_PrimarySelectionOfferDestroy(seat->primary_selection_device->selection_offer);
         }
-        if (seat->primary_selection_device->selection_source) {
-            Wayland_PrimarySelectionSourceDestroy(seat->primary_selection_device->selection_source);
+        ਜੇ (seat->primary_selection_device->selection_ਸਰੋਤ) {
+            Wayland_Primary_Selection_ਸਰੋਤ_Destroy(seat->primary_selection_device->selection_ਸਰੋਤ);
         }
-        if (seat->primary_selection_device->primary_selection_device) {
+        ਜੇ (seat->primary_selection_device->primary_selection_device) {
             zwp_primary_selection_device_v1_destroy(seat->primary_selection_device->primary_selection_device);
         }
         SDL_free(seat->primary_selection_device);
     }
 
-    if (seat->text_input.zwp_text_input) {
-        zwp_text_input_v3_destroy(seat->text_input.zwp_text_input);
+    ਜੇ (seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼) {
+        zwp_ਪਾਠ_ਨਿਵੇਸ਼_v3_destroy(seat->ਪਾਠ_ਨਿਵੇਸ਼.zwp_ਪਾਠ_ਨਿਵੇਸ਼);
     }
 
     Wayland_SeatDestroyKeyboard(seat);
-    Wayland_SeatDestroyPointer(seat);
+    Wayland_Seat_Destroy_ਸੂਚਕ(seat);
     Wayland_SeatDestroyTouch(seat);
-    Wayland_SeatDestroyTablet(seat, shutting_down);
+    Wayland_SeatDestroyTablet(seat, shutting_ਥੱਲੇ);
 
-    if (wl_seat_get_version(seat->wl_seat) >= WL_SEAT_RELEASE_SINCE_VERSION) {
+    ਜੇ (wl_seat_get_ਸੰਸਕਰਣ(seat->wl_seat) >= WL_SEAT_RELEASE_SINCE_ਸੰਸਕਰਣ) {
         wl_seat_release(seat->wl_seat);
-    } else {
+    } ਨਹੀਂਤਾਂ {
         wl_seat_destroy(seat->wl_seat);
     }
 
@@ -3763,131 +3763,131 @@ void Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down)
     SDL_free(seat);
 }
 
-static void Wayland_SeatUpdateRelativePointer(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_Seat_Update_Relative_ਸੂਚਕ(SDL_WaylandSeat *seat)
 {
-    if (seat->display->relative_pointer_manager) {
+    ਜੇ (seat->display->relative_ਸੂਚਕ_manager) {
         bool relative_focus = false;
 
-        if (seat->pointer.focus) {
+        ਜੇ (seat->ਸੂਚਕ_2.focus) {
             /* If a seat has both keyboard and pointer capabilities, relative focus will follow the keyboard
              * attached to that seat. Otherwise, relative focus will be gained if any other seat has keyboard
              * focus on the window with pointer focus.
              */
-            if (seat->pointer.focus->sdlwindow->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE) {
-                if (seat->keyboard.wl_keyboard) {
-                    relative_focus = seat->keyboard.focus == seat->pointer.focus;
-                } else {
-                    relative_focus = seat->pointer.focus->keyboard_focus_count != 0;
+            ਜੇ (seat->ਸੂਚਕ_2.focus->sdlwindow->flags & SDL_ਖਿੜਕੀ_MOUSE_RELATIVE_ਬਹੁਲਕ) {
+                ਜੇ (seat->keyboard.wl_keyboard) {
+                    relative_focus = seat->keyboard.focus == seat->ਸੂਚਕ_2.focus;
+                } ਨਹੀਂਤਾਂ {
+                    relative_focus = seat->ਸੂਚਕ_2.focus->keyboard_focus_ਗਿਣਤੀ != 0;
                 }
-            } else {
-                relative_focus = SDL_GetMouse()->warp_emulation_active;
+            } ਨਹੀਂਤਾਂ {
+                relative_focus = SDL_GetMouse()->warp_emulation_ਸਰਗਰਮ;
             }
         }
 
-        if (relative_focus) {
-            if (!seat->pointer.relative_pointer) {
-                seat->pointer.relative_pointer = zwp_relative_pointer_manager_v1_get_relative_pointer(seat->display->relative_pointer_manager, seat->pointer.wl_pointer);
-                zwp_relative_pointer_v1_add_listener(seat->pointer.relative_pointer, &relative_pointer_listener, seat);
+        ਜੇ (relative_focus) {
+            ਜੇ (!seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+                seat->ਸੂਚਕ_2.relative_ਸੂਚਕ = zwp_relative_ਸੂਚਕ_manager_v1_get_relative_ਸੂਚਕ(seat->display->relative_ਸੂਚਕ_manager, seat->ਸੂਚਕ_2.wl_ਸੂਚਕ);
+                zwp_relative_ਸੂਚਕ_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.relative_ਸੂਚਕ, &relative_ਸੂਚਕ_listener, seat);
             }
-        } else if (seat->pointer.relative_pointer) {
-            zwp_relative_pointer_v1_destroy(seat->pointer.relative_pointer);
-            seat->pointer.relative_pointer = NULL;
+        } ਨਹੀਂਤਾਂ ਜੇ (seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+            zwp_relative_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.relative_ਸੂਚਕ);
+            seat->ਸੂਚਕ_2.relative_ਸੂਚਕ = ਨਿਰਾ;
         }
     }
 }
 
-static void Wayland_SeatUpdateKeyboardGrab(SDL_WaylandSeat *seat)
+ਸਥਿਰ ਖਾਲੀ Wayland_SeatUpdateKeyboardGrab(SDL_WaylandSeat *seat)
 {
-    SDL_VideoData *display = seat->display;
+    SDL_Video_ਅੰਕੜੇ *display = seat->display;
 
-    if (display->key_inhibitor_manager) {
+    ਜੇ (display->ਕੁੰਜੀ_inhibitor_manager) {
         // Destroy the existing key inhibitor.
-        if (seat->keyboard.key_inhibitor) {
-            zwp_keyboard_shortcuts_inhibitor_v1_destroy(seat->keyboard.key_inhibitor);
-            seat->keyboard.key_inhibitor = NULL;
+        ਜੇ (seat->keyboard.ਕੁੰਜੀ_inhibitor) {
+            zwp_keyboard_shortcuts_inhibitor_v1_destroy(seat->keyboard.ਕੁੰਜੀ_inhibitor);
+            seat->keyboard.ਕੁੰਜੀ_inhibitor = ਨਿਰਾ;
         }
 
-        if (seat->keyboard.wl_keyboard) {
-            SDL_WindowData *w = seat->keyboard.focus;
-            if (w) {
-                SDL_Window *window = w->sdlwindow;
+        ਜੇ (seat->keyboard.wl_keyboard) {
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *w = seat->keyboard.focus;
+            ਜੇ (w) {
+                SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = w->sdlwindow;
 
                 // Don't grab the keyboard if it shouldn't be grabbed.
-                if (window->flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-                    seat->keyboard.key_inhibitor =
-                        zwp_keyboard_shortcuts_inhibit_manager_v1_inhibit_shortcuts(display->key_inhibitor_manager, w->surface, seat->wl_seat);
+                ਜੇ (ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_KEYBOARD_GRABBED) {
+                    seat->keyboard.ਕੁੰਜੀ_inhibitor =
+                        zwp_keyboard_shortcuts_inhibit_manager_v1_inhibit_shortcuts(display->ਕੁੰਜੀ_inhibitor_manager, w->surface, seat->wl_seat);
                 }
             }
         }
     }
 }
 
-void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat)
+ਖਾਲੀ Wayland_Seat_Update_ਸੂਚਕ_Grab(SDL_WaylandSeat *seat)
 {
-    SDL_VideoData *display = seat->display;
-    Wayland_SeatUpdateRelativePointer(seat);
+    SDL_Video_ਅੰਕੜੇ *display = seat->display;
+    Wayland_Seat_Update_Relative_ਸੂਚਕ(seat);
 
-    if (display->pointer_constraints) {
-        if (seat->pointer.locked_pointer && !seat->pointer.relative_pointer) {
-            zwp_locked_pointer_v1_destroy(seat->pointer.locked_pointer);
-            seat->pointer.locked_pointer = NULL;
+    ਜੇ (display->ਸੂਚਕ_constraints) {
+        ਜੇ (seat->ਸੂਚਕ_2.locked_ਸੂਚਕ && !seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+            zwp_locked_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.locked_ਸੂਚਕ);
+            seat->ਸੂਚਕ_2.locked_ਸੂਚਕ = ਨਿਰਾ;
 
             // Update the cursor after destroying a relative move lock.
-            Wayland_SeatUpdatePointerCursor(seat);
+            Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
         }
 
-        if (seat->pointer.wl_pointer) {
+        ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
             // If relative mode is active, and the pointer focus matches the keyboard focus, lock it.
-            if (seat->pointer.relative_pointer) {
-                if (!seat->pointer.locked_pointer) {
+            ਜੇ (seat->ਸੂਚਕ_2.relative_ਸੂਚਕ) {
+                ਜੇ (!seat->ਸੂਚਕ_2.locked_ਸੂਚਕ) {
                     // Creating a lock on a surface with an active confinement region on the same seat is a protocol error.
-                    if (seat->pointer.confined_pointer) {
-                        zwp_confined_pointer_v1_destroy(seat->pointer.confined_pointer);
-                        seat->pointer.confined_pointer = NULL;
+                    ਜੇ (seat->ਸੂਚਕ_2.confined_ਸੂਚਕ) {
+                        zwp_confined_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.confined_ਸੂਚਕ);
+                        seat->ਸੂਚਕ_2.confined_ਸੂਚਕ = ਨਿਰਾ;
                     }
 
-                    seat->pointer.locked_pointer = zwp_pointer_constraints_v1_lock_pointer(display->pointer_constraints,
-                                                                                           seat->pointer.focus->surface,
-                                                                                           seat->pointer.wl_pointer, NULL,
-                                                                                           ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
-                    zwp_locked_pointer_v1_add_listener(seat->pointer.locked_pointer, &locked_pointer_listener, seat);
+                    seat->ਸੂਚਕ_2.locked_ਸੂਚਕ = zwp_ਸੂਚਕ_constraints_v1_ਤਾਲਾ_ਸੂਚਕ(display->ਸੂਚਕ_constraints,
+                                                                                           seat->ਸੂਚਕ_2.focus->surface,
+                                                                                           seat->ਸੂਚਕ_2.wl_ਸੂਚਕ, ਨਿਰਾ,
+                                                                                           ZWP_ਸੂਚਕ_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+                    zwp_locked_ਸੂਚਕ_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.locked_ਸੂਚਕ, &locked_ਸੂਚਕ_listener, seat);
 
                     // Ensure that the relative pointer is hidden, if required.
-                    Wayland_SeatUpdatePointerCursor(seat);
+                    Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
                 }
 
                 // Locked the cursor for relative mode, nothing more to do.
-                return;
+                ਵਾਪਸ;
             }
 
             /* A confine may already be active, in which case we should destroy it and create a new one
              * in case it changed size.
              */
-            if (seat->pointer.confined_pointer) {
-                zwp_confined_pointer_v1_destroy(seat->pointer.confined_pointer);
-                seat->pointer.confined_pointer = NULL;
+            ਜੇ (seat->ਸੂਚਕ_2.confined_ਸੂਚਕ) {
+                zwp_confined_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.confined_ਸੂਚਕ);
+                seat->ਸੂਚਕ_2.confined_ਸੂਚਕ = ਨਿਰਾ;
             }
 
-            SDL_WindowData *w = seat->pointer.focus;
-            if (!w) {
-                return;
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *w = seat->ਸੂਚਕ_2.focus;
+            ਜੇ (!w) {
+                ਵਾਪਸ;
             }
 
-            SDL_Window *window = w->sdlwindow;
+            SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = w->sdlwindow;
 
             // Don't confine the pointer if the window doesn't have input focus, or it shouldn't be confined.
-            if (!(window->flags & SDL_WINDOW_INPUT_FOCUS) ||
-                (!(window->flags & SDL_WINDOW_MOUSE_GRABBED) && SDL_RectEmpty(&window->mouse_rect))) {
-                return;
+            ਜੇ (!(ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_ਨਿਵੇਸ਼_FOCUS) ||
+                (!(ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_MOUSE_GRABBED) && SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ(&ਖਿੜਕੀ->mouse_rect))) {
+                ਵਾਪਸ;
             }
 
-            struct wl_region *confine_rect = NULL;
-            if (!SDL_RectEmpty(&window->mouse_rect)) {
+            ਬਣਤਰ wl_region *confine_rect = ਨਿਰਾ;
+            ਜੇ (!SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ(&ਖਿੜਕੀ->mouse_rect)) {
                 SDL_Rect scaled_mouse_rect;
-                Wayland_GetScaledMouseRect(window, &scaled_mouse_rect);
+                Wayland_GetScaledMouseRect(ਖਿੜਕੀ, &scaled_mouse_rect);
 
                 confine_rect = wl_compositor_create_region(display->compositor);
-                wl_region_add(confine_rect,
+                wl_region_ਜੋੜੋ(confine_rect,
                               scaled_mouse_rect.x,
                               scaled_mouse_rect.y,
                               scaled_mouse_rect.w,
@@ -3897,22 +3897,22 @@ void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat)
                  * is already within the confinement area when it is created. Warp the pointer to the
                  * closest point within the confinement zone if outside.
                  */
-                if (!SDL_PointInRect(&seat->pointer.last_motion, &scaled_mouse_rect)) {
+                ਜੇ (!SDL_ਬਿੰਦੂ_ਵਿੱਚ_Rect(&seat->ਸੂਚਕ_2.ਆਖਰੀ_motion, &scaled_mouse_rect)) {
                     /* Warp the pointer to the closest point within the confinement zone if outside,
                      * The confinement region will be created when a true position event is received.
                      */
-                    int closest_x = seat->pointer.last_motion.x;
-                    int closest_y = seat->pointer.last_motion.y;
+                    ਪੂਰਨ closest_x = seat->ਸੂਚਕ_2.ਆਖਰੀ_motion.x;
+                    ਪੂਰਨ closest_y = seat->ਸੂਚਕ_2.ਆਖਰੀ_motion.y;
 
-                    if (closest_x < scaled_mouse_rect.x) {
+                    ਜੇ (closest_x < scaled_mouse_rect.x) {
                         closest_x = scaled_mouse_rect.x;
-                    } else if (closest_x >= scaled_mouse_rect.x + scaled_mouse_rect.w) {
+                    } ਨਹੀਂਤਾਂ ਜੇ (closest_x >= scaled_mouse_rect.x + scaled_mouse_rect.w) {
                         closest_x = (scaled_mouse_rect.x + scaled_mouse_rect.w) - 1;
                     }
 
-                    if (closest_y < scaled_mouse_rect.y) {
+                    ਜੇ (closest_y < scaled_mouse_rect.y) {
                         closest_y = scaled_mouse_rect.y;
-                    } else if (closest_y >= scaled_mouse_rect.y + scaled_mouse_rect.h) {
+                    } ਨਹੀਂਤਾਂ ਜੇ (closest_y >= scaled_mouse_rect.y + scaled_mouse_rect.h) {
                         closest_y = (scaled_mouse_rect.y + scaled_mouse_rect.h) - 1;
                     }
 
@@ -3920,34 +3920,34 @@ void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat)
                 }
             }
 
-            if (confine_rect || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-                if (window->mouse_rect.w != 1 && window->mouse_rect.h != 1) {
-                    seat->pointer.confined_pointer =
-                        zwp_pointer_constraints_v1_confine_pointer(display->pointer_constraints,
+            ਜੇ (confine_rect || (ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_MOUSE_GRABBED)) {
+                ਜੇ (ਖਿੜਕੀ->mouse_rect.w != 1 && ਖਿੜਕੀ->mouse_rect.h != 1) {
+                    seat->ਸੂਚਕ_2.confined_ਸੂਚਕ =
+                        zwp_ਸੂਚਕ_constraints_v1_confine_ਸੂਚਕ(display->ਸੂਚਕ_constraints,
                                                                    w->surface,
-                                                                   seat->pointer.wl_pointer,
+                                                                   seat->ਸੂਚਕ_2.wl_ਸੂਚਕ,
                                                                    confine_rect,
-                                                                   ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
-                    zwp_confined_pointer_v1_add_listener(seat->pointer.confined_pointer,
-                                                         &confined_pointer_listener,
+                                                                   ZWP_ਸੂਚਕ_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+                    zwp_confined_ਸੂਚਕ_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.confined_ਸੂਚਕ,
+                                                         &confined_ਸੂਚਕ_listener,
                                                          seat);
-                } else {
+                } ਨਹੀਂਤਾਂ {
                     /* Use a lock for 1x1 confinement regions, as the pointer can exhibit subpixel motion otherwise.
                      * A null region is used since the warp *should* have placed the pointer where we want it, but
                      * better to lock it slightly off than let the pointer escape, as confining to a specific region
                      * seems to be a racy operation on some compositors.
                      */
-                    seat->pointer.locked_pointer =
-                        zwp_pointer_constraints_v1_lock_pointer(display->pointer_constraints,
+                    seat->ਸੂਚਕ_2.locked_ਸੂਚਕ =
+                        zwp_ਸੂਚਕ_constraints_v1_ਤਾਲਾ_ਸੂਚਕ(display->ਸੂਚਕ_constraints,
                                                                 w->surface,
-                                                                seat->pointer.wl_pointer,
-                                                                NULL,
-                                                                ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
-                    zwp_locked_pointer_v1_add_listener(seat->pointer.locked_pointer,
-                                                       &locked_pointer_listener,
+                                                                seat->ਸੂਚਕ_2.wl_ਸੂਚਕ,
+                                                                ਨਿਰਾ,
+                                                                ZWP_ਸੂਚਕ_CONSTRAINTS_V1_LIFETIME_PERSISTENT);
+                    zwp_locked_ਸੂਚਕ_v1_ਜੋੜੋ_listener(seat->ਸੂਚਕ_2.locked_ਸੂਚਕ,
+                                                       &locked_ਸੂਚਕ_listener,
                                                        seat);
                 }
-                if (confine_rect) {
+                ਜੇ (confine_rect) {
                     wl_region_destroy(confine_rect);
                 }
             }
@@ -3955,32 +3955,32 @@ void Wayland_SeatUpdatePointerGrab(SDL_WaylandSeat *seat)
     }
 }
 
-void Wayland_DisplayUpdatePointerGrabs(SDL_VideoData *display, SDL_WindowData *window)
+ਖਾਲੀ Wayland_Display_Update_ਸੂਚਕ_Grabs(SDL_Video_ਅੰਕੜੇ *display, SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
-        if (!window || seat->pointer.focus == window) {
-            Wayland_SeatUpdatePointerGrab(seat);
+        ਜੇ (!ਖਿੜਕੀ || seat->ਸੂਚਕ_2.focus == ਖਿੜਕੀ) {
+            Wayland_Seat_Update_ਸੂਚਕ_Grab(seat);
         }
     }
 }
 
-void Wayland_DisplayUpdateKeyboardGrabs(SDL_VideoData *display, SDL_WindowData *window)
+ਖਾਲੀ Wayland_DisplayUpdateKeyboardGrabs(SDL_Video_ਅੰਕੜੇ *display, SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ)
 {
     SDL_WaylandSeat *seat;
     wl_list_for_each (seat, &display->seat_list, link) {
-        if (!window || seat->keyboard.focus == window) {
+        ਜੇ (!ਖਿੜਕੀ || seat->keyboard.focus == ਖਿੜਕੀ) {
             Wayland_SeatUpdateKeyboardGrab(seat);
         }
     }
 }
 
-void Wayland_UpdateImplicitGrabSerial(SDL_WaylandSeat *seat, Uint32 serial)
+ਖਾਲੀ Wayland_UpdateImplicitGrabSerial(SDL_WaylandSeat *seat, Uint32 serial)
 {
-    if (serial > seat->last_implicit_grab_serial) {
-        seat->last_implicit_grab_serial = serial;
-        seat->display->last_implicit_grab_seat = seat;
+    ਜੇ (serial > seat->ਆਖਰੀ_implicit_grab_serial) {
+        seat->ਆਖਰੀ_implicit_grab_serial = serial;
+        seat->display->ਆਖਰੀ_implicit_grab_seat = seat;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WAYLAND

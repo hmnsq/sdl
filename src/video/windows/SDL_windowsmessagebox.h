@@ -18,10 +18,10 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
 
-extern bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+ਬਾਹਰੀ bool WIN_Show_ਸੁਨੇਹਾ_Box(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *messageboxdata, ਪੂਰਨ *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WINDOWS

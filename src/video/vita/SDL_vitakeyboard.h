@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitakeyboard_h
-#define SDL_vitakeyboard_h
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_vitakeyboard_h
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_vitakeyboard_h
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
 // Keyboard functions
-extern void VITA_InitKeyboard(void);
-extern void VITA_PollKeyboard(void);
+ਬਾਹਰੀ ਖਾਲੀ VITA_InitKeyboard(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ VITA_PollKeyboard(ਖਾਲੀ);
 
-#endif // SDL_vitakeyboard_h
+#ਜੇ_ਅੰਤ // SDL_vitakeyboard_h

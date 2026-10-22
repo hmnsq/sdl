@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ _SDL_OPENVRVIDEO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ EXTERN_C
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ EXTERN_C
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __GNUC__
+#ਹਦਾਇਤ GCC diagnostic ਧੱਕੋ
+#ਹਦਾਇਤ GCC diagnostic ignored "-Wunused-variable"
+#ਜੇ_ਅੰਤ
 
-#define USE_SDL
-#include "openvr_capi.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ USE_SDL
+#ਅਨ੍ਤਰ੍ਭਾਵ "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __GNUC__
+#ਹਦਾਇਤ GCC diagnostic ਕੱਢੋ
+#ਜੇ_ਅੰਤ
 
-#include <stdint.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES3/gl3.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES3/gl32.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <EGL/egl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES2/gl2.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES2/gl2ext.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES2/gl2ext.h>
 
-#endif
+#ਜੇ_ਅੰਤ
 
 
-struct SDL_WindowData
+ਬਣਤਰ SDL_ਖਿੜਕੀ_ਅੰਕੜੇ
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ;
     HWND hwnd;
-    HWND parent;
+    HWND ਮਾਪਾ;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#ਨਹੀਂਤਾਂ
+    ਪੂਰਨ dummy;
+#ਜੇ_ਅੰਤ
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+ਬਣਤਰ SDL_Video_ਅੰਕੜੇ {
+    ਖਾਲੀ * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_ਅੰਦਰੂਨੀ)( EVRInitError *peError, EVRApplicationType eType );
+    ਅਚਲ ਅੱਖਰ *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ਅਚਲ ਅੱਖਰ *pch_Interface_ਸੰਸਕਰਣ, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    ਪੂਰਨ is_ਬਫਰ_rendering;
 
-    unsigned int overlaytexture;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ overlaytexture;
 
-    unsigned int fbo, rbo;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ fbo, rbo;
 
-    int saved_texture_state;
+    ਪੂਰਨ saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    ਬਣਤਰ VR_IVRSystem_Fn_ਸਾਰਣੀ *oSystem;
+    ਬਣਤਰ VR_IVROverlay_Fn_ਸਾਰਣੀ *oOverlay;
+	ਬਣਤਰ VR_IVRInput_Fn_ਸਾਰਣੀ * o_ਨਿਵੇਸ਼;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	ਅੱਖਰ * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_ਸੈੱਟ_Handle_t ਨਿਵੇਸ਼_action_ਸੈੱਟ;
+	VRActionHandle_t * ਨਿਵੇਸ਼_action_handles_buttons;
+	ਪੂਰਨ ਨਿਵੇਸ਼_action_handles_buttons_ਗਿਣਤੀ;
+	VRActionHandle_t * ਨਿਵੇਸ਼_action_handles_axes;
+	ਪੂਰਨ ਨਿਵੇਸ਼_action_handles_axes_ਗਿਣਤੀ;
+	VRActionHandle_t ਨਿਵੇਸ਼_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    ਪੂਰਨ targw, targh;
+    ਪੂਰਨ ਆਖਰੀ_targw, ਆਖਰੀ_targh;
+    ਪੂਰਨ ਅਦਲਾ_ਬਦਲੀ_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_ਚੌਖਟਾ_ਸਿਰਾ;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_ਖਿੜਕੀ * ਖਿੜਕੀ;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#ਨਹੀਂਤਾਂ
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#ਜੇ_ਅੰਤ
 };
 
-struct SDL_DisplayData
+ਬਣਤਰ SDL_Display_ਅੰਕੜੇ
 {
-    int dummy;
+    ਪੂਰਨ dummy;
 };
 
-#endif
+#ਜੇ_ਅੰਤ

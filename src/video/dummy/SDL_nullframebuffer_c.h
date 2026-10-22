@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_nullframebuffer_c_h_
-#define SDL_nullframebuffer_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_nullframebuffer_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_nullframebuffer_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-extern bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool SDL_DUMMY_Create_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PixelFormat *format, ਖਾਲੀ **pixels, ਪੂਰਨ *pitch);
+ਬਾਹਰੀ bool SDL_DUMMY_Update_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਅਚਲ SDL_Rect *rects, ਪੂਰਨ numrects);
+ਬਾਹਰੀ ਖਾਲੀ SDL_DUMMY_Destroy_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_nullframebuffer_c_h_
+#ਜੇ_ਅੰਤ // SDL_nullframebuffer_c_h_

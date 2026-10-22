@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_offscreenwindow_h
-#define SDL_offscreenwindow_h
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_offscreenwindow_h
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+ਬਣਤਰ SDL_ਖਿੜਕੀ_ਅੰਕੜੇ
 {
-    SDL_Window *sdl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    SDL_ਖਿੜਕੀ *sdl_ਖਿੜਕੀ;
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#ਜੇ_ਅੰਤ
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool OFFSCREEN_Create_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID create_props);
+ਬਾਹਰੀ ਖਾਲੀ OFFSCREEN_Destroy_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ OFFSCREEN_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_offscreenwindow_h
+#ਜੇ_ਅੰਤ // SDL_offscreenwindow_h

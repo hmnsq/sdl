@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_x11framebuffer_h_
-#define SDL_x11framebuffer_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11framebuffer_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11framebuffer_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-extern bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+ਬਾਹਰੀ bool X11_Create_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
                                         SDL_PixelFormat *format,
-                                        void **pixels, int *pitch);
-extern bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                        const SDL_Rect *rects, int numrects);
-extern void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+                                        ਖਾਲੀ **pixels, ਪੂਰਨ *pitch);
+ਬਾਹਰੀ bool X11_Update_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
+                                        ਅਚਲ SDL_Rect *rects, ਪੂਰਨ numrects);
+ਬਾਹਰੀ ਖਾਲੀ X11_Destroy_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_x11framebuffer_h_
+#ਜੇ_ਅੰਤ // SDL_x11framebuffer_h_

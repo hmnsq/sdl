@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rect_c_h_
-#define SDL_rect_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_rect_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_rect_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-extern bool SDL_GetSpanEnclosingRect(int width, int height, int numrects, const SDL_Rect *rects, SDL_Rect *span);
+ਬਾਹਰੀ bool SDL_Get_ਵਿਸਤਾਰ_Enclosing_Rect(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, ਪੂਰਨ numrects, ਅਚਲ SDL_Rect *rects, SDL_Rect *ਵਿਸਤਾਰ);
 
-#endif // SDL_rect_c_h_
+#ਜੇ_ਅੰਤ // SDL_rect_c_h_

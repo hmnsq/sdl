@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_x11mouse_h_
-#define SDL_x11mouse_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11mouse_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11mouse_h_
 
-extern void X11_InitMouse(SDL_VideoDevice *_this);
-extern void X11_QuitMouse(SDL_VideoDevice *_this);
-extern void X11_SetHitTestCursor(SDL_HitTestResult rc);
+ਬਾਹਰੀ ਖਾਲੀ X11_InitMouse(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ X11_QuitMouse(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਪ੍ਰਾਪਤੀ_Test_Cursor(SDL_ਪ੍ਰਾਪਤੀ_Test_ਨਤੀਜਾ rc);
 
-#endif // SDL_x11mouse_h_
+#ਜੇ_ਅੰਤ // SDL_x11mouse_h_

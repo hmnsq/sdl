@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_windowsshape_h_
-#define SDL_windowsshape_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_windowsshape_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_windowsshape_h_
 
-extern bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
+ਬਾਹਰੀ bool WIN_Update_ਖਿੜਕੀ_Shape(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_Surface *shape);
 
-#endif // SDL_windowsshape_h_
+#ਜੇ_ਅੰਤ // SDL_windowsshape_h_

@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BFRAMEBUFFER_H
-#define SDL_BFRAMEBUFFER_H
-#include <SupportDefs.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_BFRAMEBUFFER_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_BFRAMEBUFFER_H
+#ਅਨ੍ਤਰ੍ਭਾਵ <SupportDefs.h>
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
-#define DRAWTHREAD
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+ਬਾਹਰੀ bool HAIKU_Create_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
-extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
-extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
-extern int32 HAIKU_DrawThread(void *data);
+                                          ਖਾਲੀ **pixels, ਪੂਰਨ *pitch);
+ਬਾਹਰੀ bool HAIKU_Update_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
+                                          ਅਚਲ SDL_Rect *rects, ਪੂਰਨ numrects);
+ਬਾਹਰੀ ਖਾਲੀ HAIKU_Destroy_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ int32 HAIKU_DrawThread(ਖਾਲੀ *ਅੰਕੜੇ);
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

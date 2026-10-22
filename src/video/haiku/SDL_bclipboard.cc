@@ -18,76 +18,76 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_HAIKU
 
 // BWindow based clipboard implementation
 
-#include <unistd.h>
-#include <TypeConstants.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <unistd.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <TypeConstants.h>
 
-#include "SDL_BWin.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_BWin.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
-bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+ਤਾਰਕਿਕ HAIKU_ਸੈੱਟ_Clipboard_ਪਾਠ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
-    BMessage *clip = NULL;
-    if (be_clipboard->Lock()) {
+    BMessage *clip = ਨਿਰਾ;
+    ਜੇ (be_clipboard->ਤਾਲਾ()) {
         be_clipboard->Clear();
-        if ((clip = be_clipboard->Data())) {
+        ਜੇ ((clip = be_clipboard->ਅੰਕੜੇ_3())) {
             // Presumably the string of characters is ascii-format
-            ssize_t asciiLength = 0;
-            for (; text[asciiLength] != 0; ++asciiLength) {}
-            clip->AddData("text/plain", B_MIME_TYPE, text, asciiLength);
+            ssize_t ascii_ਲੰਮਾਈ = 0;
+            ਲਈ (; ਪਾਠ[ascii_ਲੰਮਾਈ] != 0; ++ascii_ਲੰਮਾਈ) {}
+            clip->ਜੋੜੋ_ਅੰਕੜੇ("text/plain", B_MIME_TYPE, ਪਾਠ, ascii_ਲੰਮਾਈ);
             be_clipboard->Commit();
         }
         be_clipboard->Unlock();
     }
-    return true;
+    ਵਾਪਸ ਸੱਚ;
 }
 
-char *HAIKU_GetClipboardText(SDL_VideoDevice *_this) {
-    BMessage *clip = NULL;
-    const char *text = NULL;
-    ssize_t length;
-    char *result;
-    if (be_clipboard->Lock()) {
-        if ((clip = be_clipboard->Data())) {
+ਅੱਖਰ *HAIKU_Get_Clipboard_ਪਾਠ(SDL_VideoDevice *_this) {
+    BMessage *clip = ਨਿਰਾ;
+    ਅਚਲ ਅੱਖਰ *ਪਾਠ = ਨਿਰਾ;
+    ssize_t ਲੰਮਾਈ;
+    ਅੱਖਰ *ਨਤੀਜਾ;
+    ਜੇ (be_clipboard->ਤਾਲਾ()) {
+        ਜੇ ((clip = be_clipboard->ਅੰਕੜੇ_3())) {
             // Presumably the string of characters is ascii-format
-            clip->FindData("text/plain", B_MIME_TYPE, (const void **)&text,
-                &length);
+            clip->ਲੱਭੋ_ਅੰਕੜੇ("text/plain", B_MIME_TYPE, (ਅਚਲ ਖਾਲੀ **)&ਪਾਠ,
+                &ਲੰਮਾਈ);
         }
         be_clipboard->Unlock();
     }
 
-    if (!text) {
-        result = SDL_strdup("");
-    } else {
+    ਜੇ (!ਪਾਠ) {
+        ਨਤੀਜਾ = SDL_strdup("");
+    } ਨਹੀਂਤਾਂ {
         // Copy the data and pass on to SDL
-        result = (char *)SDL_malloc((length + 1) * sizeof(char));
-        SDL_strlcpy(result, text, length + 1);
+        ਨਤੀਜਾ = (ਅੱਖਰ *)SDL_malloc((ਲੰਮਾਈ + 1) * ਆਕਾਰ(ਅੱਖਰ));
+        SDL_strlcpy(ਨਤੀਜਾ, ਪਾਠ, ਲੰਮਾਈ + 1);
     }
 
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 }
 
-bool HAIKU_HasClipboardText(SDL_VideoDevice *_this) {
-    bool result = false;
-    char *text = HAIKU_GetClipboardText(_this);
-    if (text) {
-        result = (text[0] != '\0');
-        SDL_free(text);
+ਤਾਰਕਿਕ HAIKU_Has_Clipboard_ਪਾਠ(SDL_VideoDevice *_this) {
+    ਤਾਰਕਿਕ ਨਤੀਜਾ = ਝੂਠ;
+    ਅੱਖਰ *ਪਾਠ = HAIKU_Get_Clipboard_ਪਾਠ(_this);
+    ਜੇ (ਪਾਠ) {
+        ਨਤੀਜਾ = (ਪਾਠ[0] != '\0');
+        SDL_free(ਪਾਠ);
     }
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 }
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_HAIKU

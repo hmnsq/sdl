@@ -1,5 +1,5 @@
-#ifndef VULKAN_SCREEN_H_
-#define VULKAN_SCREEN_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VULKAN_SCREEN_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VULKAN_SCREEN_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,66 +13,66 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
 
 // VK_QNX_screen_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_QNX_screen_surface 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_screen_surface 1
 
-#define VK_QNX_SCREEN_SURFACE_SPEC_VERSION 1
-#define VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_SCREEN_SURFACE_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_SCREEN_SURFACE_EXTENSION_NAME "VK_QNX_screen_surface"
 
-typedef VkFlags VkScreenSurfaceCreateFlagsQNX;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags VkScreenSurfaceCreateFlagsQNX;
 
-typedef struct VkScreenSurfaceCreateInfoQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkScreenSurfaceCreateInfoQNX {
     VkStructureType                  sType;
-    const void*                      pNext;
+    ਅਚਲ ਖਾਲੀ*                      p_ਅਗਲਾ;
     VkScreenSurfaceCreateFlagsQNX    flags;
-    struct _screen_context*          context;
-    struct _screen_window*           window;
+    ਬਣਤਰ _screen_context*          context;
+    ਬਣਤਰ screen_ਖਿੜਕੀ*           ਖਿੜਕੀ;
 } VkScreenSurfaceCreateInfoQNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, const VkScreenSurfaceCreateInfoQNX* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct _screen_window* window);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vkCreateScreenSurfaceQNX)(VkInstance instance, ਅਚਲ VkScreenSurfaceCreateInfoQNX* pCreateInfo, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)(VkPhysicalDevice physicalDevice, uint32_t ਕਤਾਰ_Family_ਸੂਚਕਾਂਕ, ਬਣਤਰ screen_ਖਿੜਕੀ* ਖਿੜਕੀ);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateScreenSurfaceQNX(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vkCreateScreenSurfaceQNX(
     VkInstance                                  instance,
-    const VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ਅਚਲ VkScreenSurfaceCreateInfoQNX*         pCreateInfo,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceScreenPresentationSupportQNX(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct _screen_window*                      window);
-#endif
-#endif
+    uint32_t                                    ਕਤਾਰ_Family_ਸੂਚਕਾਂਕ,
+    ਬਣਤਰ screen_ਖਿੜਕੀ*                      ਖਿੜਕੀ);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 // VK_QNX_external_memory_screen_buffer is a preprocessor guard. Do not pass it to API calls.
-#define VK_QNX_external_memory_screen_buffer 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_external_ਸਮ੍ਰਿਤੀ_screen_ਬਫਰ 1
 
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_SPEC_VERSION 1
-#define VK_QNX_EXTERNAL_MEMORY_SCREEN_BUFFER_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_EXTERNAL_ਸਮ੍ਰਿਤੀ_SCREEN_ਬਫਰ_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_QNX_EXTERNAL_ਸਮ੍ਰਿਤੀ_SCREEN_ਬਫਰ_EXTENSION_NAME "VK_QNX_external_memory_screen_buffer"
 
-typedef struct VkScreenBufferPropertiesQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Screen_ਬਫਰ_Properties_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
-    uint32_t           memoryTypeBits;
-} VkScreenBufferPropertiesQNX;
+    ਖਾਲੀ*              p_ਅਗਲਾ;
+    Vk_Device_ਮਾਪ       ਵੰਡ_ਮਾਪ;
+    uint32_t           ਸਮ੍ਰਿਤੀ_Type_ਬਿੱਟ;
+} Vk_Screen_ਬਫਰ_Properties_QNX;
 
-typedef struct VkScreenBufferFormatPropertiesQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Screen_ਬਫਰ_Format_Properties_QNX {
     VkStructureType                  sType;
-    void*                            pNext;
+    ਖਾਲੀ*                            p_ਅਗਲਾ;
     VkFormat                         format;
     uint64_t                         externalFormat;
     uint64_t                         screenUsage;
@@ -80,43 +80,43 @@ typedef struct VkScreenBufferFormatPropertiesQNX {
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkScreenBufferFormatPropertiesQNX;
+    VkChromaLocation                 suggested_XChroma_ਵਿੱਥ;
+    VkChromaLocation                 suggested_YChroma_ਵਿੱਥ;
+} Vk_Screen_ਬਫਰ_Format_Properties_QNX;
 
-typedef struct VkImportScreenBufferInfoQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Import_Screen_ਬਫਰ_Info_QNX {
     VkStructureType           sType;
-    const void*               pNext;
-    struct _screen_buffer*    buffer;
-} VkImportScreenBufferInfoQNX;
+    ਅਚਲ ਖਾਲੀ*               p_ਅਗਲਾ;
+    ਬਣਤਰ screen_ਬਫਰ*    ਬਫਰ_2;
+} Vk_Import_Screen_ਬਫਰ_Info_QNX;
 
-typedef struct VkExternalFormatQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkExternalFormatQNX {
     VkStructureType    sType;
-    void*              pNext;
+    ਖਾਲੀ*              p_ਅਗਲਾ;
     uint64_t           externalFormat;
 } VkExternalFormatQNX;
 
-typedef struct VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Physical_Device_External_ਸਮ੍ਰਿਤੀ_Screen_ਬਫਰ_Features_QNX {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           screenBufferImport;
-} VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX;
+    ਖਾਲੀ*              p_ਅਗਲਾ;
+    VkBool32           screen_ਬਫਰ_Import;
+} Vk_Physical_Device_External_ਸਮ੍ਰਿਤੀ_Screen_ਬਫਰ_Features_QNX;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetScreenBufferPropertiesQNX)(VkDevice device, const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Get_Screen_ਬਫਰ_Properties_QNX)(VkDevice device, ਅਚਲ ਬਣਤਰ screen_ਬਫਰ* ਬਫਰ_2, Vk_Screen_ਬਫਰ_Properties_QNX* pProperties);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Get_Screen_ਬਫਰ_Properties_QNX(
     VkDevice                                    device,
-    const struct _screen_buffer*                buffer,
-    VkScreenBufferPropertiesQNX*                pProperties);
-#endif
-#endif
+    ਅਚਲ ਬਣਤਰ screen_ਬਫਰ*                ਬਫਰ_2,
+    Vk_Screen_ਬਫਰ_Properties_QNX*                pProperties);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

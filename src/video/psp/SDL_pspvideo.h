@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_pspvideo_h_
-#define SDL_pspvideo_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_pspvideo_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_pspvideo_h_
 
-#include <GLES/egl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES/egl.h>
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-struct SDL_VideoData
+ਬਣਤਰ SDL_Video_ਅੰਕੜੇ
 {
     bool egl_initialized; // OpenGL ES device initialization status
     uint32_t egl_refcount;    // OpenGL ES reference count
 
 };
 
-struct SDL_WindowData
+ਬਣਤਰ SDL_ਖਿੜਕੀ_ਅੰਕੜੇ
 {
-    bool uses_gles; // if true window must support OpenGL ES
+    bool ਵਰਤਦਾ_gles; // if true window must support OpenGL ES
 
 };
 
@@ -45,36 +45,36 @@ struct SDL_WindowData
 /****************************************************************************/
 
 // Display and window functions
-extern bool PSP_VideoInit(SDL_VideoDevice *_this);
-extern void PSP_VideoQuit(SDL_VideoDevice *_this);
-extern bool PSP_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool PSP_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool PSP_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void PSP_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool PSP_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void PSP_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool PSP_VideoInit(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ PSP_VideoQuit(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool PSP_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ਬਾਹਰੀ bool PSP_ਸੈੱਟ_Display_ਬਹੁਲਕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ਬਹੁਲਕ *ਬਹੁਲਕ);
+ਬਾਹਰੀ bool PSP_Create_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID create_props);
+ਬਾਹਰੀ ਖਾਲੀ PSP_ਸੈੱਟ_ਖਿੜਕੀ_Title(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool PSP_ਸੈੱਟ_ਖਿੜਕੀ_Position(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Show_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Hide_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Raise_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Maximize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Minimize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Restore_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_Destroy_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
 // OpenGL/OpenGL ES functions
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ਬਾਹਰੀ bool PSP_GL_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ);
+ਬਾਹਰੀ SDL_Function_ਸੂਚਕ PSP_GL_Get_Proc_ਪਤਾ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *proc);
+ਬਾਹਰੀ ਖਾਲੀ PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+ਬਾਹਰੀ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context);
+ਬਾਹਰੀ bool PSP_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ interval);
+ਬਾਹਰੀ bool PSP_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ *interval);
+ਬਾਹਰੀ bool PSP_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
 // PSP on screen keyboard
-extern bool PSP_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void PSP_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool PSP_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID props);
+ਬਾਹਰੀ ਖਾਲੀ PSP_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_pspvideo_h_
+#ਜੇ_ਅੰਤ // SDL_pspvideo_h_

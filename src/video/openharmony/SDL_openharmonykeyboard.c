@@ -18,76 +18,76 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "../../events/SDL_events_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_events_c.h"
 
-#include "SDL_openharmonykeyboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_openharmonykeyboard.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    ਵਾਪਸ true;
 }
 
-void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+ਖਾਲੀ OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
-            INPUTTYPE(TEXT, 0);
-            INPUTTYPE(TEXT_NAME, 0);
-            INPUTTYPE(TEXT_EMAIL, 5);
-            INPUTTYPE(TEXT_USERNAME, 10);
-            INPUTTYPE(TEXT_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(TEXT_PASSWORD_VISIBLE, 7);
-            INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
-            #undef INPUTTYPE
-            default: break;
+    ਪੂਰਨ ਨਿਵੇਸ਼_type = 0;
+    ਪੂਰਨ cap_type = 0;
+    ਜੇ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_ਸੰਖਿਆ)) {
+        ਨਿਵੇਸ਼_type = (ਪੂਰਨ)SDL_Get_ਸੰਖਿਆ_Property(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_ਸੰਖਿਆ, 0);
+    } ਨਹੀਂਤਾਂ {
+        ਚੋਣ (SDL_Get_ਪਾਠ_ਨਿਵੇਸ਼_Type(props)) {
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ INPUTTYPE(sdl,oh) ਹਾਲਤ SDL_TEXTINPUT_TYPE_##sdl: ਨਿਵੇਸ਼_type = oh; ਰੋਕੋ
+            INPUTTYPE(ਪਾਠ_2, 0);
+            INPUTTYPE(ਪਾਠ_NAME, 0);
+            INPUTTYPE(ਪਾਠ_EMAIL, 5);
+            INPUTTYPE(ਪਾਠ_USERNAME, 10);
+            INPUTTYPE(ਪਾਠ_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(ਪਾਠ_PASSWORD_VISIBLE, 7);
+            INPUTTYPE(ਸੰਖਿਆ_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(ਸੰਖਿਆ_PASSWORD_VISIBLE, 8);
+            #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ INPUTTYPE
+            ਮੂਲ: ਰੋਕੋ;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-            #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
+        ਚੋਣ (SDL_Get_ਪਾਠ_ਨਿਵੇਸ਼_Capitalization(props)) {
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CAPTYPE(sdl,oh) ਹਾਲਤ SDL_CAPITALIZE_##sdl: cap_type = oh; ਰੋਕੋ
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
-            CAPTYPE(WORDS, 2);
+            CAPTYPE(ਸ਼ਬਦ, 2);
             CAPTYPE(SENTENCES, 1);
-            #undef CAPTYPE
-            default: break;
+            #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ CAPTYPE
+            ਮੂਲ: ਰੋਕੋ;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        #ਜੇ 0  // !!! FIXME
+        ਜੇ (SDL_Get_ਪਾਠ_ਨਿਵੇਸ਼_Autocorrect(props)) {
+            ਨਿਵੇਸ਼_type |= (TYPE_ਪਾਠ_FLAG_AUTO_CORRECT | TYPE_ਪਾਠ_FLAG_AUTO_COMPLETE);
         }
-        #endif
+        #ਜੇ_ਅੰਤ
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type = 1;  // sorry, this only works with basic TEXT type.
+        ਜੇ (SDL_Get_ਪਾਠ_ਨਿਵੇਸ਼_Multiline(props)) {
+            ਨਿਵੇਸ਼_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
-    SDL_OpenHarmonyShowScreenKeyboard(input_type, cap_type, &window->text_input_rect);
+    SDL_OpenHarmonyShowScreenKeyboard(ਨਿਵੇਸ਼_type, cap_type, &ਖਿੜਕੀ->ਪਾਠ_ਨਿਵੇਸ਼_rect);
 }
 
-void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
     SDL_OpenHarmonyHideScreenKeyboard();
 }
 
-void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    if (_this->screen_keyboard_shown) {
-        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
+    ਜੇ (_this->screen_keyboard_shown) {
+        OPENHARMONY_ShowScreenKeyboard(_this, ਖਿੜਕੀ, ਖਿੜਕੀ->ਪਾਠ_ਨਿਵੇਸ਼_props);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_OPENHARMONY
 

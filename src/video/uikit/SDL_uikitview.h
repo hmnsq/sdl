@@ -21,35 +21,35 @@
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#if !defined(SDL_PLATFORM_TVOS)
+#ਜੇ !defined(SDL_PLATFORM_TVOS)
 @interface SDL_uikitview : UIView <UIPointerInteractionDelegate>
-#else
+#ਨਹੀਂਤਾਂ
 @interface SDL_uikitview : UIView
-#endif
+#ਜੇ_ਅੰਤ
 
-- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)init_With_ਚੌਖਟਾ:(CGRect)ਚੌਖਟਾ;
 
-- (void)setSDLWindow:(SDL_Window *)window;
-- (SDL_Window *)getSDLWindow;
+- (ਖਾਲੀ)ਸੈੱਟ_SDLWindow:(SDL_ਖਿੜਕੀ *)ਖਿੜਕੀ;
+- (SDL_ਖਿੜਕੀ *)getSDLWindow;
 
-#if !defined(SDL_PLATFORM_TVOS)
-- (void)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.0));
+#ਜੇ !defined(SDL_PLATFORM_TVOS)
+- (ਖਾਲੀ)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_ਉਪਲਬਧ(ios(13.0));
 
-- (UIPointerRegion *)pointerInteraction:(UIPointerInteraction *)interaction regionForRequest:(UIPointerRegionRequest *)request defaultRegion:(UIPointerRegion *)defaultRegion API_AVAILABLE(ios(13.4));
-- (UIPointerStyle *)pointerInteraction:(UIPointerInteraction *)interaction styleForRegion:(UIPointerRegion *)region API_AVAILABLE(ios(13.4));
-- (void)indirectPointerHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.4));
-#endif
+- (UIPointerRegion *)ਸੂਚਕ_Interaction:(UIPointerInteraction *)interaction regionForRequest:(UIPointerRegionRequest *)request defaultRegion:(UIPointerRegion *)defaultRegion API_ਉਪਲਬਧ(ios(13.4));
+- (UIPointerStyle *)ਸੂਚਕ_Interaction:(UIPointerInteraction *)interaction styleForRegion:(UIPointerRegion *)region API_ਉਪਲਬਧ(ios(13.4));
+- (ਖਾਲੀ)ਅਸਿੱਧਾ_ਸੂਚਕ_Hovering:(UIHoverGestureRecognizer *)recognizer API_ਉਪਲਬਧ(ios(13.4));
+#ਜੇ_ਅੰਤ
 
 - (CGPoint)touchLocation:(UITouch *)touch shouldNormalize:(BOOL)normalize;
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
-#if !defined(SDL_PLATFORM_TVOS)
+- (ਖਾਲੀ)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (ਖਾਲੀ)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+- (ਖਾਲੀ)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+#ਜੇ !defined(SDL_PLATFORM_TVOS)
 - (IBAction)sdlPinchGesture:(UIPinchGestureRecognizer *)sender;
-#endif
+#ਜੇ_ਅੰਤ
 
-- (void)safeAreaInsetsDidChange;
+- (ਖਾਲੀ)ਸੁਰੱਖਿਅਤ_Area_Insets_Did_Change;
 
-@end
+@ਸਿਰਾ

@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosframebuffer_c_h_
-#define SDL_dosframebuffer_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_dosframebuffer_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_dosframebuffer_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-extern bool DOSVESA_CreateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool DOSVESA_UpdateWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void DOSVESA_DestroyWindowFramebuffer(SDL_VideoDevice *device, SDL_Window *window);
-extern bool DOSVESA_SetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int vsync);
-extern bool DOSVESA_GetWindowFramebufferVSync(SDL_VideoDevice *device, SDL_Window *window, int *vsync);
-extern void DOSVESA_InvalidateCachedFramebuffer(void);
+ਬਾਹਰੀ bool DOSVESA_Create_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *device, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PixelFormat *format, ਖਾਲੀ **pixels, ਪੂਰਨ *pitch);
+ਬਾਹਰੀ bool DOSVESA_Update_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *device, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਅਚਲ SDL_Rect *rects, ਪੂਰਨ numrects);
+ਬਾਹਰੀ ਖਾਲੀ DOSVESA_Destroy_ਖਿੜਕੀ_Framebuffer(SDL_VideoDevice *device, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool DOSVESA_ਸੈੱਟ_ਖਿੜਕੀ_Framebuffer_VSync(SDL_VideoDevice *device, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ vsync);
+ਬਾਹਰੀ bool DOSVESA_Get_ਖਿੜਕੀ_Framebuffer_VSync(SDL_VideoDevice *device, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ *vsync);
+ਬਾਹਰੀ ਖਾਲੀ DOSVESA_InvalidateCachedFramebuffer(ਖਾਲੀ);
 
-#endif // SDL_dosframebuffer_c_h_
+#ਜੇ_ਅੰਤ // SDL_dosframebuffer_c_h_

@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_x11keyboard_h_
-#define SDL_x11keyboard_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11keyboard_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool X11_InitKeyboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+ਬਾਹਰੀ ਖਾਲੀ X11_QuitKeyboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ X11_Create_ਨਿਵੇਸ਼_Context(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Destroy_ਨਿਵੇਸ਼_Context(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ClearComposition(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ);
+ਬਾਹਰੀ bool X11_ਸ਼ੁਰੂ_ਪਾਠ_ਨਿਵੇਸ਼(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID props);
+ਬਾਹਰੀ bool X11_Stop_ਪਾਠ_ਨਿਵੇਸ਼(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_Update_ਪਾਠ_ਨਿਵੇਸ਼_Area(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID props);
+ਬਾਹਰੀ ਖਾਲੀ X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_x11keyboard_h_
+#ਜੇ_ਅੰਤ // SDL_x11keyboard_h_

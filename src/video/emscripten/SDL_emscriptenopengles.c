@@ -18,156 +18,156 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5_webgl.h>
-#include <GLES2/gl2.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <emscripten/emscripten.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <emscripten/html5_webgl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES2/gl2.h>
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "../../main/SDL_main_callbacks.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_emscriptenvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_emscriptenopengles.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../main/SDL_main_callbacks.h"
 
-bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Emscripten_GLES_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ)
 {
-    return true;
+    ਵਾਪਸ true;
 }
 
-void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+ਖਾਲੀ Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
 }
 
-SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_ਸੂਚਕ Emscripten_GLES_Get_Proc_ਪਤਾ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *proc)
 {
-    return emscripten_webgl_get_proc_address(proc);
+    ਵਾਪਸ emscripten_webgl_get_proc_ਪਤਾ(proc);
 }
 
-bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool Emscripten_GLES_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ interval)
 {
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
+    ਜੇ (interval < 0) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Late swap tearing currently unsupported");
     }
 
-    if (Emscripten_ShouldSetSwapInterval(interval)) {
+    ਜੇ (Emscripten_Should_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(interval)) {
         // don't change the mainloop timing if the app is also driving a main callback with this hint,
         //  as we assume that was the more deliberate action.
-        if (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_RATE)) {
-            if (interval == 0) {
-                emscripten_set_main_loop_timing(EM_TIMING_SETTIMEOUT, 0);
-            } else {
-                emscripten_set_main_loop_timing(EM_TIMING_RAF, interval);
+        ਜੇ (!SDL_HasMainCallbacks() || !SDL_GetHint(SDL_HINT_MAIN_CALLBACK_ਦਰ)) {
+            ਜੇ (interval == 0) {
+                emscripten_ਸੈੱਟ_main_loop_timing(EM_TIMING_SETTIMEOUT, 0);
+            } ਨਹੀਂਤਾਂ {
+                emscripten_ਸੈੱਟ_main_loop_timing(EM_TIMING_RAF, interval);
             }
         }
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool Emscripten_GLES_Get_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ *interval)
 {
-    const int pending = Emscripten_GetPendingSwapInterval();
-    if (pending >= 0) {
+    ਅਚਲ ਪੂਰਨ pending = Emscripten_Get_Pending_ਅਦਲਾ_ਬਦਲੀ_Interval();
+    ਜੇ (pending >= 0) {
         *interval = pending;
-        return true;  // we're planning to set it to this once the system settles down.
+        ਵਾਪਸ true;  // we're planning to set it to this once the system settles down.
     }
 
-    int mode, value;
+    ਪੂਰਨ ਬਹੁਲਕ, ਮੁੱਲ;
 
-    emscripten_get_main_loop_timing(&mode, &value);
+    emscripten_get_main_loop_timing(&ਬਹੁਲਕ, &ਮੁੱਲ);
 
-    if (mode == EM_TIMING_RAF) {
-        *interval = value;
-        return true;
-    } else {
+    ਜੇ (ਬਹੁਲਕ == EM_TIMING_RAF) {
+        *interval = ਮੁੱਲ;
+        ਵਾਪਸ true;
+    } ਨਹੀਂਤਾਂ {
         *interval = 0;
-        return true;
+        ਵਾਪਸ true;
     }
 }
 
-SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    SDL_WindowData *window_data;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2;
 
-    EmscriptenWebGLContextAttributes attribs;
+    Emscripten_Web_GLContext_ਗੁਣ attribs;
     EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
 
-    emscripten_webgl_init_context_attributes(&attribs);
+    emscripten_webgl_init_context_ਗੁਣ(&attribs);
 
-    attribs.alpha = _this->gl_config.alpha_size > 0;
-    attribs.depth = _this->gl_config.depth_size > 0;
-    attribs.stencil = _this->gl_config.stencil_size > 0;
+    attribs.alpha = _this->gl_config.alpha_ਮਾਪ > 0;
+    attribs.ਡੂੰਘਾਈ_2 = _this->gl_config.ਡੂੰਘਾਈ_ਮਾਪ > 0;
+    attribs.stencil = _this->gl_config.stencil_ਮਾਪ > 0;
     attribs.antialias = _this->gl_config.multisamplebuffers == 1;
 
-    if (_this->gl_config.major_version == 3)
-        attribs.majorVersion = 2; // WebGL 2.0 ~= GLES 3.0
+    ਜੇ (_this->gl_config.major_ਸੰਸਕਰਣ == 3)
+        attribs.major_ਸੰਸਕਰਣ_2 = 2; // WebGL 2.0 ~= GLES 3.0
 
-    window_data = window->internal;
+    ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-    if (window_data->gl_context) {
-        SDL_SetError("Cannot create multiple webgl contexts per window");
-        return NULL;
+    ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->gl_context) {
+        SDL_ਸੈੱਟ_Error("Cannot create multiple webgl contexts per window");
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    context = emscripten_webgl_create_context(window_data->canvas_id, &attribs);
+    context = emscripten_webgl_create_context(ਖਿੜਕੀ_ਅੰਕੜੇ_2->canvas_id, &attribs);
 
-    if (!context) {
-        SDL_SetError("Could not create webgl context");
-        return NULL;
+    ਜੇ (!context) {
+        SDL_ਸੈੱਟ_Error("Could not create webgl context");
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    if (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_RESULT_SUCCESS) {
+    ਜੇ (emscripten_webgl_make_context_current(context) != EMSCRIPTEN_ਨਤੀਜਾ_SUCCESS) {
         emscripten_webgl_destroy_context(context);
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    window_data->gl_context = (SDL_GLContext)context;
+    ਖਿੜਕੀ_ਅੰਕੜੇ_2->gl_context = (SDL_GLContext)context;
 
-    return (SDL_GLContext)context;
+    ਵਾਪਸ (SDL_GLContext)context;
 }
 
 bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_Window *window;
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ;
 
     // remove the context from its window
-    for (window = _this->windows; window; window = window->next) {
-        SDL_WindowData *window_data = window->internal;
+    ਲਈ (ਖਿੜਕੀ = _this->windows; ਖਿੜਕੀ; ਖਿੜਕੀ = ਖਿੜਕੀ->ਅਗਲਾ) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-        if (window_data->gl_context == context) {
-            window_data->gl_context = NULL;
+        ਜੇ (ਖਿੜਕੀ_ਅੰਕੜੇ_2->gl_context == context) {
+            ਖਿੜਕੀ_ਅੰਕੜੇ_2->gl_context = ਨਿਰਾ;
         }
     }
 
     emscripten_webgl_destroy_context((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context);
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool Emscripten_GLES_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    ਜੇ (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context)
 {
     // it isn't possible to reuse contexts across canvases
-    if (window && context) {
-        SDL_WindowData *window_data = window->internal;
+    ਜੇ (ਖਿੜਕੀ && context) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-        if (context != window_data->gl_context) {
-            return SDL_SetError("Cannot make context current to another window");
+        ਜੇ (context != ਖਿੜਕੀ_ਅੰਕੜੇ_2->gl_context) {
+            ਵਾਪਸ SDL_ਸੈੱਟ_Error("Cannot make context current to another window");
         }
     }
 
-    if (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_RESULT_SUCCESS) {
-        return SDL_SetError("Unable to make context current");
+    ਜੇ (emscripten_webgl_make_context_current((EMSCRIPTEN_WEBGL_CONTEXT_HANDLE)context) != EMSCRIPTEN_ਨਤੀਜਾ_SUCCESS) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Unable to make context current");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_EMSCRIPTEN

@@ -18,46 +18,46 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#include "SDL_surface_c.h"
-#include "SDL_blit_slow.h"
-#include "SDL_pixels_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_surface_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_blit_slow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_pixels_c.h"
 
-typedef enum
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ
 {
     SlowBlitPixelAccess_Index8,
     SlowBlitPixelAccess_RGB,
     SlowBlitPixelAccess_RGBA,
-    SlowBlitPixelAccess_10Bit,
+    Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ,
     SlowBlitPixelAccess_Large,
 } SlowBlitPixelAccess;
 
-static SlowBlitPixelAccess GetPixelAccessMethod(SDL_PixelFormat format)
+ਸਥਿਰ SlowBlitPixelAccess Get_Pixel_Access_ਵਿਧੀ(SDL_PixelFormat format)
 {
-    if (SDL_BYTESPERPIXEL(format) > 4) {
-        return SlowBlitPixelAccess_Large;
-    } else if (SDL_ISPIXELFORMAT_10BIT(format)) {
-        return SlowBlitPixelAccess_10Bit;
-    } else if (format == SDL_PIXELFORMAT_INDEX8) {
-        return SlowBlitPixelAccess_Index8;
-    } else if (SDL_ISPIXELFORMAT_ALPHA(format)) {
-        return SlowBlitPixelAccess_RGBA;
-    } else {
-        return SlowBlitPixelAccess_RGB;
+    ਜੇ (SDL_BYTESPERPIXEL(format) > 4) {
+        ਵਾਪਸ SlowBlitPixelAccess_Large;
+    } ਨਹੀਂਤਾਂ ਜੇ (SDL_ISPIXELFORMAT_10_ਦੋਆਧਾਰੀ_ਅੰਕ(format)) {
+        ਵਾਪਸ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ;
+    } ਨਹੀਂਤਾਂ ਜੇ (format == SDL_PIXELFORMAT_INDEX8) {
+        ਵਾਪਸ SlowBlitPixelAccess_Index8;
+    } ਨਹੀਂਤਾਂ ਜੇ (SDL_ISPIXELFORMAT_ALPHA(format)) {
+        ਵਾਪਸ SlowBlitPixelAccess_RGBA;
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SlowBlitPixelAccess_RGB;
     }
 }
 
 /* The ONE TRUE BLITTER
  * This puppy has to handle all the unoptimized cases - yes, it's slow.
  */
-void SDL_Blit_Slow(SDL_BlitInfo *info)
+ਖਾਲੀ SDL_Blit_Slow(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
-    const Uint32 modulateR = info->r;
-    const Uint32 modulateG = info->g;
-    const Uint32 modulateB = info->b;
-    const Uint32 modulateA = info->a;
+    ਅਚਲ ਪੂਰਨ flags = info->flags;
+    ਅਚਲ Uint32 modulateR = info->r;
+    ਅਚਲ Uint32 modulateG = info->g;
+    ਅਚਲ Uint32 modulateB = info->b;
+    ਅਚਲ Uint32 modulateA = info->a;
     Uint32 srcpixel = 0;
     Uint32 srcR = 0, srcG = 0, srcB = 0, srcA = 0;
     Uint32 dstpixel = 0;
@@ -65,261 +65,261 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
     Uint64 srcy, srcx;
     Uint64 posy, posx;
     Uint64 incy, incx;
-    const SDL_PixelFormatDetails *src_fmt = info->src_fmt;
-    const SDL_Palette *src_pal = info->src_pal;
-    const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
-    const SDL_Palette *dst_pal = info->dst_pal;
-    SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    ਅਚਲ SDL_PixelFormatDetails *src_fmt = info->src_fmt;
+    ਅਚਲ SDL_Palette *src_pal = info->src_pal;
+    ਅਚਲ SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
+    ਅਚਲ SDL_Palette *dst_pal = info->dst_pal;
+    SDL_Hash_ਸਾਰਣੀ *palette_map = info->palette_map;
+    ਪੂਰਨ srcbpp = src_fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
+    ਪੂਰਨ dstbpp = dst_fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     Uint32 rgbmask = ~src_fmt->Amask;
     Uint32 ckey = info->colorkey & rgbmask;
-    Uint32 last_pixel = 0;
-    Uint8 last_index = 0;
+    Uint32 ਆਖਰੀ_pixel = 0;
+    Uint8 ਆਖਰੀ_ਸੂਚਕਾਂਕ = 0;
 
-    src_access = GetPixelAccessMethod(src_fmt->format);
-    dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
-        last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
+    src_access = Get_Pixel_Access_ਵਿਧੀ(src_fmt->format);
+    dst_access = Get_Pixel_Access_ਵਿਧੀ(dst_fmt->format);
+    ਜੇ (dst_access == SlowBlitPixelAccess_Index8) {
+        ਆਖਰੀ_ਸੂਚਕਾਂਕ = SDL_LookupRGBAColor(palette_map, ਆਖਰੀ_pixel, dst_pal);
     }
 
     incy = info->dst_h ? ((Uint64)info->src_h << 16) / info->dst_h : 0;
     incx = info->dst_w ? ((Uint64)info->src_w << 16) / info->dst_w : 0;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
-        Uint8 *src = NULL;
+    ਜਦੋਂ (info->dst_h--) {
+        Uint8 *src = ਨਿਰਾ;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        ਪੂਰਨ n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        ਜਦੋਂ (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
-            switch (src_access) {
-            case SlowBlitPixelAccess_Index8:
+            ਚੋਣ (src_access) {
+            ਹਾਲਤ SlowBlitPixelAccess_Index8:
                 srcpixel = *src;
                 srcR = src_pal->colors[srcpixel].r;
                 srcG = src_pal->colors[srcpixel].g;
                 srcB = src_pal->colors[srcpixel].b;
                 srcA = src_pal->colors[srcpixel].a;
-                break;
-            case SlowBlitPixelAccess_RGB:
+                ਰੋਕੋ;
+            ਹਾਲਤ SlowBlitPixelAccess_RGB:
                 DISEMBLE_RGB(src, srcbpp, src_fmt, srcpixel, srcR, srcG, srcB);
                 srcA = 0xFF;
-                break;
-            case SlowBlitPixelAccess_RGBA:
+                ਰੋਕੋ;
+            ਹਾਲਤ SlowBlitPixelAccess_RGBA:
                 DISEMBLE_RGBA(src, srcbpp, src_fmt, srcpixel, srcR, srcG, srcB, srcA);
-                break;
-            case SlowBlitPixelAccess_10Bit:
+                ਰੋਕੋ;
+            ਹਾਲਤ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ:
                 srcpixel = *((Uint32 *)(src));
-                switch (src_fmt->format) {
-                case SDL_PIXELFORMAT_XRGB2101010:
+                ਚੋਣ (src_fmt->format) {
+                ਹਾਲਤ SDL_PIXELFORMAT_XRGB2101010:
                     RGBA_FROM_ARGB2101010(srcpixel, srcR, srcG, srcB, srcA);
                     srcA = 0xFF;
-                    break;
-                case SDL_PIXELFORMAT_XBGR2101010:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SDL_PIXELFORMAT_XBGR2101010:
                     RGBA_FROM_ABGR2101010(srcpixel, srcR, srcG, srcB, srcA);
                     srcA = 0xFF;
-                    break;
-                case SDL_PIXELFORMAT_ARGB2101010:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SDL_PIXELFORMAT_ARGB2101010:
                     RGBA_FROM_ARGB2101010(srcpixel, srcR, srcG, srcB, srcA);
-                    break;
-                case SDL_PIXELFORMAT_ABGR2101010:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SDL_PIXELFORMAT_ABGR2101010:
                     RGBA_FROM_ABGR2101010(srcpixel, srcR, srcG, srcB, srcA);
-                    break;
-                default:
-                    break;
+                    ਰੋਕੋ;
+                ਮੂਲ:
+                    ਰੋਕੋ;
                 }
-                break;
-            case SlowBlitPixelAccess_Large:
+                ਰੋਕੋ;
+            ਹਾਲਤ SlowBlitPixelAccess_Large:
                 // Handled in SDL_Blit_Slow_Float()
-                break;
+                ਰੋਕੋ;
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            ਜੇ (flags & SDL_COPY_COLORKEY) {
                 // srcpixel isn't set for 24 bpp
-                if (srcbpp == 3) {
+                ਜੇ (srcbpp == 3) {
                     srcpixel = (srcR << src_fmt->Rshift) |
                                (srcG << src_fmt->Gshift) | (srcB << src_fmt->Bshift);
                 }
-                if ((srcpixel & rgbmask) == ckey) {
+                ਜੇ ((srcpixel & rgbmask) == ckey) {
                     posx += incx;
                     dst += dstbpp;
-                    continue;
+                    ਜਾਰੀ;
                 }
             }
-            if (flags & SDL_COPY_BLEND_MASK) {
-                switch (dst_access) {
-                case SlowBlitPixelAccess_Index8:
+            ਜੇ (flags & SDL_COPY_BLEND_ਨਕਾਬ) {
+                ਚੋਣ (dst_access) {
+                ਹਾਲਤ SlowBlitPixelAccess_Index8:
                     dstpixel = *dst;
                     dstR = dst_pal->colors[dstpixel].r;
                     dstG = dst_pal->colors[dstpixel].g;
                     dstB = dst_pal->colors[dstpixel].b;
                     dstA = dst_pal->colors[dstpixel].a;
-                    break;
-                case SlowBlitPixelAccess_RGB:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SlowBlitPixelAccess_RGB:
                     DISEMBLE_RGB(dst, dstbpp, dst_fmt, dstpixel, dstR, dstG, dstB);
                     dstA = 0xFF;
-                    break;
-                case SlowBlitPixelAccess_RGBA:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SlowBlitPixelAccess_RGBA:
                     DISEMBLE_RGBA(dst, dstbpp, dst_fmt, dstpixel, dstR, dstG, dstB, dstA);
-                    break;
-                case SlowBlitPixelAccess_10Bit:
+                    ਰੋਕੋ;
+                ਹਾਲਤ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ:
                     dstpixel = *((Uint32 *)(dst));
-                    switch (dst_fmt->format) {
-                    case SDL_PIXELFORMAT_XRGB2101010:
+                    ਚੋਣ (dst_fmt->format) {
+                    ਹਾਲਤ SDL_PIXELFORMAT_XRGB2101010:
                         RGBA_FROM_ARGB2101010(dstpixel, dstR, dstG, dstB, dstA);
                         dstA = 0xFF;
-                        break;
-                    case SDL_PIXELFORMAT_XBGR2101010:
+                        ਰੋਕੋ;
+                    ਹਾਲਤ SDL_PIXELFORMAT_XBGR2101010:
                         RGBA_FROM_ABGR2101010(dstpixel, dstR, dstG, dstB, dstA);
                         dstA = 0xFF;
-                        break;
-                    case SDL_PIXELFORMAT_ARGB2101010:
+                        ਰੋਕੋ;
+                    ਹਾਲਤ SDL_PIXELFORMAT_ARGB2101010:
                         RGBA_FROM_ARGB2101010(dstpixel, dstR, dstG, dstB, dstA);
-                        break;
-                    case SDL_PIXELFORMAT_ABGR2101010:
+                        ਰੋਕੋ;
+                    ਹਾਲਤ SDL_PIXELFORMAT_ABGR2101010:
                         RGBA_FROM_ABGR2101010(dstpixel, dstR, dstG, dstB, dstA);
-                        break;
-                    default:
-                        break;
+                        ਰੋਕੋ;
+                    ਮੂਲ:
+                        ਰੋਕੋ;
                     }
-                    break;
-                case SlowBlitPixelAccess_Large:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SlowBlitPixelAccess_Large:
                     // Handled in SDL_Blit_Slow_Float()
-                    break;
+                    ਰੋਕੋ;
                 }
-            } else {
+            } ਨਹੀਂਤਾਂ {
                 // don't care
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            ਜੇ (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            ਜੇ (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            ਜੇ (flags & (SDL_COPY_BLEND | SDL_COPY_ਜੋੜੋ)) {
+                ਜੇ (srcA < 255) {
                     srcR = (srcR * srcA) / 255;
                     srcG = (srcG * srcA) / 255;
                     srcB = (srcB * srcA) / 255;
                 }
             }
-            switch (flags & SDL_COPY_BLEND_MASK) {
-            case 0:
+            ਚੋਣ (flags & SDL_COPY_BLEND_ਨਕਾਬ) {
+            ਹਾਲਤ 0:
                 dstR = srcR;
                 dstG = srcG;
                 dstB = srcB;
                 dstA = srcA;
-                break;
-            case SDL_COPY_BLEND:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_BLEND:
                 dstR = srcR + ((255 - srcA) * dstR) / 255;
                 dstG = srcG + ((255 - srcA) * dstG) / 255;
                 dstB = srcB + ((255 - srcA) * dstB) / 255;
                 dstA = srcA + ((255 - srcA) * dstA) / 255;
-                break;
-            case SDL_COPY_BLEND_PREMULTIPLIED:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_BLEND_PREMULTIPLIED:
                 dstR = srcR + ((255 - srcA) * dstR) / 255;
-                if (dstR > 255) {
+                ਜੇ (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + ((255 - srcA) * dstG) / 255;
-                if (dstG > 255) {
+                ਜੇ (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + ((255 - srcA) * dstB) / 255;
-                if (dstB > 255) {
+                ਜੇ (dstB > 255) {
                     dstB = 255;
                 }
                 dstA = srcA + ((255 - srcA) * dstA) / 255;
-                if (dstA > 255) {
+                ਜੇ (dstA > 255) {
                     dstA = 255;
                 }
-                break;
-            case SDL_COPY_ADD:
-            case SDL_COPY_ADD_PREMULTIPLIED:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_ਜੋੜੋ:
+            ਹਾਲਤ SDL_COPY_ਜੋੜੋ_PREMULTIPLIED:
                 dstR = srcR + dstR;
-                if (dstR > 255) {
+                ਜੇ (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + dstG;
-                if (dstG > 255) {
+                ਜੇ (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + dstB;
-                if (dstB > 255) {
+                ਜੇ (dstB > 255) {
                     dstB = 255;
                 }
-                break;
-            case SDL_COPY_MOD:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_MOD:
                 dstR = (srcR * dstR) / 255;
                 dstG = (srcG * dstG) / 255;
                 dstB = (srcB * dstB) / 255;
-                break;
-            case SDL_COPY_MUL:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_MUL:
                 dstR = ((srcR * dstR) + (dstR * (255 - srcA))) / 255;
-                if (dstR > 255) {
+                ਜੇ (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = ((srcG * dstG) + (dstG * (255 - srcA))) / 255;
-                if (dstG > 255) {
+                ਜੇ (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = ((srcB * dstB) + (dstB * (255 - srcA))) / 255;
-                if (dstB > 255) {
+                ਜੇ (dstB > 255) {
                     dstB = 255;
                 }
-                break;
+                ਰੋਕੋ;
             }
 
-            switch (dst_access) {
-            case SlowBlitPixelAccess_Index8:
+            ਚੋਣ (dst_access) {
+            ਹਾਲਤ SlowBlitPixelAccess_Index8:
                 dstpixel = ((dstR << 24) | (dstG << 16) | (dstB << 8) | dstA);
-                if (dstpixel != last_pixel) {
-                    last_pixel = dstpixel;
-                    last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
+                ਜੇ (dstpixel != ਆਖਰੀ_pixel) {
+                    ਆਖਰੀ_pixel = dstpixel;
+                    ਆਖਰੀ_ਸੂਚਕਾਂਕ = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
-                *dst = last_index;
-                break;
-            case SlowBlitPixelAccess_RGB:
+                *dst = ਆਖਰੀ_ਸੂਚਕਾਂਕ;
+                ਰੋਕੋ;
+            ਹਾਲਤ SlowBlitPixelAccess_RGB:
                 ASSEMBLE_RGB(dst, dstbpp, dst_fmt, dstR, dstG, dstB);
-                break;
-            case SlowBlitPixelAccess_RGBA:
+                ਰੋਕੋ;
+            ਹਾਲਤ SlowBlitPixelAccess_RGBA:
                 ASSEMBLE_RGBA(dst, dstbpp, dst_fmt, dstR, dstG, dstB, dstA);
-                break;
-            case SlowBlitPixelAccess_10Bit:
+                ਰੋਕੋ;
+            ਹਾਲਤ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ:
             {
                 Uint32 pixelvalue;
-                switch (dst_fmt->format) {
-                case SDL_PIXELFORMAT_XRGB2101010:
+                ਚੋਣ (dst_fmt->format) {
+                ਹਾਲਤ SDL_PIXELFORMAT_XRGB2101010:
                     dstA = 0xFF;
                     SDL_FALLTHROUGH;
-                case SDL_PIXELFORMAT_ARGB2101010:
+                ਹਾਲਤ SDL_PIXELFORMAT_ARGB2101010:
                     ARGB2101010_FROM_RGBA(pixelvalue, dstR, dstG, dstB, dstA);
-                    break;
-                case SDL_PIXELFORMAT_XBGR2101010:
+                    ਰੋਕੋ;
+                ਹਾਲਤ SDL_PIXELFORMAT_XBGR2101010:
                     dstA = 0xFF;
                     SDL_FALLTHROUGH;
-                case SDL_PIXELFORMAT_ABGR2101010:
+                ਹਾਲਤ SDL_PIXELFORMAT_ABGR2101010:
                     ABGR2101010_FROM_RGBA(pixelvalue, dstR, dstG, dstB, dstA);
-                    break;
-                default:
+                    ਰੋਕੋ;
+                ਮੂਲ:
                     pixelvalue = 0;
-                    break;
+                    ਰੋਕੋ;
                 }
                 *(Uint32 *)dst = pixelvalue;
-                break;
+                ਰੋਕੋ;
             }
-            case SlowBlitPixelAccess_Large:
+            ਹਾਲਤ SlowBlitPixelAccess_Large:
                 // Handled in SDL_Blit_Slow_Float()
-                break;
+                ਰੋਕੋ;
             }
 
             posx += incx;
@@ -333,11 +333,11 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
 /* Convert from F16 to float
  * Public domain implementation from https://gist.github.com/rygorous/2144712
  */
-typedef union
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਸੰਘ
 {
     Uint32 u;
-    float f;
-    struct
+    ਦਸ਼ਮਲਵ f;
+    ਬਣਤਰ
     {
         Uint32 Mantissa : 23;
         Uint32 Exponent : 8;
@@ -345,15 +345,15 @@ typedef union
     } x;
 } FP32;
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable:4214)
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ _MSC_VER
+#ਹਦਾਇਤ warning(ਧੱਕੋ)
+#ਹਦਾਇਤ warning(disable:4214)
+#ਜੇ_ਅੰਤ
 
-typedef union
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਸੰਘ
 {
     Uint16 u;
-    struct
+    ਬਣਤਰ
     {
         Uint16 Mantissa : 10;
         Uint16 Exponent : 5;
@@ -361,400 +361,400 @@ typedef union
     } x;
 } FP16;
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ _MSC_VER
+#ਹਦਾਇਤ warning(ਕੱਢੋ)
+#ਜੇ_ਅੰਤ
 
-static float half_to_float(Uint16 unValue)
+ਸਥਿਰ ਦਸ਼ਮਲਵ half_ਮੰਜ਼ਿਲ_float(Uint16 un_ਮੁੱਲ)
 {
-    static const FP32 magic = { (254 - 15) << 23 };
-    static const FP32 was_infnan = { (127 + 16) << 23 };
+    ਸਥਿਰ ਅਚਲ FP32 magic = { (254 - 15) << 23 };
+    ਸਥਿਰ ਅਚਲ FP32 was_infnan = { (127 + 16) << 23 };
     FP16 h;
     FP32 o;
 
-    h.u = unValue;
+    h.u = un_ਮੁੱਲ;
     o.u = (h.u & 0x7fff) << 13;     // exponent/mantissa bits
     o.f *= magic.f;                 // exponent adjust
-    if (o.f >= was_infnan.f)        // make sure Inf/NaN survive
+    ਜੇ (o.f >= was_infnan.f)        // make sure Inf/NaN survive
         o.u |= 255 << 23;
     o.u |= (h.u & 0x8000) << 16;    // sign bit
-    return o.f;
+    ਵਾਪਸ o.f;
 }
 
 /* Convert from float to F16
  * Public domain implementation from https://stackoverflow.com/questions/76799117/how-to-convert-a-float-to-a-half-type-and-the-other-way-around-in-c
  */
-static Uint16 float_to_half(float a)
+ਸਥਿਰ Uint16 float_ਮੰਜ਼ਿਲ_half(ਦਸ਼ਮਲਵ a)
 {
     Uint32 ia;
     Uint16 ir;
 
-    SDL_memcpy(&ia, &a, sizeof(ia));
+    SDL_memcpy(&ia, &a, ਆਕਾਰ(ia));
 
     ir = (ia >> 16) & 0x8000;
-    if ((ia & 0x7f800000) == 0x7f800000) {
-        if ((ia & 0x7fffffff) == 0x7f800000) {
+    ਜੇ ((ia & 0x7f800000) == 0x7f800000) {
+        ਜੇ ((ia & 0x7fffffff) == 0x7f800000) {
             ir |= 0x7c00; // infinity
-        } else {
+        } ਨਹੀਂਤਾਂ {
             ir |= 0x7e00 | ((ia >> (24 - 11)) & 0x1ff); // NaN, quietened
         }
-    } else if ((ia & 0x7f800000) >= 0x33000000) {
-        int shift = (int)((ia >> 23) & 0xff) - 127;
-        if (shift > 15) {
+    } ਨਹੀਂਤਾਂ ਜੇ ((ia & 0x7f800000) >= 0x33000000) {
+        ਪੂਰਨ ਖਿਸਕਾਓ = (ਪੂਰਨ)((ia >> 23) & 0xff) - 127;
+        ਜੇ (ਖਿਸਕਾਓ > 15) {
             ir |= 0x7c00; // infinity
-        } else {
+        } ਨਹੀਂਤਾਂ {
             ia = (ia & 0x007fffff) | 0x00800000; // extract mantissa
-            if (shift < -14) { // denormal
-                ir |= ia >> (-1 - shift);
-                ia = ia << (32 - (-1 - shift));
-            } else { // normal
+            ਜੇ (ਖਿਸਕਾਓ < -14) { // denormal
+                ir |= ia >> (-1 - ਖਿਸਕਾਓ);
+                ia = ia << (32 - (-1 - ਖਿਸਕਾਓ));
+            } ਨਹੀਂਤਾਂ { //ਸਾਧਾਰਨ
                 ir |= ia >> (24 - 11);
                 ia = ia << (32 - (24 - 11));
-                ir = ir + ((14 + shift) << 10);
+                ir = ir + ((14 + ਖਿਸਕਾਓ) << 10);
             }
             // IEEE-754 round to nearest of even
-            if ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
+            ਜੇ ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
                 ir++;
             }
         }
     }
-    return ir;
+    ਵਾਪਸ ir;
 }
 
-static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_PixelFormatDetails *fmt, const SDL_Palette *pal, SDL_Colorspace colorspace, float SDR_white_point,
-                           float *outR, float *outG, float *outB, float *outA)
+ਸਥਿਰ ਖਾਲੀ ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, ਅਚਲ SDL_PixelFormatDetails *fmt, ਅਚਲ SDL_Palette *pal, SDL_Colorspace colorspace, ਦਸ਼ਮਲਵ SDR_white_ਬਿੰਦੂ,
+                           ਦਸ਼ਮਲਵ *ਬਾਹਰਲਾ_R, ਦਸ਼ਮਲਵ *ਬਾਹਰਲਾ_G, ਦਸ਼ਮਲਵ *ਬਾਹਰਲਾ_B, ਦਸ਼ਮਲਵ *ਬਾਹਰਲਾ_A)
 {
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
-    float fR = 0.0f, fG = 0.0f, fB = 0.0f, fA = 0.0f;
-    float v[4];
+    ਦਸ਼ਮਲਵ fR = 0.0f, fG = 0.0f, fB = 0.0f, fA = 0.0f;
+    ਦਸ਼ਮਲਵ v[4];
 
-    switch (access) {
-    case SlowBlitPixelAccess_Index8:
+    ਚੋਣ (access) {
+    ਹਾਲਤ SlowBlitPixelAccess_Index8:
         pixelvalue = *pixels;
-        fR = (float)pal->colors[pixelvalue].r / 255.0f;
-        fG = (float)pal->colors[pixelvalue].g / 255.0f;
-        fB = (float)pal->colors[pixelvalue].b / 255.0f;
-        fA = (float)pal->colors[pixelvalue].a / 255.0f;
-        break;
-    case SlowBlitPixelAccess_RGB:
-        DISEMBLE_RGB(pixels, fmt->bytes_per_pixel, fmt, pixelvalue, R, G, B);
-        fR = (float)R / 255.0f;
-        fG = (float)G / 255.0f;
-        fB = (float)B / 255.0f;
+        fR = (ਦਸ਼ਮਲਵ)pal->colors[pixelvalue].r / 255.0f;
+        fG = (ਦਸ਼ਮਲਵ)pal->colors[pixelvalue].g / 255.0f;
+        fB = (ਦਸ਼ਮਲਵ)pal->colors[pixelvalue].b / 255.0f;
+        fA = (ਦਸ਼ਮਲਵ)pal->colors[pixelvalue].a / 255.0f;
+        ਰੋਕੋ;
+    ਹਾਲਤ SlowBlitPixelAccess_RGB:
+        DISEMBLE_RGB(pixels, fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel, fmt, pixelvalue, R, G, B);
+        fR = (ਦਸ਼ਮਲਵ)R / 255.0f;
+        fG = (ਦਸ਼ਮਲਵ)G / 255.0f;
+        fB = (ਦਸ਼ਮਲਵ)B / 255.0f;
         fA = 1.0f;
-        break;
-    case SlowBlitPixelAccess_RGBA:
-        DISEMBLE_RGBA(pixels, fmt->bytes_per_pixel, fmt, pixelvalue, R, G, B, A);
-        fR = (float)R / 255.0f;
-        fG = (float)G / 255.0f;
-        fB = (float)B / 255.0f;
-        fA = (float)A / 255.0f;
-        break;
-    case SlowBlitPixelAccess_10Bit:
+        ਰੋਕੋ;
+    ਹਾਲਤ SlowBlitPixelAccess_RGBA:
+        DISEMBLE_RGBA(pixels, fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel, fmt, pixelvalue, R, G, B, A);
+        fR = (ਦਸ਼ਮਲਵ)R / 255.0f;
+        fG = (ਦਸ਼ਮਲਵ)G / 255.0f;
+        fB = (ਦਸ਼ਮਲਵ)B / 255.0f;
+        fA = (ਦਸ਼ਮਲਵ)A / 255.0f;
+        ਰੋਕੋ;
+    ਹਾਲਤ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ:
         pixelvalue = *((Uint32 *)pixels);
-        switch (fmt->format) {
-        case SDL_PIXELFORMAT_XRGB2101010:
+        ਚੋਣ (fmt->format) {
+        ਹਾਲਤ SDL_PIXELFORMAT_XRGB2101010:
             RGBAFLOAT_FROM_ARGB2101010(pixelvalue, fR, fG, fB, fA);
             fA = 1.0f;
-            break;
-        case SDL_PIXELFORMAT_XBGR2101010:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELFORMAT_XBGR2101010:
             RGBAFLOAT_FROM_ABGR2101010(pixelvalue, fR, fG, fB, fA);
             fA = 1.0f;
-            break;
-        case SDL_PIXELFORMAT_ARGB2101010:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELFORMAT_ARGB2101010:
             RGBAFLOAT_FROM_ARGB2101010(pixelvalue, fR, fG, fB, fA);
-            break;
-        case SDL_PIXELFORMAT_ABGR2101010:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELFORMAT_ABGR2101010:
             RGBAFLOAT_FROM_ABGR2101010(pixelvalue, fR, fG, fB, fA);
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             fR = fG = fB = fA = 0.0f;
-            break;
+            ਰੋਕੋ;
         }
-        break;
-    case SlowBlitPixelAccess_Large:
-        switch (SDL_PIXELTYPE(fmt->format)) {
-        case SDL_PIXELTYPE_ARRAYU16:
-            v[0] = (float)(((Uint16 *)pixels)[0]) / SDL_MAX_UINT16;
-            v[1] = (float)(((Uint16 *)pixels)[1]) / SDL_MAX_UINT16;
-            v[2] = (float)(((Uint16 *)pixels)[2]) / SDL_MAX_UINT16;
-            if (fmt->bytes_per_pixel == 8) {
-                v[3] = (float)(((Uint16 *)pixels)[3]) / SDL_MAX_UINT16;
-            } else {
+        ਰੋਕੋ;
+    ਹਾਲਤ SlowBlitPixelAccess_Large:
+        ਚੋਣ (SDL_PIXELTYPE(fmt->format)) {
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYU16:
+            v[0] = (ਦਸ਼ਮਲਵ)(((Uint16 *)pixels)[0]) / SDL_MAX_UINT16;
+            v[1] = (ਦਸ਼ਮਲਵ)(((Uint16 *)pixels)[1]) / SDL_MAX_UINT16;
+            v[2] = (ਦਸ਼ਮਲਵ)(((Uint16 *)pixels)[2]) / SDL_MAX_UINT16;
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 8) {
+                v[3] = (ਦਸ਼ਮਲਵ)(((Uint16 *)pixels)[3]) / SDL_MAX_UINT16;
+            } ਨਹੀਂਤਾਂ {
                 v[3] = 1.0f;
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF16:
-            v[0] = half_to_float(((Uint16 *)pixels)[0]);
-            v[1] = half_to_float(((Uint16 *)pixels)[1]);
-            v[2] = half_to_float(((Uint16 *)pixels)[2]);
-            if (fmt->bytes_per_pixel == 8) {
-                v[3] = half_to_float(((Uint16 *)pixels)[3]);
-            } else {
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYF16:
+            v[0] = half_ਮੰਜ਼ਿਲ_float(((Uint16 *)pixels)[0]);
+            v[1] = half_ਮੰਜ਼ਿਲ_float(((Uint16 *)pixels)[1]);
+            v[2] = half_ਮੰਜ਼ਿਲ_float(((Uint16 *)pixels)[2]);
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 8) {
+                v[3] = half_ਮੰਜ਼ਿਲ_float(((Uint16 *)pixels)[3]);
+            } ਨਹੀਂਤਾਂ {
                 v[3] = 1.0f;
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF32:
-            v[0] = ((float *)pixels)[0];
-            v[1] = ((float *)pixels)[1];
-            v[2] = ((float *)pixels)[2];
-            if (fmt->bytes_per_pixel == 16) {
-                v[3] = ((float *)pixels)[3];
-            } else {
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYF32:
+            v[0] = ((ਦਸ਼ਮਲਵ *)pixels)[0];
+            v[1] = ((ਦਸ਼ਮਲਵ *)pixels)[1];
+            v[2] = ((ਦਸ਼ਮਲਵ *)pixels)[2];
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 16) {
+                v[3] = ((ਦਸ਼ਮਲਵ *)pixels)[3];
+            } ਨਹੀਂਤਾਂ {
                 v[3] = 1.0f;
             }
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             // Unknown array type
             v[0] = v[1] = v[2] = v[3] = 0.0f;
-            break;
+            ਰੋਕੋ;
         }
-        switch (SDL_PIXELORDER(fmt->format)) {
-        case SDL_ARRAYORDER_RGB:
+        ਚੋਣ (SDL_PIXELORDER(fmt->format)) {
+        ਹਾਲਤ SDL_ARRAYORDER_RGB:
             fR = v[0];
             fG = v[1];
             fB = v[2];
             fA = 1.0f;
-            break;
-        case SDL_ARRAYORDER_RGBA:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_RGBA:
             fR = v[0];
             fG = v[1];
             fB = v[2];
             fA = v[3];
-            break;
-        case SDL_ARRAYORDER_ARGB:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_ARGB:
             fA = v[0];
             fR = v[1];
             fG = v[2];
             fB = v[3];
-            break;
-        case SDL_ARRAYORDER_BGR:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_BGR:
             fB = v[0];
             fG = v[1];
             fR = v[2];
             fA = 1.0f;
-            break;
-        case SDL_ARRAYORDER_BGRA:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_BGRA:
             fB = v[0];
             fG = v[1];
             fR = v[2];
             fA = v[3];
-            break;
-        case SDL_ARRAYORDER_ABGR:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_ABGR:
             fA = v[0];
             fB = v[1];
             fG = v[2];
             fR = v[3];
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             // Unknown array order
             fA = fR = fG = fB = 0.0f;
-            break;
+            ਰੋਕੋ;
         }
-        break;
+        ਰੋਕੋ;
     }
 
     // Convert to nits so src and dst are guaranteed to be linear and in the same units
-    switch (SDL_COLORSPACETRANSFER(colorspace)) {
-    case SDL_TRANSFER_CHARACTERISTICS_SRGB:
-        fR = SDL_sRGBtoLinear(fR);
-        fG = SDL_sRGBtoLinear(fG);
-        fB = SDL_sRGBtoLinear(fB);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_PQ:
-        fR = SDL_PQtoNits(fR) / SDR_white_point;
-        fG = SDL_PQtoNits(fG) / SDR_white_point;
-        fB = SDL_PQtoNits(fB) / SDR_white_point;
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_LINEAR:
-        fR /= SDR_white_point;
-        fG /= SDR_white_point;
-        fB /= SDR_white_point;
-        break;
-    default:
+    ਚੋਣ (SDL_COLORSPACETRANSFER(colorspace)) {
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_SRGB:
+        fR = SDL_s_RGBto_ਰੇਖਿਕ(fR);
+        fG = SDL_s_RGBto_ਰੇਖਿਕ(fG);
+        fB = SDL_s_RGBto_ਰੇਖਿਕ(fB);
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_PQ:
+        fR = SDL_PQtoNits(fR) / SDR_white_ਬਿੰਦੂ;
+        fG = SDL_PQtoNits(fG) / SDR_white_ਬਿੰਦੂ;
+        fB = SDL_PQtoNits(fB) / SDR_white_ਬਿੰਦੂ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_ਰੇਖਿਕ:
+        fR /= SDR_white_ਬਿੰਦੂ;
+        fG /= SDR_white_ਬਿੰਦੂ;
+        fB /= SDR_white_ਬਿੰਦੂ;
+        ਰੋਕੋ;
+    ਮੂਲ:
         // Unknown, leave it alone
-        break;
+        ਰੋਕੋ;
     }
 
-    *outR = fR;
-    *outG = fG;
-    *outB = fB;
-    *outA = fA;
+    *ਬਾਹਰਲਾ_R = fR;
+    *ਬਾਹਰਲਾ_G = fG;
+    *ਬਾਹਰਲਾ_B = fB;
+    *ਬਾਹਰਲਾ_A = fA;
 }
 
-static void WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_PixelFormatDetails *fmt, SDL_Colorspace colorspace, float SDR_white_point,
-                            float fR, float fG, float fB, float fA)
+ਸਥਿਰ ਖਾਲੀ WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, ਅਚਲ SDL_PixelFormatDetails *fmt, SDL_Colorspace colorspace, ਦਸ਼ਮਲਵ SDR_white_ਬਿੰਦੂ,
+                            ਦਸ਼ਮਲਵ fR, ਦਸ਼ਮਲਵ fG, ਦਸ਼ਮਲਵ fB, ਦਸ਼ਮਲਵ fA)
 {
     Uint32 R, G, B, A;
     Uint32 pixelvalue;
-    float v[4];
+    ਦਸ਼ਮਲਵ v[4];
 
     // We converted to nits so src and dst are guaranteed to be linear and in the same units
-    switch (SDL_COLORSPACETRANSFER(colorspace)) {
-    case SDL_TRANSFER_CHARACTERISTICS_SRGB:
-        fR = SDL_sRGBfromLinear(fR);
-        fG = SDL_sRGBfromLinear(fG);
-        fB = SDL_sRGBfromLinear(fB);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_PQ:
-        fR = SDL_PQfromNits(fR * SDR_white_point);
-        fG = SDL_PQfromNits(fG * SDR_white_point);
-        fB = SDL_PQfromNits(fB * SDR_white_point);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_LINEAR:
-        fR *= SDR_white_point;
-        fG *= SDR_white_point;
-        fB *= SDR_white_point;
-        break;
-    default:
+    ਚੋਣ (SDL_COLORSPACETRANSFER(colorspace)) {
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_SRGB:
+        fR = SDL_s_RGBfrom_ਰੇਖਿਕ(fR);
+        fG = SDL_s_RGBfrom_ਰੇਖਿਕ(fG);
+        fB = SDL_s_RGBfrom_ਰੇਖਿਕ(fB);
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_PQ:
+        fR = SDL_PQfromNits(fR * SDR_white_ਬਿੰਦੂ);
+        fG = SDL_PQfromNits(fG * SDR_white_ਬਿੰਦੂ);
+        fB = SDL_PQfromNits(fB * SDR_white_ਬਿੰਦੂ);
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_TRANSFER_CHARACTERISTICS_ਰੇਖਿਕ:
+        fR *= SDR_white_ਬਿੰਦੂ;
+        fG *= SDR_white_ਬਿੰਦੂ;
+        fB *= SDR_white_ਬਿੰਦੂ;
+        ਰੋਕੋ;
+    ਮੂਲ:
         // Unknown, leave it alone
-        break;
+        ਰੋਕੋ;
     }
 
-    switch (access) {
-    case SlowBlitPixelAccess_Index8:
+    ਚੋਣ (access) {
+    ਹਾਲਤ SlowBlitPixelAccess_Index8:
         // This should never happen, checked before this call
         SDL_assert(0);
-        break;
-    case SlowBlitPixelAccess_RGB:
+        ਰੋਕੋ;
+    ਹਾਲਤ SlowBlitPixelAccess_RGB:
         R = (Uint8)SDL_roundf(SDL_clamp(fR, 0.0f, 1.0f) * 255.0f);
         G = (Uint8)SDL_roundf(SDL_clamp(fG, 0.0f, 1.0f) * 255.0f);
         B = (Uint8)SDL_roundf(SDL_clamp(fB, 0.0f, 1.0f) * 255.0f);
-        ASSEMBLE_RGB(pixels, fmt->bytes_per_pixel, fmt, R, G, B);
-        break;
-    case SlowBlitPixelAccess_RGBA:
+        ASSEMBLE_RGB(pixels, fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel, fmt, R, G, B);
+        ਰੋਕੋ;
+    ਹਾਲਤ SlowBlitPixelAccess_RGBA:
         R = (Uint8)SDL_roundf(SDL_clamp(fR, 0.0f, 1.0f) * 255.0f);
         G = (Uint8)SDL_roundf(SDL_clamp(fG, 0.0f, 1.0f) * 255.0f);
         B = (Uint8)SDL_roundf(SDL_clamp(fB, 0.0f, 1.0f) * 255.0f);
         A = (Uint8)SDL_roundf(SDL_clamp(fA, 0.0f, 1.0f) * 255.0f);
-        ASSEMBLE_RGBA(pixels, fmt->bytes_per_pixel, fmt, R, G, B, A);
-        break;
-    case SlowBlitPixelAccess_10Bit:
+        ASSEMBLE_RGBA(pixels, fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel, fmt, R, G, B, A);
+        ਰੋਕੋ;
+    ਹਾਲਤ Slow_Blit_Pixel_Access_10_ਦੋਆਧਾਰੀ_ਅੰਕ:
     {
-        switch (fmt->format) {
-        case SDL_PIXELFORMAT_XRGB2101010:
+        ਚੋਣ (fmt->format) {
+        ਹਾਲਤ SDL_PIXELFORMAT_XRGB2101010:
             fA = 1.0f;
             SDL_FALLTHROUGH;
-        case SDL_PIXELFORMAT_ARGB2101010:
+        ਹਾਲਤ SDL_PIXELFORMAT_ARGB2101010:
             ARGB2101010_FROM_RGBAFLOAT(pixelvalue, fR, fG, fB, fA);
-            break;
-        case SDL_PIXELFORMAT_XBGR2101010:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELFORMAT_XBGR2101010:
             fA = 1.0f;
             SDL_FALLTHROUGH;
-        case SDL_PIXELFORMAT_ABGR2101010:
+        ਹਾਲਤ SDL_PIXELFORMAT_ABGR2101010:
             ABGR2101010_FROM_RGBAFLOAT(pixelvalue, fR, fG, fB, fA);
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             pixelvalue = 0;
-            break;
+            ਰੋਕੋ;
         }
         *(Uint32 *)pixels = pixelvalue;
-        break;
+        ਰੋਕੋ;
     }
-    case SlowBlitPixelAccess_Large:
-        switch (SDL_PIXELORDER(fmt->format)) {
-        case SDL_ARRAYORDER_RGB:
+    ਹਾਲਤ SlowBlitPixelAccess_Large:
+        ਚੋਣ (SDL_PIXELORDER(fmt->format)) {
+        ਹਾਲਤ SDL_ARRAYORDER_RGB:
             v[0] = fR;
             v[1] = fG;
             v[2] = fB;
             v[3] = 1.0f;
-            break;
-        case SDL_ARRAYORDER_RGBA:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_RGBA:
             v[0] = fR;
             v[1] = fG;
             v[2] = fB;
             v[3] = fA;
-            break;
-        case SDL_ARRAYORDER_ARGB:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_ARGB:
             v[0] = fA;
             v[1] = fR;
             v[2] = fG;
             v[3] = fB;
-            break;
-        case SDL_ARRAYORDER_BGR:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_BGR:
             v[0] = fB;
             v[1] = fG;
             v[2] = fR;
             v[3] = 1.0f;
-            break;
-        case SDL_ARRAYORDER_BGRA:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_BGRA:
             v[0] = fB;
             v[1] = fG;
             v[2] = fR;
             v[3] = fA;
-            break;
-        case SDL_ARRAYORDER_ABGR:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_ARRAYORDER_ABGR:
             v[0] = fA;
             v[1] = fB;
             v[2] = fG;
             v[3] = fR;
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             // Unknown array order
             v[0] = v[1] = v[2] = v[3] = 0.0f;
-            break;
+            ਰੋਕੋ;
         }
-        switch (SDL_PIXELTYPE(fmt->format)) {
-        case SDL_PIXELTYPE_ARRAYU16:
+        ਚੋਣ (SDL_PIXELTYPE(fmt->format)) {
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYU16:
             ((Uint16 *)pixels)[0] = (Uint16)SDL_roundf(SDL_clamp(v[0], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[1] = (Uint16)SDL_roundf(SDL_clamp(v[1], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[2] = (Uint16)SDL_roundf(SDL_clamp(v[2], 0.0f, 1.0f) * SDL_MAX_UINT16);
-            if (fmt->bytes_per_pixel == 8) {
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 8) {
                 ((Uint16 *)pixels)[3] = (Uint16)SDL_roundf(SDL_clamp(v[3], 0.0f, 1.0f) * SDL_MAX_UINT16);
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF16:
-            ((Uint16 *)pixels)[0] = float_to_half(v[0]);
-            ((Uint16 *)pixels)[1] = float_to_half(v[1]);
-            ((Uint16 *)pixels)[2] = float_to_half(v[2]);
-            if (fmt->bytes_per_pixel == 8) {
-                ((Uint16 *)pixels)[3] = float_to_half(v[3]);
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYF16:
+            ((Uint16 *)pixels)[0] = float_ਮੰਜ਼ਿਲ_half(v[0]);
+            ((Uint16 *)pixels)[1] = float_ਮੰਜ਼ਿਲ_half(v[1]);
+            ((Uint16 *)pixels)[2] = float_ਮੰਜ਼ਿਲ_half(v[2]);
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 8) {
+                ((Uint16 *)pixels)[3] = float_ਮੰਜ਼ਿਲ_half(v[3]);
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF32:
-            ((float *)pixels)[0] = v[0];
-            ((float *)pixels)[1] = v[1];
-            ((float *)pixels)[2] = v[2];
-            if (fmt->bytes_per_pixel == 16) {
-                ((float *)pixels)[3] = v[3];
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_PIXELTYPE_ARRAYF32:
+            ((ਦਸ਼ਮਲਵ *)pixels)[0] = v[0];
+            ((ਦਸ਼ਮਲਵ *)pixels)[1] = v[1];
+            ((ਦਸ਼ਮਲਵ *)pixels)[2] = v[2];
+            ਜੇ (fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel == 16) {
+                ((ਦਸ਼ਮਲਵ *)pixels)[3] = v[3];
             }
-            break;
-        default:
+            ਰੋਕੋ;
+        ਮੂਲ:
             // Unknown array type
-            break;
+            ਰੋਕੋ;
         }
-        break;
+        ਰੋਕੋ;
     }
 }
 
-typedef enum
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ
 {
     SDL_TONEMAP_NONE,
-    SDL_TONEMAP_LINEAR,
+    SDL_TONEMAP_ਰੇਖਿਕ,
     SDL_TONEMAP_CHROME
 } SDL_TonemapOperator;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
     SDL_TonemapOperator op;
 
-    union {
-        struct {
-            float scale;
-        } linear;
+    ਸੰਘ {
+        ਬਣਤਰ {
+            ਦਸ਼ਮਲਵ scale;
+        } ਰੇਖਿਕ;
 
-        struct {
-            float a;
-            float b;
-            const float *color_primaries_matrix;
+        ਬਣਤਰ {
+            ਦਸ਼ਮਲਵ a;
+            ਦਸ਼ਮਲਵ b;
+            ਅਚਲ ਦਸ਼ਮਲਵ *color_primaries_ਮੈਟ੍ਰਿਕਸ;
         } chrome;
 
-    } data;
+    } ਅੰਕੜੇ;
 
 } SDL_TonemapContext;
 
-static void TonemapLinear(float *r, float *g, float *b, float scale)
+ਸਥਿਰ ਖਾਲੀ Tonemap_ਰੇਖਿਕ(ਦਸ਼ਮਲਵ *r, ਦਸ਼ਮਲਵ *g, ਦਸ਼ਮਲਵ *b, ਦਸ਼ਮਲਵ scale)
 {
     *r *= scale;
     *g *= scale;
@@ -772,218 +772,218 @@ static void TonemapLinear(float *r, float *g, float *b, float scale)
  * Then you normalize your source color by the HDR whitepoint,
  * and calculate a final scaling factor in BT.2020 colorspace.
  */
-static void TonemapChrome(float *r, float *g, float *b, float tonemap_a, float tonemap_b)
+ਸਥਿਰ ਖਾਲੀ TonemapChrome(ਦਸ਼ਮਲਵ *r, ਦਸ਼ਮਲਵ *g, ਦਸ਼ਮਲਵ *b, ਦਸ਼ਮਲਵ tonemap_a, ਦਸ਼ਮਲਵ tonemap_b)
 {
-    float v1 = *r;
-    float v2 = *g;
-    float v3 = *b;
-    float vmax = SDL_max(v1, SDL_max(v2, v3));
+    ਦਸ਼ਮਲਵ v1 = *r;
+    ਦਸ਼ਮਲਵ v2 = *g;
+    ਦਸ਼ਮਲਵ v3 = *b;
+    ਦਸ਼ਮਲਵ vmax = SDL_max(v1, SDL_max(v2, v3));
 
-    if (vmax > 0.0f) {
-        float scale = (1.0f + tonemap_a * vmax) / (1.0f + tonemap_b * vmax);
-        TonemapLinear(r, g, b, scale);
+    ਜੇ (vmax > 0.0f) {
+        ਦਸ਼ਮਲਵ scale = (1.0f + tonemap_a * vmax) / (1.0f + tonemap_b * vmax);
+        Tonemap_ਰੇਖਿਕ(r, g, b, scale);
     }
 }
 
-static void ApplyTonemap(SDL_TonemapContext *ctx, float *r, float *g, float *b)
+ਸਥਿਰ ਖਾਲੀ ApplyTonemap(SDL_TonemapContext *ctx, ਦਸ਼ਮਲਵ *r, ਦਸ਼ਮਲਵ *g, ਦਸ਼ਮਲਵ *b)
 {
-    switch (ctx->op) {
-    case SDL_TONEMAP_LINEAR:
-        TonemapLinear(r, g, b, ctx->data.linear.scale);
-        break;
-    case SDL_TONEMAP_CHROME:
-        if (ctx->data.chrome.color_primaries_matrix) {
-            SDL_ConvertColorPrimaries(r, g, b, ctx->data.chrome.color_primaries_matrix);
+    ਚੋਣ (ctx->op) {
+    ਹਾਲਤ SDL_TONEMAP_ਰੇਖਿਕ:
+        Tonemap_ਰੇਖਿਕ(r, g, b, ctx->ਅੰਕੜੇ.ਰੇਖਿਕ.scale);
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_TONEMAP_CHROME:
+        ਜੇ (ctx->ਅੰਕੜੇ.chrome.color_primaries_ਮੈਟ੍ਰਿਕਸ) {
+            SDL_ConvertColorPrimaries(r, g, b, ctx->ਅੰਕੜੇ.chrome.color_primaries_ਮੈਟ੍ਰਿਕਸ);
         }
-        TonemapChrome(r, g, b, ctx->data.chrome.a, ctx->data.chrome.b);
-        break;
-    default:
-        break;
+        TonemapChrome(r, g, b, ctx->ਅੰਕੜੇ.chrome.a, ctx->ਅੰਕੜੇ.chrome.b);
+        ਰੋਕੋ;
+    ਮੂਲ:
+        ਰੋਕੋ;
     }
 }
 
 /* The SECOND TRUE BLITTER
  * This one is even slower than the first, but also handles large pixel formats and colorspace conversion
  */
-void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
+ਖਾਲੀ SDL_Blit_Slow_Float(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
-    const Uint32 modulateR = info->r;
-    const Uint32 modulateG = info->g;
-    const Uint32 modulateB = info->b;
-    const Uint32 modulateA = info->a;
-    float srcR, srcG, srcB, srcA;
-    float dstR, dstG, dstB, dstA;
+    ਅਚਲ ਪੂਰਨ flags = info->flags;
+    ਅਚਲ Uint32 modulateR = info->r;
+    ਅਚਲ Uint32 modulateG = info->g;
+    ਅਚਲ Uint32 modulateB = info->b;
+    ਅਚਲ Uint32 modulateA = info->a;
+    ਦਸ਼ਮਲਵ srcR, srcG, srcB, srcA;
+    ਦਸ਼ਮਲਵ dstR, dstG, dstB, dstA;
     Uint64 srcy, srcx;
     Uint64 posy, posx;
     Uint64 incy, incx;
-    const SDL_PixelFormatDetails *src_fmt = info->src_fmt;
-    const SDL_Palette *src_pal = info->src_pal;
-    const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
-    const SDL_Palette *dst_pal = info->dst_pal;
-    SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    ਅਚਲ SDL_PixelFormatDetails *src_fmt = info->src_fmt;
+    ਅਚਲ SDL_Palette *src_pal = info->src_pal;
+    ਅਚਲ SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
+    ਅਚਲ SDL_Palette *dst_pal = info->dst_pal;
+    SDL_Hash_ਸਾਰਣੀ *palette_map = info->palette_map;
+    ਪੂਰਨ srcbpp = src_fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
+    ਪੂਰਨ dstbpp = dst_fmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     SDL_Colorspace src_colorspace;
     SDL_Colorspace dst_colorspace;
     SDL_ColorPrimaries src_primaries;
     SDL_ColorPrimaries dst_primaries;
-    const float *color_primaries_matrix = NULL;
-    float src_white_point;
-    float dst_white_point;
-    float dst_headroom;
-    float src_headroom;
+    ਅਚਲ ਦਸ਼ਮਲਵ *color_primaries_ਮੈਟ੍ਰਿਕਸ = ਨਿਰਾ;
+    ਦਸ਼ਮਲਵ src_white_ਬਿੰਦੂ;
+    ਦਸ਼ਮਲਵ dst_white_ਬਿੰਦੂ;
+    ਦਸ਼ਮਲਵ dst_headroom;
+    ਦਸ਼ਮਲਵ src_headroom;
     SDL_TonemapContext tonemap;
-    Uint32 last_pixel = 0;
-    Uint8 last_index = 0;
+    Uint32 ਆਖਰੀ_pixel = 0;
+    Uint8 ਆਖਰੀ_ਸੂਚਕਾਂਕ = 0;
 
     src_colorspace = info->src_surface->colorspace;
     dst_colorspace = info->dst_surface->colorspace;
     src_primaries = SDL_COLORSPACEPRIMARIES(src_colorspace);
     dst_primaries = SDL_COLORSPACEPRIMARIES(dst_colorspace);
 
-    src_white_point = SDL_GetSurfaceSDRWhitePoint(info->src_surface, src_colorspace);
-    dst_white_point = SDL_GetSurfaceSDRWhitePoint(info->dst_surface, dst_colorspace);
+    src_white_ਬਿੰਦੂ = SDL_Get_Surface_SDRWhite_ਬਿੰਦੂ(info->src_surface, src_colorspace);
+    dst_white_ਬਿੰਦੂ = SDL_Get_Surface_SDRWhite_ਬਿੰਦੂ(info->dst_surface, dst_colorspace);
     src_headroom = SDL_GetSurfaceHDRHeadroom(info->src_surface, src_colorspace);
     dst_headroom = SDL_GetSurfaceHDRHeadroom(info->dst_surface, dst_colorspace);
-    if (dst_headroom == 0.0f) {
+    ਜੇ (dst_headroom == 0.0f) {
         // The destination will have the same headroom as the source
         dst_headroom = src_headroom;
-        SDL_SetFloatProperty(SDL_GetSurfaceProperties(info->dst_surface), SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, dst_headroom);
+        SDL_ਸੈੱਟ_Float_Property(SDL_GetSurfaceProperties(info->dst_surface), SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, dst_headroom);
     }
 
     SDL_zero(tonemap);
 
-    if (src_headroom > dst_headroom) {
-        const char *tonemap_operator = SDL_GetStringProperty(SDL_GetSurfaceProperties(info->src_surface), SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING, NULL);
-        if (tonemap_operator) {
-            if (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
-                tonemap.op = SDL_TONEMAP_LINEAR;
-                tonemap.data.linear.scale = (float)SDL_atof(tonemap_operator + 2);
-            } else if (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
+    ਜੇ (src_headroom > dst_headroom) {
+        ਅਚਲ ਅੱਖਰ *tonemap_operator = SDL_GetStringProperty(SDL_GetSurfaceProperties(info->src_surface), SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING, ਨਿਰਾ);
+        ਜੇ (tonemap_operator) {
+            ਜੇ (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
+                tonemap.op = SDL_TONEMAP_ਰੇਖਿਕ;
+                tonemap.ਅੰਕੜੇ.ਰੇਖਿਕ.scale = (ਦਸ਼ਮਲਵ)SDL_atof(tonemap_operator + 2);
+            } ਨਹੀਂਤਾਂ ਜੇ (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
                 tonemap.op = SDL_TONEMAP_CHROME;
-            } else if (SDL_strcasecmp(tonemap_operator, "none") == 0) {
+            } ਨਹੀਂਤਾਂ ਜੇ (SDL_strcasecmp(tonemap_operator, "none") == 0) {
                 tonemap.op = SDL_TONEMAP_NONE;
             }
-        } else {
+        } ਨਹੀਂਤਾਂ {
             tonemap.op = SDL_TONEMAP_CHROME;
         }
-        if (tonemap.op == SDL_TONEMAP_CHROME) {
-            tonemap.data.chrome.a = (dst_headroom / (src_headroom * src_headroom));
-            tonemap.data.chrome.b = (1.0f / dst_headroom);
+        ਜੇ (tonemap.op == SDL_TONEMAP_CHROME) {
+            tonemap.ਅੰਕੜੇ.chrome.a = (dst_headroom / (src_headroom * src_headroom));
+            tonemap.ਅੰਕੜੇ.chrome.b = (1.0f / dst_headroom);
 
             // We'll convert to BT.2020 primaries for the tonemap operation
-            tonemap.data.chrome.color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, SDL_COLOR_PRIMARIES_BT2020);
-            if (tonemap.data.chrome.color_primaries_matrix) {
+            tonemap.ਅੰਕੜੇ.chrome.color_primaries_ਮੈਟ੍ਰਿਕਸ = SDL_Get_Color_Primaries_Conversion_ਮੈਟ੍ਰਿਕਸ(src_primaries, SDL_COLOR_PRIMARIES_BT2020);
+            ਜੇ (tonemap.ਅੰਕੜੇ.chrome.color_primaries_ਮੈਟ੍ਰਿਕਸ) {
                 src_primaries = SDL_COLOR_PRIMARIES_BT2020;
             }
         }
     }
 
-    if (src_primaries != dst_primaries) {
-        color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, dst_primaries);
+    ਜੇ (src_primaries != dst_primaries) {
+        color_primaries_ਮੈਟ੍ਰਿਕਸ = SDL_Get_Color_Primaries_Conversion_ਮੈਟ੍ਰਿਕਸ(src_primaries, dst_primaries);
     }
 
-    src_access = GetPixelAccessMethod(src_fmt->format);
-    dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
-        last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
+    src_access = Get_Pixel_Access_ਵਿਧੀ(src_fmt->format);
+    dst_access = Get_Pixel_Access_ਵਿਧੀ(dst_fmt->format);
+    ਜੇ (dst_access == SlowBlitPixelAccess_Index8) {
+        ਆਖਰੀ_ਸੂਚਕਾਂਕ = SDL_LookupRGBAColor(palette_map, ਆਖਰੀ_pixel, dst_pal);
     }
 
     incy = ((Uint64)info->src_h << 16) / info->dst_h;
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
-        Uint8 *src = NULL;
+    ਜਦੋਂ (info->dst_h--) {
+        Uint8 *src = ਨਿਰਾ;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        ਪੂਰਨ n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        ਜਦੋਂ (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
-            ReadFloatPixel(src, src_access, src_fmt, src_pal, src_colorspace, src_white_point, &srcR, &srcG, &srcB, &srcA);
+            ReadFloatPixel(src, src_access, src_fmt, src_pal, src_colorspace, src_white_ਬਿੰਦੂ, &srcR, &srcG, &srcB, &srcA);
 
-            if (tonemap.op) {
+            ਜੇ (tonemap.op) {
                 ApplyTonemap(&tonemap, &srcR, &srcG, &srcB);
             }
 
-            if (color_primaries_matrix) {
-                SDL_ConvertColorPrimaries(&srcR, &srcG, &srcB, color_primaries_matrix);
+            ਜੇ (color_primaries_ਮੈਟ੍ਰਿਕਸ) {
+                SDL_ConvertColorPrimaries(&srcR, &srcG, &srcB, color_primaries_ਮੈਟ੍ਰਿਕਸ);
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            ਜੇ (flags & SDL_COPY_COLORKEY) {
                 // colorkey isn't supported
             }
-            if ((flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL))) {
-                ReadFloatPixel(dst, dst_access, dst_fmt, dst_pal, dst_colorspace, dst_white_point, &dstR, &dstG, &dstB, &dstA);
-            } else {
+            ਜੇ ((flags & (SDL_COPY_BLEND | SDL_COPY_ਜੋੜੋ | SDL_COPY_MOD | SDL_COPY_MUL))) {
+                ReadFloatPixel(dst, dst_access, dst_fmt, dst_pal, dst_colorspace, dst_white_ਬਿੰਦੂ, &dstR, &dstG, &dstB, &dstA);
+            } ਨਹੀਂਤਾਂ {
                 // don't care
                 dstR = dstG = dstB = dstA = 0.0f;
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            ਜੇ (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            ਜੇ (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 1.0f) {
+            ਜੇ (flags & (SDL_COPY_BLEND | SDL_COPY_ਜੋੜੋ)) {
+                ਜੇ (srcA < 1.0f) {
                     srcR = (srcR * srcA);
                     srcG = (srcG * srcA);
                     srcB = (srcB * srcA);
                 }
             }
-            switch (flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL)) {
-            case 0:
+            ਚੋਣ (flags & (SDL_COPY_BLEND | SDL_COPY_ਜੋੜੋ | SDL_COPY_MOD | SDL_COPY_MUL)) {
+            ਹਾਲਤ 0:
                 dstR = srcR;
                 dstG = srcG;
                 dstB = srcB;
                 dstA = srcA;
-                break;
-            case SDL_COPY_BLEND:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_BLEND:
                 dstR = srcR + ((1.0f - srcA) * dstR);
                 dstG = srcG + ((1.0f - srcA) * dstG);
                 dstB = srcB + ((1.0f - srcA) * dstB);
                 dstA = srcA + ((1.0f - srcA) * dstA);
-                break;
-            case SDL_COPY_ADD:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_ਜੋੜੋ:
                 dstR = srcR + dstR;
                 dstG = srcG + dstG;
                 dstB = srcB + dstB;
-                break;
-            case SDL_COPY_MOD:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_MOD:
                 dstR = (srcR * dstR);
                 dstG = (srcG * dstG);
                 dstB = (srcB * dstB);
-                break;
-            case SDL_COPY_MUL:
+                ਰੋਕੋ;
+            ਹਾਲਤ SDL_COPY_MUL:
                 dstR = ((srcR * dstR) + (dstR * (1.0f - srcA)));
                 dstG = ((srcG * dstG) + (dstG * (1.0f - srcA)));
                 dstB = ((srcB * dstB) + (dstB * (1.0f - srcA)));
-                break;
+                ਰੋਕੋ;
             }
 
-            if (dst_access == SlowBlitPixelAccess_Index8) {
-                Uint32 R = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstR), 0.0f, 1.0f) * 255.0f);
-                Uint32 G = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstG), 0.0f, 1.0f) * 255.0f);
-                Uint32 B = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstB), 0.0f, 1.0f) * 255.0f);
+            ਜੇ (dst_access == SlowBlitPixelAccess_Index8) {
+                Uint32 R = (Uint8)SDL_roundf(SDL_clamp(SDL_s_RGBfrom_ਰੇਖਿਕ(dstR), 0.0f, 1.0f) * 255.0f);
+                Uint32 G = (Uint8)SDL_roundf(SDL_clamp(SDL_s_RGBfrom_ਰੇਖਿਕ(dstG), 0.0f, 1.0f) * 255.0f);
+                Uint32 B = (Uint8)SDL_roundf(SDL_clamp(SDL_s_RGBfrom_ਰੇਖਿਕ(dstB), 0.0f, 1.0f) * 255.0f);
                 Uint32 A = (Uint8)SDL_roundf(SDL_clamp(dstA, 0.0f, 1.0f) * 255.0f);
                 Uint32 dstpixel = ((R << 24) | (G << 16) | (B << 8) | A);
-                if (dstpixel != last_pixel) {
-                    last_pixel = dstpixel;
-                    last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
+                ਜੇ (dstpixel != ਆਖਰੀ_pixel) {
+                    ਆਖਰੀ_pixel = dstpixel;
+                    ਆਖਰੀ_ਸੂਚਕਾਂਕ = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
-                *dst = last_index;
-            } else {
-                WriteFloatPixel(dst, dst_access, dst_fmt, dst_colorspace, dst_white_point, dstR, dstG, dstB, dstA);
+                *dst = ਆਖਰੀ_ਸੂਚਕਾਂਕ;
+            } ਨਹੀਂਤਾਂ {
+                WriteFloatPixel(dst, dst_access, dst_fmt, dst_colorspace, dst_white_ਬਿੰਦੂ, dstR, dstG, dstB, dstA);
             }
 
             posx += incx;

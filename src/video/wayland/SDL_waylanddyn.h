@@ -18,167 +18,167 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_waylanddyn_h_
-#define SDL_waylanddyn_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_waylanddyn_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_waylanddyn_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
 /* We can't include wayland-client.h here
  * but we need some structs from it
  */
-struct wl_interface;
-struct wl_proxy;
-struct wl_event_queue;
-struct wl_display;
-struct wl_surface;
-struct wl_shm;
+ਬਣਤਰ wl_interface;
+ਬਣਤਰ wl_proxy;
+ਬਣਤਰ wl_event_ਕਤਾਰ;
+ਬਣਤਰ wl_display;
+ਬਣਤਰ wl_surface;
+ਬਣਤਰ wl_shm;
 
 // We also need some for libdecor
-struct wl_seat;
-struct wl_output;
-struct libdecor;
-struct libdecor_frame;
-struct libdecor_state;
-struct libdecor_configuration;
-struct libdecor_interface;
-struct libdecor_frame_interface;
-enum libdecor_resize_edge;
-enum libdecor_capabilities;
-enum libdecor_window_state;
+ਬਣਤਰ wl_seat;
+ਬਣਤਰ wl_output;
+ਬਣਤਰ libdecor;
+ਬਣਤਰ libdecor_ਚੌਖਟਾ;
+ਬਣਤਰ libdecor_state;
+ਬਣਤਰ libdecor_configuration;
+ਬਣਤਰ libdecor_interface;
+ਬਣਤਰ libdecor_ਚੌਖਟਾ_interface;
+ਗਿਣਤੀ libdecor_resize_ਕਿਨਾਰਾ;
+ਗਿਣਤੀ libdecor_capabilities;
+ਗਿਣਤੀ libdecor_ਖਿੜਕੀ_state;
 
-#include "wayland-cursor.h"
-#include "wayland-util.h"
-#include "xkbcommon/xkbcommon.h"
-#include "xkbcommon/xkbcommon-compose.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-cursor.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-util.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "xkbcommon/xkbcommon.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "xkbcommon/xkbcommon-compose.h"
 
 // Must be included before our #defines, see Bugzilla #4957
-#include "wayland-client-core.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-client-core.h"
 
-#define SDL_WAYLAND_CHECK_VERSION(x, y, z)                        \
-    (WAYLAND_VERSION_MAJOR > x ||                                 \
-     (WAYLAND_VERSION_MAJOR == x && WAYLAND_VERSION_MINOR > y) || \
-     (WAYLAND_VERSION_MAJOR == x && WAYLAND_VERSION_MINOR == y && WAYLAND_VERSION_MICRO >= z))
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_WAYLAND_CHECK_ਸੰਸਕਰਣ(x, y, z)                        \
+    (WAYLAND_ਸੰਸਕਰਣ_MAJOR > x ||                                 \
+     (WAYLAND_ਸੰਸਕਰਣ_MAJOR == x && WAYLAND_ਸੰਸਕਰਣ_MINOR > y) || \
+     (WAYLAND_ਸੰਸਕਰਣ_MAJOR == x && WAYLAND_ਸੰਸਕਰਣ_MINOR == y && WAYLAND_ਸੰਸਕਰਣ_MICRO >= z))
 
-#define SDL_XKBCOMMON_CHECK_VERSION(x, y, z)                                  \
-    (SDL_XKBCOMMON_VERSION_MAJOR > x ||                                       \
-     (SDL_XKBCOMMON_VERSION_MAJOR == x && SDL_XKBCOMMON_VERSION_MINOR > y) || \
-     (SDL_XKBCOMMON_VERSION_MAJOR == x && SDL_XKBCOMMON_VERSION_MINOR == y && SDL_XKBCOMMON_VERSION_PATCH >= z))
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_XKBCOMMON_CHECK_ਸੰਸਕਰਣ(x, y, z)                                  \
+    (SDL_XKBCOMMON_ਸੰਸਕਰਣ_MAJOR > x ||                                       \
+     (SDL_XKBCOMMON_ਸੰਸਕਰਣ_MAJOR == x && SDL_XKBCOMMON_ਸੰਸਕਰਣ_MINOR > y) || \
+     (SDL_XKBCOMMON_ਸੰਸਕਰਣ_MAJOR == x && SDL_XKBCOMMON_ਸੰਸਕਰਣ_MINOR == y && SDL_XKBCOMMON_ਸੰਸਕਰਣ_PATCH >= z))
 
-#ifdef HAVE_LIBDECOR_H
-#define SDL_LIBDECOR_CHECK_VERSION(x, y, z)                                 \
-    (SDL_LIBDECOR_VERSION_MAJOR > x ||                                      \
-     (SDL_LIBDECOR_VERSION_MAJOR == x && SDL_LIBDECOR_VERSION_MINOR > y) || \
-     (SDL_LIBDECOR_VERSION_MAJOR == x && SDL_LIBDECOR_VERSION_MINOR == y && SDL_LIBDECOR_VERSION_PATCH >= z))
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_LIBDECOR_CHECK_ਸੰਸਕਰਣ(x, y, z)                                 \
+    (SDL_LIBDECOR_ਸੰਸਕਰਣ_MAJOR > x ||                                      \
+     (SDL_LIBDECOR_ਸੰਸਕਰਣ_MAJOR == x && SDL_LIBDECOR_ਸੰਸਕਰਣ_MINOR > y) || \
+     (SDL_LIBDECOR_ਸੰਸਕਰਣ_MAJOR == x && SDL_LIBDECOR_ਸੰਸਕਰਣ_MINOR == y && SDL_LIBDECOR_ਸੰਸਕਰਣ_PATCH >= z))
+#ਜੇ_ਅੰਤ
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
-extern bool SDL_WAYLAND_LoadSymbols(void);
-extern void SDL_WAYLAND_UnloadSymbols(void);
+ਬਾਹਰੀ bool SDL_WAYLAND_ਲੱਦੋ_Symbols(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ SDL_WAYLAND_UnloadSymbols(ਖਾਲੀ);
 
-#define SDL_WAYLAND_MODULE(modname) extern int SDL_WAYLAND_HAVE_##modname;
-#define SDL_WAYLAND_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
-    extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
-#define SDL_WAYLAND_INTERFACE(iface) extern const struct wl_interface *WAYLAND_##iface;
-#include "SDL_waylandsym.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_WAYLAND_MODULE(modname) ਬਾਹਰੀ ਪੂਰਨ SDL_WAYLAND_HAVE_##modname;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_WAYLAND_SYM(rc, fn, params)        \
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    ਬਾਹਰੀ SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_WAYLAND_SYM_OPT(rc, fn, params)    \
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ rc(*SDL_DYNWAYLANDFN_##fn) params; \
+    ਬਾਹਰੀ SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_WAYLAND_INTERFACE(iface) ਬਾਹਰੀ ਅਚਲ ਬਣਤਰ wl_interface *WAYLAND_##iface;
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandsym.h"
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#if defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
-#error Do not include wayland-client ahead of SDL_waylanddyn.h in dynamic loading mode
-#endif
+#ਜੇ defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
+#ਗਲਤੀ Do not include wayland-client ahead ਦਾ SDL_waylanddyn.h ਵਿੱਚ_2 dynamic loading ਬਹੁਲਕ
+#ਜੇ_ਅੰਤ
 
 /* wayland-client-protocol.h included from wayland-client.h
  * has inline functions that require these to be defined in dynamic loading mode
  */
 
-#define wl_proxy_create                        (*WAYLAND_wl_proxy_create)
-#define wl_proxy_destroy                       (*WAYLAND_wl_proxy_destroy)
-#define wl_proxy_marshal                       (*WAYLAND_wl_proxy_marshal)
-#define wl_proxy_set_user_data                 (*WAYLAND_wl_proxy_set_user_data)
-#define wl_proxy_get_user_data                 (*WAYLAND_wl_proxy_get_user_data)
-#define wl_proxy_get_version                   (*WAYLAND_wl_proxy_get_version)
-#define wl_proxy_add_listener                  (*WAYLAND_wl_proxy_add_listener)
-#define wl_proxy_marshal_constructor           (*WAYLAND_wl_proxy_marshal_constructor)
-#define wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
-#define wl_proxy_set_tag                       (*WAYLAND_wl_proxy_set_tag)
-#define wl_proxy_get_tag                       (*WAYLAND_wl_proxy_get_tag)
-#define wl_proxy_marshal_flags                 (*WAYLAND_wl_proxy_marshal_flags)
-#define wl_proxy_marshal_array_flags           (*WAYLAND_wl_proxy_marshal_array_flags)
-#define wl_display_reconnect                   (*WAYLAND_wl_display_reconnect)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_create                        (*WAYLAND_wl_proxy_create)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_destroy                       (*WAYLAND_wl_proxy_destroy)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_marshal                       (*WAYLAND_wl_proxy_marshal)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_ਸੈੱਟ_user_ਅੰਕੜੇ                 (*WAYLAND_wl_proxy_ਸੈੱਟ_user_ਅੰਕੜੇ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_get_user_ਅੰਕੜੇ                 (*WAYLAND_wl_proxy_get_user_ਅੰਕੜੇ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_get_ਸੰਸਕਰਣ                   (*WAYLAND_wl_proxy_get_ਸੰਸਕਰਣ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_ਜੋੜੋ_listener                  (*WAYLAND_wl_proxy_ਜੋੜੋ_listener)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_marshal_constructor           (*WAYLAND_wl_proxy_marshal_constructor)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_marshal_constructor_versioned (*WAYLAND_wl_proxy_marshal_constructor_versioned)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_ਸੈੱਟ_ਟੈਗ                       (*WAYLAND_wl_proxy_ਸੈੱਟ_ਟੈਗ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_get_ਟੈਗ                       (*WAYLAND_wl_proxy_get_ਟੈਗ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_marshal_flags                 (*WAYLAND_wl_proxy_marshal_flags)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_proxy_marshal_array_flags           (*WAYLAND_wl_proxy_marshal_array_flags)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ wl_display_reconnect                   (*WAYLAND_wl_display_reconnect)
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-egl.h"
 
-#ifdef HAVE_LIBDECOR_H
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
 // Must be included before our defines
-#include <libdecor.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <libdecor.h>
 
-#define libdecor_unref                          (*WAYLAND_libdecor_unref)
-#define libdecor_new                            (*WAYLAND_libdecor_new)
-#define libdecor_decorate                       (*WAYLAND_libdecor_decorate)
-#define libdecor_frame_unref                    (*WAYLAND_libdecor_frame_unref)
-#define libdecor_frame_set_title                (*WAYLAND_libdecor_frame_set_title)
-#define libdecor_frame_set_app_id               (*WAYLAND_libdecor_frame_set_app_id)
-#define libdecor_frame_set_max_content_size     (*WAYLAND_libdecor_frame_set_max_content_size)
-#define libdecor_frame_get_max_content_size     (*WAYLAND_libdecor_frame_get_max_content_size)
-#define libdecor_frame_set_min_content_size     (*WAYLAND_libdecor_frame_set_min_content_size)
-#define libdecor_frame_get_min_content_size     (*WAYLAND_libdecor_frame_get_min_content_size)
-#define libdecor_frame_resize                   (*WAYLAND_libdecor_frame_resize)
-#define libdecor_frame_move                     (*WAYLAND_libdecor_frame_move)
-#define libdecor_frame_commit                   (*WAYLAND_libdecor_frame_commit)
-#define libdecor_frame_set_minimized            (*WAYLAND_libdecor_frame_set_minimized)
-#define libdecor_frame_set_maximized            (*WAYLAND_libdecor_frame_set_maximized)
-#define libdecor_frame_unset_maximized          (*WAYLAND_libdecor_frame_unset_maximized)
-#define libdecor_frame_set_fullscreen           (*WAYLAND_libdecor_frame_set_fullscreen)
-#define libdecor_frame_unset_fullscreen         (*WAYLAND_libdecor_frame_unset_fullscreen)
-#define libdecor_frame_set_capabilities         (*WAYLAND_libdecor_frame_set_capabilities)
-#define libdecor_frame_unset_capabilities       (*WAYLAND_libdecor_frame_unset_capabilities)
-#define libdecor_frame_has_capability           (*WAYLAND_libdecor_frame_has_capability)
-#define libdecor_frame_set_visibility           (*WAYLAND_libdecor_frame_set_visibility)
-#define libdecor_frame_is_visible               (*WAYLAND_libdecor_frame_is_visible)
-#define libdecor_frame_is_floating              (*WAYLAND_libdecor_frame_is_floating)
-#define libdecor_frame_set_parent               (*WAYLAND_libdecor_frame_set_parent)
-#define libdecor_frame_show_window_menu         (*WAYLAND_libdecor_frame_show_window_menu)
-#define libdecor_frame_get_wm_capabilities      (*WAYLAND_libdecor_frame_get_wm_capabilities)
-#define libdecor_frame_get_xdg_surface          (*WAYLAND_libdecor_frame_get_xdg_surface)
-#define libdecor_frame_get_xdg_toplevel         (*WAYLAND_libdecor_frame_get_xdg_toplevel)
-#define libdecor_frame_translate_coordinate     (*WAYLAND_libdecor_frame_translate_coordinate)
-#define libdecor_frame_map                      (*WAYLAND_libdecor_frame_map)
-#define libdecor_state_new                      (*WAYLAND_libdecor_state_new)
-#define libdecor_state_free                     (*WAYLAND_libdecor_state_free)
-#define libdecor_configuration_get_content_size (*WAYLAND_libdecor_configuration_get_content_size)
-#define libdecor_configuration_get_window_state (*WAYLAND_libdecor_configuration_get_window_state)
-#define libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
-#endif
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_unref                          (*WAYLAND_libdecor_unref)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_new                            (*WAYLAND_libdecor_new)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_decorate                       (*WAYLAND_libdecor_decorate)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_unref                    (*WAYLAND_libdecor_ਚੌਖਟਾ_unref)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_title                (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_title)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_app_id               (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_app_id)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_max_content_ਮਾਪ     (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_max_content_ਮਾਪ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_get_max_content_ਮਾਪ     (*WAYLAND_libdecor_ਚੌਖਟਾ_get_max_content_ਮਾਪ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_min_content_ਮਾਪ     (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_min_content_ਮਾਪ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_get_min_content_ਮਾਪ     (*WAYLAND_libdecor_ਚੌਖਟਾ_get_min_content_ਮਾਪ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_resize                   (*WAYLAND_libdecor_ਚੌਖਟਾ_resize)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_move                     (*WAYLAND_libdecor_ਚੌਖਟਾ_move)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_commit                   (*WAYLAND_libdecor_ਚੌਖਟਾ_commit)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_minimized            (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_minimized)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_maximized            (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_maximized)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_unset_maximized          (*WAYLAND_libdecor_ਚੌਖਟਾ_unset_maximized)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_fullscreen           (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_fullscreen)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_unset_fullscreen         (*WAYLAND_libdecor_ਚੌਖਟਾ_unset_fullscreen)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_capabilities         (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_capabilities)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_unset_capabilities       (*WAYLAND_libdecor_ਚੌਖਟਾ_unset_capabilities)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_has_capability           (*WAYLAND_libdecor_ਚੌਖਟਾ_has_capability)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_visibility           (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_visibility)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_is_visible               (*WAYLAND_libdecor_ਚੌਖਟਾ_is_visible)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_is_floating              (*WAYLAND_libdecor_ਚੌਖਟਾ_is_floating)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_ਸੈੱਟ_ਮਾਪਾ               (*WAYLAND_libdecor_ਚੌਖਟਾ_ਸੈੱਟ_ਮਾਪਾ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_show_ਖਿੜਕੀ_menu         (*WAYLAND_libdecor_ਚੌਖਟਾ_show_ਖਿੜਕੀ_menu)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_get_wm_capabilities      (*WAYLAND_libdecor_ਚੌਖਟਾ_get_wm_capabilities)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_get_xdg_surface          (*WAYLAND_libdecor_ਚੌਖਟਾ_get_xdg_surface)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_get_xdg_toplevel         (*WAYLAND_libdecor_ਚੌਖਟਾ_get_xdg_toplevel)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_translate_coordinate     (*WAYLAND_libdecor_ਚੌਖਟਾ_translate_coordinate)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_ਚੌਖਟਾ_map                      (*WAYLAND_libdecor_ਚੌਖਟਾ_map)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_state_new                      (*WAYLAND_libdecor_state_new)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_state_free                     (*WAYLAND_libdecor_state_free)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_configuration_get_content_ਮਾਪ (*WAYLAND_libdecor_configuration_get_content_ਮਾਪ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_configuration_get_ਖਿੜਕੀ_state (*WAYLAND_libdecor_configuration_get_ਖਿੜਕੀ_state)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
+#ਜੇ_ਅੰਤ
 
-#else // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#ਨਹੀਂਤਾਂ // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header
  * pulls in the system Wayland protocol headers instead of ours.
  */
-#include "wayland-client-protocol.h"
-#include "wayland-egl.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-egl.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ HAVE_LIBDECOR_H
+#ਅਨ੍ਤਰ੍ਭਾਵ <libdecor.h>
+#ਜੇ_ਅੰਤ
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#endif // SDL_waylanddyn_h_
+#ਜੇ_ਅੰਤ // SDL_waylanddyn_h_

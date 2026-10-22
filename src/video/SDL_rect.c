@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#include "SDL_rect_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rect_c.h"
 
 /* There's no float version of this at the moment, because it's not a public API
    and internally we only need the int version. */
-bool SDL_GetSpanEnclosingRect(int width, int height,
-                         int numrects, const SDL_Rect *rects, SDL_Rect *span)
+bool SDL_Get_ਵਿਸਤਾਰ_Enclosing_Rect(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ,
+                         ਪੂਰਨ numrects, ਅਚਲ SDL_Rect *rects, SDL_Rect *ਵਿਸਤਾਰ)
 {
-    int i;
-    int span_y1, span_y2;
-    int rect_y1, rect_y2;
+    ਪੂਰਨ i;
+    ਪੂਰਨ ਵਿਸਤਾਰ_y1, ਵਿਸਤਾਰ_y2;
+    ਪੂਰਨ rect_y1, rect_y2;
 
-    CHECK_PARAM(width < 1) {
+    CHECK_PARAM(ਚੌੜਾਈ < 1) {
         SDL_InvalidParamError("width");
-        return false;
+        ਵਾਪਸ false;
     }
-    CHECK_PARAM(height < 1) {
+    CHECK_PARAM(ਉਚਾਈ < 1) {
         SDL_InvalidParamError("height");
-        return false;
+        ਵਾਪਸ false;
     }
     CHECK_PARAM(!rects) {
         SDL_InvalidParamError("rects");
-        return false;
+        ਵਾਪਸ false;
     }
-    CHECK_PARAM(!span) {
+    CHECK_PARAM(!ਵਿਸਤਾਰ) {
         SDL_InvalidParamError("span");
-        return false;
+        ਵਾਪਸ false;
     }
     CHECK_PARAM(numrects < 1) {
         SDL_InvalidParamError("numrects");
-        return false;
+        ਵਾਪਸ false;
     }
 
     // Initialize to empty rect
-    span_y1 = height;
-    span_y2 = 0;
+    ਵਿਸਤਾਰ_y1 = ਉਚਾਈ;
+    ਵਿਸਤਾਰ_y2 = 0;
 
-    for (i = 0; i < numrects; ++i) {
+    ਲਈ (i = 0; i < numrects; ++i) {
         rect_y1 = rects[i].y;
         rect_y2 = rect_y1 + rects[i].h;
 
         // Clip out of bounds rectangles, and expand span rect
-        if (rect_y1 < 0) {
-            span_y1 = 0;
-        } else if (rect_y1 < span_y1) {
-            span_y1 = rect_y1;
+        ਜੇ (rect_y1 < 0) {
+            ਵਿਸਤਾਰ_y1 = 0;
+        } ਨਹੀਂਤਾਂ ਜੇ (rect_y1 < ਵਿਸਤਾਰ_y1) {
+            ਵਿਸਤਾਰ_y1 = rect_y1;
         }
-        if (rect_y2 > height) {
-            span_y2 = height;
-        } else if (rect_y2 > span_y2) {
-            span_y2 = rect_y2;
+        ਜੇ (rect_y2 > ਉਚਾਈ) {
+            ਵਿਸਤਾਰ_y2 = ਉਚਾਈ;
+        } ਨਹੀਂਤਾਂ ਜੇ (rect_y2 > ਵਿਸਤਾਰ_y2) {
+            ਵਿਸਤਾਰ_y2 = rect_y2;
         }
     }
-    if (span_y2 > span_y1) {
-        span->x = 0;
-        span->y = span_y1;
-        span->w = width;
-        span->h = (span_y2 - span_y1);
-        return true;
+    ਜੇ (ਵਿਸਤਾਰ_y2 > ਵਿਸਤਾਰ_y1) {
+        ਵਿਸਤਾਰ->x = 0;
+        ਵਿਸਤਾਰ->y = ਵਿਸਤਾਰ_y1;
+        ਵਿਸਤਾਰ->w = ਚੌੜਾਈ;
+        ਵਿਸਤਾਰ->h = (ਵਿਸਤਾਰ_y2 - ਵਿਸਤਾਰ_y1);
+        ਵਾਪਸ true;
     }
-    return false;
+    ਵਾਪਸ false;
 }
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
-#define CODE_BOTTOM 1
-#define CODE_TOP    2
-#define CODE_LEFT   4
-#define CODE_RIGHT  8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੋਡ_BOTTOM 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੋਡ_ਸਿਖਰ    2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੋਡ_ਖੱਬਾ   4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੋਡ_ਸੱਜਾ  8
 
 // Same code twice, for float and int versions...
-#define RECTTYPE                 SDL_Rect
-#define POINTTYPE                SDL_Point
-#define SCALARTYPE               int
-#define BIGSCALARTYPE            Sint64
-#define COMPUTEOUTCODE           ComputeOutCode
-#define ENCLOSEPOINTS_EPSILON    1
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflow
-#define SDL_HASINTERSECTION      SDL_HasRectIntersection
-#define SDL_INTERSECTRECT        SDL_GetRectIntersection
-#define SDL_RECTEMPTY            SDL_RectEmpty
-#define SDL_UNIONRECT            SDL_GetRectUnion
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersection
-#include "SDL_rect_impl.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RECTTYPE                 SDL_Rect
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ POINTTYPE                SDL_ਬਿੰਦੂ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SCALARTYPE               ਪੂਰਨ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BIGSCALARTYPE            Sint64
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ COMPUTEOUTCODE           Compute_ਬਾਹਰਲਾ_ਕੋਡ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ENCLOSEPOINTS_EPSILON    1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_RECT_CAN_ਉਛਾਲ    SDL_Rect_Can_ਉਛਾਲ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_HASINTERSECTION      SDL_HasRectIntersection
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_INTERSECTRECT        SDL_GetRectIntersection
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_RECTEMPTY            SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_UNIONRECT            SDL_GetRectUnion
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_ਸਤਰ_Intersection
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rect_impl.h"
 
-#define RECTTYPE                 SDL_FRect
-#define POINTTYPE                SDL_FPoint
-#define SCALARTYPE               float
-#define BIGSCALARTYPE            double
-#define COMPUTEOUTCODE           ComputeOutCodeFloat
-#define ENCLOSEPOINTS_EPSILON    0.0f
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflowFloat
-#define SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
-#define SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
-#define SDL_RECTEMPTY            SDL_RectEmptyFloat
-#define SDL_UNIONRECT            SDL_GetRectUnionFloat
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersectionFloat
-#include "SDL_rect_impl.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RECTTYPE                 SDL_FRect
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ POINTTYPE                SDL_FPoint
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SCALARTYPE               ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BIGSCALARTYPE            ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ COMPUTEOUTCODE           Compute_ਬਾਹਰਲਾ_ਕੋਡ_Float
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ENCLOSEPOINTS_EPSILON    0.0f
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_RECT_CAN_ਉਛਾਲ    SDL_Rect_Can_ਉਛਾਲ_Float
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_RECTEMPTY            SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ_Float
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_UNIONRECT            SDL_GetRectUnionFloat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_ਸਤਰ_Intersection_Float
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rect_impl.h"

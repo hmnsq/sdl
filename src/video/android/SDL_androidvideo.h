@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_androidvideo_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_Screen_Resolution(ਪੂਰਨ surface_ਚੌੜਾਈ, ਪੂਰਨ surface_ਉਚਾਈ, ਪੂਰਨ device_ਚੌੜਾਈ, ਪੂਰਨ device_ਉਚਾਈ, ਦਸ਼ਮਲਵ density, ਦਸ਼ਮਲਵ ਦਰ);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_Screen_HDRHeadroom(ਦਸ਼ਮਲਵ headroom);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_Format(ਪੂਰਨ format_wanted, ਪੂਰਨ format_got);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_Orientation(SDL_DisplayOrientation orientation);
+ਬਾਹਰੀ ਖਾਲੀ Android_SendResize(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_ਖਿੜਕੀ_ਸੁਰੱਖਿਅਤ_Area_Insets(ਪੂਰਨ ਖੱਬਾ, ਪੂਰਨ ਸੱਜਾ, ਪੂਰਨ ਸਿਖਰ, ਪੂਰਨ bottom);
+ਬਾਹਰੀ ਖਾਲੀ Android_ਸੈੱਟ_Dark_ਬਹੁਲਕ(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+ਬਣਤਰ SDL_Video_ਅੰਕੜੇ
 {
-    int isPaused;
-    int isPausing;
+    ਪੂਰਨ isPaused;
+    ਪੂਰਨ isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+ਬਾਹਰੀ ਪੂਰਨ Android_Surface_ਚੌੜਾਈ;
+ਬਾਹਰੀ ਪੂਰਨ Android_Surface_ਉਚਾਈ;
+ਬਾਹਰੀ ਦਸ਼ਮਲਵ Android_ScreenDensity;
+ਬਾਹਰੀ ਪੂਰਨ Android_ਸੁਰੱਖਿਅਤ_Inset_ਖੱਬਾ;
+ਬਾਹਰੀ ਪੂਰਨ Android_ਸੁਰੱਖਿਅਤ_Inset_ਸੱਜਾ;
+ਬਾਹਰੀ ਪੂਰਨ Android_ਸੁਰੱਖਿਅਤ_Inset_ਸਿਖਰ;
+ਬਾਹਰੀ ਪੂਰਨ Android_ਸੁਰੱਖਿਅਤ_Inset_Bottom;
 
-#endif // SDL_androidvideo_h_
+#ਜੇ_ਅੰਤ // SDL_androidvideo_h_

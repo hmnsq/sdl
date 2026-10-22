@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_blit_copy_h_
-#define SDL_blit_copy_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_blit_copy_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_blit_copy_h_
 
-void SDL_BlitCopy(SDL_BlitInfo *info);
+ਖਾਲੀ SDL_BlitCopy(SDL_BlitInfo *info);
 
-#endif // SDL_blit_copy_h_
+#ਜੇ_ਅੰਤ // SDL_blit_copy_h_

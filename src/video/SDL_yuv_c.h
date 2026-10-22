@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_yuv_c_h_
-#define SDL_yuv_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_yuv_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_yuv_c_h_
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
 // YUV conversion functions
 
-extern bool SDL_ConvertPixels_YUV_to_RGB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_RGB_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_YUV_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+ਬਾਹਰੀ bool SDL_Convert_Pixels_YUV_ਮੰਜ਼ਿਲ_RGB(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ਅਚਲ ਖਾਲੀ *src, ਪੂਰਨ src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ਖਾਲੀ *dst, ਪੂਰਨ dst_pitch);
+ਬਾਹਰੀ bool SDL_Convert_Pixels_RGB_ਮੰਜ਼ਿਲ_YUV(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ਅਚਲ ਖਾਲੀ *src, ਪੂਰਨ src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ਖਾਲੀ *dst, ਪੂਰਨ dst_pitch);
+ਬਾਹਰੀ bool SDL_Convert_Pixels_YUV_ਮੰਜ਼ਿਲ_YUV(ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ਅਚਲ ਖਾਲੀ *src, ਪੂਰਨ src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ਖਾਲੀ *dst, ਪੂਰਨ dst_pitch);
 
 
-extern bool SDL_CalculateYUVSize(SDL_PixelFormat format, int w, int h, size_t *size, size_t *pitch);
+ਬਾਹਰੀ bool SDL_CalculateYUVSize(SDL_PixelFormat format, ਪੂਰਨ w, ਪੂਰਨ h, size_t *ਮਾਪ, size_t *pitch);
 
-#endif // SDL_yuv_c_h_
+#ਜੇ_ਅੰਤ // SDL_yuv_c_h_

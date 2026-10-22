@@ -18,52 +18,52 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_cocoamouse_h_
-#define SDL_cocoamouse_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_cocoamouse_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_cocoamouse_h_
 
-#include "SDL_cocoavideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoavideo.h"
 
-extern bool Cocoa_InitMouse(SDL_VideoDevice *_this);
-extern NSWindow *Cocoa_GetMouseFocus(void);
-extern void Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
-extern void Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
-extern void Cocoa_QuitMouse(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool Cocoa_InitMouse(SDL_VideoDevice *_this);
+ਬਾਹਰੀ NSWindow *Cocoa_GetMouseFocus(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_HandleMouseWheel(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, NSEvent *event);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_QuitMouse(SDL_VideoDevice *_this);
 
-extern void Cocoa_InitGCMouse(void);
-extern bool Cocoa_GCMouseRelativeMode(void);
-extern bool Cocoa_HasGCMouse(void);
-extern void Cocoa_QuitGCMouse(void);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_InitGCMouse(ਖਾਲੀ);
+ਬਾਹਰੀ bool Cocoa_GCMouse_Relative_ਬਹੁਲਕ(ਖਾਲੀ);
+ਬਾਹਰੀ bool Cocoa_HasGCMouse(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ Cocoa_QuitGCMouse(ਖਾਲੀ);
 
-struct SDL_CursorData
+ਬਣਤਰ SDL_Cursor_ਅੰਕੜੇ
 {
-    NSTimer *frameTimer;
-    int current_frame;
+    NSTimer *ਚੌਖਟਾ_Timer;
+    ਪੂਰਨ current_ਚੌਖਟਾ;
 
-    int num_cursors;
-    struct
+    ਪੂਰਨ ਅੰਕ_cursors;
+    ਬਣਤਰ
     {
-        void *cursor;
+        ਖਾਲੀ *cursor;
         Uint32 duration;
-    } frames[];
+    } ਚੌਖਟੇ[];
 };
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
     // Whether we've seen a cursor warp since the last move event.
-    bool seenWarp;
+    bool ਵੇਖਿਆ_Warp;
     // What location our last cursor warp was to.
-    CGFloat lastWarpX;
-    CGFloat lastWarpY;
+    CGFloat ਆਖਰੀ_Warp_X;
+    CGFloat ਆਖਰੀ_Warp_Y;
     // What location we last saw the cursor move to.
-    CGFloat lastMoveX;
-    CGFloat lastMoveY;
-} SDL_MouseData;
+    CGFloat ਆਖਰੀ_Move_X;
+    CGFloat ਆਖਰੀ_Move_Y;
+} SDL_Mouse_ਅੰਕੜੇ;
 
 @interface NSCursor (InvisibleCursor)
 + (NSCursor *)invisibleCursor;
-@end
+@ਸਿਰਾ
 
-#endif // SDL_cocoamouse_h_
+#ਜੇ_ਅੰਤ // SDL_cocoamouse_h_

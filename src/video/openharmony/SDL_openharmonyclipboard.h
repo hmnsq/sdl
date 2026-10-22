@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_openharmonyclipboard_h_
-#define SDL_openharmonyclipboard_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_openharmonyclipboard_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_openharmonyclipboard_h_
 
-extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
-extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਅਚਲ ਅੱਖਰ *ਅਚਲ *OPENHARMONY_Get_ਪਾਠ_Mime_Types(SDL_VideoDevice *_this, size_t *ਅੰਕ_mime_types);
+ਬਾਹਰੀ bool OPENHARMONY_ਸੈੱਟ_Clipboard_ਪਾਠ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਪਾਠ);
+ਬਾਹਰੀ ਅੱਖਰ *OPENHARMONY_Get_Clipboard_ਪਾਠ(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool OPENHARMONY_Has_Clipboard_ਪਾਠ(SDL_VideoDevice *_this);
 
-#endif // SDL_openharmonyclipboard_h_
+#ਜੇ_ਅੰਤ // SDL_openharmonyclipboard_h_

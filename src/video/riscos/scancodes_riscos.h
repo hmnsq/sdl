@@ -24,8 +24,8 @@
    - https://www.riscosopen.org/wiki/documentation/show/Keyboard Scan Codes
 */
 /* *INDENT-OFF* */ // clang-format off
-static SDL_Scancode const riscos_scancode_table[] = {
-     /*   0 */   SDL_SCANCODE_UNKNOWN,   // Shift
+ਸਥਿਰ SDL_Scancode ਅਚਲ riscos_scancode_ਸਾਰਣੀ[] = {
+     /*   0 */   SDL_SCANCODE_UNKNOWN,   //ਖਿਸਕਾਓ
      /*   1 */   SDL_SCANCODE_UNKNOWN,   // Ctrl
      /*   2 */   SDL_SCANCODE_UNKNOWN,   // Alt
      /*   3 */   SDL_SCANCODE_LSHIFT,
@@ -50,7 +50,7 @@ static SDL_Scancode const riscos_scancode_table[] = {
      /*  22 */   SDL_SCANCODE_F7,
      /*  23 */   SDL_SCANCODE_MINUS,
      /*  24 */   SDL_SCANCODE_6,         // Duplicate of 52
-     /*  25 */   SDL_SCANCODE_LEFT,
+     /*  25 */   SDL_SCANCODE_ਖੱਬਾ,
      /*  26 */   SDL_SCANCODE_KP_6,
      /*  27 */   SDL_SCANCODE_KP_7,
      /*  28 */   SDL_SCANCODE_F11,
@@ -66,7 +66,7 @@ static SDL_Scancode const riscos_scancode_table[] = {
      /*  38 */   SDL_SCANCODE_9,
      /*  39 */   SDL_SCANCODE_0,
      /*  40 */   SDL_SCANCODE_MINUS,     // Duplicate of 23
-     /*  41 */   SDL_SCANCODE_DOWN,
+     /*  41 */   SDL_SCANCODE_ਥੱਲੇ,
      /*  42 */   SDL_SCANCODE_KP_8,
      /*  43 */   SDL_SCANCODE_KP_9,
      /*  44 */   SDL_SCANCODE_PAUSE,
@@ -82,11 +82,11 @@ static SDL_Scancode const riscos_scancode_table[] = {
      /*  54 */   SDL_SCANCODE_O,
      /*  55 */   SDL_SCANCODE_P,
      /*  56 */   SDL_SCANCODE_LEFTBRACKET,
-     /*  57 */   SDL_SCANCODE_UP,
+     /*  57 */   SDL_SCANCODE_ਉੱਪਰ,
      /*  58 */   SDL_SCANCODE_KP_PLUS,
      /*  59 */   SDL_SCANCODE_KP_MINUS,
      /*  60 */   SDL_SCANCODE_KP_ENTER,
-     /*  61 */   SDL_SCANCODE_INSERT,
+     /*  61 */   SDL_SCANCODE_ਪਾਓ,
      /*  62 */   SDL_SCANCODE_HOME,
      /*  63 */   SDL_SCANCODE_PAGEUP,
      /*  64 */   SDL_SCANCODE_CAPSLOCK,
@@ -130,7 +130,7 @@ static SDL_Scancode const riscos_scancode_table[] = {
      /* 102 */   SDL_SCANCODE_COMMA,
      /* 103 */   SDL_SCANCODE_PERIOD,
      /* 104 */   SDL_SCANCODE_SLASH,
-     /* 105 */   SDL_SCANCODE_END,
+     /* 105 */   SDL_SCANCODE_ਸਿਰਾ,
      /* 106 */   SDL_SCANCODE_KP_0,
      /* 107 */   SDL_SCANCODE_KP_1,
      /* 108 */   SDL_SCANCODE_KP_3,
@@ -146,7 +146,7 @@ static SDL_Scancode const riscos_scancode_table[] = {
      /* 118 */   SDL_SCANCODE_F8,
      /* 119 */   SDL_SCANCODE_F9,
      /* 120 */   SDL_SCANCODE_BACKSLASH,
-     /* 121 */   SDL_SCANCODE_RIGHT,
+     /* 121 */   SDL_SCANCODE_ਸੱਜਾ,
      /* 122 */   SDL_SCANCODE_KP_4,
      /* 123 */   SDL_SCANCODE_KP_5,
      /* 124 */   SDL_SCANCODE_KP_2,

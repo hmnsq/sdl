@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
  * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
  */
 
-#ifndef SDL_vivantevulkan_h_
-#define SDL_vivantevulkan_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_vivantevulkan_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_vulkan_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#ਜੇ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+ਬਾਹਰੀ bool VIVANTE_Vulkan_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ);
+ਬਾਹਰੀ ਖਾਲੀ VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਅੱਖਰ ਅਚਲ * ਅਚਲ *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ਗਿਣਤੀ_2);
+ਬਾਹਰੀ bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                 SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ਅਚਲ ਬਣਤਰ Vk_ਵੰਡ_Callbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ਬਾਹਰੀ ਖਾਲੀ VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   ਅਚਲ ਬਣਤਰ Vk_ਵੰਡ_Callbacks *allocator);
 
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif // SDL_vivantevulkan_h_
+#ਜੇ_ਅੰਤ // SDL_vivantevulkan_h_

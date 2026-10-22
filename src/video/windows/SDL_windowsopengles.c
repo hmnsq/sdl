@@ -18,125 +18,125 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && defined(SDL_VIDEO_OPENGL_EGL) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ਜੇ defined(SDL_VIDEO_DRIVER_WINDOWS) && defined(SDL_VIDEO_OPENGL_EGL) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsopengles.h"
-#include "SDL_windowsopengl.h"
-#include "SDL_windowswindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowsvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowsopengles.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowsopengl.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowswindow.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_GLES_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ)
 {
 
     // If the profile requested is not GL ES, switch over to WIN_GL functions
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+    ਜੇ (_this->gl_config.profile_ਨਕਾਬ != SDL_GL_CONTEXT_PROFILE_ES &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#ifdef SDL_VIDEO_OPENGL_WGL
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_WGL
         WIN_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
-        _this->GL_GetProcAddress = WIN_GL_GetProcAddress;
+        _this->GL_ਲੱਦੋ_Library = WIN_GL_ਲੱਦੋ_Library;
+        _this->GL_Get_Proc_ਪਤਾ = WIN_GL_Get_Proc_ਪਤਾ;
         _this->GL_UnloadLibrary = WIN_GL_UnloadLibrary;
         _this->GL_CreateContext = WIN_GL_CreateContext;
         _this->GL_MakeCurrent = WIN_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = WIN_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
-        _this->GL_SwapWindow = WIN_GL_SwapWindow;
+        _this->GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval;
+        _this->GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval;
+        _this->GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ = WIN_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ;
         _this->GL_DestroyContext = WIN_GL_DestroyContext;
-        _this->GL_GetEGLSurface = NULL;
-        return WIN_GL_LoadLibrary(_this, path);
-#else
-        return SDL_SetError("SDL not configured with OpenGL/WGL support");
-#endif
+        _this->GL_GetEGLSurface = ਨਿਰਾ;
+        ਵਾਪਸ WIN_GL_ਲੱਦੋ_Library(_this, ਰਸਤਾ);
+#ਨਹੀਂਤਾਂ
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("SDL not configured with OpenGL/WGL support");
+#ਜੇ_ਅੰਤ
     }
 
-    if (!_this->egl_data) {
-        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY);
+    ਜੇ (!_this->egl_ਅੰਕੜੇ) {
+        ਵਾਪਸ SDL_EGL_ਲੱਦੋ_Library(_this, ਨਿਰਾ, EGL_DEFAULT_DISPLAY);
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
     SDL_GLContext context;
-    SDL_WindowData *data = window->internal;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਅੰਕੜੇ = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_WGL
+    ਜੇ (_this->gl_config.profile_ਨਕਾਬ != SDL_GL_CONTEXT_PROFILE_ES &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
         // Switch to WGL based functions
         WIN_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
-        _this->GL_GetProcAddress = WIN_GL_GetProcAddress;
+        _this->GL_ਲੱਦੋ_Library = WIN_GL_ਲੱਦੋ_Library;
+        _this->GL_Get_Proc_ਪਤਾ = WIN_GL_Get_Proc_ਪਤਾ;
         _this->GL_UnloadLibrary = WIN_GL_UnloadLibrary;
         _this->GL_CreateContext = WIN_GL_CreateContext;
         _this->GL_MakeCurrent = WIN_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = WIN_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
-        _this->GL_SwapWindow = WIN_GL_SwapWindow;
+        _this->GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval;
+        _this->GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval;
+        _this->GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ = WIN_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ;
         _this->GL_DestroyContext = WIN_GL_DestroyContext;
-        _this->GL_GetEGLSurface = NULL;
+        _this->GL_GetEGLSurface = ਨਿਰਾ;
 
-        if (!WIN_GL_LoadLibrary(_this, NULL)) {
-            return NULL;
+        ਜੇ (!WIN_GL_ਲੱਦੋ_Library(_this, ਨਿਰਾ)) {
+            ਵਾਪਸ ਨਿਰਾ;
         }
 
-        return WIN_GL_CreateContext(_this, window);
+        ਵਾਪਸ WIN_GL_CreateContext(_this, ਖਿੜਕੀ);
     }
-#endif
+#ਜੇ_ਅੰਤ
 
-    context = SDL_EGL_CreateContext(_this, data->egl_surface);
-    return context;
+    context = SDL_EGL_CreateContext(_this, ਅੰਕੜੇ->egl_surface);
+    ਵਾਪਸ context;
 }
 
 bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    ਵਾਪਸ SDL_EGL_DestroyContext(_this, context);
 }
 
 /* *INDENT-OFF* */ // clang-format off
-SDL_EGL_SwapWindow_impl(WIN)
+SDL_EGL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ_impl(WIN)
 SDL_EGL_MakeCurrent_impl(WIN)
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GLES_ਤਿਆਰੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
     // The current context is lost in here; save it and reset it.
-    SDL_WindowData *windowdata = window->internal;
-    SDL_Window *current_win = SDL_GL_GetCurrentWindow();
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *windowdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
+    SDL_ਖਿੜਕੀ *current_win = SDL_GL_Get_Current_ਖਿੜਕੀ();
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
 
-    if (!_this->egl_data) {
+    ਜੇ (!_this->egl_ਅੰਕੜੇ) {
 // !!! FIXME: commenting out this assertion is (I think) incorrect; figure out why driver_loaded is wrong for ANGLE instead. --ryan.
-#if 0 // When hint SDL_HINT_OPENGL_ES_DRIVER is set to "1" (e.g. for ANGLE support), _this->gl_config.driver_loaded can be 1, while the below lines function.
+#ਜੇ 0 // When hint SDL_HINT_OPENGL_ES_DRIVER is set to "1" (e.g. for ANGLE support), _this->gl_config.driver_loaded can be 1, while the below lines function.
         SDL_assert(!_this->gl_config.driver_loaded);
-#endif
-        if (!SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY)) {
+#ਜੇ_ਅੰਤ
+        ਜੇ (!SDL_EGL_ਲੱਦੋ_Library(_this, ਨਿਰਾ, EGL_DEFAULT_DISPLAY)) {
             SDL_EGL_UnloadLibrary(_this);
-            return false;
+            ਵਾਪਸ false;
         }
         _this->gl_config.driver_loaded = 1;
     }
 
     // Create the GLES window surface
-    windowdata->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)windowdata->hwnd);
+    windowdata->egl_surface = SDL_EGL_CreateSurface(_this, ਖਿੜਕੀ, (Native_ਖਿੜਕੀ_Type)windowdata->hwnd);
 
-    if (windowdata->egl_surface == EGL_NO_SURFACE) {
-        return SDL_SetError("Could not create GLES window surface");
+    ਜੇ (windowdata->egl_surface == EGL_NO_SURFACE) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Could not create GLES window surface");
     }
 
-    return WIN_GLES_MakeCurrent(_this, current_win, current_ctx);
+    ਵਾਪਸ WIN_GLES_MakeCurrent(_this, current_win, current_ctx);
 }
 
-EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window)
+EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    SDL_WindowData *windowdata = window->internal;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *windowdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-    return windowdata->egl_surface;
+    ਵਾਪਸ windowdata->egl_surface;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS && SDL_VIDEO_OPENGL_EGL
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WINDOWS && SDL_VIDEO_OPENGL_EGL

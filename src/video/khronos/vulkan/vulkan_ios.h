@@ -1,5 +1,5 @@
-#ifndef VULKAN_IOS_H_
-#define VULKAN_IOS_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VULKAN_IOS_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VULKAN_IOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
 
 // VK_MVK_ios_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_ios_surface 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_MVK_ios_surface 1
 
-#define VK_MVK_IOS_SURFACE_SPEC_VERSION   3
-#define VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_MVK_IOS_SURFACE_SPEC_ਸੰਸਕਰਣ   3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_MVK_IOS_SURFACE_EXTENSION_NAME "VK_MVK_ios_surface"
 
-typedef VkFlags VkIOSSurfaceCreateFlagsMVK;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags VkIOSSurfaceCreateFlagsMVK;
 
-typedef struct VkIOSSurfaceCreateInfoMVK {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkIOSSurfaceCreateInfoMVK {
     VkStructureType               sType;
-    const void*                   pNext;
+    ਅਚਲ ਖਾਲੀ*                   p_ਅਗਲਾ;
     VkIOSSurfaceCreateFlagsMVK    flags;
-    const void*                   pView;
+    ਅਚਲ ਖਾਲੀ*                   pView;
 } VkIOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, const VkIOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vkCreateIOSSurfaceMVK)(VkInstance instance, ਅਚਲ VkIOSSurfaceCreateInfoMVK* pCreateInfo, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateIOSSurfaceMVK(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vkCreateIOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ਅਚਲ VkIOSSurfaceCreateInfoMVK*            pCreateInfo,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

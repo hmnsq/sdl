@@ -19,22 +19,22 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef BVIDEO_H
-#define BVIDEO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ BVIDEO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ BVIDEO_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
-#include "../../core/haiku/SDL_BeApp.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/haiku/SDL_BeApp.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-extern void HAIKU_VideoQuit(SDL_VideoDevice *_this);
-extern bool HAIKU_VideoInit(SDL_VideoDevice *_this);
-extern void HAIKU_DeleteDevice(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ HAIKU_VideoQuit(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool HAIKU_VideoInit(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ HAIKU_DeleteDevice(SDL_VideoDevice *_this);
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

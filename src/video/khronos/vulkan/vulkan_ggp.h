@@ -1,5 +1,5 @@
-#ifndef VULKAN_GGP_H_
-#define VULKAN_GGP_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VULKAN_GGP_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VULKAN_GGP_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,57 +13,57 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
 
 // VK_GGP_stream_descriptor_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_GGP_stream_descriptor_surface 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਧਾਰਾ_descriptor_surface 1
 
-#define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
-#define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਧਾਰਾ_DESCRIPTOR_SURFACE_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਧਾਰਾ_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
 
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags Vk_ਧਾਰਾ_Descriptor_Surface_Create_Flags_GGP;
 
-typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਧਾਰਾ_Descriptor_Surface_Create_Info_GGP {
     VkStructureType                            sType;
-    const void*                                pNext;
-    VkStreamDescriptorSurfaceCreateFlagsGGP    flags;
-    GgpStreamDescriptor                        streamDescriptor;
-} VkStreamDescriptorSurfaceCreateInfoGGP;
+    ਅਚਲ ਖਾਲੀ*                                p_ਅਗਲਾ;
+    Vk_ਧਾਰਾ_Descriptor_Surface_Create_Flags_GGP    flags;
+    Ggp_ਧਾਰਾ_Descriptor                        ਧਾਰਾ_Descriptor;
+} Vk_ਧਾਰਾ_Descriptor_Surface_Create_Info_GGP;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Create_ਧਾਰਾ_Descriptor_Surface_GGP)(VkInstance instance, ਅਚਲ Vk_ਧਾਰਾ_Descriptor_Surface_Create_Info_GGP* pCreateInfo, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Create_ਧਾਰਾ_Descriptor_Surface_GGP(
     VkInstance                                  instance,
-    const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ਅਚਲ Vk_ਧਾਰਾ_Descriptor_Surface_Create_Info_GGP* pCreateInfo,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 // VK_GGP_frame_token is a preprocessor guard. Do not pass it to API calls.
-#define VK_GGP_frame_token 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਚੌਖਟਾ_token 1
 
-#define VK_GGP_FRAME_TOKEN_SPEC_VERSION   1
-#define VK_GGP_FRAME_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਚੌਖਟਾ_TOKEN_SPEC_ਸੰਸਕਰਣ   1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_GGP_ਚੌਖਟਾ_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
 
-typedef struct VkPresentFrameTokenGGP {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Present_ਚੌਖਟਾ_Token_GGP {
     VkStructureType    sType;
-    const void*        pNext;
-    GgpFrameToken      frameToken;
-} VkPresentFrameTokenGGP;
+    ਅਚਲ ਖਾਲੀ*        p_ਅਗਲਾ;
+    Ggp_ਚੌਖਟਾ_Token      ਚੌਖਟਾ_Token;
+} Vk_Present_ਚੌਖਟਾ_Token_GGP;
 
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

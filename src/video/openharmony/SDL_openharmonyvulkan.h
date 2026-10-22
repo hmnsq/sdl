@@ -24,29 +24,29 @@
  * www.edgewise-consulting.com, and originally based on Jacob Lifshay's SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_openharmonyvulkan_h_
-#define SDL_openharmonyvulkan_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_openharmonyvulkan_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_openharmonyvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_vulkan_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#ਜੇ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
-extern bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                         SDL_Window *window,
+ਬਾਹਰੀ bool OPENHARMONY_Vulkan_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ);
+ਬਾਹਰੀ ਖਾਲੀ OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਅੱਖਰ ਅਚਲ * ਅਚਲ *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ਗਿਣਤੀ_2);
+ਬਾਹਰੀ bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                         SDL_ਖਿੜਕੀ *ਖਿੜਕੀ,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         ਅਚਲ ਬਣਤਰ Vk_ਵੰਡ_Callbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ਬਾਹਰੀ ਖਾਲੀ OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          ਅਚਲ ਬਣਤਰ Vk_ਵੰਡ_Callbacks *allocator);
 
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif // SDL_openharmonyvulkan_h_
+#ਜੇ_ਅੰਤ // SDL_openharmonyvulkan_h_

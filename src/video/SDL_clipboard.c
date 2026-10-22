@@ -18,469 +18,469 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#include "SDL_clipboard_c.h"
-#include "SDL_sysvideo.h"
-#include "../events/SDL_events_c.h"
-#include "../events/SDL_clipboardevents_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_clipboard_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../events/SDL_events_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../events/SDL_clipboardevents_c.h"
 
-void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
+ਖਾਲੀ SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
 {
-    if (_this->clipboard_mime_types) {
-        for (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
+    ਜੇ (_this->clipboard_mime_types) {
+        ਲਈ (size_t i = 0; i < _this->ਅੰਕ_clipboard_mime_types; ++i) {
             SDL_free(_this->clipboard_mime_types[i]);
         }
         SDL_free(_this->clipboard_mime_types);
-        _this->clipboard_mime_types = NULL;
-        _this->num_clipboard_mime_types = 0;
+        _this->clipboard_mime_types = ਨਿਰਾ;
+        _this->ਅੰਕ_clipboard_mime_types = 0;
     }
 }
 
 
-void SDL_CancelClipboardData(Uint32 sequence)
+ਖਾਲੀ SDL_Cancel_Clipboard_ਅੰਕੜੇ(Uint32 sequence)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return;
+    ਜੇ (!_this) {
+        ਵਾਪਸ;
     }
 
-    if (sequence && sequence != _this->clipboard_sequence) {
+    ਜੇ (sequence && sequence != _this->clipboard_sequence) {
         // This clipboard data was already canceled
-        return;
+        ਵਾਪਸ;
     }
 
-    if (_this->clipboard_cleanup) {
+    ਜੇ (_this->clipboard_cleanup) {
         _this->clipboard_cleanup(_this->clipboard_userdata);
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    _this->clipboard_callback = NULL;
-    _this->clipboard_cleanup = NULL;
-    _this->clipboard_userdata = NULL;
+    _this->clipboard_callback = ਨਿਰਾ;
+    _this->clipboard_cleanup = ਨਿਰਾ;
+    _this->clipboard_userdata = ਨਿਰਾ;
 }
 
-bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_types)
+bool SDL_SaveClipboardMimeTypes(ਅਚਲ ਅੱਖਰ *ਅਚਲ *mime_types, size_t ਅੰਕ_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    if (mime_types && num_mime_types > 0) {
-        size_t num_allocated = 0;
+    ਜੇ (mime_types && ਅੰਕ_mime_types > 0) {
+        size_t ਅੰਕ_allocated = 0;
 
-        _this->clipboard_mime_types = (char **)SDL_malloc(num_mime_types * sizeof(char *));
-        if (_this->clipboard_mime_types) {
-            for (size_t i = 0; i < num_mime_types; ++i) {
+        _this->clipboard_mime_types = (ਅੱਖਰ **)SDL_malloc(ਅੰਕ_mime_types * ਆਕਾਰ(ਅੱਖਰ *));
+        ਜੇ (_this->clipboard_mime_types) {
+            ਲਈ (size_t i = 0; i < ਅੰਕ_mime_types; ++i) {
                 _this->clipboard_mime_types[i] = SDL_strdup(mime_types[i]);
-                if (_this->clipboard_mime_types[i]) {
-                    ++num_allocated;
+                ਜੇ (_this->clipboard_mime_types[i]) {
+                    ++ਅੰਕ_allocated;
                 }
             }
         }
-        if (num_allocated < num_mime_types) {
+        ਜੇ (ਅੰਕ_allocated < ਅੰਕ_mime_types) {
             SDL_FreeClipboardMimeTypes(_this);
-            return false;
+            ਵਾਪਸ false;
         }
-        _this->num_clipboard_mime_types = num_mime_types;
+        _this->ਅੰਕ_clipboard_mime_types = ਅੰਕ_mime_types;
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void *userdata, const char *const *mime_types, size_t num_mime_types)
+bool SDL_ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(SDL_Clipboard_ਅੰਕੜੇ_Callback callback, SDL_ClipboardCleanupCallback cleanup, ਖਾਲੀ *userdata, ਅਚਲ ਅੱਖਰ *ਅਚਲ *mime_types, size_t ਅੰਕ_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
     // Parameter validation
-    if (!((callback && mime_types && num_mime_types > 0) ||
-          (!callback && !mime_types && num_mime_types == 0))) {
-        return SDL_SetError("Invalid parameters");
+    ਜੇ (!((callback && mime_types && ਅੰਕ_mime_types > 0) ||
+          (!callback && !mime_types && ਅੰਕ_mime_types == 0))) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Invalid parameters");
     }
 
-    SDL_CancelClipboardData(0);
+    SDL_Cancel_Clipboard_ਅੰਕੜੇ(0);
 
     ++_this->clipboard_sequence;
-    if (!_this->clipboard_sequence) {
+    ਜੇ (!_this->clipboard_sequence) {
         _this->clipboard_sequence = 1;
     }
     _this->clipboard_callback = callback;
     _this->clipboard_cleanup = cleanup;
     _this->clipboard_userdata = userdata;
 
-    if (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
-        SDL_ClearClipboardData();
-        return false;
+    ਜੇ (!SDL_SaveClipboardMimeTypes(mime_types, ਅੰਕ_mime_types)) {
+        SDL_Clear_Clipboard_ਅੰਕੜੇ();
+        ਵਾਪਸ false;
     }
 
-    if (_this->SetClipboardData) {
-        if (!_this->SetClipboardData(_this)) {
-            return false;
+    ਜੇ (_this->ਸੈੱਟ_Clipboard_ਅੰਕੜੇ) {
+        ਜੇ (!_this->ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(_this)) {
+            ਵਾਪਸ false;
         }
-    } else if (_this->SetClipboardText) {
-        char *text = NULL;
-        size_t size;
+    } ਨਹੀਂਤਾਂ ਜੇ (_this->ਸੈੱਟ_Clipboard_ਪਾਠ) {
+        ਅੱਖਰ *ਪਾਠ = ਨਿਰਾ;
+        size_t ਮਾਪ;
 
-        for (size_t i = 0; i < num_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
-            if (SDL_IsTextMimeType(mime_type)) {
-                const void *data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &size);
-                if (data) {
-                    text = (char *)SDL_malloc(size + 1);
-                    SDL_memcpy(text, data, size);
-                    text[size] = '\0';
-                    if (!_this->SetClipboardText(_this, text)) {
-                        SDL_free(text);
-                        return false;
+        ਲਈ (size_t i = 0; i < ਅੰਕ_mime_types; ++i) {
+            ਅਚਲ ਅੱਖਰ *mime_type = _this->clipboard_mime_types[i];
+            ਜੇ (SDL_Is_ਪਾਠ_Mime_Type(mime_type)) {
+                ਅਚਲ ਖਾਲੀ *ਅੰਕੜੇ = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &ਮਾਪ);
+                ਜੇ (ਅੰਕੜੇ) {
+                    ਪਾਠ = (ਅੱਖਰ *)SDL_malloc(ਮਾਪ + 1);
+                    SDL_memcpy(ਪਾਠ, ਅੰਕੜੇ, ਮਾਪ);
+                    ਪਾਠ[ਮਾਪ] = '\0';
+                    ਜੇ (!_this->ਸੈੱਟ_Clipboard_ਪਾਠ(_this, ਪਾਠ)) {
+                        SDL_free(ਪਾਠ);
+                        ਵਾਪਸ false;
                     }
-                    break;
+                    ਰੋਕੋ;
                 }
             }
         }
-        if (text) {
-            SDL_free(text);
-        } else {
-            if (!_this->SetClipboardText(_this, "")) {
-                return false;
+        ਜੇ (ਪਾਠ) {
+            SDL_free(ਪਾਠ);
+        } ਨਹੀਂਤਾਂ {
+            ਜੇ (!_this->ਸੈੱਟ_Clipboard_ਪਾਠ(_this, "")) {
+                ਵਾਪਸ false;
             }
         }
     }
 
-    char **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, num_mime_types, true);
-    if (!mime_types_copy) {
-        return SDL_SetError("unable to copy current mime types");
+    ਅੱਖਰ **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, ਅੰਕ_mime_types, true);
+    ਜੇ (!mime_types_copy) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("unable to copy current mime types");
 	}
-    SDL_SendClipboardUpdate(true, mime_types_copy, num_mime_types);
-    return true;
+    SDL_SendClipboardUpdate(true, mime_types_copy, ਅੰਕ_mime_types);
+    ਵਾਪਸ true;
 }
 
-bool SDL_ClearClipboardData(void)
+bool SDL_Clear_Clipboard_ਅੰਕੜੇ(ਖਾਲੀ)
 {
-    return SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
+    ਵਾਪਸ SDL_ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(ਨਿਰਾ, ਨਿਰਾ, ਨਿਰਾ, ਨਿਰਾ, 0);
 }
 
-void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+ਖਾਲੀ *SDL_Get_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਮਾਪ)
 {
-    void *data = NULL;
+    ਖਾਲੀ *ਅੰਕੜੇ = ਨਿਰਾ;
 
-    if (_this->clipboard_callback) {
-        if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    ਜੇ (_this->clipboard_callback) {
+        ਜੇ (!SDL_Has_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(_this, mime_type)) {
             // The callback hasn't advertised that it can handle this mime type
-            return NULL;
+            ਵਾਪਸ ਨਿਰਾ;
         }
 
-        const void *provided_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, size);
-        if (provided_data) {
+        ਅਚਲ ਖਾਲੀ *provided_ਅੰਕੜੇ = _this->clipboard_callback(_this->clipboard_userdata, mime_type, ਮਾਪ);
+        ਜੇ (provided_ਅੰਕੜੇ) {
             // Make a copy of it for the caller and guarantee null termination
-            data = SDL_malloc(*size + sizeof(Uint32));
-            if (data) {
-                SDL_memcpy(data, provided_data, *size);
-                SDL_memset((Uint8 *)data + *size, 0, sizeof(Uint32));
-            } else {
-                *size = 0;
+            ਅੰਕੜੇ = SDL_malloc(*ਮਾਪ + ਆਕਾਰ(Uint32));
+            ਜੇ (ਅੰਕੜੇ) {
+                SDL_memcpy(ਅੰਕੜੇ, provided_ਅੰਕੜੇ, *ਮਾਪ);
+                SDL_memset((Uint8 *)ਅੰਕੜੇ + *ਮਾਪ, 0, ਆਕਾਰ(Uint32));
+            } ਨਹੀਂਤਾਂ {
+                *ਮਾਪ = 0;
             }
         }
     }
-    return data;
+    ਵਾਪਸ ਅੰਕੜੇ;
 }
 
-void *SDL_GetClipboardData(const char *mime_type, size_t *size)
+ਖਾਲੀ *SDL_Get_Clipboard_ਅੰਕੜੇ(ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਮਾਪ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t unused;
+    size_t ਅਣਵਰਤਿਆ;
 
-    if (!_this) {
+    ਜੇ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
     CHECK_PARAM(!mime_type) {
         SDL_InvalidParamError("mime_type");
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
-    if (!size) {
-        size = &unused;
+    ਜੇ (!ਮਾਪ) {
+        ਮਾਪ = &ਅਣਵਰਤਿਆ;
     }
 
     // Initialize size to empty, so implementations don't have to worry about it
-    *size = 0;
+    *ਮਾਪ = 0;
 
-    if (_this->GetClipboardData) {
-        return _this->GetClipboardData(_this, mime_type, size);
-    } else if (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
-        char *text = _this->GetClipboardText(_this);
-        if (text) {
-            if (*text == '\0') {
-                SDL_free(text);
-                text = NULL;
-            } else {
-                *size = SDL_strlen(text);
+    ਜੇ (_this->Get_Clipboard_ਅੰਕੜੇ) {
+        ਵਾਪਸ _this->Get_Clipboard_ਅੰਕੜੇ(_this, mime_type, ਮਾਪ);
+    } ਨਹੀਂਤਾਂ ਜੇ (_this->Get_Clipboard_ਪਾਠ && SDL_Is_ਪਾਠ_Mime_Type(mime_type)) {
+        ਅੱਖਰ *ਪਾਠ = _this->Get_Clipboard_ਪਾਠ(_this);
+        ਜੇ (ਪਾਠ) {
+            ਜੇ (*ਪਾਠ == '\0') {
+                SDL_free(ਪਾਠ);
+                ਪਾਠ = ਨਿਰਾ;
+            } ਨਹੀਂਤਾਂ {
+                *ਮਾਪ = SDL_strlen(ਪਾਠ);
             }
         }
-        return text;
-    } else {
-        return SDL_GetInternalClipboardData(_this, mime_type, size);
+        ਵਾਪਸ ਪਾਠ;
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_Get_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(_this, mime_type, ਮਾਪ);
     }
 }
 
-bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool SDL_Has_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type)
 {
     size_t i;
 
-    for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-        if (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
-            return true;
+    ਲਈ (i = 0; i < _this->ਅੰਕ_clipboard_mime_types; ++i) {
+        ਜੇ (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
+            ਵਾਪਸ true;
         }
     }
-    return false;
+    ਵਾਪਸ false;
 }
 
-bool SDL_HasClipboardData(const char *mime_type)
+bool SDL_Has_Clipboard_ਅੰਕੜੇ(ਅਚਲ ਅੱਖਰ *mime_type)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
     CHECK_PARAM(!mime_type) {
-        return SDL_InvalidParamError("mime_type");
+        ਵਾਪਸ SDL_InvalidParamError("mime_type");
     }
 
-    if (_this->HasClipboardData) {
-        return _this->HasClipboardData(_this, mime_type);
-    } else if (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
-        return _this->HasClipboardText(_this);
-    } else {
-        return SDL_HasInternalClipboardData(_this, mime_type);
+    ਜੇ (_this->Has_Clipboard_ਅੰਕੜੇ) {
+        ਵਾਪਸ _this->Has_Clipboard_ਅੰਕੜੇ(_this, mime_type);
+    } ਨਹੀਂਤਾਂ ਜੇ (_this->Has_Clipboard_ਪਾਠ && SDL_Is_ਪਾਠ_Mime_Type(mime_type)) {
+        ਵਾਪਸ _this->Has_Clipboard_ਪਾਠ(_this);
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_Has_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(_this, mime_type);
     }
 }
 
-char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary)
+ਅੱਖਰ **SDL_CopyClipboardMimeTypes(ਅਚਲ ਅੱਖਰ *ਅਚਲ *clipboard_mime_types, size_t ਅੰਕ_mime_types, bool temporary)
 {
-    size_t allocSize = sizeof(char *);
-    for (size_t i = 0; i < num_mime_types; i++) {
-        allocSize += sizeof(char *) + SDL_strlen(clipboard_mime_types[i]) + 1;
+    size_t alloc_ਮਾਪ = ਆਕਾਰ(ਅੱਖਰ *);
+    ਲਈ (size_t i = 0; i < ਅੰਕ_mime_types; i++) {
+        alloc_ਮਾਪ += ਆਕਾਰ(ਅੱਖਰ *) + SDL_strlen(clipboard_mime_types[i]) + 1;
     }
 
-    char *ret;
-    if (temporary)
-        ret = (char *)SDL_AllocateTemporaryMemory(allocSize);
-    else
-        ret = (char *)SDL_malloc(allocSize);
-    if (!ret) {
-        return NULL;
+    ਅੱਖਰ *ret;
+    ਜੇ (temporary)
+        ret = (ਅੱਖਰ *)SDL_Allocate_Temporary_ਸਮ੍ਰਿਤੀ(alloc_ਮਾਪ);
+    ਨਹੀਂਤਾਂ
+        ret = (ਅੱਖਰ *)SDL_malloc(alloc_ਮਾਪ);
+    ਜੇ (!ret) {
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    char **result = (char **)ret;
-    ret += sizeof(char *) * (num_mime_types + 1);
+    ਅੱਖਰ **ਨਤੀਜਾ = (ਅੱਖਰ **)ret;
+    ret += ਆਕਾਰ(ਅੱਖਰ *) * (ਅੰਕ_mime_types + 1);
 
-    for (size_t i = 0; i < num_mime_types; i++) {
-        result[i] = ret;
+    ਲਈ (size_t i = 0; i < ਅੰਕ_mime_types; i++) {
+        ਨਤੀਜਾ[i] = ret;
 
-        const char *mime_type = clipboard_mime_types[i];
+        ਅਚਲ ਅੱਖਰ *mime_type = clipboard_mime_types[i];
         // Copy the whole string including the terminating null char
-        char c;
-        do {
+        ਅੱਖਰ c;
+        ਕਰੋ {
             c = *ret++ = *mime_type++;
-        } while (c != '\0');
+        } ਜਦੋਂ (c != '\0');
     }
-    result[num_mime_types] = NULL;
+    ਨਤੀਜਾ[ਅੰਕ_mime_types] = ਨਿਰਾ;
 
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 
 }
 
-char **SDL_GetClipboardMimeTypes(size_t *num_mime_types)
+ਅੱਖਰ **SDL_GetClipboardMimeTypes(size_t *ਅੰਕ_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (num_mime_types) {
-        *num_mime_types = 0;
+    ਜੇ (ਅੰਕ_mime_types) {
+        *ਅੰਕ_mime_types = 0;
     }
 
-    if (!_this) {
+    ਜੇ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    if (num_mime_types) {
-        *num_mime_types = _this->num_clipboard_mime_types;
+    ਜੇ (ਅੰਕ_mime_types) {
+        *ਅੰਕ_mime_types = _this->ਅੰਕ_clipboard_mime_types;
     }
-    return SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
+    ਵਾਪਸ SDL_CopyClipboardMimeTypes((ਅਚਲ ਅੱਖਰ **)_this->clipboard_mime_types, _this->ਅੰਕ_clipboard_mime_types, false);
 }
 
 // Clipboard text
 
-bool SDL_IsTextMimeType(const char *mime_type)
+bool SDL_Is_ਪਾਠ_Mime_Type(ਅਚਲ ਅੱਖਰ *mime_type)
 {
-    return (SDL_strncmp(mime_type, "text", 4) == 0);
+    ਵਾਪਸ (SDL_strncmp(mime_type, "text", 4) == 0);
 }
 
-static const char *const *SDL_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ਸਥਿਰ ਅਚਲ ਅੱਖਰ *ਅਚਲ *SDL_Get_ਪਾਠ_Mime_Types(SDL_VideoDevice *_this, size_t *ਅੰਕ_mime_types)
 {
-    if (_this->GetTextMimeTypes) {
-        return _this->GetTextMimeTypes(_this, num_mime_types);
-    } else {
-        static const char *const text_mime_types[] = {
+    ਜੇ (_this->Get_ਪਾਠ_Mime_Types) {
+        ਵਾਪਸ _this->Get_ਪਾਠ_Mime_Types(_this, ਅੰਕ_mime_types);
+    } ਨਹੀਂਤਾਂ {
+        ਸਥਿਰ ਅਚਲ ਅੱਖਰ *ਅਚਲ ਪਾਠ_mime_types[] = {
             "text/plain;charset=utf-8"
         };
 
-        *num_mime_types = SDL_arraysize(text_mime_types);
-        return text_mime_types;
+        *ਅੰਕ_mime_types = SDL_arraysize(ਪਾਠ_mime_types);
+        ਵਾਪਸ ਪਾਠ_mime_types;
     }
 }
 
-const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size)
+ਅਚਲ ਖਾਲੀ * SDLCALL SDL_Clipboard_ਪਾਠ_Callback(ਖਾਲੀ *userdata, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਮਾਪ)
 {
-    char *text = (char *)userdata;
-    if (text) {
-        *size = SDL_strlen(text);
-    } else {
-        *size = 0;
+    ਅੱਖਰ *ਪਾਠ = (ਅੱਖਰ *)userdata;
+    ਜੇ (ਪਾਠ) {
+        *ਮਾਪ = SDL_strlen(ਪਾਠ);
+    } ਨਹੀਂਤਾਂ {
+        *ਮਾਪ = 0;
     }
-    return text;
+    ਵਾਪਸ ਪਾਠ;
 }
 
-bool SDL_SetClipboardText(const char *text)
-{
-    SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t num_mime_types;
-    const char *const *text_mime_types;
-
-    if (!_this) {
-        return SDL_UninitializedVideo();
-    }
-
-    if (text && *text) {
-        text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-
-        return SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
-    }
-    return SDL_ClearClipboardData();
-}
-
-char *SDL_GetClipboardText(void)
+bool SDL_ਸੈੱਟ_Clipboard_ਪਾਠ(ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t i, num_mime_types;
-    const char *const *text_mime_types;
-    size_t length;
-    char *text = NULL;
+    size_t ਅੰਕ_mime_types;
+    ਅਚਲ ਅੱਖਰ *ਅਚਲ *ਪਾਠ_mime_types;
 
-    if (!_this) {
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
+    }
+
+    ਜੇ (ਪਾਠ && *ਪਾਠ) {
+        ਪਾਠ_mime_types = SDL_Get_ਪਾਠ_Mime_Types(_this, &ਅੰਕ_mime_types);
+
+        ਵਾਪਸ SDL_ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(SDL_Clipboard_ਪਾਠ_Callback, SDL_free, SDL_strdup(ਪਾਠ), ਪਾਠ_mime_types, ਅੰਕ_mime_types);
+    }
+    ਵਾਪਸ SDL_Clear_Clipboard_ਅੰਕੜੇ();
+}
+
+ਅੱਖਰ *SDL_Get_Clipboard_ਪਾਠ(ਖਾਲੀ)
+{
+    SDL_VideoDevice *_this = SDL_GetVideoDevice();
+    size_t i, ਅੰਕ_mime_types;
+    ਅਚਲ ਅੱਖਰ *ਅਚਲ *ਪਾਠ_mime_types;
+    size_t ਲੰਮਾਈ;
+    ਅੱਖਰ *ਪਾਠ = ਨਿਰਾ;
+
+    ਜੇ (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        ਵਾਪਸ SDL_strdup("");
     }
 
-    text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        void *clipdata = SDL_GetClipboardData(text_mime_types[i], &length);
-        if (clipdata) {
-            text = (char *)clipdata;
-            break;
+    ਪਾਠ_mime_types = SDL_Get_ਪਾਠ_Mime_Types(_this, &ਅੰਕ_mime_types);
+    ਲਈ (i = 0; i < ਅੰਕ_mime_types; ++i) {
+        ਖਾਲੀ *clipdata = SDL_Get_Clipboard_ਅੰਕੜੇ(ਪਾਠ_mime_types[i], &ਲੰਮਾਈ);
+        ਜੇ (clipdata) {
+            ਪਾਠ = (ਅੱਖਰ *)clipdata;
+            ਰੋਕੋ;
         }
     }
 
-    if (!text) {
-        text = SDL_strdup("");
+    ਜੇ (!ਪਾਠ) {
+        ਪਾਠ = SDL_strdup("");
     }
-    return text;
+    ਵਾਪਸ ਪਾਠ;
 }
 
-bool SDL_HasClipboardText(void)
+bool SDL_Has_Clipboard_ਪਾਠ(ਖਾਲੀ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t i, num_mime_types;
-    const char *const *text_mime_types;
+    size_t i, ਅੰਕ_mime_types;
+    ਅਚਲ ਅੱਖਰ *ਅਚਲ *ਪਾਠ_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
-    text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        if (SDL_HasClipboardData(text_mime_types[i])) {
-            return true;
+    ਪਾਠ_mime_types = SDL_Get_ਪਾਠ_Mime_Types(_this, &ਅੰਕ_mime_types);
+    ਲਈ (i = 0; i < ਅੰਕ_mime_types; ++i) {
+        ਜੇ (SDL_Has_Clipboard_ਅੰਕੜੇ(ਪਾਠ_mime_types[i])) {
+            ਵਾਪਸ true;
         }
     }
-    return false;
+    ਵਾਪਸ false;
 }
 
 // Primary selection text
 
-bool SDL_SetPrimarySelectionText(const char *text)
+bool SDL_ਸੈੱਟ_Primary_Selection_ਪਾਠ(ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
-    if (!text) {
-        text = "";
+    ਜੇ (!ਪਾਠ) {
+        ਪਾਠ = "";
     }
-    if (_this->SetPrimarySelectionText) {
-        if (!_this->SetPrimarySelectionText(_this, text)) {
-            return false;
+    ਜੇ (_this->ਸੈੱਟ_Primary_Selection_ਪਾਠ) {
+        ਜੇ (!_this->ਸੈੱਟ_Primary_Selection_ਪਾਠ(_this, ਪਾਠ)) {
+            ਵਾਪਸ false;
         }
-    } else {
-        SDL_free(_this->primary_selection_text);
-        _this->primary_selection_text = SDL_strdup(text);
+    } ਨਹੀਂਤਾਂ {
+        SDL_free(_this->primary_selection_ਪਾਠ);
+        _this->primary_selection_ਪਾਠ = SDL_strdup(ਪਾਠ);
     }
 
-    char **mime_types = SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, true);
-    if (!mime_types) {
-        return SDL_SetError("unable to copy current mime types");
+    ਅੱਖਰ **mime_types = SDL_CopyClipboardMimeTypes((ਅਚਲ ਅੱਖਰ **)_this->clipboard_mime_types, _this->ਅੰਕ_clipboard_mime_types, true);
+    ਜੇ (!mime_types) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("unable to copy current mime types");
 	}
-    SDL_SendClipboardUpdate(true, mime_types, _this->num_clipboard_mime_types);
-    return true;
+    SDL_SendClipboardUpdate(true, mime_types, _this->ਅੰਕ_clipboard_mime_types);
+    ਵਾਪਸ true;
 }
 
-char *SDL_GetPrimarySelectionText(void)
+ਅੱਖਰ *SDL_Get_Primary_Selection_ਪਾਠ(ਖਾਲੀ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
+    ਜੇ (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        ਵਾਪਸ SDL_strdup("");
     }
 
-    if (_this->GetPrimarySelectionText) {
-        return _this->GetPrimarySelectionText(_this);
-    } else {
-        const char *text = _this->primary_selection_text;
-        if (!text) {
-            text = "";
+    ਜੇ (_this->Get_Primary_Selection_ਪਾਠ) {
+        ਵਾਪਸ _this->Get_Primary_Selection_ਪਾਠ(_this);
+    } ਨਹੀਂਤਾਂ {
+        ਅਚਲ ਅੱਖਰ *ਪਾਠ = _this->primary_selection_ਪਾਠ;
+        ਜੇ (!ਪਾਠ) {
+            ਪਾਠ = "";
         }
-        return SDL_strdup(text);
+        ਵਾਪਸ SDL_strdup(ਪਾਠ);
     }
 }
 
-bool SDL_HasPrimarySelectionText(void)
+bool SDL_Has_Primary_Selection_ਪਾਠ(ਖਾਲੀ)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ਜੇ (!_this) {
+        ਵਾਪਸ SDL_UninitializedVideo();
     }
 
-    if (_this->HasPrimarySelectionText) {
-        return _this->HasPrimarySelectionText(_this);
-    } else {
-        if (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
-            return true;
-        } else {
-            return false;
+    ਜੇ (_this->Has_Primary_Selection_ਪਾਠ) {
+        ਵਾਪਸ _this->Has_Primary_Selection_ਪਾਠ(_this);
+    } ਨਹੀਂਤਾਂ {
+        ਜੇ (_this->primary_selection_ਪਾਠ && _this->primary_selection_ਪਾਠ[0] != '\0') {
+            ਵਾਪਸ true;
+        } ਨਹੀਂਤਾਂ {
+            ਵਾਪਸ false;
         }
     }
 }

@@ -18,46 +18,46 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvideo_h_
-#define SDL_uikitvideo_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_uikitvideo_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#ifdef __OBJC__
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __OBJC__
 
-#include <UIKit/UIKit.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <UIKit/UIKit.h>
 
-@interface SDL_UIKitVideoData : NSObject
+@interface SDL_UIKit_Video_ਅੰਕੜੇ : NSObject
 
-@property(nonatomic, assign) id pasteboardObserver;
+@property(nonatomic, ਸੌਂਪੋ) id pasteboardObserver;
 
-@property(nonatomic, assign) bool setting_clipboard;
+@property(nonatomic, ਸੌਂਪੋ) bool setting_clipboard;
 
-@end
+@ਸਿਰਾ
 
-#ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_PLATFORM_VISIONOS
+ਬਾਹਰੀ CGRect UIKit_Compute_View_ਚੌਖਟਾ(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+#ਨਹੀਂਤਾਂ
+ਬਾਹਰੀ CGRect UIKit_Compute_View_ਚੌਖਟਾ(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, UIScreen *screen);
+#ਜੇ_ਅੰਤ
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+ਬਾਹਰੀ API_ਉਪਲਬਧ(ios(13.0)) UIWindowScene *UIKit_Get_ਸਰਗਰਮ_ਖਿੜਕੀ_Scene(ਖਾਲੀ);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+ਬਾਹਰੀ ਖਾਲੀ UIKit_ਸੈੱਟ_Game_Controller_Interaction(bool enabled);
+ਬਾਹਰੀ ਖਾਲੀ UIKit_ਸੈੱਟ_View_Game_Controller_Interaction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
-#endif
+#ਜੇ !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+ਬਾਹਰੀ UIInterfaceOrientation UIKit_GetInterfaceOrientation(ਖਾਲੀ);
+#ਜੇ_ਅੰਤ
 
-#endif // __OBJC__
+#ਜੇ_ਅੰਤ // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+ਬਾਹਰੀ ਖਾਲੀ UIKit_ForceUpdateHomeIndicator(ਖਾਲੀ);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+ਬਾਹਰੀ bool UIKit_Is_System_ਸੰਸਕਰਣ_At_ਘੱਟ_ਤੋਂ_ਘੱਟ(ਦੁੱਗਣਾ ਸੰਸਕਰਣ);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+ਬਾਹਰੀ SDL_SystemTheme UIKit_GetSystemTheme(ਖਾਲੀ);
 
-#endif // SDL_uikitvideo_h_
+#ਜੇ_ਅੰਤ // SDL_uikitvideo_h_

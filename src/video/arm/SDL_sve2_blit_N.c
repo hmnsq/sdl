@@ -19,152 +19,152 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_N.h"
-#include <assert.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_sve2_blit_N.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <assert.h>
 
-#ifdef SDL_SVE2_INTRINSICS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_SVE2_INTRINSICS
 
-#undef sdl_sve_rgb32_blend_op_fill_alpha
-#define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
-        if (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ sdl_sve_rgb32_blend_op_fill_alpha
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx) \
+    ਕਰੋ {                                                    \
+        ਜੇ (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
             /* fill alpha */                                \
-            sve_target_u16 = svdup_u16(0xFF);               \
-        } else {                                            \
-            sve_target_u16 = sve_source_u16;                \
+            sve_ਨਿਸ਼ਾਨਾ_u16 = svdup_u16(0xFF);               \
+        } ਨਹੀਂਤਾਂ {                                            \
+            sve_ਨਿਸ਼ਾਨਾ_u16 = sve_ਸਰੋਤ_u16;                \
         }                                                   \
-    } while (0)
+    } ਜਦੋਂ (0)
 
-#undef sdl_sve_rgb32_blend_op_copy_alpha
-#define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx) \
-    do {                                                    \
-        sve_target_u16 = sve_source_u16;                    \
-    } while (0)
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ sdl_sve_rgb32_blend_op_copy_alpha
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx) \
+    ਕਰੋ {                                                    \
+        sve_ਨਿਸ਼ਾਨਾ_u16 = sve_ਸਰੋਤ_u16;                    \
+    } ਜਦੋਂ (0)
 
-#undef sdl_sve_rgb32_blend_to_rgb565_op
-#define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx) \
-    do {                                                   \
-        sve_target_u16 = sve_source_u16;                   \
-    } while (0)
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ sdl_sve_rgb32_blend_ਮੰਜ਼ਿਲ_rgb565_op
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sdl_sve_rgb32_blend_ਮੰਜ਼ਿਲ_rgb565_op(ma_alpha_chn_idx) \
+    ਕਰੋ {                                                   \
+        sve_ਨਿਸ਼ਾਨਾ_u16 = sve_ਸਰੋਤ_u16;                   \
+    } ਜਦੋਂ (0)
 
-#include "SDL_sve2_swizzle.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_sve2_swizzle.h"
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
+ਖਾਲੀ Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
-    sdl_sve_8888_to_8888_swizzle_dispatcher(info);
+    sdl_sve_8888_ਮੰਜ਼ਿਲ_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
+ਖਾਲੀ Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info)
 {
-    sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
+    sdl_sve_rgb32_ਮੰਜ਼ਿਲ_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb16_stride_key(uint16_t *SDL_RESTRICT phwSource,
-                                            uint16_t *SDL_RESTRICT phwTarget,
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb16_stride_ਕੁੰਜੀ(uint16_t *SDL_RESTRICT phw_ਸਰੋਤ,
+                                            uint16_t *SDL_RESTRICT phw_ਨਿਸ਼ਾਨਾ,
                                             size_t uStride,
-                                            uint16_t hwKey,
-                                            uint16_t hwKeyMask)
+                                            uint16_t hw_ਕੁੰਜੀ,
+                                            uint16_t hw_ਕੁੰਜੀ_ਨਕਾਬ)
 {
-    sdl_sve_stride_loop_u16(uStride, vTailPred)
+    sdl_sve_stride_loop_u16(uStride, v_ਪੂਛ_Pred)
     {
-        svuint16_t vSource = svld1_u16(vTailPred, phwSource);
-        svuint16_t vTarget = svld1_u16(vTailPred, phwTarget);
+        svuint16_t v_ਸਰੋਤ = svld1_u16(v_ਪੂਛ_Pred, phw_ਸਰੋਤ);
+        svuint16_t v_ਨਿਸ਼ਾਨਾ = svld1_u16(v_ਪੂਛ_Pred, phw_ਨਿਸ਼ਾਨਾ);
 
-        svuint16_t vSourceMasked = svand_n_u16_m(vTailPred,
-                                                 vSource,
-                                                 hwKeyMask);
-        vTarget = svsel_u16(svcmpeq_n_u16(vTailPred, vSourceMasked, hwKey),
-                            vTarget,
-                            vSource);
+        svuint16_t v_ਸਰੋਤ_Masked = svand_n_u16_m(v_ਪੂਛ_Pred,
+                                                 v_ਸਰੋਤ,
+                                                 hw_ਕੁੰਜੀ_ਨਕਾਬ);
+        v_ਨਿਸ਼ਾਨਾ = svsel_u16(svcmpeq_n_u16(v_ਪੂਛ_Pred, v_ਸਰੋਤ_Masked, hw_ਕੁੰਜੀ),
+                            v_ਨਿਸ਼ਾਨਾ,
+                            v_ਸਰੋਤ);
 
-        svst1_u16(vTailPred, phwTarget, vTarget);
+        svst1_u16(v_ਪੂਛ_Pred, phw_ਨਿਸ਼ਾਨਾ, v_ਨਿਸ਼ਾਨਾ);
 
-        phwSource += sve_iteration_advance;
-        phwTarget += sve_iteration_advance;
+        phw_ਸਰੋਤ += sve_iteration_advance;
+        phw_ਨਿਸ਼ਾਨਾ += sve_iteration_advance;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
-                                     size_t uSourceStride,
-                                     uint8_t *SDL_RESTRICT pchTarget,
-                                     size_t uTargetStride,
-                                     int nWidth,
-                                     int nHeight,
-                                     uint16_t hwKey,
-                                     uint16_t hwKeyMask)
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb16_ਕੁੰਜੀ(uint8_t *SDL_RESTRICT pch_ਸਰੋਤ,
+                                     size_t u_ਸਰੋਤ_Stride,
+                                     uint8_t *SDL_RESTRICT pch_ਨਿਸ਼ਾਨਾ,
+                                     size_t u_ਨਿਸ਼ਾਨਾ_Stride,
+                                     ਪੂਰਨ n_ਚੌੜਾਈ,
+                                     ਪੂਰਨ n_ਉਚਾਈ,
+                                     uint16_t hw_ਕੁੰਜੀ,
+                                     uint16_t hw_ਕੁੰਜੀ_ਨਕਾਬ)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਸਰੋਤ & 0x01));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਨਿਸ਼ਾਨਾ & 0x01));
 
-    while (nHeight--) {
-        sdl_sve_rgb16_stride_key((uint16_t *)pchSource,
-                                 (uint16_t *)pchTarget,
-                                 nWidth,
-                                 hwKey,
-                                 hwKeyMask);
+    ਜਦੋਂ (n_ਉਚਾਈ--) {
+        sdl_sve_rgb16_stride_ਕੁੰਜੀ((uint16_t *)pch_ਸਰੋਤ,
+                                 (uint16_t *)pch_ਨਿਸ਼ਾਨਾ,
+                                 n_ਚੌੜਾਈ,
+                                 hw_ਕੁੰਜੀ,
+                                 hw_ਕੁੰਜੀ_ਨਕਾਬ);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ਸਰੋਤ += u_ਸਰੋਤ_Stride;
+        pch_ਨਿਸ਼ਾਨਾ += u_ਨਿਸ਼ਾਨਾ_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit2to2KeySVE2(SDL_BlitInfo *info)
+ਖਾਲੀ Blit2to2_ਕੁੰਜੀ_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ਪੂਰਨ ਚੌੜਾਈ = info->dst_w;
+    ਪੂਰਨ ਉਚਾਈ = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    ਪੂਰਨ srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    ਪੂਰਨ dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ਅਚਲ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ਅਚਲ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    ਪੂਰਨ srcbpp = srcfmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
+    ਪੂਰਨ dstbpp = dstfmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    ਪ੍ਰਤਿਜ੍ਞਾ(srcbpp == 2);
+    ਪ੍ਰਤਿਜ੍ਞਾ(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    ਪੂਰਨ srcstride = srcskip + srcbpp * ਚੌੜਾਈ;
+    ਪੂਰਨ dststride = dstskip + dstbpp * ਚੌੜਾਈ;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    sdl_sve_rgb16_key(src,
+    sdl_sve_rgb16_ਕੁੰਜੀ(src,
                       srcstride,
                       dst,
                       dststride,
-                      width,
-                      height,
+                      ਚੌੜਾਈ,
+                      ਉਚਾਈ,
                       ckey,
                       rgbmask);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_copy_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb32_stride_ਕੁੰਜੀ_copy_alpha(
+    uint32_t *SDL_RESTRICT pw_ਸਰੋਤ,
+    uint32_t *SDL_RESTRICT pw_ਨਿਸ਼ਾਨਾ,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
-    uint32_t wOpacifyMask)
+    uint32_t w_ਕੁੰਜੀ,
+    uint32_t w_ਕੁੰਜੀ_ਨਕਾਬ,
+    uint32_t w_Opacify_ਨਕਾਬ)
 {
-    sdl_sve_stride_loop_u32(uStride, vTailPred)
+    sdl_sve_stride_loop_u32(uStride, v_ਪੂਛ_Pred)
     {
-        svuint32_t vSource = svld1_u32(vTailPred, pwSource);
-        svuint32_t vTarget = svld1_u32(vTailPred, pwTarget);
+        svuint32_t v_ਸਰੋਤ = svld1_u32(v_ਪੂਛ_Pred, pw_ਸਰੋਤ);
+        svuint32_t v_ਨਿਸ਼ਾਨਾ = svld1_u32(v_ਪੂਛ_Pred, pw_ਨਿਸ਼ਾਨਾ);
 
         /*
             uint32_t opamask = ((uint32_t)info->a) << dstfmt->Ashift;
@@ -173,34 +173,34 @@ static inline void sdl_sve_rgb32_stride_key_copy_alpha(
                 *dst32 = *src32 | opamask;
             }
         */
-        svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
-                                                 vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
-                            vTarget,
-                            svorr_n_u32_m(vTailPred, vSource, wOpacifyMask));
+        svuint32_t v_ਸਰੋਤ_Masked = svand_n_u32_m(v_ਪੂਛ_Pred,
+                                                 v_ਸਰੋਤ,
+                                                 w_ਕੁੰਜੀ_ਨਕਾਬ);
+        v_ਨਿਸ਼ਾਨਾ = svsel_u32(svcmpeq_n_u32(v_ਪੂਛ_Pred, v_ਸਰੋਤ_Masked, w_ਕੁੰਜੀ),
+                            v_ਨਿਸ਼ਾਨਾ,
+                            svorr_n_u32_m(v_ਪੂਛ_Pred, v_ਸਰੋਤ, w_Opacify_ਨਕਾਬ));
 
-        svst1_u32(vTailPred, pwTarget, vTarget);
+        svst1_u32(v_ਪੂਛ_Pred, pw_ਨਿਸ਼ਾਨਾ, v_ਨਿਸ਼ਾਨਾ);
 
-        pwSource += sve_iteration_advance;
-        pwTarget += sve_iteration_advance;
+        pw_ਸਰੋਤ += sve_iteration_advance;
+        pw_ਨਿਸ਼ਾਨਾ += sve_iteration_advance;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb32_stride_key_no_alpha(
-    uint32_t *SDL_RESTRICT pwSource,
-    uint32_t *SDL_RESTRICT pwTarget,
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb32_stride_ਕੁੰਜੀ_no_alpha(
+    uint32_t *SDL_RESTRICT pw_ਸਰੋਤ,
+    uint32_t *SDL_RESTRICT pw_ਨਿਸ਼ਾਨਾ,
     size_t uStride,
-    uint32_t wKey,
-    uint32_t wKeyMask,
+    uint32_t w_ਕੁੰਜੀ,
+    uint32_t w_ਕੁੰਜੀ_ਨਕਾਬ,
     uint32_t wActualRGBMask)
 {
-    sdl_sve_stride_loop_u32(uStride, vTailPred)
+    sdl_sve_stride_loop_u32(uStride, v_ਪੂਛ_Pred)
     {
-        svuint32_t vSource = svld1_u32(vTailPred, pwSource);
-        svuint32_t vTarget = svld1_u32(vTailPred, pwTarget);
+        svuint32_t v_ਸਰੋਤ = svld1_u32(v_ਪੂਛ_Pred, pw_ਸਰੋਤ);
+        svuint32_t v_ਨਿਸ਼ਾਨਾ = svld1_u32(v_ਪੂਛ_Pred, pw_ਨਿਸ਼ਾਨਾ);
 
         /*
             uint32_t rgbmaskactual = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
@@ -209,128 +209,128 @@ static inline void sdl_sve_rgb32_stride_key_no_alpha(
                 *dst32 = *src32 & rgbmaskactual;
             }
         */
-        svuint32_t vSourceMasked = svand_n_u32_m(vTailPred,
-                                                 vSource,
-                                                 wKeyMask);
-        vTarget = svsel_u32(svcmpeq_n_u32(vTailPred, vSourceMasked, wKey),
-                            vTarget,
-                            svand_n_u32_m(vTailPred, vSource, wActualRGBMask));
+        svuint32_t v_ਸਰੋਤ_Masked = svand_n_u32_m(v_ਪੂਛ_Pred,
+                                                 v_ਸਰੋਤ,
+                                                 w_ਕੁੰਜੀ_ਨਕਾਬ);
+        v_ਨਿਸ਼ਾਨਾ = svsel_u32(svcmpeq_n_u32(v_ਪੂਛ_Pred, v_ਸਰੋਤ_Masked, w_ਕੁੰਜੀ),
+                            v_ਨਿਸ਼ਾਨਾ,
+                            svand_n_u32_m(v_ਪੂਛ_Pred, v_ਸਰੋਤ, wActualRGBMask));
 
-        svst1_u32(vTailPred, pwTarget, vTarget);
+        svst1_u32(v_ਪੂਛ_Pred, pw_ਨਿਸ਼ਾਨਾ, v_ਨਿਸ਼ਾਨਾ);
 
-        pwSource += sve_iteration_advance;
-        pwTarget += sve_iteration_advance;
+        pw_ਸਰੋਤ += sve_iteration_advance;
+        pw_ਨਿਸ਼ਾਨਾ += sve_iteration_advance;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                size_t uSourceStride,
-                                                uint8_t *SDL_RESTRICT pchTarget,
-                                                size_t uTargetStride,
-                                                int nWidth,
-                                                int nHeight,
-                                                uint32_t wKey,
-                                                uint32_t wKeyMask,
-                                                uint32_t wOpacifyMask)
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb32_ਕੁੰਜੀ_copy_alpha(uint8_t *SDL_RESTRICT pch_ਸਰੋਤ,
+                                                size_t u_ਸਰੋਤ_Stride,
+                                                uint8_t *SDL_RESTRICT pch_ਨਿਸ਼ਾਨਾ,
+                                                size_t u_ਨਿਸ਼ਾਨਾ_Stride,
+                                                ਪੂਰਨ n_ਚੌੜਾਈ,
+                                                ਪੂਰਨ n_ਉਚਾਈ,
+                                                uint32_t w_ਕੁੰਜੀ,
+                                                uint32_t w_ਕੁੰਜੀ_ਨਕਾਬ,
+                                                uint32_t w_Opacify_ਨਕਾਬ)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਸਰੋਤ & 0x03));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਨਿਸ਼ਾਨਾ & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_copy_alpha((uint32_t *)pchSource,
-                                            (uint32_t *)pchTarget,
-                                            nWidth,
-                                            wKey,
-                                            wKeyMask,
-                                            wOpacifyMask);
+    ਜਦੋਂ (n_ਉਚਾਈ--) {
+        sdl_sve_rgb32_stride_ਕੁੰਜੀ_copy_alpha((uint32_t *)pch_ਸਰੋਤ,
+                                            (uint32_t *)pch_ਨਿਸ਼ਾਨਾ,
+                                            n_ਚੌੜਾਈ,
+                                            w_ਕੁੰਜੀ,
+                                            w_ਕੁੰਜੀ_ਨਕਾਬ,
+                                            w_Opacify_ਨਕਾਬ);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ਸਰੋਤ += u_ਸਰੋਤ_Stride;
+        pch_ਨਿਸ਼ਾਨਾ += u_ਨਿਸ਼ਾਨਾ_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                              size_t uSourceStride,
-                                              uint8_t *SDL_RESTRICT pchTarget,
-                                              size_t uTargetStride,
-                                              int nWidth,
-                                              int nHeight,
-                                              uint32_t wKey,
-                                              uint32_t wKeyMask,
+ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ sdl_sve_rgb32_ਕੁੰਜੀ_no_alpha(uint8_t *SDL_RESTRICT pch_ਸਰੋਤ,
+                                              size_t u_ਸਰੋਤ_Stride,
+                                              uint8_t *SDL_RESTRICT pch_ਨਿਸ਼ਾਨਾ,
+                                              size_t u_ਨਿਸ਼ਾਨਾ_Stride,
+                                              ਪੂਰਨ n_ਚੌੜਾਈ,
+                                              ਪੂਰਨ n_ਉਚਾਈ,
+                                              uint32_t w_ਕੁੰਜੀ,
+                                              uint32_t w_ਕੁੰਜੀ_ਨਕਾਬ,
                                               uint32_t wActualRGBMask)
 {
-    assert(0 == ((uintptr_t)pchSource & 0x03));
-    assert(0 == ((uintptr_t)pchTarget & 0x03));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਸਰੋਤ & 0x03));
+    ਪ੍ਰਤਿਜ੍ਞਾ(0 == ((uintptr_t)pch_ਨਿਸ਼ਾਨਾ & 0x03));
 
-    while (nHeight--) {
-        sdl_sve_rgb32_stride_key_no_alpha((uint32_t *)pchSource,
-                                          (uint32_t *)pchTarget,
-                                          nWidth,
-                                          wKey,
-                                          wKeyMask,
+    ਜਦੋਂ (n_ਉਚਾਈ--) {
+        sdl_sve_rgb32_stride_ਕੁੰਜੀ_no_alpha((uint32_t *)pch_ਸਰੋਤ,
+                                          (uint32_t *)pch_ਨਿਸ਼ਾਨਾ,
+                                          n_ਚੌੜਾਈ,
+                                          w_ਕੁੰਜੀ,
+                                          w_ਕੁੰਜੀ_ਨਕਾਬ,
                                           wActualRGBMask);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ਸਰੋਤ += u_ਸਰੋਤ_Stride;
+        pch_ਨਿਸ਼ਾਨਾ += u_ਨਿਸ਼ਾਨਾ_Stride;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit4to4KeySVE2(SDL_BlitInfo *info)
+ਖਾਲੀ Blit4to4_ਕੁੰਜੀ_SVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ਪੂਰਨ ਚੌੜਾਈ = info->dst_w;
+    ਪੂਰਨ ਉਚਾਈ = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    ਪੂਰਨ srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    ਪੂਰਨ dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ਅਚਲ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ਅਚਲ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    ਪੂਰਨ srcbpp = srcfmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
+    ਪੂਰਨ dstbpp = dstfmt->ਬਾਈਟਾਂ_ਪ੍ਰਤੀ_pixel;
 
-    assert(srcbpp == 4);
-    assert(dstbpp == 4);
+    ਪ੍ਰਤਿਜ੍ਞਾ(srcbpp == 4);
+    ਪ੍ਰਤਿਜ੍ਞਾ(dstbpp == 4);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    ਪੂਰਨ srcstride = srcskip + srcbpp * ਚੌੜਾਈ;
+    ਪੂਰਨ dststride = dstskip + dstbpp * ਚੌੜਾਈ;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    if (dstfmt->Amask) {
+    ਜੇ (dstfmt->Amask) {
         uint32_t opamask = ((uint32_t)info->a) << dstfmt->Ashift;
         /* RGBA: set alpha from info->a */
-        sdl_sve_rgb32_key_copy_alpha(src,
+        sdl_sve_rgb32_ਕੁੰਜੀ_copy_alpha(src,
                                      srcstride,
                                      dst,
                                      dststride,
-                                     width,
-                                     height,
+                                     ਚੌੜਾਈ,
+                                     ਉਚਾਈ,
                                      ckey,
                                      rgbmask,
                                      opamask);
-    } else {
+    } ਨਹੀਂਤਾਂ {
         /* RGBA->RGB: only copy rgb and set alpha to zero */
         uint32_t rgbmaskactual = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
-        sdl_sve_rgb32_key_no_alpha(src,
+        sdl_sve_rgb32_ਕੁੰਜੀ_no_alpha(src,
                                    srcstride,
                                    dst,
                                    dststride,
-                                   width,
-                                   height,
+                                   ਚੌੜਾਈ,
+                                   ਉਚਾਈ,
                                    ckey,
                                    rgbmask,
                                    rgbmaskactual);
     }
 }
 
-#endif /* SDL_SVE2_INTRINSICS */
+#ਜੇ_ਅੰਤ /* SDL_SVE2_INTRINSICS */

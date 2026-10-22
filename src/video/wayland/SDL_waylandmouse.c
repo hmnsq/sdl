@@ -19,422 +19,422 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WAYLAND
 
-#include <errno.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <errno.h>
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_video_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_video_c.h"
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_mouse_c.h"
-#include "SDL_waylandvideo.h"
-#include "../SDL_pixels_c.h"
-#include "SDL_waylandevents_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/unix/SDL_poll.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_pixels_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandevents_c.h"
 
-#include "wayland-cursor.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandshmbuffer.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wayland-cursor.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandmouse.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandshmbuffer.h"
 
-#include "cursor-shape-v1-client-protocol.h"
-#include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "pointer-warp-v1-client-protocol.h"
-#include "tablet-v2-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "cursor-shape-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "pointer-constraints-unstable-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "viewporter-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "pointer-warp-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "tablet-v2-client-protocol.h"
 
-#include "../../SDL_hints_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../SDL_hints_c.h"
 
-static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_LEFT + 1];
+ਸਥਿਰ SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_ਖੱਬਾ + 1];
 
-static bool Wayland_SetRelativeMouseMode(bool enabled);
+ਸਥਿਰ bool Wayland_ਸੈੱਟ_Relative_Mouse_ਬਹੁਲਕ(bool enabled);
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    int width;
-    int height;
-    struct wl_buffer *buffer;
+    ਪੂਰਨ ਚੌੜਾਈ;
+    ਪੂਰਨ ਉਚਾਈ;
+    ਬਣਤਰ wl_ਬਫਰ *ਬਫਰ_2;
 } CustomCursorImage;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
     // The base dimensions of the cursor.
-    int width;
-    int height;
-    int hot_x;
-    int hot_y;
+    ਪੂਰਨ ਚੌੜਾਈ;
+    ਪੂਰਨ ਉਚਾਈ;
+    ਪੂਰਨ hot_x;
+    ਪੂਰਨ hot_y;
 
-    int images_per_frame;
+    ਪੂਰਨ images_ਪ੍ਰਤੀ_ਚੌਖਟਾ;
     CustomCursorImage images[];
 } Wayland_CustomCursor;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    int size;
-    struct wl_list node;
-    struct wl_buffer *buffers[];
+    ਪੂਰਨ ਮਾਪ;
+    ਬਣਤਰ wl_list ਗੰਢ;
+    ਬਣਤਰ wl_ਬਫਰ *buffers[];
 } Wayland_CachedSystemCursor;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
     SDL_SystemCursor id;
-    struct wl_list cursor_buffer_cache;
+    ਬਣਤਰ wl_list cursor_ਬਫਰ_cache;
 } Wayland_SystemCursor;
 
-struct SDL_CursorData
+ਬਣਤਰ SDL_Cursor_ਅੰਕੜੇ
 {
     // Cursor animation data.
-    Uint32 *frame_durations_ms;
-    Uint32 total_duration_ms;
-    int num_frames;
+    Uint32 *ਚੌਖਟਾ_durations_ms;
+    Uint32 ਕੁੱਲ_duration_ms;
+    ਪੂਰਨ ਅੰਕ_ਚੌਖਟੇ;
     bool is_system_cursor;
 
-    union
+    ਸੰਘ
     {
         Wayland_CustomCursor custom;
         Wayland_SystemCursor system;
-    } cursor_data;
+    } cursor_ਅੰਕੜੇ;
 };
 
-static int dbus_cursor_size;
-static char *dbus_cursor_theme;
+ਸਥਿਰ ਪੂਰਨ dbus_cursor_ਮਾਪ;
+ਸਥਿਰ ਅੱਖਰ *dbus_cursor_theme;
 
-static void Wayland_FreeCursorThemes(SDL_VideoData *vdata)
+ਸਥਿਰ ਖਾਲੀ Wayland_FreeCursorThemes(SDL_Video_ਅੰਕੜੇ *vdata)
 {
-    for (int i = 0; i < vdata->num_cursor_themes; i += 1) {
+    ਲਈ (ਪੂਰਨ i = 0; i < vdata->ਅੰਕ_cursor_themes; i += 1) {
         WAYLAND_wl_cursor_theme_destroy(vdata->cursor_themes[i].theme);
     }
-    vdata->num_cursor_themes = 0;
+    vdata->ਅੰਕ_cursor_themes = 0;
     SDL_free(vdata->cursor_themes);
-    vdata->cursor_themes = NULL;
+    vdata->cursor_themes = ਨਿਰਾ;
 }
 
-#ifdef SDL_USE_LIBDBUS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
 
-#include "../../core/linux/SDL_dbus.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/linux/SDL_dbus.h"
 
-#define CURSOR_NODE        "org.freedesktop.portal.Desktop"
-#define CURSOR_PATH        "/org/freedesktop/portal/desktop"
-#define CURSOR_INTERFACE   "org.freedesktop.portal.Settings"
-#define CURSOR_NAMESPACE   "org.gnome.desktop.interface"
-#define CURSOR_SIGNAL_NAME "SettingChanged"
-#define CURSOR_SIZE_KEY    "cursor-size"
-#define CURSOR_THEME_KEY   "cursor-theme"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_ਗੰਢ        "org.freedesktop.portal.Desktop"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_ਰਸਤਾ        "/org/freedesktop/portal/desktop"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_INTERFACE   "org.freedesktop.portal.Settings"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_NAMESPACE   "org.gnome.desktop.interface"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_SIGNAL_NAME "SettingChanged"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_ਮਾਪ_ਕੁੰਜੀ    "cursor-size"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CURSOR_THEME_ਕੁੰਜੀ   "cursor-theme"
 
-static DBusMessage *Wayland_ReadDBusProperty(SDL_DBusContext *dbus, const char *key)
+ਸਥਿਰ DBus_ਸੁਨੇਹਾ *Wayland_ReadDBusProperty(SDL_DBusContext *dbus, ਅਚਲ ਅੱਖਰ *ਕੁੰਜੀ)
 {
-    static const char *iface = "org.gnome.desktop.interface";
+    ਸਥਿਰ ਅਚਲ ਅੱਖਰ *iface = "org.gnome.desktop.interface";
 
-    DBusMessage *reply = NULL;
-    DBusMessage *msg = dbus->message_new_method_call(CURSOR_NODE,
-                                                     CURSOR_PATH,
+    DBus_ਸੁਨੇਹਾ *ਜਵਾਬ = ਨਿਰਾ;
+    DBus_ਸੁਨੇਹਾ *ਸੁਨੇਹਾ_2 = dbus->ਸੁਨੇਹਾ_new_ਵਿਧੀ_call(CURSOR_ਗੰਢ,
+                                                     CURSOR_ਰਸਤਾ,
                                                      CURSOR_INTERFACE,
-                                                     "Read"); // Method
+                                                     "Read"); //ਵਿਧੀ
 
-    if (msg) {
-        if (dbus->message_append_args(msg, DBUS_TYPE_STRING, &iface, DBUS_TYPE_STRING, &key, DBUS_TYPE_INVALID)) {
-            reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
+    ਜੇ (ਸੁਨੇਹਾ_2) {
+        ਜੇ (dbus->ਸੁਨੇਹਾ_append_ਦਲੀਲਾਂ(ਸੁਨੇਹਾ_2, DBUS_TYPE_STRING, &iface, DBUS_TYPE_STRING, &ਕੁੰਜੀ, DBUS_TYPE_INVALID)) {
+            ਜਵਾਬ = dbus->connection_send_with_ਜਵਾਬ_and_ਖੰਡ(dbus->session_conn, ਸੁਨੇਹਾ_2, DBUS_TIMEOUT_USE_DEFAULT, ਨਿਰਾ);
         }
-        dbus->message_unref(msg);
+        dbus->ਸੁਨੇਹਾ_unref(ਸੁਨੇਹਾ_2);
     }
 
-    return reply;
+    ਵਾਪਸ ਜਵਾਬ;
 }
 
-static bool Wayland_ParseDBusReply(SDL_DBusContext *dbus, DBusMessage *reply, int type, void *value)
+ਸਥਿਰ bool Wayland_Parse_DBus_ਜਵਾਬ(SDL_DBusContext *dbus, DBus_ਸੁਨੇਹਾ *ਜਵਾਬ, ਪੂਰਨ type, ਖਾਲੀ *ਮੁੱਲ)
 {
-    DBusMessageIter iter[3];
+    DBus_ਸੁਨੇਹਾ_Iter iter[3];
 
-    dbus->message_iter_init(reply, &iter[0]);
-    if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_VARIANT) {
-        return false;
+    dbus->ਸੁਨੇਹਾ_iter_init(ਜਵਾਬ, &iter[0]);
+    ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&iter[0]) != DBUS_TYPE_VARIANT) {
+        ਵਾਪਸ false;
     }
 
-    dbus->message_iter_recurse(&iter[0], &iter[1]);
-    if (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_VARIANT) {
-        return false;
+    dbus->ਸੁਨੇਹਾ_iter_recurse(&iter[0], &iter[1]);
+    ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&iter[1]) != DBUS_TYPE_VARIANT) {
+        ਵਾਪਸ false;
     }
 
-    dbus->message_iter_recurse(&iter[1], &iter[2]);
-    if (dbus->message_iter_get_arg_type(&iter[2]) != type) {
-        return false;
+    dbus->ਸੁਨੇਹਾ_iter_recurse(&iter[1], &iter[2]);
+    ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&iter[2]) != type) {
+        ਵਾਪਸ false;
     }
 
-    dbus->message_iter_get_basic(&iter[2], value);
+    dbus->ਸੁਨੇਹਾ_iter_get_basic(&iter[2], ਮੁੱਲ);
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-static DBusHandlerResult Wayland_DBusCursorMessageFilter(DBusConnection *conn, DBusMessage *msg, void *data)
+ਸਥਿਰ DBus_Handler_ਨਤੀਜਾ Wayland_DBus_Cursor_ਸੁਨੇਹਾ_Filter(DBusConnection *conn, DBus_ਸੁਨੇਹਾ *ਸੁਨੇਹਾ_2, ਖਾਲੀ *ਅੰਕੜੇ)
 {
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    SDL_VideoData *vdata = (SDL_VideoData *)data;
+    SDL_Video_ਅੰਕੜੇ *vdata = (SDL_Video_ਅੰਕੜੇ *)ਅੰਕੜੇ;
 
-    if (dbus->message_is_signal(msg, CURSOR_INTERFACE, CURSOR_SIGNAL_NAME)) {
-        DBusMessageIter signal_iter, variant_iter;
-        const char *namespace, *key;
+    ਜੇ (dbus->ਸੁਨੇਹਾ_is_signal(ਸੁਨੇਹਾ_2, CURSOR_INTERFACE, CURSOR_SIGNAL_NAME)) {
+        DBus_ਸੁਨੇਹਾ_Iter signal_iter, variant_iter;
+        ਅਚਲ ਅੱਖਰ *namespace, *ਕੁੰਜੀ;
 
-        dbus->message_iter_init(msg, &signal_iter);
+        dbus->ਸੁਨੇਹਾ_iter_init(ਸੁਨੇਹਾ_2, &signal_iter);
         // Check if the parameters are what we expect
-        if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
-            goto not_our_signal;
+        ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
+            ਜਾਓ not_our_signal;
         }
-        dbus->message_iter_get_basic(&signal_iter, &namespace);
-        if (SDL_strcmp(CURSOR_NAMESPACE, namespace) != 0) {
-            goto not_our_signal;
+        dbus->ਸੁਨੇਹਾ_iter_get_basic(&signal_iter, &namespace);
+        ਜੇ (SDL_strcmp(CURSOR_NAMESPACE, namespace) != 0) {
+            ਜਾਓ not_our_signal;
         }
-        if (!dbus->message_iter_next(&signal_iter)) {
-            goto not_our_signal;
+        ਜੇ (!dbus->ਸੁਨੇਹਾ_iter_ਅਗਲਾ(&signal_iter)) {
+            ਜਾਓ not_our_signal;
         }
-        if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
-            goto not_our_signal;
+        ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
+            ਜਾਓ not_our_signal;
         }
-        dbus->message_iter_get_basic(&signal_iter, &key);
-        if (SDL_strcmp(CURSOR_SIZE_KEY, key) == 0) {
-            int new_cursor_size;
+        dbus->ਸੁਨੇਹਾ_iter_get_basic(&signal_iter, &ਕੁੰਜੀ);
+        ਜੇ (SDL_strcmp(CURSOR_ਮਾਪ_ਕੁੰਜੀ, ਕੁੰਜੀ) == 0) {
+            ਪੂਰਨ new_cursor_ਮਾਪ;
 
-            if (!dbus->message_iter_next(&signal_iter)) {
-                goto not_our_signal;
+            ਜੇ (!dbus->ਸੁਨੇਹਾ_iter_ਅਗਲਾ(&signal_iter)) {
+                ਜਾਓ not_our_signal;
             }
-            if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_VARIANT) {
-                goto not_our_signal;
+            ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&signal_iter) != DBUS_TYPE_VARIANT) {
+                ਜਾਓ not_our_signal;
             }
-            dbus->message_iter_recurse(&signal_iter, &variant_iter);
-            if (dbus->message_iter_get_arg_type(&variant_iter) != DBUS_TYPE_INT32) {
-                goto not_our_signal;
+            dbus->ਸੁਨੇਹਾ_iter_recurse(&signal_iter, &variant_iter);
+            ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&variant_iter) != DBUS_TYPE_INT32) {
+                ਜਾਓ not_our_signal;
             }
-            dbus->message_iter_get_basic(&variant_iter, &new_cursor_size);
+            dbus->ਸੁਨੇਹਾ_iter_get_basic(&variant_iter, &new_cursor_ਮਾਪ);
 
-            if (dbus_cursor_size != new_cursor_size) {
-                dbus_cursor_size = new_cursor_size;
+            ਜੇ (dbus_cursor_ਮਾਪ != new_cursor_ਮਾਪ) {
+                dbus_cursor_ਮਾਪ = new_cursor_ਮਾਪ;
                 SDL_RedrawCursor(); // Force cursor update
             }
-        } else if (SDL_strcmp(CURSOR_THEME_KEY, key) == 0) {
-            const char *new_cursor_theme = NULL;
+        } ਨਹੀਂਤਾਂ ਜੇ (SDL_strcmp(CURSOR_THEME_ਕੁੰਜੀ, ਕੁੰਜੀ) == 0) {
+            ਅਚਲ ਅੱਖਰ *new_cursor_theme = ਨਿਰਾ;
 
-            if (!dbus->message_iter_next(&signal_iter)) {
-                goto not_our_signal;
+            ਜੇ (!dbus->ਸੁਨੇਹਾ_iter_ਅਗਲਾ(&signal_iter)) {
+                ਜਾਓ not_our_signal;
             }
-            if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_VARIANT) {
-                goto not_our_signal;
+            ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&signal_iter) != DBUS_TYPE_VARIANT) {
+                ਜਾਓ not_our_signal;
             }
-            dbus->message_iter_recurse(&signal_iter, &variant_iter);
-            if (dbus->message_iter_get_arg_type(&variant_iter) != DBUS_TYPE_STRING) {
-                goto not_our_signal;
+            dbus->ਸੁਨੇਹਾ_iter_recurse(&signal_iter, &variant_iter);
+            ਜੇ (dbus->ਸੁਨੇਹਾ_iter_get_arg_type(&variant_iter) != DBUS_TYPE_STRING) {
+                ਜਾਓ not_our_signal;
             }
-            dbus->message_iter_get_basic(&variant_iter, &new_cursor_theme);
+            dbus->ਸੁਨੇਹਾ_iter_get_basic(&variant_iter, &new_cursor_theme);
 
-            if (!dbus_cursor_theme || !new_cursor_theme || SDL_strcmp(dbus_cursor_theme, new_cursor_theme) != 0) {
+            ਜੇ (!dbus_cursor_theme || !new_cursor_theme || SDL_strcmp(dbus_cursor_theme, new_cursor_theme) != 0) {
                 SDL_free(dbus_cursor_theme);
-                if (new_cursor_theme) {
+                ਜੇ (new_cursor_theme) {
                     dbus_cursor_theme = SDL_strdup(new_cursor_theme);
-                } else {
-                    dbus_cursor_theme = NULL;
+                } ਨਹੀਂਤਾਂ {
+                    dbus_cursor_theme = ਨਿਰਾ;
                 }
 
                 // Purge the current cached themes and force a cursor refresh.
                 Wayland_FreeCursorThemes(vdata);
                 SDL_RedrawCursor();
             }
-        } else {
-            goto not_our_signal;
+        } ਨਹੀਂਤਾਂ {
+            ਜਾਓ not_our_signal;
         }
 
-        return DBUS_HANDLER_RESULT_HANDLED;
+        ਵਾਪਸ DBUS_HANDLER_ਨਤੀਜਾ_HANDLED;
     }
 
 not_our_signal:
-    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+    ਵਾਪਸ DBUS_HANDLER_ਨਤੀਜਾ_NOT_YET_HANDLED;
 }
 
-static void Wayland_DBusInitCursorProperties(SDL_VideoData *vdata)
+ਸਥਿਰ ਖਾਲੀ Wayland_DBusInitCursorProperties(SDL_Video_ਅੰਕੜੇ *vdata)
 {
-    DBusMessage *reply;
+    DBus_ਸੁਨੇਹਾ *ਜਵਾਬ;
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    bool add_filter = false;
+    bool ਜੋੜੋ_filter = false;
 
-    if (!dbus) {
-        return;
+    ਜੇ (!dbus) {
+        ਵਾਪਸ;
     }
 
-    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_SIZE_KEY))) {
-        if (Wayland_ParseDBusReply(dbus, reply, DBUS_TYPE_INT32, &dbus_cursor_size)) {
-            add_filter = true;
+    ਜੇ ((ਜਵਾਬ = Wayland_ReadDBusProperty(dbus, CURSOR_ਮਾਪ_ਕੁੰਜੀ))) {
+        ਜੇ (Wayland_Parse_DBus_ਜਵਾਬ(dbus, ਜਵਾਬ, DBUS_TYPE_INT32, &dbus_cursor_ਮਾਪ)) {
+            ਜੋੜੋ_filter = true;
         }
-        dbus->message_unref(reply);
+        dbus->ਸੁਨੇਹਾ_unref(ਜਵਾਬ);
     }
 
-    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_THEME_KEY))) {
-        const char *temp = NULL;
-        if (Wayland_ParseDBusReply(dbus, reply, DBUS_TYPE_STRING, &temp)) {
-            add_filter = true;
+    ਜੇ ((ਜਵਾਬ = Wayland_ReadDBusProperty(dbus, CURSOR_THEME_ਕੁੰਜੀ))) {
+        ਅਚਲ ਅੱਖਰ *ਆਰਜ਼ੀ = ਨਿਰਾ;
+        ਜੇ (Wayland_Parse_DBus_ਜਵਾਬ(dbus, ਜਵਾਬ, DBUS_TYPE_STRING, &ਆਰਜ਼ੀ)) {
+            ਜੋੜੋ_filter = true;
 
-            if (temp) {
-                dbus_cursor_theme = SDL_strdup(temp);
+            ਜੇ (ਆਰਜ਼ੀ) {
+                dbus_cursor_theme = SDL_strdup(ਆਰਜ਼ੀ);
             }
         }
-        dbus->message_unref(reply);
+        dbus->ਸੁਨੇਹਾ_unref(ਜਵਾਬ);
     }
 
     // Only add the filter if at least one of the settings we want is present.
-    if (add_filter) {
-        dbus->bus_add_match(dbus->session_conn,
+    ਜੇ (ਜੋੜੋ_filter) {
+        dbus->bus_ਜੋੜੋ_ਮੇਲ(dbus->session_conn,
                             "type='signal', interface='" CURSOR_INTERFACE "',"
                             "member='" CURSOR_SIGNAL_NAME "', arg0='" CURSOR_NAMESPACE "'",
-                            NULL);
-        dbus->connection_add_filter(dbus->session_conn, &Wayland_DBusCursorMessageFilter, vdata, NULL);
+                            ਨਿਰਾ);
+        dbus->connection_ਜੋੜੋ_filter(dbus->session_conn, &Wayland_DBus_Cursor_ਸੁਨੇਹਾ_Filter, vdata, ਨਿਰਾ);
         dbus->connection_flush(dbus->session_conn);
     }
 }
 
-static void Wayland_DBusFinishCursorProperties(void)
+ਸਥਿਰ ਖਾਲੀ Wayland_DBus_ਅੰਤ_Cursor_Properties(ਖਾਲੀ)
 {
     SDL_free(dbus_cursor_theme);
-    dbus_cursor_theme = NULL;
+    dbus_cursor_theme = ਨਿਰਾ;
 }
 
-#endif
+#ਜੇ_ਅੰਤ
 
-static struct wl_buffer *Wayland_CursorStateGetFrame(SDL_WaylandCursorState *state, int frame_index)
+ਸਥਿਰ ਬਣਤਰ wl_ਬਫਰ *Wayland_Cursor_State_Get_ਚੌਖਟਾ(SDL_WaylandCursorState *state, ਪੂਰਨ ਚੌਖਟਾ_ਸੂਚਕਾਂਕ_2)
 {
-    SDL_CursorData *data = state->current_cursor;
+    SDL_Cursor_ਅੰਕੜੇ *ਅੰਕੜੇ = state->current_cursor;
 
-    if (data) {
-        if (!data->is_system_cursor) {
-            const int offset = data->cursor_data.custom.images_per_frame * frame_index;
+    ਜੇ (ਅੰਕੜੇ) {
+        ਜੇ (!ਅੰਕੜੇ->is_system_cursor) {
+            ਅਚਲ ਪੂਰਨ ਵਿੱਥ_2 = ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images_ਪ੍ਰਤੀ_ਚੌਖਟਾ * ਚੌਖਟਾ_ਸੂਚਕਾਂਕ_2;
 
             /* Find the closest image. Images that are larger than the
              * desired size are preferred over images that are smaller.
              */
-            CustomCursorImage *closest = NULL;
-            const int target_area = SDL_lround(data->cursor_data.custom.width * data->cursor_data.custom.height * state->scale);
-            int closest_area = 0;
-            for (int i = 0; i < data->cursor_data.custom.images_per_frame && closest_area < target_area && data->cursor_data.custom.images[offset + i].buffer; ++i) {
-                closest = &data->cursor_data.custom.images[offset + i];
-                closest_area = closest->width * closest->height;
+            CustomCursorImage *closest = ਨਿਰਾ;
+            ਅਚਲ ਪੂਰਨ ਨਿਸ਼ਾਨਾ_area = SDL_lround(ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਚੌੜਾਈ * ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਉਚਾਈ * state->scale);
+            ਪੂਰਨ closest_area = 0;
+            ਲਈ (ਪੂਰਨ i = 0; i < ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images_ਪ੍ਰਤੀ_ਚੌਖਟਾ && closest_area < ਨਿਸ਼ਾਨਾ_area && ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[ਵਿੱਥ_2 + i].ਬਫਰ_2; ++i) {
+                closest = &ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[ਵਿੱਥ_2 + i];
+                closest_area = closest->ਚੌੜਾਈ * closest->ਉਚਾਈ;
             }
 
-            return closest ? closest->buffer : NULL;
-        } else {
-            return ((Wayland_CachedSystemCursor *)(state->system_cursor_handle))->buffers[frame_index];
+            ਵਾਪਸ closest ? closest->ਬਫਰ_2 : ਨਿਰਾ;
+        } ਨਹੀਂਤਾਂ {
+            ਵਾਪਸ ((Wayland_CachedSystemCursor *)(state->system_cursor_handle))->buffers[ਚੌਖਟਾ_ਸੂਚਕਾਂਕ_2];
         }
     }
 
-    return NULL;
+    ਵਾਪਸ ਨਿਰਾ;
 }
 
-static void cursor_frame_done(void *data, struct wl_callback *cb, uint32_t time);
-static const struct wl_callback_listener cursor_frame_listener = {
-    cursor_frame_done
+ਸਥਿਰ ਖਾਲੀ cursor_ਚੌਖਟਾ_ਪੂਰਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_callback *cb, uint32_t ਸਮਾਂ);
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wl_callback_listener cursor_ਚੌਖਟਾ_listener = {
+    cursor_ਚੌਖਟਾ_ਪੂਰਾ
 };
 
-static void cursor_frame_done(void *data, struct wl_callback *cb, uint32_t time)
+ਸਥਿਰ ਖਾਲੀ cursor_ਚੌਖਟਾ_ਪੂਰਾ(ਖਾਲੀ *ਅੰਕੜੇ, ਬਣਤਰ wl_callback *cb, uint32_t ਸਮਾਂ)
 {
-    SDL_WaylandCursorState *state = (SDL_WaylandCursorState *)data;
-    if (!state->current_cursor) {
-        return;
+    SDL_WaylandCursorState *state = (SDL_WaylandCursorState *)ਅੰਕੜੇ;
+    ਜੇ (!state->current_cursor) {
+        ਵਾਪਸ;
     }
 
-    Uint32 *frames = state->current_cursor->frame_durations_ms;
-    SDL_CursorData *c = state->current_cursor;
+    Uint32 *ਚੌਖਟੇ = state->current_cursor->ਚੌਖਟਾ_durations_ms;
+    SDL_Cursor_ਅੰਕੜੇ *c = state->current_cursor;
 
-    const Uint64 now = SDL_GetTicks();
-    const Uint32 elapsed = (now - state->last_frame_callback_time_ms) % c->total_duration_ms;
+    ਅਚਲ Uint64 now = SDL_GetTicks();
+    ਅਚਲ Uint32 elapsed = (now - state->ਆਖਰੀ_ਚੌਖਟਾ_callback_ਸਮਾਂ_ms) % c->ਕੁੱਲ_duration_ms;
     Uint32 advance = 0;
-    int next = state->current_frame;
+    ਪੂਰਨ ਅਗਲਾ = state->current_ਚੌਖਟਾ;
 
-    state->current_frame_time_ms += elapsed;
+    state->current_ਚੌਖਟਾ_ਸਮਾਂ_ms += elapsed;
 
     // Calculate the next frame based on the elapsed duration.
-    for (Uint32 t = frames[next]; t <= state->current_frame_time_ms; t += frames[next]) {
-        next = (next + 1) % c->num_frames;
+    ਲਈ (Uint32 t = ਚੌਖਟੇ[ਅਗਲਾ]; t <= state->current_ਚੌਖਟਾ_ਸਮਾਂ_ms; t += ਚੌਖਟੇ[ਅਗਲਾ]) {
+        ਅਗਲਾ = (ਅਗਲਾ + 1) % c->ਅੰਕ_ਚੌਖਟੇ;
         advance = t;
 
         // Make sure we don't end up in an infinite loop if a cursor has frame durations of 0.
-        if (!frames[next]) {
-            break;
+        ਜੇ (!ਚੌਖਟੇ[ਅਗਲਾ]) {
+            ਰੋਕੋ;
         }
     }
 
     wl_callback_destroy(cb);
-    state->frame_callback = NULL;
+    state->ਚੌਖਟਾ_callback = ਨਿਰਾ;
 
     // Don't queue another callback if this frame time is infinite.
-    if (frames[next]) {
-        state->frame_callback = wl_surface_frame(state->surface);
-        wl_callback_add_listener(state->frame_callback, &cursor_frame_listener, data);
+    ਜੇ (ਚੌਖਟੇ[ਅਗਲਾ]) {
+        state->ਚੌਖਟਾ_callback = wl_surface_ਚੌਖਟਾ(state->surface);
+        wl_callback_ਜੋੜੋ_listener(state->ਚੌਖਟਾ_callback, &cursor_ਚੌਖਟਾ_listener, ਅੰਕੜੇ);
     }
 
-    state->current_frame_time_ms -= advance;
-    state->last_frame_callback_time_ms = now;
-    state->current_frame = next;
+    state->current_ਚੌਖਟਾ_ਸਮਾਂ_ms -= advance;
+    state->ਆਖਰੀ_ਚੌਖਟਾ_callback_ਸਮਾਂ_ms = now;
+    state->current_ਚੌਖਟਾ = ਅਗਲਾ;
 
-    struct wl_buffer *buffer = Wayland_CursorStateGetFrame(state, next);
-    wl_surface_attach(state->surface, buffer, 0, 0);
+    ਬਣਤਰ wl_ਬਫਰ *ਬਫਰ_2 = Wayland_Cursor_State_Get_ਚੌਖਟਾ(state, ਅਗਲਾ);
+    wl_surface_attach(state->surface, ਬਫਰ_2, 0, 0);
 
-    if (wl_surface_get_version(state->surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-        wl_surface_damage_buffer(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-    } else {
+    ਜੇ (wl_surface_get_ਸੰਸਕਰਣ(state->surface) >= WL_SURFACE_DAMAGE_ਬਫਰ_SINCE_ਸੰਸਕਰਣ) {
+        wl_surface_damage_ਬਫਰ(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+    } ਨਹੀਂਤਾਂ {
         wl_surface_damage(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
     }
     wl_surface_commit(state->surface);
 }
 
-void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata)
+ਖਾਲੀ Wayland_Cursor_State_ਸੈੱਟ_ਚੌਖਟਾ_Callback(SDL_WaylandCursorState *state, ਖਾਲੀ *userdata)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
-    Wayland_LockEventThread(viddata->event_thread_context);
+    SDL_Video_ਅੰਕੜੇ *viddata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+    Wayland_ਤਾਲਾ_Event_Thread(viddata->event_thread_context);
 
-    state->frame_callback = wl_surface_frame(state->surface);
-    wl_callback_add_listener(state->frame_callback, &cursor_frame_listener, userdata);
+    state->ਚੌਖਟਾ_callback = wl_surface_ਚੌਖਟਾ(state->surface);
+    wl_callback_ਜੋੜੋ_listener(state->ਚੌਖਟਾ_callback, &cursor_ਚੌਖਟਾ_listener, userdata);
 
     Wayland_UnlockEventThread(viddata->event_thread_context);
 }
 
-void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state)
+ਖਾਲੀ Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(SDL_WaylandCursorState *state)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
-    Wayland_LockEventThread(viddata->event_thread_context);
+    SDL_Video_ਅੰਕੜੇ *viddata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+    Wayland_ਤਾਲਾ_Event_Thread(viddata->event_thread_context);
 
-    if (state->frame_callback) {
-        wl_callback_destroy(state->frame_callback);
-        state->frame_callback = NULL;
+    ਜੇ (state->ਚੌਖਟਾ_callback) {
+        wl_callback_destroy(state->ਚੌਖਟਾ_callback);
+        state->ਚੌਖਟਾ_callback = ਨਿਰਾ;
     }
 
     Wayland_UnlockEventThread(viddata->event_thread_context);
 }
 
-static void Wayland_CursorStateResetAnimationState(SDL_WaylandCursorState *state)
+ਸਥਿਰ ਖਾਲੀ Wayland_CursorStateResetAnimationState(SDL_WaylandCursorState *state)
 {
-    state->last_frame_callback_time_ms = SDL_GetTicks();
-    state->current_frame_time_ms = 0;
-    state->current_frame = 0;
+    state->ਆਖਰੀ_ਚੌਖਟਾ_callback_ਸਮਾਂ_ms = SDL_GetTicks();
+    state->current_ਚੌਖਟਾ_ਸਮਾਂ_ms = 0;
+    state->current_ਚੌਖਟਾ = 0;
 }
 
-static void Wayland_CursorStateResetAnimation(SDL_WaylandCursorState *state, bool lock)
+ਸਥਿਰ ਖਾਲੀ Wayland_CursorStateResetAnimation(SDL_WaylandCursorState *state, bool ਤਾਲਾ_2)
 {
-    if (lock) {
-        SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
-        Wayland_LockEventThread(viddata->event_thread_context);
+    ਜੇ (ਤਾਲਾ_2) {
+        SDL_Video_ਅੰਕੜੇ *viddata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+        Wayland_ਤਾਲਾ_Event_Thread(viddata->event_thread_context);
         Wayland_CursorStateResetAnimationState(state);
         Wayland_UnlockEventThread(viddata->event_thread_context);
-    } else {
+    } ਨਹੀਂਤਾਂ {
         Wayland_CursorStateResetAnimationState(state);
     }
 }
 
-void Wayland_CursorStateRelease(SDL_WaylandCursorState *state)
+ਖਾਲੀ Wayland_CursorStateRelease(SDL_WaylandCursorState *state)
 {
-    Wayland_CursorStateDestroyFrameCallback(state);
-    if (state->cursor_shape) {
+    Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(state);
+    ਜੇ (state->cursor_shape) {
         wp_cursor_shape_device_v1_destroy(state->cursor_shape);
     }
-    if (state->viewport) {
+    ਜੇ (state->viewport) {
         wp_viewport_destroy(state->viewport);
     }
-    if (state->surface) {
-        wl_surface_attach(state->surface, NULL, 0, 0);
+    ਜੇ (state->surface) {
+        wl_surface_attach(state->surface, ਨਿਰਾ, 0, 0);
         wl_surface_commit(state->surface);
         wl_surface_destroy(state->surface);
     }
@@ -442,223 +442,223 @@ void Wayland_CursorStateRelease(SDL_WaylandCursorState *state)
     SDL_zerop(state);
 }
 
-static Wayland_CachedSystemCursor *Wayland_CacheSystemCursor(SDL_CursorData *cdata, struct wl_cursor *cursor, int size)
+ਸਥਿਰ Wayland_CachedSystemCursor *Wayland_CacheSystemCursor(SDL_Cursor_ਅੰਕੜੇ *cdata, ਬਣਤਰ wl_cursor *cursor, ਪੂਰਨ ਮਾਪ)
 {
-    Wayland_CachedSystemCursor *cache = NULL;
+    Wayland_CachedSystemCursor *cache = ਨਿਰਾ;
 
     // Is this cursor already cached at the target scale?
-    if (!WAYLAND_wl_list_empty(&cdata->cursor_data.system.cursor_buffer_cache)) {
-        Wayland_CachedSystemCursor *c = NULL;
-        wl_list_for_each (c, &cdata->cursor_data.system.cursor_buffer_cache, node) {
-            if (c->size == size) {
+    ਜੇ (!WAYLAND_wl_list_ਖਾਲੀ_ਥਾਵਾਂ(&cdata->cursor_ਅੰਕੜੇ.system.cursor_ਬਫਰ_cache)) {
+        Wayland_CachedSystemCursor *c = ਨਿਰਾ;
+        wl_list_for_each (c, &cdata->cursor_ਅੰਕੜੇ.system.cursor_ਬਫਰ_cache, ਗੰਢ) {
+            ਜੇ (c->ਮਾਪ == ਮਾਪ) {
                 cache = c;
-                break;
+                ਰੋਕੋ;
             }
         }
     }
 
-    if (!cache) {
-        cache = SDL_calloc(1, sizeof(Wayland_CachedSystemCursor) + (sizeof(struct wl_buffer *) * cdata->num_frames));
+    ਜੇ (!cache) {
+        cache = SDL_calloc(1, ਆਕਾਰ(Wayland_CachedSystemCursor) + (ਆਕਾਰ(ਬਣਤਰ wl_ਬਫਰ *) * cdata->ਅੰਕ_ਚੌਖਟੇ));
 
-        cache->size = size;
-        for (int i = 0; i < cdata->num_frames; ++i) {
-            cache->buffers[i] = WAYLAND_wl_cursor_image_get_buffer(cursor->images[i]);
+        cache->ਮਾਪ = ਮਾਪ;
+        ਲਈ (ਪੂਰਨ i = 0; i < cdata->ਅੰਕ_ਚੌਖਟੇ; ++i) {
+            cache->buffers[i] = WAYLAND_wl_cursor_image_get_ਬਫਰ(cursor->images[i]);
         }
 
-        WAYLAND_wl_list_insert(&cdata->cursor_data.system.cursor_buffer_cache, &cache->node);
+        WAYLAND_wl_list_ਪਾਓ(&cdata->cursor_ਅੰਕੜੇ.system.cursor_ਬਫਰ_cache, &cache->ਗੰਢ);
     }
 
-    return cache;
+    ਵਾਪਸ cache;
 }
 
-static bool Wayland_GetSystemCursor(SDL_CursorData *cdata, SDL_WaylandCursorState *state, int *dst_size, int *hot_x, int *hot_y)
+ਸਥਿਰ bool Wayland_GetSystemCursor(SDL_Cursor_ਅੰਕੜੇ *cdata, SDL_WaylandCursorState *state, ਪੂਰਨ *dst_ਮਾਪ, ਪੂਰਨ *hot_x, ਪੂਰਨ *hot_y)
 {
-    SDL_VideoData *vdata = SDL_GetVideoDevice()->internal;
-    struct wl_cursor_theme *theme = NULL;
-    const char *css_name = "default";
-    const char *fallback_name = NULL;
-    double scale_factor = state->scale;
-    int theme_size = dbus_cursor_size;
+    SDL_Video_ਅੰਕੜੇ *vdata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+    ਬਣਤਰ wl_cursor_theme *theme = ਨਿਰਾ;
+    ਅਚਲ ਅੱਖਰ *css_name = "default";
+    ਅਚਲ ਅੱਖਰ *fallback_name = ਨਿਰਾ;
+    ਦੁੱਗਣਾ scale_ਗੁਣਕ_2 = state->scale;
+    ਪੂਰਨ theme_ਮਾਪ = dbus_cursor_ਮਾਪ;
 
     // Fallback envvar if the DBus properties don't exist
-    if (theme_size <= 0) {
-        const char *xcursor_size = SDL_getenv("XCURSOR_SIZE");
-        if (xcursor_size) {
-            theme_size = SDL_atoi(xcursor_size);
+    ਜੇ (theme_ਮਾਪ <= 0) {
+        ਅਚਲ ਅੱਖਰ *xcursor_ਮਾਪ = SDL_getenv("XCURSOR_SIZE");
+        ਜੇ (xcursor_ਮਾਪ) {
+            theme_ਮਾਪ = SDL_atoi(xcursor_ਮਾਪ);
         }
     }
-    if (theme_size <= 0) {
-        theme_size = 24;
+    ਜੇ (theme_ਮਾਪ <= 0) {
+        theme_ਮਾਪ = 24;
     }
 
     // First, find the appropriate theme based on the current scale...
-    const int scaled_size = (int)SDL_lround(theme_size * scale_factor);
-    for (int i = 0; i < vdata->num_cursor_themes; ++i) {
-        if (vdata->cursor_themes[i].size == scaled_size) {
+    ਅਚਲ ਪੂਰਨ scaled_ਮਾਪ = (ਪੂਰਨ)SDL_lround(theme_ਮਾਪ * scale_ਗੁਣਕ_2);
+    ਲਈ (ਪੂਰਨ i = 0; i < vdata->ਅੰਕ_cursor_themes; ++i) {
+        ਜੇ (vdata->cursor_themes[i].ਮਾਪ == scaled_ਮਾਪ) {
             theme = vdata->cursor_themes[i].theme;
-            break;
+            ਰੋਕੋ;
         }
     }
-    if (!theme) {
-        const char *xcursor_theme = dbus_cursor_theme;
+    ਜੇ (!theme) {
+        ਅਚਲ ਅੱਖਰ *xcursor_theme = dbus_cursor_theme;
 
         SDL_WaylandCursorTheme *new_cursor_themes = SDL_realloc(vdata->cursor_themes,
-                                                                sizeof(SDL_WaylandCursorTheme) * (vdata->num_cursor_themes + 1));
-        if (!new_cursor_themes) {
-            return false;
+                                                                ਆਕਾਰ(SDL_WaylandCursorTheme) * (vdata->ਅੰਕ_cursor_themes + 1));
+        ਜੇ (!new_cursor_themes) {
+            ਵਾਪਸ false;
         }
         vdata->cursor_themes = new_cursor_themes;
 
         // Fallback envvar if the DBus properties don't exist
-        if (!xcursor_theme) {
+        ਜੇ (!xcursor_theme) {
             xcursor_theme = SDL_getenv("XCURSOR_THEME");
         }
 
-        theme = WAYLAND_wl_cursor_theme_load(xcursor_theme, scaled_size, vdata->shm);
-        vdata->cursor_themes[vdata->num_cursor_themes].size = scaled_size;
-        vdata->cursor_themes[vdata->num_cursor_themes++].theme = theme;
+        theme = WAYLAND_wl_cursor_theme_ਲੱਦੋ(xcursor_theme, scaled_ਮਾਪ, vdata->shm);
+        vdata->cursor_themes[vdata->ਅੰਕ_cursor_themes].ਮਾਪ = scaled_ਮਾਪ;
+        vdata->cursor_themes[vdata->ਅੰਕ_cursor_themes++].theme = theme;
     }
 
-    css_name = SDL_GetCSSCursorName(cdata->cursor_data.system.id, &fallback_name);
-    struct wl_cursor *cursor = WAYLAND_wl_cursor_theme_get_cursor(theme, css_name);
-    if (!cursor && fallback_name) {
+    css_name = SDL_GetCSSCursorName(cdata->cursor_ਅੰਕੜੇ.system.id, &fallback_name);
+    ਬਣਤਰ wl_cursor *cursor = WAYLAND_wl_cursor_theme_get_cursor(theme, css_name);
+    ਜੇ (!cursor && fallback_name) {
         cursor = WAYLAND_wl_cursor_theme_get_cursor(theme, fallback_name);
     }
 
     // Fallback to the default cursor if the chosen one wasn't found
-    if (!cursor) {
+    ਜੇ (!cursor) {
         cursor = WAYLAND_wl_cursor_theme_get_cursor(theme, "default");
     }
     // Try the old X11 name as a last resort
-    if (!cursor) {
+    ਜੇ (!cursor) {
         cursor = WAYLAND_wl_cursor_theme_get_cursor(theme, "left_ptr");
     }
-    if (!cursor) {
-        return false;
+    ਜੇ (!cursor) {
+        ਵਾਪਸ false;
     }
 
     // ... Set the cursor data, finally.
-    cdata->num_frames = cursor->image_count;
-    Wayland_CachedSystemCursor *c = Wayland_CacheSystemCursor(cdata, cursor, theme_size);
+    cdata->ਅੰਕ_ਚੌਖਟੇ = cursor->image_ਗਿਣਤੀ_2;
+    Wayland_CachedSystemCursor *c = Wayland_CacheSystemCursor(cdata, cursor, theme_ਮਾਪ);
     state->system_cursor_handle = c;
 
-    if (cursor->image_count > 1 && !cdata->frame_durations_ms) {
-        cdata->total_duration_ms = 0;
-        cdata->frame_durations_ms = SDL_calloc(cursor->image_count, sizeof(Uint32));
+    ਜੇ (cursor->image_ਗਿਣਤੀ_2 > 1 && !cdata->ਚੌਖਟਾ_durations_ms) {
+        cdata->ਕੁੱਲ_duration_ms = 0;
+        cdata->ਚੌਖਟਾ_durations_ms = SDL_calloc(cursor->image_ਗਿਣਤੀ_2, ਆਕਾਰ(Uint32));
 
-        for (int i = 0; i < cursor->image_count; ++i) {
-            cdata->frame_durations_ms[i] = cursor->images[i]->delay;
-            cdata->total_duration_ms += cursor->images[i]->delay;
+        ਲਈ (ਪੂਰਨ i = 0; i < cursor->image_ਗਿਣਤੀ_2; ++i) {
+            cdata->ਚੌਖਟਾ_durations_ms[i] = cursor->images[i]->delay;
+            cdata->ਕੁੱਲ_duration_ms += cursor->images[i]->delay;
         }
     }
 
-    *dst_size = SDL_lround(cursor->images[0]->width / state->scale);
+    *dst_ਮਾਪ = SDL_lround(cursor->images[0]->ਚੌੜਾਈ / state->scale);
     *hot_x = SDL_lround(cursor->images[0]->hotspot_x / state->scale);
     *hot_y = SDL_lround(cursor->images[0]->hotspot_y / state->scale);
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-static int surface_sort_callback(const void *a, const void *b)
+ਸਥਿਰ ਪੂਰਨ surface_ਛਾਂਟੋ_callback(ਅਚਲ ਖਾਲੀ *a, ਅਚਲ ਖਾਲੀ *b)
 {
-    const SDL_Surface *s1 = *(const SDL_Surface **)a;
-    const SDL_Surface *s2 = *(const SDL_Surface **)b;
+    ਅਚਲ SDL_Surface *s1 = *(ਅਚਲ SDL_Surface **)a;
+    ਅਚਲ SDL_Surface *s2 = *(ਅਚਲ SDL_Surface **)b;
 
-    return (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
+    ਵਾਪਸ (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
 }
 
-static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+ਸਥਿਰ SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_Cursor_ਚੌਖਟਾ_Info *ਚੌਖਟੇ, ਪੂਰਨ ਚੌਖਟਾ_ਗਿਣਤੀ, ਪੂਰਨ hot_x, ਪੂਰਨ hot_y)
 {
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    SDL_Cursor *cursor = SDL_calloc(1, ਆਕਾਰ(*cursor));
+    ਜੇ (!cursor) {
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    SDL_CursorData *data = NULL;
-    Wayland_SHMPool *shm_pool = NULL;
-    int pool_size = 0;
-    int max_images = 0;
-    bool is_stack = false;
-    struct SurfaceArray
+    SDL_Cursor_ਅੰਕੜੇ *ਅੰਕੜੇ = ਨਿਰਾ;
+    Wayland_SHMPool *shm_pool = ਨਿਰਾ;
+    ਪੂਰਨ pool_ਮਾਪ = 0;
+    ਪੂਰਨ max_images = 0;
+    bool is_ਢੇਰ = false;
+    ਬਣਤਰ SurfaceArray
     {
         SDL_Surface **surfaces;
-        int count;
-    } *surfaces = SDL_small_alloc(struct SurfaceArray, frame_count, &is_stack);
-    if (!surfaces) {
-        goto failed;
+        ਪੂਰਨ ਗਿਣਤੀ_2;
+    } *surfaces = SDL_small_alloc(ਬਣਤਰ SurfaceArray, ਚੌਖਟਾ_ਗਿਣਤੀ, &is_ਢੇਰ);
+    ਜੇ (!surfaces) {
+        ਜਾਓ failed;
     }
-    SDL_memset(surfaces, 0, sizeof(struct SurfaceArray) * frame_count);
+    SDL_memset(surfaces, 0, ਆਕਾਰ(ਬਣਤਰ SurfaceArray) * ਚੌਖਟਾ_ਗਿਣਤੀ);
 
     // Calculate the total allocation size.
-    for (int i = 0; i < frame_count; ++i) {
-        surfaces[i].surfaces = SDL_GetSurfaceImages(frames[i].surface, &surfaces[i].count);
-        if (!surfaces[i].surfaces) {
-            goto failed;
+    ਲਈ (ਪੂਰਨ i = 0; i < ਚੌਖਟਾ_ਗਿਣਤੀ; ++i) {
+        surfaces[i].surfaces = SDL_GetSurfaceImages(ਚੌਖਟੇ[i].surface, &surfaces[i].ਗਿਣਤੀ_2);
+        ਜੇ (!surfaces[i].surfaces) {
+            ਜਾਓ failed;
         }
 
-        SDL_qsort(surfaces[i].surfaces, surfaces[i].count, sizeof(SDL_Surface *), surface_sort_callback);
-        max_images = SDL_max(max_images, surfaces[i].count);
-        for (int j = 0; j < surfaces[i].count; ++j) {
-            pool_size += surfaces[i].surfaces[j]->w * surfaces[i].surfaces[j]->h * 4;
+        SDL_qsort(surfaces[i].surfaces, surfaces[i].ਗਿਣਤੀ_2, ਆਕਾਰ(SDL_Surface *), surface_ਛਾਂਟੋ_callback);
+        max_images = SDL_max(max_images, surfaces[i].ਗਿਣਤੀ_2);
+        ਲਈ (ਪੂਰਨ j = 0; j < surfaces[i].ਗਿਣਤੀ_2; ++j) {
+            pool_ਮਾਪ += surfaces[i].surfaces[j]->w * surfaces[i].surfaces[j]->h * 4;
         }
     }
 
-    data = SDL_calloc(1, sizeof(*data) + (sizeof(CustomCursorImage) * max_images * frame_count));
-    if (!data) {
-        goto failed;
+    ਅੰਕੜੇ = SDL_calloc(1, ਆਕਾਰ(*ਅੰਕੜੇ) + (ਆਕਾਰ(CustomCursorImage) * max_images * ਚੌਖਟਾ_ਗਿਣਤੀ));
+    ਜੇ (!ਅੰਕੜੇ) {
+        ਜਾਓ failed;
     }
 
-    data->frame_durations_ms = SDL_calloc(frame_count, sizeof(Uint32));
-    if (!data->frame_durations_ms) {
-        goto failed;
+    ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms = SDL_calloc(ਚੌਖਟਾ_ਗਿਣਤੀ, ਆਕਾਰ(Uint32));
+    ਜੇ (!ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms) {
+        ਜਾਓ failed;
     }
 
-    shm_pool = Wayland_AllocSHMPool(pool_size);
-    if (!shm_pool) {
-        goto failed;
+    shm_pool = Wayland_AllocSHMPool(pool_ਮਾਪ);
+    ਜੇ (!shm_pool) {
+        ਜਾਓ failed;
     }
 
-    cursor->internal = data;
-    data->cursor_data.custom.width = frames[0].surface->w;
-    data->cursor_data.custom.height = frames[0].surface->h;
-    data->cursor_data.custom.hot_x = hot_x;
-    data->cursor_data.custom.hot_y = hot_y;
-    data->cursor_data.custom.images_per_frame = max_images;
-    data->num_frames = frame_count;
+    cursor->ਅੰਦਰੂਨੀ = ਅੰਕੜੇ;
+    ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਚੌੜਾਈ = ਚੌਖਟੇ[0].surface->w;
+    ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਉਚਾਈ = ਚੌਖਟੇ[0].surface->h;
+    ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_x = hot_x;
+    ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_y = hot_y;
+    ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images_ਪ੍ਰਤੀ_ਚੌਖਟਾ = max_images;
+    ਅੰਕੜੇ->ਅੰਕ_ਚੌਖਟੇ = ਚੌਖਟਾ_ਗਿਣਤੀ;
 
-    for (int i = 0; i < frame_count; ++i) {
-        data->frame_durations_ms[i] = frames[i].duration;
-        if (data->total_duration_ms < SDL_MAX_UINT32) {
-            if (data->frame_durations_ms[i] > 0) {
-                data->total_duration_ms += data->frame_durations_ms[i];
-            } else {
-                data->total_duration_ms = SDL_MAX_UINT32;
+    ਲਈ (ਪੂਰਨ i = 0; i < ਚੌਖਟਾ_ਗਿਣਤੀ; ++i) {
+        ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms[i] = ਚੌਖਟੇ[i].duration;
+        ਜੇ (ਅੰਕੜੇ->ਕੁੱਲ_duration_ms < SDL_MAX_UINT32) {
+            ਜੇ (ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms[i] > 0) {
+                ਅੰਕੜੇ->ਕੁੱਲ_duration_ms += ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms[i];
+            } ਨਹੀਂਤਾਂ {
+                ਅੰਕੜੇ->ਕੁੱਲ_duration_ms = SDL_MAX_UINT32;
             }
         }
 
-        const int offset = i * max_images;
-        for (int j = 0; j < surfaces[i].count; ++j) {
+        ਅਚਲ ਪੂਰਨ ਵਿੱਥ_2 = i * max_images;
+        ਲਈ (ਪੂਰਨ j = 0; j < surfaces[i].ਗਿਣਤੀ_2; ++j) {
             SDL_Surface *surface = surfaces[i].surfaces[j];
 
             // Convert the surface format, if required.
-            if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+            ਜੇ (surface->format != SDL_PIXELFORMAT_ARGB8888) {
                 surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-                if (!surface) {
-                    goto failed;
+                ਜੇ (!surface) {
+                    ਜਾਓ failed;
                 }
             }
 
-            data->cursor_data.custom.images[offset + j].width = surface->w;
-            data->cursor_data.custom.images[offset + j].height = surface->h;
+            ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[ਵਿੱਥ_2 + j].ਚੌੜਾਈ = surface->w;
+            ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[ਵਿੱਥ_2 + j].ਉਚਾਈ = surface->h;
 
-            void *buf_data;
-            data->cursor_data.custom.images[offset + j].buffer = Wayland_AllocBufferFromPool(shm_pool, surface->w, surface->h, &buf_data);
+            ਖਾਲੀ *buf_ਅੰਕੜੇ;
+            ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[ਵਿੱਥ_2 + j].ਬਫਰ_2 = Wayland_Alloc_ਬਫਰ_From_Pool(shm_pool, surface->w, surface->h, &buf_ਅੰਕੜੇ);
             // Wayland requires premultiplied alpha for its surfaces.
             SDL_PremultiplyAlpha(surface->w, surface->h,
                                  surface->format, surface->pixels, surface->pitch,
-                                 SDL_PIXELFORMAT_ARGB8888, buf_data, surface->w * 4, true);
+                                 SDL_PIXELFORMAT_ARGB8888, buf_ਅੰਕੜੇ, surface->w * 4, true);
 
-            if (surface != surfaces[i].surfaces[j]) {
+            ਜੇ (surface != surfaces[i].surfaces[j]) {
                 SDL_DestroySurface(surface);
             }
         }
@@ -667,328 +667,328 @@ static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int
         SDL_free(surfaces[i].surfaces);
     }
 
-    SDL_small_free(surfaces, is_stack);
+    SDL_small_free(surfaces, is_ਢੇਰ);
     Wayland_ReleaseSHMPool(shm_pool);
 
-    return cursor;
+    ਵਾਪਸ cursor;
 
 failed:
     Wayland_ReleaseSHMPool(shm_pool);
-    if (data) {
-        SDL_free(data->frame_durations_ms);
-        for (int i = 0; i < data->cursor_data.custom.images_per_frame * frame_count; ++i) {
-            if (data->cursor_data.custom.images[i].buffer) {
-                wl_buffer_destroy(data->cursor_data.custom.images[i].buffer);
+    ਜੇ (ਅੰਕੜੇ) {
+        SDL_free(ਅੰਕੜੇ->ਚੌਖਟਾ_durations_ms);
+        ਲਈ (ਪੂਰਨ i = 0; i < ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images_ਪ੍ਰਤੀ_ਚੌਖਟਾ * ਚੌਖਟਾ_ਗਿਣਤੀ; ++i) {
+            ਜੇ (ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[i].ਬਫਰ_2) {
+                wl_ਬਫਰ_destroy(ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.images[i].ਬਫਰ_2);
             }
         }
     }
 
-    SDL_free(data);
+    SDL_free(ਅੰਕੜੇ);
 
-    if (surfaces) {
-        for (int i = 0; i < frame_count; ++i) {
+    ਜੇ (surfaces) {
+        ਲਈ (ਪੂਰਨ i = 0; i < ਚੌਖਟਾ_ਗਿਣਤੀ; ++i) {
             SDL_free(surfaces[i].surfaces);
         }
-        SDL_small_free(surfaces, is_stack);
+        SDL_small_free(surfaces, is_ਢੇਰ);
     }
 
     SDL_free(cursor);
 
-    return NULL;
+    ਵਾਪਸ ਨਿਰਾ;
 }
 
-static SDL_Cursor *Wayland_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+ਸਥਿਰ SDL_Cursor *Wayland_CreateCursor(SDL_Surface *surface, ਪੂਰਨ hot_x, ਪੂਰਨ hot_y)
 {
-    SDL_CursorFrameInfo frame = {
+    SDL_Cursor_ਚੌਖਟਾ_Info ਚੌਖਟਾ = {
         surface, 0
     };
 
-    return Wayland_CreateAnimatedCursor(&frame, 1, hot_x, hot_y);
+    ਵਾਪਸ Wayland_CreateAnimatedCursor(&ਚੌਖਟਾ, 1, hot_x, hot_y);
 }
 
-static SDL_Cursor *Wayland_CreateSystemCursor(SDL_SystemCursor id)
+ਸਥਿਰ SDL_Cursor *Wayland_CreateSystemCursor(SDL_SystemCursor id)
 {
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(*cursor));
+    SDL_Cursor *cursor = SDL_calloc(1, ਆਕਾਰ(*cursor));
 
-    if (cursor) {
-        SDL_CursorData *cdata = SDL_calloc(1, sizeof(*cdata));
-        if (!cdata) {
+    ਜੇ (cursor) {
+        SDL_Cursor_ਅੰਕੜੇ *cdata = SDL_calloc(1, ਆਕਾਰ(*cdata));
+        ਜੇ (!cdata) {
             SDL_free(cursor);
-            return NULL;
+            ਵਾਪਸ ਨਿਰਾ;
         }
-        cursor->internal = cdata;
+        cursor->ਅੰਦਰੂਨੀ = cdata;
 
-        WAYLAND_wl_list_init(&cdata->cursor_data.system.cursor_buffer_cache);
-        cdata->cursor_data.system.id = id;
+        WAYLAND_wl_list_init(&cdata->cursor_ਅੰਕੜੇ.system.cursor_ਬਫਰ_cache);
+        cdata->cursor_ਅੰਕੜੇ.system.id = id;
         cdata->is_system_cursor = true;
     }
 
-    return cursor;
+    ਵਾਪਸ cursor;
 }
 
-static SDL_Cursor *Wayland_CreateDefaultCursor(void)
+ਸਥਿਰ SDL_Cursor *Wayland_CreateDefaultCursor(ਖਾਲੀ)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return Wayland_CreateSystemCursor(id);
+    ਵਾਪਸ Wayland_CreateSystemCursor(id);
 }
 
-static void Wayland_FreeCursorData(SDL_CursorData *d)
+ਸਥਿਰ ਖਾਲੀ Wayland_Free_Cursor_ਅੰਕੜੇ(SDL_Cursor_ਅੰਕੜੇ *d)
 {
     SDL_VideoDevice *video_device = SDL_GetVideoDevice();
-    SDL_VideoData *video_data = video_device->internal;
+    SDL_Video_ਅੰਕੜੇ *video_ਅੰਕੜੇ = video_device->ਅੰਦਰੂਨੀ;
     SDL_WaylandSeat *seat;
 
     // Stop any frame callbacks and detach buffers associated with the cursor being destroyed.
-    wl_list_for_each (seat, &video_data->seat_list, link)
+    wl_list_for_each (seat, &video_ਅੰਕੜੇ->seat_list, link)
     {
-        if (seat->pointer.cursor_state.current_cursor == d) {
-            Wayland_CursorStateDestroyFrameCallback(&seat->pointer.cursor_state);
+        ਜੇ (seat->ਸੂਚਕ_2.cursor_state.current_cursor == d) {
+            Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(&seat->ਸੂਚਕ_2.cursor_state);
 
             // Custom cursor buffers are about to be destroyed, so ensure they are detached.
-            if (!d->is_system_cursor && seat->pointer.cursor_state.surface) {
-                wl_surface_attach(seat->pointer.cursor_state.surface, NULL, 0, 0);
+            ਜੇ (!d->is_system_cursor && seat->ਸੂਚਕ_2.cursor_state.surface) {
+                wl_surface_attach(seat->ਸੂਚਕ_2.cursor_state.surface, ਨਿਰਾ, 0, 0);
             }
 
-            seat->pointer.cursor_state.current_cursor = NULL;
+            seat->ਸੂਚਕ_2.cursor_state.current_cursor = ਨਿਰਾ;
         }
 
         SDL_WaylandPenTool *tool;
         wl_list_for_each (tool, &seat->tablet.tool_list, link) {
-            if (tool->cursor_state.current_cursor == d) {
-                Wayland_CursorStateDestroyFrameCallback(&tool->cursor_state);
+            ਜੇ (tool->cursor_state.current_cursor == d) {
+                Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(&tool->cursor_state);
 
                 // Custom cursor buffers are about to be destroyed, so ensure they are detached.
-                if (!d->is_system_cursor && tool->cursor_state.surface) {
-                    wl_surface_attach(seat->pointer.cursor_state.surface, NULL, 0, 0);
+                ਜੇ (!d->is_system_cursor && tool->cursor_state.surface) {
+                    wl_surface_attach(seat->ਸੂਚਕ_2.cursor_state.surface, ਨਿਰਾ, 0, 0);
                 }
 
-                tool->cursor_state.current_cursor = NULL;
+                tool->cursor_state.current_cursor = ਨਿਰਾ;
             }
         }
     }
 
-    if (d->is_system_cursor) {
-        Wayland_CachedSystemCursor *c, *temp;
-        wl_list_for_each_safe(c, temp, &d->cursor_data.system.cursor_buffer_cache, node) {
+    ਜੇ (d->is_system_cursor) {
+        Wayland_CachedSystemCursor *c, *ਆਰਜ਼ੀ;
+        wl_list_for_each_ਸੁਰੱਖਿਅਤ(c, ਆਰਜ਼ੀ, &d->cursor_ਅੰਕੜੇ.system.cursor_ਬਫਰ_cache, ਗੰਢ) {
             SDL_free(c);
         }
-    } else {
-        for (int i = 0; i < d->num_frames * d->cursor_data.custom.images_per_frame; ++i) {
-            if (d->cursor_data.custom.images[i].buffer) {
-                wl_buffer_destroy(d->cursor_data.custom.images[i].buffer);
+    } ਨਹੀਂਤਾਂ {
+        ਲਈ (ਪੂਰਨ i = 0; i < d->ਅੰਕ_ਚੌਖਟੇ * d->cursor_ਅੰਕੜੇ.custom.images_ਪ੍ਰਤੀ_ਚੌਖਟਾ; ++i) {
+            ਜੇ (d->cursor_ਅੰਕੜੇ.custom.images[i].ਬਫਰ_2) {
+                wl_ਬਫਰ_destroy(d->cursor_ਅੰਕੜੇ.custom.images[i].ਬਫਰ_2);
             }
         }
     }
 
-    SDL_free(d->frame_durations_ms);
+    SDL_free(d->ਚੌਖਟਾ_durations_ms);
 }
 
-static void Wayland_FreeCursor(SDL_Cursor *cursor)
+ਸਥਿਰ ਖਾਲੀ Wayland_FreeCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
-        return;
+    ਜੇ (!cursor) {
+        ਵਾਪਸ;
     }
 
     // Probably not a cursor we own
-    if (!cursor->internal) {
-        return;
+    ਜੇ (!cursor->ਅੰਦਰੂਨੀ) {
+        ਵਾਪਸ;
     }
 
-    Wayland_FreeCursorData(cursor->internal);
+    Wayland_Free_Cursor_ਅੰਕੜੇ(cursor->ਅੰਦਰੂਨੀ);
 
-    SDL_free(cursor->internal);
+    SDL_free(cursor->ਅੰਦਰੂਨੀ);
     SDL_free(cursor);
 }
 
-static enum wp_cursor_shape_device_v1_shape Wayland_GetSystemCursorShape(SDL_SystemCursor id)
+ਸਥਿਰ ਗਿਣਤੀ wp_cursor_shape_device_v1_shape Wayland_GetSystemCursorShape(SDL_SystemCursor id)
 {
     Uint32 shape;
 
-    switch (id) {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
+    ਚੋਣ (id) {
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_DEFAULT:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_DEFAULT;
-        break;
-    case SDL_SYSTEM_CURSOR_TEXT:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_TEXT;
-        break;
-    case SDL_SYSTEM_CURSOR_WAIT:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ਪਾਠ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ਪਾਠ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_WAIT:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_WAIT;
-        break;
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_CROSSHAIR:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_CROSSHAIR;
-        break;
-    case SDL_SYSTEM_CURSOR_PROGRESS:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_PROGRESS;
-        break;
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ਤਰੱਕੀ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ਤਰੱਕੀ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NWSE_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NWSE_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NESW_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NESW_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_EW_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_EW_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NS_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NS_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_MOVE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_MOVE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_MOVE;
-        break;
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NOT_ALLOWED:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NOT_ALLOWED;
-        break;
-    case SDL_SYSTEM_CURSOR_POINTER:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_POINTER;
-        break;
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ਸੂਚਕ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ਸੂਚਕ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NW_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NW_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_N_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_N_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NE_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NE_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_E_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_E_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_SE_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_SE_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_S_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_S_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_SW_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_SW_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_W_RESIZE:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_W_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_CONTEXT_MENU:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_CONTEXT_MENU;
-        break;
-    case SDL_SYSTEM_CURSOR_HELP:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_HELP:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_HELP;
-        break;
-    case SDL_SYSTEM_CURSOR_CELL:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_CELL:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_CELL;
-        break;
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_VERTICAL_TEXT;
-        break;
-    case SDL_SYSTEM_CURSOR_ALIAS:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_VERTICAL_ਪਾਠ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_VERTICAL_ਪਾਠ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ALIAS:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ALIAS;
-        break;
-    case SDL_SYSTEM_CURSOR_COPY:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_COPY:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_COPY;
-        break;
-    case SDL_SYSTEM_CURSOR_NO_DROP:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_NO_DROP:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_NO_DROP;
-        break;
-    case SDL_SYSTEM_CURSOR_GRAB:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_GRAB:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_GRAB;
-        break;
-    case SDL_SYSTEM_CURSOR_GRABBING:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_GRABBING:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_GRABBING;
-        break;
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_COL_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ROW_RESIZE;
-        break;
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ਖਾਨਾ_RESIZE:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ਖਾਨਾ_RESIZE;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ਪੰਕਤੀ_RESIZE:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ਪੰਕਤੀ_RESIZE;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ALL_SCROLL:
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ALL_SCROLL;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ZOOM_IN;
-        break;
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
-        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ZOOM_OUT;
-        break;
-    default:
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ZOOM_ਵਿੱਚ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ZOOM_ਵਿੱਚ;
+        ਰੋਕੋ;
+    ਹਾਲਤ SDL_SYSTEM_CURSOR_ZOOM_ਬਾਹਰਲਾ:
+        shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_ZOOM_ਬਾਹਰਲਾ;
+        ਰੋਕੋ;
+    ਮੂਲ:
         SDL_assert(0); // Should never be here...
         shape = WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_DEFAULT;
     }
 
-    return shape;
+    ਵਾਪਸ shape;
 }
 
-typedef struct Wayland_PointerObject
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Wayland_ਸੂਚਕ_Object
 {
-    union
+    ਸੰਘ
     {
-        struct wl_pointer *wl_pointer;
-        struct zwp_tablet_tool_v2 *wl_tool;
+        ਬਣਤਰ wl_ਸੂਚਕ *wl_ਸੂਚਕ;
+        ਬਣਤਰ zwp_tablet_tool_v2 *wl_tool;
     };
 
-    bool is_pointer;
-} Wayland_PointerObject;
+    bool is_ਸੂਚਕ;
+} Wayland_ਸੂਚਕ_Object;
 
-static void Wayland_CursorStateSetCursor(SDL_WaylandCursorState *state, const Wayland_PointerObject *obj, SDL_WindowData *focus, Uint32 serial, SDL_Cursor *cursor)
+ਸਥਿਰ ਖਾਲੀ Wayland_Cursor_State_ਸੈੱਟ_Cursor(SDL_WaylandCursorState *state, ਅਚਲ Wayland_ਸੂਚਕ_Object *obj, SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *focus, Uint32 serial, SDL_Cursor *cursor)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
-    SDL_CursorData *cursor_data = cursor ? cursor->internal : NULL;
-    int dst_width = 0;
-    int dst_height = 0;
-    int hot_x;
-    int hot_y;
+    SDL_Video_ਅੰਕੜੇ *viddata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+    SDL_Cursor_ਅੰਕੜੇ *cursor_ਅੰਕੜੇ = cursor ? cursor->ਅੰਦਰੂਨੀ : ਨਿਰਾ;
+    ਪੂਰਨ dst_ਚੌੜਾਈ = 0;
+    ਪੂਰਨ dst_ਉਚਾਈ = 0;
+    ਪੂਰਨ hot_x;
+    ਪੂਰਨ hot_y;
 
     // Stop the frame callback for old animated cursors.
-    if (cursor_data != state->current_cursor) {
-        Wayland_CursorStateDestroyFrameCallback(state);
+    ਜੇ (cursor_ਅੰਕੜੇ != state->current_cursor) {
+        Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(state);
     }
 
-    if (cursor) {
-        if (cursor_data == state->current_cursor && state->current_frame >= 0) {
+    ਜੇ (cursor) {
+        ਜੇ (cursor_ਅੰਕੜੇ == state->current_cursor && state->current_ਚੌਖਟਾ >= 0) {
             // Restart the animation sequence if the cursor didn't change.
-            if (cursor_data->num_frames > 1) {
+            ਜੇ (cursor_ਅੰਕੜੇ->ਅੰਕ_ਚੌਖਟੇ > 1) {
                 Wayland_CursorStateResetAnimation(state, true);
             }
 
-            return;
+            ਵਾਪਸ;
         }
 
-        if (cursor_data->is_system_cursor) {
+        ਜੇ (cursor_ਅੰਕੜੇ->is_system_cursor) {
             // If the cursor shape protocol is supported, the compositor will draw nicely scaled cursors for us, so nothing more to do.
-            if (state->cursor_shape) {
+            ਜੇ (state->cursor_shape) {
                 // Don't need the surface or viewport if using the cursor shape protocol.
-                if (state->surface) {
-                    wl_surface_attach(state->surface, NULL, 0, 0);
+                ਜੇ (state->surface) {
+                    wl_surface_attach(state->surface, ਨਿਰਾ, 0, 0);
                     wl_surface_commit(state->surface);
 
-                    if (obj->is_pointer) {
-                        wl_pointer_set_cursor(obj->wl_pointer, serial, NULL, 0, 0);
-                    } else {
-                        zwp_tablet_tool_v2_set_cursor(obj->wl_tool, serial, NULL, 0, 0);
+                    ਜੇ (obj->is_ਸੂਚਕ) {
+                        wl_ਸੂਚਕ_ਸੈੱਟ_cursor(obj->wl_ਸੂਚਕ, serial, ਨਿਰਾ, 0, 0);
+                    } ਨਹੀਂਤਾਂ {
+                        zwp_tablet_tool_v2_ਸੈੱਟ_cursor(obj->wl_tool, serial, ਨਿਰਾ, 0, 0);
                     }
 
-                    if (state->viewport) {
+                    ਜੇ (state->viewport) {
                         wp_viewport_destroy(state->viewport);
-                        state->viewport = NULL;
+                        state->viewport = ਨਿਰਾ;
                     }
 
                     wl_surface_destroy(state->surface);
-                    state->surface = NULL;
+                    state->surface = ਨਿਰਾ;
                 }
 
-                const enum wp_cursor_shape_device_v1_shape shape = Wayland_GetSystemCursorShape(cursor_data->cursor_data.system.id);
-                wp_cursor_shape_device_v1_set_shape(state->cursor_shape, serial, shape);
-                state->current_cursor = cursor_data;
-                state->current_frame = 0;
+                ਅਚਲ ਗਿਣਤੀ wp_cursor_shape_device_v1_shape shape = Wayland_GetSystemCursorShape(cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.system.id);
+                wp_cursor_shape_device_v1_ਸੈੱਟ_shape(state->cursor_shape, serial, shape);
+                state->current_cursor = cursor_ਅੰਕੜੇ;
+                state->current_ਚੌਖਟਾ = 0;
 
-                return;
+                ਵਾਪਸ;
             }
 
             // If viewports aren't available, the scale is always 1.0.
-            state->scale = viddata->viewporter && focus ? focus->scale_factor : 1.0;
-            if (!Wayland_GetSystemCursor(cursor_data, state, &dst_width, &hot_x, &hot_y)) {
-                return;
+            state->scale = viddata->viewporter && focus ? focus->scale_ਗੁਣਕ_2 : 1.0;
+            ਜੇ (!Wayland_GetSystemCursor(cursor_ਅੰਕੜੇ, state, &dst_ਚੌੜਾਈ, &hot_x, &hot_y)) {
+                ਵਾਪਸ;
             }
 
-            dst_height = dst_width;
-        } else {
+            dst_ਉਚਾਈ = dst_ਚੌੜਾਈ;
+        } ਨਹੀਂਤਾਂ {
             /* If viewports aren't available, the scale is always 1.0.
              *
              * If the pointer scale values are 1.0, the preferred backing buffer scale is the window scale.
@@ -996,110 +996,110 @@ static void Wayland_CursorStateSetCursor(SDL_WaylandCursorState *state, const Wa
              * If the pointer is scaled, the dimensions are scaled by the pointer scale, so custom cursors will be scaled
              * relative to the viewport size.
              */
-            if (!focus || (focus->pointer_scale.x == 1.0 && focus->pointer_scale.y == 1.0)) {
-                state->scale = viddata->viewporter && focus ? focus->scale_factor : 1.0;
-                dst_width = cursor_data->cursor_data.custom.width;
-                dst_height = cursor_data->cursor_data.custom.height;
-                hot_x = cursor_data->cursor_data.custom.hot_x;
-                hot_y = cursor_data->cursor_data.custom.hot_y;
-            } else {
+            ਜੇ (!focus || (focus->ਸੂਚਕ_scale.x == 1.0 && focus->ਸੂਚਕ_scale.y == 1.0)) {
+                state->scale = viddata->viewporter && focus ? focus->scale_ਗੁਣਕ_2 : 1.0;
+                dst_ਚੌੜਾਈ = cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਚੌੜਾਈ;
+                dst_ਉਚਾਈ = cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਉਚਾਈ;
+                hot_x = cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_x;
+                hot_y = cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_y;
+            } ਨਹੀਂਤਾਂ {
                 // The preferred buffer scale is the inverse of the pointer scale.
-                state->scale = 1.0 / SDL_min(focus->pointer_scale.x, focus->pointer_scale.y);
-                dst_width = SDL_max((int)SDL_lround((double)cursor_data->cursor_data.custom.width / focus->pointer_scale.x), 1);
-                dst_height = SDL_max((int)SDL_lround((double)cursor_data->cursor_data.custom.height / focus->pointer_scale.y), 1);
-                hot_x = (int)SDL_lround((double)cursor_data->cursor_data.custom.hot_x / focus->pointer_scale.x);
-                hot_y = (int)SDL_lround((double)cursor_data->cursor_data.custom.hot_y / focus->pointer_scale.y);
+                state->scale = 1.0 / SDL_min(focus->ਸੂਚਕ_scale.x, focus->ਸੂਚਕ_scale.y);
+                dst_ਚੌੜਾਈ = SDL_max((ਪੂਰਨ)SDL_lround((ਦੁੱਗਣਾ)cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਚੌੜਾਈ / focus->ਸੂਚਕ_scale.x), 1);
+                dst_ਉਚਾਈ = SDL_max((ਪੂਰਨ)SDL_lround((ਦੁੱਗਣਾ)cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.ਉਚਾਈ / focus->ਸੂਚਕ_scale.y), 1);
+                hot_x = (ਪੂਰਨ)SDL_lround((ਦੁੱਗਣਾ)cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_x / focus->ਸੂਚਕ_scale.x);
+                hot_y = (ਪੂਰਨ)SDL_lround((ਦੁੱਗਣਾ)cursor_ਅੰਕੜੇ->cursor_ਅੰਕੜੇ.custom.hot_y / focus->ਸੂਚਕ_scale.y);
             }
 
         }
 
-        state->current_cursor = cursor_data;
+        state->current_cursor = cursor_ਅੰਕੜੇ;
 
-        if (!state->surface) {
-            struct wl_compositor *compositor_wrapper = Wayland_CreateEventThreadProxyWrapper(viddata->event_thread_context, viddata->compositor);
+        ਜੇ (!state->surface) {
+            ਬਣਤਰ wl_compositor *compositor_wrapper = Wayland_CreateEventThreadProxyWrapper(viddata->event_thread_context, viddata->compositor);
             state->surface = wl_compositor_create_surface(compositor_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(compositor_wrapper);
         }
 
-        struct wl_buffer *buffer = Wayland_CursorStateGetFrame(state, 0);
-        wl_surface_attach(state->surface, buffer, 0, 0);
-        state->current_frame = 0;
+        ਬਣਤਰ wl_ਬਫਰ *ਬਫਰ_2 = Wayland_Cursor_State_Get_ਚੌਖਟਾ(state, 0);
+        wl_surface_attach(state->surface, ਬਫਰ_2, 0, 0);
+        state->current_ਚੌਖਟਾ = 0;
 
-        if (state->scale != 1.0) {
-            if (!state->viewport) {
+        ਜੇ (state->scale != 1.0) {
+            ਜੇ (!state->viewport) {
                 state->viewport = wp_viewporter_get_viewport(viddata->viewporter, state->surface);
             }
 
-            wp_viewport_set_source(state->viewport, wl_fixed_from_int(-1), wl_fixed_from_int(-1), wl_fixed_from_int(-1), wl_fixed_from_int(-1));
-            wp_viewport_set_destination(state->viewport, dst_width, dst_height);
-        } else if (state->viewport) {
+            wp_viewport_ਸੈੱਟ_ਸਰੋਤ(state->viewport, wl_fixed_from_int(-1), wl_fixed_from_int(-1), wl_fixed_from_int(-1), wl_fixed_from_int(-1));
+            wp_viewport_ਸੈੱਟ_destination(state->viewport, dst_ਚੌੜਾਈ, dst_ਉਚਾਈ);
+        } ਨਹੀਂਤਾਂ ਜੇ (state->viewport) {
             wp_viewport_destroy(state->viewport);
-            state->viewport = NULL;
+            state->viewport = ਨਿਰਾ;
         }
 
-        if (obj->is_pointer) {
-            wl_pointer_set_cursor(obj->wl_pointer, serial, state->surface, hot_x, hot_y);
-        } else {
-            zwp_tablet_tool_v2_set_cursor(obj->wl_tool, serial, state->surface, hot_x, hot_y);
+        ਜੇ (obj->is_ਸੂਚਕ) {
+            wl_ਸੂਚਕ_ਸੈੱਟ_cursor(obj->wl_ਸੂਚਕ, serial, state->surface, hot_x, hot_y);
+        } ਨਹੀਂਤਾਂ {
+            zwp_tablet_tool_v2_ਸੈੱਟ_cursor(obj->wl_tool, serial, state->surface, hot_x, hot_y);
         }
 
-        if (wl_surface_get_version(state->surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-            wl_surface_damage_buffer(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-        } else {
+        ਜੇ (wl_surface_get_ਸੰਸਕਰਣ(state->surface) >= WL_SURFACE_DAMAGE_ਬਫਰ_SINCE_ਸੰਸਕਰਣ) {
+            wl_surface_damage_ਬਫਰ(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        } ਨਹੀਂਤਾਂ {
             wl_surface_damage(state->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
         }
 
         // If more than one frame is available, create a frame callback to run the animation.
-        if (cursor_data->num_frames > 1) {
+        ਜੇ (cursor_ਅੰਕੜੇ->ਅੰਕ_ਚੌਖਟੇ > 1) {
             Wayland_CursorStateResetAnimation(state, false);
-            Wayland_CursorStateSetFrameCallback(state, state);
+            Wayland_Cursor_State_ਸੈੱਟ_ਚੌਖਟਾ_Callback(state, state);
         }
 
         wl_surface_commit(state->surface);
-    } else {
-        Wayland_CursorStateDestroyFrameCallback(state);
-        state->current_cursor = NULL;
+    } ਨਹੀਂਤਾਂ {
+        Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(state);
+        state->current_cursor = ਨਿਰਾ;
 
-        if (state->surface) {
-            wl_surface_attach(state->surface, NULL, 0, 0);
+        ਜੇ (state->surface) {
+            wl_surface_attach(state->surface, ਨਿਰਾ, 0, 0);
             wl_surface_commit(state->surface);
         }
 
-        if (obj->is_pointer) {
-            wl_pointer_set_cursor(obj->wl_pointer, serial, NULL, 0, 0);
-        } else {
-            zwp_tablet_tool_v2_set_cursor(obj->wl_tool, serial, NULL, 0, 0);
+        ਜੇ (obj->is_ਸੂਚਕ) {
+            wl_ਸੂਚਕ_ਸੈੱਟ_cursor(obj->wl_ਸੂਚਕ, serial, ਨਿਰਾ, 0, 0);
+        } ਨਹੀਂਤਾਂ {
+            zwp_tablet_tool_v2_ਸੈੱਟ_cursor(obj->wl_tool, serial, ਨਿਰਾ, 0, 0);
         }
     }
 }
 
-static void Wayland_CursorStateResetCursor(SDL_WaylandCursorState *state)
+ਸਥਿਰ ਖਾਲੀ Wayland_CursorStateResetCursor(SDL_WaylandCursorState *state)
 {
     // Stop the frame callback and set the reset status.
-    Wayland_CursorStateDestroyFrameCallback(state);
-    state->current_frame = -1;
+    Wayland_Cursor_State_Destroy_ਚੌਖਟਾ_Callback(state);
+    state->current_ਚੌਖਟਾ = -1;
 }
 
-void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window)
+ਖਾਲੀ Wayland_Display_Update_ਸੂਚਕ_Focused_Scale(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *updated_ਖਿੜਕੀ)
 {
-    SDL_VideoData *viddata = updated_window->waylandData;
+    SDL_Video_ਅੰਕੜੇ *viddata = updated_ਖਿੜਕੀ->wayland_ਅੰਕੜੇ;
     SDL_WaylandSeat *seat;
-    const double new_scale = SDL_min(updated_window->pointer_scale.x, updated_window->pointer_scale.y);
+    ਅਚਲ ਦੁੱਗਣਾ new_scale = SDL_min(updated_ਖਿੜਕੀ->ਸੂਚਕ_scale.x, updated_ਖਿੜਕੀ->ਸੂਚਕ_scale.y);
 
     wl_list_for_each (seat, &viddata->seat_list, link) {
-        if (seat->pointer.focus == updated_window) {
-            SDL_WaylandCursorState *state = &seat->pointer.cursor_state;
-            if (state->current_cursor && !state->current_cursor->is_system_cursor && state->scale != new_scale) {
+        ਜੇ (seat->ਸੂਚਕ_2.focus == updated_ਖਿੜਕੀ) {
+            SDL_WaylandCursorState *state = &seat->ਸੂਚਕ_2.cursor_state;
+            ਜੇ (state->current_cursor && !state->current_cursor->is_system_cursor && state->scale != new_scale) {
                 Wayland_CursorStateResetCursor(state);
-                Wayland_SeatUpdatePointerCursor(seat);
+                Wayland_Seat_Update_ਸੂਚਕ_Cursor(seat);
             }
         }
 
         SDL_WaylandPenTool *tool;
         wl_list_for_each (tool, &seat->tablet.tool_list, link) {
-            if (tool->focus == updated_window) {
+            ਜੇ (tool->focus == updated_ਖਿੜਕੀ) {
                 SDL_WaylandCursorState *state = &tool->cursor_state;
-                if (state->current_cursor && !state->current_cursor->is_system_cursor && state->scale != new_scale) {
+                ਜੇ (state->current_cursor && !state->current_cursor->is_system_cursor && state->scale != new_scale) {
                     Wayland_CursorStateResetCursor(&tool->cursor_state);
                     Wayland_TabletToolUpdateCursor(tool);
                 }
@@ -1108,67 +1108,67 @@ void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window)
     }
 }
 
-static bool Wayland_ShowCursor(SDL_Cursor *cursor)
+ਸਥਿਰ bool Wayland_ShowCursor(SDL_Cursor *cursor)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *d = vd->internal;
+    SDL_Video_ਅੰਕੜੇ *d = vd->ਅੰਦਰੂਨੀ;
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_WaylandSeat *seat;
-    Wayland_PointerObject obj;
+    Wayland_ਸੂਚਕ_Object obj;
 
     wl_list_for_each (seat, &d->seat_list, link) {
-        if (seat->pointer.wl_pointer) {
-            obj.wl_pointer = seat->pointer.wl_pointer;
-            obj.is_pointer = true;
-            if (mouse->focus && mouse->focus->internal == seat->pointer.focus) {
-                Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, seat->pointer.focus, seat->pointer.enter_serial, cursor);
-            } else if (!seat->pointer.focus) {
-                Wayland_CursorStateResetCursor(&seat->pointer.cursor_state);
+        ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
+            obj.wl_ਸੂਚਕ = seat->ਸੂਚਕ_2.wl_ਸੂਚਕ;
+            obj.is_ਸੂਚਕ = true;
+            ਜੇ (mouse->focus && mouse->focus->ਅੰਦਰੂਨੀ == seat->ਸੂਚਕ_2.focus) {
+                Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, seat->ਸੂਚਕ_2.focus, seat->ਸੂਚਕ_2.enter_serial, cursor);
+            } ਨਹੀਂਤਾਂ ਜੇ (!seat->ਸੂਚਕ_2.focus) {
+                Wayland_CursorStateResetCursor(&seat->ਸੂਚਕ_2.cursor_state);
             }
         }
 
         SDL_WaylandPenTool *tool;
         wl_list_for_each(tool, &seat->tablet.tool_list, link) {
             obj.wl_tool = tool->wltool;
-            obj.is_pointer = false;
+            obj.is_ਸੂਚਕ = false;
 
             /* The current cursor is explicitly set on tablet tools, as there may be no pointer device, or
              * the pointer may not have focus, which would instead cause the default cursor to be set.
              */
-            if (tool->focus && (!mouse->focus || mouse->focus->internal == tool->focus)) {
-                Wayland_CursorStateSetCursor(&tool->cursor_state, &obj, tool->focus, tool->proximity_serial, mouse->cur_cursor);
-            } else if (!tool->focus) {
+            ਜੇ (tool->focus && (!mouse->focus || mouse->focus->ਅੰਦਰੂਨੀ == tool->focus)) {
+                Wayland_Cursor_State_ਸੈੱਟ_Cursor(&tool->cursor_state, &obj, tool->focus, tool->proximity_serial, mouse->cur_cursor);
+            } ਨਹੀਂਤਾਂ ਜੇ (!tool->focus) {
                 Wayland_CursorStateResetCursor(&tool->cursor_state);
             }
         }
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y)
+ਖਾਲੀ Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ, ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *d = vd->internal;
+    SDL_Video_ਅੰਕੜੇ *d = vd->ਅੰਦਰੂਨੀ;
 
-    if (seat->pointer.wl_pointer) {
-        if (d->wp_pointer_warp_v1) {
+    ਜੇ (seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) {
+        ਜੇ (d->wp_ਸੂਚਕ_warp_v1) {
             // It's a protocol error to warp the pointer outside of the surface, so clamp the position.
-            const wl_fixed_t f_x = wl_fixed_from_double(SDL_clamp(x / window->pointer_scale.x, 0, window->current.logical_width));
-            const wl_fixed_t f_y = wl_fixed_from_double(SDL_clamp(y / window->pointer_scale.y, 0, window->current.logical_height));
-            wp_pointer_warp_v1_warp_pointer(d->wp_pointer_warp_v1, window->surface, seat->pointer.wl_pointer, f_x, f_y, seat->pointer.enter_serial);
-        } else {
+            ਅਚਲ wl_fixed_t f_x = wl_fixed_from_double(SDL_clamp(x / ਖਿੜਕੀ->ਸੂਚਕ_scale.x, 0, ਖਿੜਕੀ->current.logical_ਚੌੜਾਈ));
+            ਅਚਲ wl_fixed_t f_y = wl_fixed_from_double(SDL_clamp(y / ਖਿੜਕੀ->ਸੂਚਕ_scale.y, 0, ਖਿੜਕੀ->current.logical_ਉਚਾਈ));
+            wp_ਸੂਚਕ_warp_v1_warp_ਸੂਚਕ(d->wp_ਸੂਚਕ_warp_v1, ਖਿੜਕੀ->surface, seat->ਸੂਚਕ_2.wl_ਸੂਚਕ, f_x, f_y, seat->ਸੂਚਕ_2.enter_serial);
+        } ਨਹੀਂਤਾਂ {
             bool update_grabs = false;
 
             // Pointers can only have one confinement type active on a surface at one time.
-            if (seat->pointer.confined_pointer) {
-                zwp_confined_pointer_v1_destroy(seat->pointer.confined_pointer);
-                seat->pointer.confined_pointer = NULL;
+            ਜੇ (seat->ਸੂਚਕ_2.confined_ਸੂਚਕ) {
+                zwp_confined_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.confined_ਸੂਚਕ);
+                seat->ਸੂਚਕ_2.confined_ਸੂਚਕ = ਨਿਰਾ;
                 update_grabs = true;
             }
-            if (seat->pointer.locked_pointer) {
-                zwp_locked_pointer_v1_destroy(seat->pointer.locked_pointer);
-                seat->pointer.locked_pointer = NULL;
+            ਜੇ (seat->ਸੂਚਕ_2.locked_ਸੂਚਕ) {
+                zwp_locked_ਸੂਚਕ_v1_destroy(seat->ਸੂਚਕ_2.locked_ਸੂਚਕ);
+                seat->ਸੂਚਕ_2.locked_ਸੂਚਕ = ਨਿਰਾ;
                 update_grabs = true;
             }
 
@@ -1177,98 +1177,98 @@ void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float 
              *
              * Lock the pointer, set the position hint, unlock, and hope for the best.
              */
-            struct zwp_locked_pointer_v1 *warp_lock =
-                zwp_pointer_constraints_v1_lock_pointer(d->pointer_constraints, window->surface,
-                                                        seat->pointer.wl_pointer, NULL,
-                                                        ZWP_POINTER_CONSTRAINTS_V1_LIFETIME_ONESHOT);
+            ਬਣਤਰ zwp_locked_ਸੂਚਕ_v1 *warp_ਤਾਲਾ =
+                zwp_ਸੂਚਕ_constraints_v1_ਤਾਲਾ_ਸੂਚਕ(d->ਸੂਚਕ_constraints, ਖਿੜਕੀ->surface,
+                                                        seat->ਸੂਚਕ_2.wl_ਸੂਚਕ, ਨਿਰਾ,
+                                                        ZWP_ਸੂਚਕ_CONSTRAINTS_V1_LIFETIME_ONESHOT);
 
-            const wl_fixed_t f_x = wl_fixed_from_double(x / window->pointer_scale.x);
-            const wl_fixed_t f_y = wl_fixed_from_double(y / window->pointer_scale.y);
-            zwp_locked_pointer_v1_set_cursor_position_hint(warp_lock, f_x, f_y);
-            wl_surface_commit(window->surface);
+            ਅਚਲ wl_fixed_t f_x = wl_fixed_from_double(x / ਖਿੜਕੀ->ਸੂਚਕ_scale.x);
+            ਅਚਲ wl_fixed_t f_y = wl_fixed_from_double(y / ਖਿੜਕੀ->ਸੂਚਕ_scale.y);
+            zwp_locked_ਸੂਚਕ_v1_ਸੈੱਟ_cursor_position_hint(warp_ਤਾਲਾ, f_x, f_y);
+            wl_surface_commit(ਖਿੜਕੀ->surface);
 
-            zwp_locked_pointer_v1_destroy(warp_lock);
+            zwp_locked_ਸੂਚਕ_v1_destroy(warp_ਤਾਲਾ);
 
-            if (update_grabs) {
-                Wayland_SeatUpdatePointerGrab(seat);
+            ਜੇ (update_grabs) {
+                Wayland_Seat_Update_ਸੂਚਕ_Grab(seat);
             }
         }
 
-        if (wl_pointer_get_version(seat->pointer.wl_pointer) < WL_POINTER_WARP_SINCE_VERSION) {
-            SDL_SendMouseWarp(0, window->sdlwindow, seat->pointer.sdl_id, x, y);
+        ਜੇ (wl_ਸੂਚਕ_get_ਸੰਸਕਰਣ(seat->ਸੂਚਕ_2.wl_ਸੂਚਕ) < WL_ਸੂਚਕ_WARP_SINCE_ਸੰਸਕਰਣ) {
+            SDL_SendMouseWarp(0, ਖਿੜਕੀ->sdlwindow, seat->ਸੂਚਕ_2.sdl_id, x, y);
         }
     }
 }
 
-static bool Wayland_WarpMouseRelative(SDL_Window *window, float x, float y)
+ਸਥਿਰ bool Wayland_WarpMouseRelative(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *d = vd->internal;
-    SDL_WindowData *wind = window->internal;
+    SDL_Video_ਅੰਕੜੇ *d = vd->ਅੰਦਰੂਨੀ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wind = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
     SDL_WaylandSeat *seat;
 
-    if (d->wp_pointer_warp_v1 || d->pointer_constraints) {
+    ਜੇ (d->wp_ਸੂਚਕ_warp_v1 || d->ਸੂਚਕ_constraints) {
         wl_list_for_each (seat, &d->seat_list, link) {
-            if (wind == seat->pointer.focus) {
+            ਜੇ (wind == seat->ਸੂਚਕ_2.focus) {
                 Wayland_SeatWarpMouse(seat, wind, x, y);
             }
         }
-    } else {
-        return SDL_SetError("wayland: mouse warp failed; compositor lacks support for the required wp_pointer_warp_v1 or zwp_pointer_confinement_v1 protocol");
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("wayland: mouse warp failed; compositor lacks support for the required wp_pointer_warp_v1 or zwp_pointer_confinement_v1 protocol");
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-static bool Wayland_WarpMouseGlobal(float x, float y)
+ਸਥਿਰ bool Wayland_WarpMouseGlobal(ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *d = vd->internal;
+    SDL_Video_ਅੰਕੜੇ *d = vd->ਅੰਦਰੂਨੀ;
     SDL_WaylandSeat *seat;
 
-    if (d->wp_pointer_warp_v1 || d->pointer_constraints) {
+    ਜੇ (d->wp_ਸੂਚਕ_warp_v1 || d->ਸੂਚਕ_constraints) {
         wl_list_for_each (seat, &d->seat_list, link) {
-            SDL_WindowData *wind = seat->pointer.focus ? seat->pointer.focus : seat->keyboard.focus;
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wind = seat->ਸੂਚਕ_2.focus ? seat->ਸੂਚਕ_2.focus : seat->keyboard.focus;
 
             // If the client wants the coordinates warped to within a focused window, just convert the coordinates to relative.
-            if (wind) {
-                SDL_Window *window = wind->sdlwindow;
+            ਜੇ (wind) {
+                SDL_ਖਿੜਕੀ *ਖਿੜਕੀ = wind->sdlwindow;
 
-                int abs_x, abs_y;
-                SDL_RelativeToGlobalForWindow(window, window->x, window->y, &abs_x, &abs_y);
+                ਪੂਰਨ abs_x, abs_y;
+                SDL_Relative_ਮੰਜ਼ਿਲ_Global_For_ਖਿੜਕੀ(ਖਿੜਕੀ, ਖਿੜਕੀ->x, ਖਿੜਕੀ->y, &abs_x, &abs_y);
 
-                const SDL_FPoint p = { x, y };
-                const SDL_FRect r = { abs_x, abs_y, window->w, window->h };
+                ਅਚਲ SDL_FPoint p = { x, y };
+                ਅਚਲ SDL_FRect r = { abs_x, abs_y, ਖਿੜਕੀ->w, ਖਿੜਕੀ->h };
 
                 // Try to warp the cursor if the point is within the seat's focused window.
-                if (SDL_PointInRectFloat(&p, &r)) {
+                ਜੇ (SDL_ਬਿੰਦੂ_ਵਿੱਚ_Rect_Float(&p, &r)) {
                     Wayland_SeatWarpMouse(seat, wind, p.x - abs_x, p.y - abs_y);
                 }
             }
         }
-    } else {
-        return SDL_SetError("wayland: mouse warp failed; compositor lacks support for the required wp_pointer_warp_v1 or zwp_pointer_confinement_v1 protocol");
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("wayland: mouse warp failed; compositor lacks support for the required wp_pointer_warp_v1 or zwp_pointer_confinement_v1 protocol");
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-static bool Wayland_SetRelativeMouseMode(bool enabled)
+ਸਥਿਰ bool Wayland_ਸੈੱਟ_Relative_Mouse_ਬਹੁਲਕ(bool enabled)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *data = vd->internal;
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = vd->ਅੰਦਰੂਨੀ;
 
     // Relative mode requires both the relative motion and pointer confinement protocols.
-    if (!data->relative_pointer_manager) {
-        return SDL_SetError("Failed to enable relative mode: compositor lacks support for the required zwp_relative_pointer_manager_v1 protocol");
+    ਜੇ (!ਅੰਕੜੇ->relative_ਸੂਚਕ_manager) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Failed to enable relative mode: compositor lacks support for the required zwp_relative_pointer_manager_v1 protocol");
     }
-    if (!data->pointer_constraints) {
-        return SDL_SetError("Failed to enable relative mode: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
+    ਜੇ (!ਅੰਕੜੇ->ਸੂਚਕ_constraints) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Failed to enable relative mode: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
     }
 
     // Windows have a relative mode flag, so just update the grabs on a state change.
-    Wayland_DisplayUpdatePointerGrabs(data, NULL);
-    return true;
+    Wayland_Display_Update_ਸੂਚਕ_Grabs(ਅੰਕੜੇ, ਨਿਰਾ);
+    ਵਾਪਸ true;
 }
 
 /* Wayland doesn't support getting the true global cursor position, but it can
@@ -1283,89 +1283,89 @@ static bool Wayland_SetRelativeMouseMode(bool enabled)
  * coordinates when the window has focus, which is good enough for most
  * applications.
  */
-static SDL_MouseButtonFlags SDLCALL Wayland_GetGlobalMouseState(float *x, float *y)
+ਸਥਿਰ SDL_MouseButtonFlags SDLCALL Wayland_GetGlobalMouseState(ਦਸ਼ਮਲਵ *x, ਦਸ਼ਮਲਵ *y)
 {
-    const SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_MouseButtonFlags result = 0;
+    ਅਚਲ SDL_Mouse *mouse = SDL_GetMouse();
+    SDL_MouseButtonFlags ਨਤੀਜਾ = 0;
 
     // If there is no window with mouse focus, we have no idea what the actual position or button state is.
-    if (mouse->focus) {
-        SDL_VideoData *video_data = SDL_GetVideoDevice()->internal;
+    ਜੇ (mouse->focus) {
+        SDL_Video_ਅੰਕੜੇ *video_ਅੰਕੜੇ = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
         SDL_WaylandSeat *seat;
-        int off_x, off_y;
-        SDL_RelativeToGlobalForWindow(mouse->focus, mouse->focus->x, mouse->focus->y, &off_x, &off_y);
+        ਪੂਰਨ off_x, off_y;
+        SDL_Relative_ਮੰਜ਼ਿਲ_Global_For_ਖਿੜਕੀ(mouse->focus, mouse->focus->x, mouse->focus->y, &off_x, &off_y);
         *x = mouse->x + off_x;
         *y = mouse->y + off_y;
 
         // Query the buttons from the seats directly, as this may be called from within a hit test handler.
-        wl_list_for_each (seat, &video_data->seat_list, link) {
-            result |= seat->pointer.buttons_pressed;
+        wl_list_for_each (seat, &video_ਅੰਕੜੇ->seat_list, link) {
+            ਨਤੀਜਾ |= seat->ਸੂਚਕ_2.buttons_pressed;
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         *x = 0.f;
         *y = 0.f;
     }
 
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 }
 
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-static void Wayland_RecreateCursor(SDL_Cursor *cursor, SDL_VideoData *vdata)
+#ਜੇ 0  // TODO RECONNECT: See waylandvideo.c for more information!
+ਸਥਿਰ ਖਾਲੀ Wayland_RecreateCursor(SDL_Cursor *cursor, SDL_Video_ਅੰਕੜੇ *vdata)
 {
-    SDL_CursorData *cdata = cursor->internal;
+    SDL_Cursor_ਅੰਕੜੇ *cdata = cursor->ਅੰਦਰੂਨੀ;
 
     // Probably not a cursor we own
-    if (cdata == NULL) {
-        return;
+    ਜੇ (cdata == ਨਿਰਾ) {
+        ਵਾਪਸ;
     }
 
-    Wayland_FreeCursorData(cdata);
+    Wayland_Free_Cursor_ਅੰਕੜੇ(cdata);
 
     // We're not currently freeing this, so... yolo?
-    if (cdata->shm_data != NULL) {
-        void *old_data_pointer = cdata->shm_data;
-        int stride = cdata->w * 4;
+    ਜੇ (cdata->shm_ਅੰਕੜੇ != ਨਿਰਾ) {
+        ਖਾਲੀ *old_ਅੰਕੜੇ_ਸੂਚਕ = cdata->shm_ਅੰਕੜੇ;
+        ਪੂਰਨ stride = cdata->w * 4;
 
-        create_buffer_from_shm(cdata, cdata->w, cdata->h, WL_SHM_FORMAT_ARGB8888);
+        create_ਬਫਰ_from_shm(cdata, cdata->w, cdata->h, WL_SHM_FORMAT_ARGB8888);
 
-        SDL_memcpy(cdata->shm_data, old_data_pointer, stride * cdata->h);
+        SDL_memcpy(cdata->shm_ਅੰਕੜੇ, old_ਅੰਕੜੇ_ਸੂਚਕ, stride * cdata->h);
     }
     cdata->surface = wl_compositor_create_surface(vdata->compositor);
-    wl_surface_set_user_data(cdata->surface, NULL);
+    wl_surface_ਸੈੱਟ_user_ਅੰਕੜੇ(cdata->surface, ਨਿਰਾ);
 }
 
-void Wayland_RecreateCursors(void)
+ਖਾਲੀ Wayland_RecreateCursors(ਖਾਲੀ)
 {
     SDL_Cursor *cursor;
     SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_VideoData *vdata = SDL_GetVideoDevice()->internal;
+    SDL_Video_ਅੰਕੜੇ *vdata = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
 
-    if (vdata && vdata->cursor_themes) {
+    ਜੇ (vdata && vdata->cursor_themes) {
         SDL_free(vdata->cursor_themes);
-        vdata->cursor_themes = NULL;
-        vdata->num_cursor_themes = 0;
+        vdata->cursor_themes = ਨਿਰਾ;
+        vdata->ਅੰਕ_cursor_themes = 0;
     }
 
-    if (mouse == NULL) {
-        return;
+    ਜੇ (mouse == ਨਿਰਾ) {
+        ਵਾਪਸ;
     }
 
-    for (cursor = mouse->cursors; cursor != NULL; cursor = cursor->next) {
+    ਲਈ (cursor = mouse->cursors; cursor != ਨਿਰਾ; cursor = cursor->ਅਗਲਾ) {
         Wayland_RecreateCursor(cursor, vdata);
     }
-    if (mouse->def_cursor) {
+    ਜੇ (mouse->def_cursor) {
         Wayland_RecreateCursor(mouse->def_cursor, vdata);
     }
-    if (mouse->cur_cursor) {
+    ਜੇ (mouse->cur_cursor) {
         Wayland_RecreateCursor(mouse->cur_cursor, vdata);
-        if (mouse->cursor_visible) {
+        ਜੇ (mouse->cursor_visible) {
             Wayland_ShowCursor(mouse->cur_cursor);
         }
     }
 }
-#endif // 0
+#ਜੇ_ਅੰਤ // 0
 
-void Wayland_InitMouse(SDL_VideoData *data)
+ਖਾਲੀ Wayland_InitMouse(SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -1376,151 +1376,151 @@ void Wayland_InitMouse(SDL_VideoData *data)
     mouse->FreeCursor = Wayland_FreeCursor;
     mouse->WarpMouse = Wayland_WarpMouseRelative;
     mouse->WarpMouseGlobal = Wayland_WarpMouseGlobal;
-    mouse->SetRelativeMouseMode = Wayland_SetRelativeMouseMode;
+    mouse->ਸੈੱਟ_Relative_Mouse_ਬਹੁਲਕ = Wayland_ਸੈੱਟ_Relative_Mouse_ਬਹੁਲਕ;
     mouse->GetGlobalMouseState = Wayland_GetGlobalMouseState;
 
     mouse->have_explicit_warp_event = true;
 
-    SDL_HitTestResult r = SDL_HITTEST_NORMAL;
-    while (r <= SDL_HITTEST_RESIZE_LEFT) {
-        switch (r) {
-        case SDL_HITTEST_NORMAL:
+    SDL_ਪ੍ਰਾਪਤੀ_Test_ਨਤੀਜਾ r = SDL_HITTEST_ਸਾਧਾਰਨ;
+    ਜਦੋਂ (r <= SDL_HITTEST_RESIZE_ਖੱਬਾ) {
+        ਚੋਣ (r) {
+        ਹਾਲਤ SDL_HITTEST_ਸਾਧਾਰਨ:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
-            break;
-        case SDL_HITTEST_DRAGGABLE:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_DRAGGABLE:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
-            break;
-        case SDL_HITTEST_RESIZE_TOPLEFT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_TOPLEFT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_TOP:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਸਿਖਰ:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_TOPRIGHT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_TOPRIGHT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_RIGHT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਸੱਜਾ:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMRIGHT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_BOTTOM:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOM:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_BOTTOMLEFT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE);
-            break;
-        case SDL_HITTEST_RESIZE_LEFT:
+            ਰੋਕੋ;
+        ਹਾਲਤ SDL_HITTEST_RESIZE_ਖੱਬਾ:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE);
-            break;
+            ਰੋਕੋ;
         }
         r++;
     }
 
-#ifdef SDL_USE_LIBDBUS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *d = vd->internal;
+    SDL_Video_ਅੰਕੜੇ *d = vd->ਅੰਦਰੂਨੀ;
 
     /* The D-Bus cursor properties are only needed when manually loading themes and system cursors.
      * If the cursor shape protocol is present, the compositor will handle it internally.
      */
-    if (!d->cursor_shape_manager) {
+    ਜੇ (!d->cursor_shape_manager) {
         Wayland_DBusInitCursorProperties(d);
     }
-#endif
+#ਜੇ_ਅੰਤ
 
-    SDL_SetDefaultCursor(Wayland_CreateDefaultCursor());
+    SDL_ਸੈੱਟ_Default_Cursor(Wayland_CreateDefaultCursor());
 }
 
-void Wayland_FiniMouse(SDL_VideoData *data)
+ਖਾਲੀ Wayland_FiniMouse(SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ)
 {
-    for (int i = 0; i < SDL_arraysize(sys_cursors); i++) {
+    ਲਈ (ਪੂਰਨ i = 0; i < SDL_arraysize(sys_cursors); i++) {
         Wayland_FreeCursor(sys_cursors[i]);
-        sys_cursors[i] = NULL;
+        sys_cursors[i] = ਨਿਰਾ;
     }
 
-    Wayland_FreeCursorThemes(data);
+    Wayland_FreeCursorThemes(ਅੰਕੜੇ);
 
-#ifdef SDL_USE_LIBDBUS
-    Wayland_DBusFinishCursorProperties();
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_USE_LIBDBUS
+    Wayland_DBus_ਅੰਤ_Cursor_Properties();
+#ਜੇ_ਅੰਤ
 }
 
-void Wayland_SeatResetCursor(SDL_WaylandSeat *seat)
+ਖਾਲੀ Wayland_SeatResetCursor(SDL_WaylandSeat *seat)
 {
-    Wayland_CursorStateResetCursor(&seat->pointer.cursor_state);
+    Wayland_CursorStateResetCursor(&seat->ਸੂਚਕ_2.cursor_state);
 }
 
-void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat)
-{
-    SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_WindowData *pointer_focus = seat->pointer.focus;
-    const Wayland_PointerObject obj = {
-        .wl_pointer = seat->pointer.wl_pointer,
-        .is_pointer = true
-    };
-
-    Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, pointer_focus, seat->pointer.enter_serial, mouse->def_cursor);
-}
-
-void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat)
+ਖਾਲੀ Wayland_Seat_ਸੈੱਟ_Default_Cursor(SDL_WaylandSeat *seat)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_WindowData *pointer_focus = seat->pointer.focus;
-    const Wayland_PointerObject obj = {
-        .wl_pointer = seat->pointer.wl_pointer,
-        .is_pointer = true
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਸੂਚਕ_focus = seat->ਸੂਚਕ_2.focus;
+    ਅਚਲ Wayland_ਸੂਚਕ_Object obj = {
+        .wl_ਸੂਚਕ = seat->ਸੂਚਕ_2.wl_ਸੂਚਕ,
+        .is_ਸੂਚਕ = true
     };
 
-    if (pointer_focus) {
-        if (mouse->cursor_visible) {
-            if (!seat->pointer.relative_pointer || !mouse->relative_mode_hide_cursor) {
-                const SDL_HitTestResult rc = pointer_focus->hit_test_result;
+    Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, ਸੂਚਕ_focus, seat->ਸੂਚਕ_2.enter_serial, mouse->def_cursor);
+}
 
-                if (seat->pointer.relative_pointer || rc == SDL_HITTEST_NORMAL || rc == SDL_HITTEST_DRAGGABLE) {
-                    Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, pointer_focus, seat->pointer.enter_serial, mouse->cur_cursor);
-                } else {
-                    Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, pointer_focus, seat->pointer.enter_serial, sys_cursors[rc]);
+ਖਾਲੀ Wayland_Seat_Update_ਸੂਚਕ_Cursor(SDL_WaylandSeat *seat)
+{
+    SDL_Mouse *mouse = SDL_GetMouse();
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਸੂਚਕ_focus = seat->ਸੂਚਕ_2.focus;
+    ਅਚਲ Wayland_ਸੂਚਕ_Object obj = {
+        .wl_ਸੂਚਕ = seat->ਸੂਚਕ_2.wl_ਸੂਚਕ,
+        .is_ਸੂਚਕ = true
+    };
+
+    ਜੇ (ਸੂਚਕ_focus) {
+        ਜੇ (mouse->cursor_visible) {
+            ਜੇ (!seat->ਸੂਚਕ_2.relative_ਸੂਚਕ || !mouse->relative_ਬਹੁਲਕ_hide_cursor) {
+                ਅਚਲ SDL_ਪ੍ਰਾਪਤੀ_Test_ਨਤੀਜਾ rc = ਸੂਚਕ_focus->ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ;
+
+                ਜੇ (seat->ਸੂਚਕ_2.relative_ਸੂਚਕ || rc == SDL_HITTEST_ਸਾਧਾਰਨ || rc == SDL_HITTEST_DRAGGABLE) {
+                    Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, ਸੂਚਕ_focus, seat->ਸੂਚਕ_2.enter_serial, mouse->cur_cursor);
+                } ਨਹੀਂਤਾਂ {
+                    Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, ਸੂਚਕ_focus, seat->ਸੂਚਕ_2.enter_serial, sys_cursors[rc]);
                 }
-            } else {
+            } ਨਹੀਂਤਾਂ {
                 // Hide the cursor in relative mode, unless requested otherwise by the hint.
-                Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, pointer_focus, seat->pointer.enter_serial, NULL);
+                Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, ਸੂਚਕ_focus, seat->ਸੂਚਕ_2.enter_serial, ਨਿਰਾ);
             }
-        } else {
-            Wayland_CursorStateSetCursor(&seat->pointer.cursor_state, &obj, pointer_focus, seat->pointer.enter_serial, NULL);
+        } ਨਹੀਂਤਾਂ {
+            Wayland_Cursor_State_ਸੈੱਟ_Cursor(&seat->ਸੂਚਕ_2.cursor_state, &obj, ਸੂਚਕ_focus, seat->ਸੂਚਕ_2.enter_serial, ਨਿਰਾ);
         }
-    } else {
-        Wayland_CursorStateResetCursor(&seat->pointer.cursor_state);
+    } ਨਹੀਂਤਾਂ {
+        Wayland_CursorStateResetCursor(&seat->ਸੂਚਕ_2.cursor_state);
     }
 }
 
-void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool)
+ਖਾਲੀ Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_WindowData *tool_focus = tool->focus;
-    const Wayland_PointerObject obj = {
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *tool_focus = tool->focus;
+    ਅਚਲ Wayland_ਸੂਚਕ_Object obj = {
         .wl_tool = tool->wltool,
-        .is_pointer = false
+        .is_ਸੂਚਕ = false
     };
 
-    if (tool_focus) {
-        if (mouse->cursor_visible) {
+    ਜੇ (tool_focus) {
+        ਜੇ (mouse->cursor_visible) {
             // Relative mode is only relevant if the tool sends pointer events.
-            const bool relative = mouse->pen_mouse_events && (tool_focus->sdlwindow->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE);
+            ਅਚਲ bool relative = mouse->pen_mouse_events && (tool_focus->sdlwindow->flags & SDL_ਖਿੜਕੀ_MOUSE_RELATIVE_ਬਹੁਲਕ);
 
-            if (!relative || !mouse->relative_mode_hide_cursor) {
-                Wayland_CursorStateSetCursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, mouse->cur_cursor);
-            } else {
+            ਜੇ (!relative || !mouse->relative_ਬਹੁਲਕ_hide_cursor) {
+                Wayland_Cursor_State_ਸੈੱਟ_Cursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, mouse->cur_cursor);
+            } ਨਹੀਂਤਾਂ {
                 // Hide the cursor in relative mode, unless requested otherwise by the hint.
-                Wayland_CursorStateSetCursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, NULL);
+                Wayland_Cursor_State_ਸੈੱਟ_Cursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, ਨਿਰਾ);
             }
-        } else {
-            Wayland_CursorStateSetCursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, NULL);
+        } ਨਹੀਂਤਾਂ {
+            Wayland_Cursor_State_ਸੈੱਟ_Cursor(&tool->cursor_state, &obj, tool_focus, tool->proximity_serial, ਨਿਰਾ);
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         Wayland_CursorStateResetCursor(&tool->cursor_state);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WAYLAND

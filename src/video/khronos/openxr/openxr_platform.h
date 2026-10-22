@@ -1,5 +1,5 @@
-#ifndef OPENXR_PLATFORM_H_
-#define OPENXR_PLATFORM_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ OPENXR_PLATFORM_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OPENXR_PLATFORM_H_ 1
 
 /*
 ** Copyright 2017-2026 The Khronos Group Inc.
@@ -12,808 +12,808 @@
 **
 */
 
-#include "openxr.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "openxr.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_KHR_android_thread_settings is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_android_thread_settings 1
-#define XR_KHR_android_thread_settings_SPEC_VERSION 6
-#define XR_KHR_ANDROID_THREAD_SETTINGS_EXTENSION_NAME "XR_KHR_android_thread_settings"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_thread_settings 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_thread_settings_SPEC_ਸੰਸਕਰਣ 6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_ANDROID_THREAD_SETTINGS_EXTENSION_NAME "XR_KHR_android_thread_settings"
 
-typedef enum XrAndroidThreadTypeKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ XrAndroidThreadTypeKHR {
     XR_ANDROID_THREAD_TYPE_APPLICATION_MAIN_KHR = 1,
-    XR_ANDROID_THREAD_TYPE_APPLICATION_WORKER_KHR = 2,
+    XR_ANDROID_THREAD_TYPE_APPLICATION_ਕਾਮਾ_KHR = 2,
     XR_ANDROID_THREAD_TYPE_RENDERER_MAIN_KHR = 3,
-    XR_ANDROID_THREAD_TYPE_RENDERER_WORKER_KHR = 4,
+    XR_ANDROID_THREAD_TYPE_RENDERER_ਕਾਮਾ_KHR = 4,
     XR_ANDROID_THREAD_TYPE_MAX_ENUM_KHR = 0x7FFFFFFF
 } XrAndroidThreadTypeKHR;
-typedef XrResult (XRAPI_PTR *PFN_xrSetAndroidApplicationThreadKHR)(XrSession session, XrAndroidThreadTypeKHR threadType, uint32_t threadId);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_ਸੈੱਟ_Android_Application_Thread_KHR)(XrSession session, XrAndroidThreadTypeKHR threadType, uint32_t threadId);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrSetAndroidApplicationThreadKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_ਸੈੱਟ_Android_Application_Thread_KHR(
     XrSession                                   session,
     XrAndroidThreadTypeKHR                      threadType,
     uint32_t                                    threadId);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_KHR_android_surface_swapchain is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_android_surface_swapchain 1
-#define XR_KHR_android_surface_swapchain_SPEC_VERSION 4
-#define XR_KHR_ANDROID_SURFACE_SWAPCHAIN_EXTENSION_NAME "XR_KHR_android_surface_swapchain"
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSwapchainAndroidSurfaceKHR)(XrSession session, const XrSwapchainCreateInfo* info, XrSwapchain* swapchain, jobject* surface);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_surface_swapchain 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_surface_swapchain_SPEC_ਸੰਸਕਰਣ 4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_ANDROID_SURFACE_SWAPCHAIN_EXTENSION_NAME "XR_KHR_android_surface_swapchain"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrCreateSwapchainAndroidSurfaceKHR)(XrSession session, ਅਚਲ XrSwapchainCreateInfo* info, XrSwapchain* swapchain, jobject* surface);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateSwapchainAndroidSurfaceKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrCreateSwapchainAndroidSurfaceKHR(
     XrSession                                   session,
-    const XrSwapchainCreateInfo*                info,
+    ਅਚਲ XrSwapchainCreateInfo*                info,
     XrSwapchain*                                swapchain,
     jobject*                                    surface);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_KHR_android_create_instance is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_android_create_instance 1
-#define XR_KHR_android_create_instance_SPEC_VERSION 3
-#define XR_KHR_ANDROID_CREATE_INSTANCE_EXTENSION_NAME "XR_KHR_android_create_instance"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_create_instance 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_android_create_instance_SPEC_ਸੰਸਕਰਣ 3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_ANDROID_CREATE_INSTANCE_EXTENSION_NAME "XR_KHR_android_create_instance"
 // XrInstanceCreateInfoAndroidKHR extends XrInstanceCreateInfo
-typedef struct XrInstanceCreateInfoAndroidKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrInstanceCreateInfoAndroidKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    void* XR_MAY_ALIAS          applicationVM;
-    void* XR_MAY_ALIAS          applicationActivity;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਖਾਲੀ* XR_MAY_ALIAS          applicationVM;
+    ਖਾਲੀ* XR_MAY_ALIAS          applicationActivity;
 } XrInstanceCreateInfoAndroidKHR;
 
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_KHR_vulkan_swapchain_format_list is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_vulkan_swapchain_format_list 1
-#define XR_KHR_vulkan_swapchain_format_list_SPEC_VERSION 5
-#define XR_KHR_VULKAN_SWAPCHAIN_FORMAT_LIST_EXTENSION_NAME "XR_KHR_vulkan_swapchain_format_list"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_swapchain_format_list 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_swapchain_format_list_SPEC_ਸੰਸਕਰਣ 5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_VULKAN_SWAPCHAIN_FORMAT_LIST_EXTENSION_NAME "XR_KHR_vulkan_swapchain_format_list"
 // XrVulkanSwapchainFormatListCreateInfoKHR extends XrSwapchainCreateInfo
-typedef struct XrVulkanSwapchainFormatListCreateInfoKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrVulkanSwapchainFormatListCreateInfoKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    viewFormatCount;
-    const VkFormat*             viewFormats;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    uint32_t                    view_Format_ਗਿਣਤੀ;
+    ਅਚਲ VkFormat*             viewFormats;
 } XrVulkanSwapchainFormatListCreateInfoKHR;
 
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_GRAPHICS_API_OPENGL
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_OPENGL
 
 // XR_KHR_opengl_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_opengl_enable 1
-#define XR_KHR_opengl_enable_SPEC_VERSION 12
-#define XR_KHR_OPENGL_ENABLE_EXTENSION_NAME "XR_KHR_opengl_enable"
-#ifdef XR_USE_PLATFORM_WIN32
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_opengl_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_opengl_enable_SPEC_ਸੰਸਕਰਣ 12
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_OPENGL_ENABLE_EXTENSION_NAME "XR_KHR_opengl_enable"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 // XrGraphicsBindingOpenGLWin32KHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingOpenGLWin32KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingOpenGLWin32KHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     HDC                         hDC;
     HGLRC                       hGLRC;
 } XrGraphicsBindingOpenGLWin32KHR;
-#endif // XR_USE_PLATFORM_WIN32
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_WIN32
 
-#ifdef XR_USE_PLATFORM_XLIB
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_XLIB
 // XrGraphicsBindingOpenGLXlibKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingOpenGLXlibKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingOpenGLXlibKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     Display*                    xDisplay;
     uint32_t                    visualid;
     GLXFBConfig                 glxFBConfig;
     GLXDrawable                 glxDrawable;
     GLXContext                  glxContext;
 } XrGraphicsBindingOpenGLXlibKHR;
-#endif // XR_USE_PLATFORM_XLIB
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_XLIB
 
-#ifdef XR_USE_PLATFORM_XCB
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_XCB
 // XrGraphicsBindingOpenGLXcbKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingOpenGLXcbKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingOpenGLXcbKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     xcb_connection_t*           connection;
-    uint32_t                    screenNumber;
+    uint32_t                    screen_ਸੰਖਿਆ;
     xcb_glx_fbconfig_t          fbconfigid;
     xcb_visualid_t              visualid;
     xcb_glx_drawable_t          glxDrawable;
     xcb_glx_context_t           glxContext;
 } XrGraphicsBindingOpenGLXcbKHR;
-#endif // XR_USE_PLATFORM_XCB
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_XCB
 
-#ifdef XR_USE_PLATFORM_WAYLAND
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WAYLAND
 // XrGraphicsBindingOpenGLWaylandKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingOpenGLWaylandKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingOpenGLWaylandKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    struct wl_display*          display;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਬਣਤਰ wl_display*          display;
 } XrGraphicsBindingOpenGLWaylandKHR;
-#endif // XR_USE_PLATFORM_WAYLAND
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_WAYLAND
 
-typedef struct XrSwapchainImageOpenGLKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageOpenGLKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     uint32_t              image;
 } XrSwapchainImageOpenGLKHR;
 
-typedef struct XrGraphicsRequirementsOpenGLKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsOpenGLKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrVersion             minApiVersionSupported;
-    XrVersion             maxApiVersionSupported;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    Xr_ਸੰਸਕਰਣ             min_Api_ਸੰਸਕਰਣ_Supported;
+    Xr_ਸੰਸਕਰਣ             max_Api_ਸੰਸਕਰਣ_Supported;
 } XrGraphicsRequirementsOpenGLKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetOpenGLGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsOpenGLKHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetOpenGLGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsOpenGLKHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetOpenGLGraphicsRequirementsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetOpenGLGraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsOpenGLKHR*            graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_OPENGL */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_OPENGL */
 
-#ifdef XR_USE_GRAPHICS_API_OPENGL_ES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_OPENGL_ES
 
 // XR_KHR_opengl_es_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_opengl_es_enable 1
-#define XR_KHR_opengl_es_enable_SPEC_VERSION 10
-#define XR_KHR_OPENGL_ES_ENABLE_EXTENSION_NAME "XR_KHR_opengl_es_enable"
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_opengl_es_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_opengl_es_enable_SPEC_ਸੰਸਕਰਣ 10
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_OPENGL_ES_ENABLE_EXTENSION_NAME "XR_KHR_opengl_es_enable"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 // XrGraphicsBindingOpenGLESAndroidKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingOpenGLESAndroidKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingOpenGLESAndroidKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     EGLDisplay                  display;
     EGLConfig                   config;
     EGLContext                  context;
 } XrGraphicsBindingOpenGLESAndroidKHR;
-#endif // XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_ANDROID
 
-typedef struct XrSwapchainImageOpenGLESKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageOpenGLESKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     uint32_t              image;
 } XrSwapchainImageOpenGLESKHR;
 
-typedef struct XrGraphicsRequirementsOpenGLESKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsOpenGLESKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrVersion             minApiVersionSupported;
-    XrVersion             maxApiVersionSupported;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    Xr_ਸੰਸਕਰਣ             min_Api_ਸੰਸਕਰਣ_Supported;
+    Xr_ਸੰਸਕਰਣ             max_Api_ਸੰਸਕਰਣ_Supported;
 } XrGraphicsRequirementsOpenGLESKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetOpenGLESGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsOpenGLESKHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetOpenGLESGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsOpenGLESKHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetOpenGLESGraphicsRequirementsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetOpenGLESGraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsOpenGLESKHR*          graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_OPENGL_ES */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_OPENGL_ES */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_KHR_vulkan_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_vulkan_enable 1
-#define XR_KHR_vulkan_enable_SPEC_VERSION 10
-#define XR_KHR_VULKAN_ENABLE_EXTENSION_NAME "XR_KHR_vulkan_enable"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_enable_SPEC_ਸੰਸਕਰਣ 10
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_VULKAN_ENABLE_EXTENSION_NAME "XR_KHR_vulkan_enable"
 // XrGraphicsBindingVulkanKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingVulkanKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingVulkanKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     VkInstance                  instance;
     VkPhysicalDevice            physicalDevice;
     VkDevice                    device;
-    uint32_t                    queueFamilyIndex;
-    uint32_t                    queueIndex;
+    uint32_t                    ਕਤਾਰ_Family_ਸੂਚਕਾਂਕ;
+    uint32_t                    ਕਤਾਰ_ਸੂਚਕਾਂਕ;
 } XrGraphicsBindingVulkanKHR;
 
-typedef struct XrSwapchainImageVulkanKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageVulkanKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     VkImage               image;
 } XrSwapchainImageVulkanKHR;
 
-typedef struct XrGraphicsRequirementsVulkanKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsVulkanKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrVersion             minApiVersionSupported;
-    XrVersion             maxApiVersionSupported;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    Xr_ਸੰਸਕਰਣ             min_Api_ਸੰਸਕਰਣ_Supported;
+    Xr_ਸੰਸਕਰਣ             max_Api_ਸੰਸਕਰਣ_Supported;
 } XrGraphicsRequirementsVulkanKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanInstanceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanDeviceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsDeviceKHR)(XrInstance instance, XrSystemId systemId, VkInstance vkInstance, VkPhysicalDevice* vkPhysicalDevice);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsVulkanKHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanInstanceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t ਬਫਰ_ਸਮਰੱਥਾ_ਨਿਵੇਸ਼, uint32_t* ਬਫਰ_ਗਿਣਤੀ_Output, ਅੱਖਰ* ਬਫਰ_2);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanDeviceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t ਬਫਰ_ਸਮਰੱਥਾ_ਨਿਵੇਸ਼, uint32_t* ਬਫਰ_ਗਿਣਤੀ_Output, ਅੱਖਰ* ਬਫਰ_2);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanGraphicsDeviceKHR)(XrInstance instance, XrSystemId systemId, VkInstance vkInstance, VkPhysicalDevice* vkPhysicalDevice);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsVulkanKHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanInstanceExtensionsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanInstanceExtensionsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    ਬਫਰ_ਸਮਰੱਥਾ_ਨਿਵੇਸ਼,
+    uint32_t*                                   ਬਫਰ_ਗਿਣਤੀ_Output,
+    ਅੱਖਰ*                                       ਬਫਰ_2);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanDeviceExtensionsKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanDeviceExtensionsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    ਬਫਰ_ਸਮਰੱਥਾ_ਨਿਵੇਸ਼,
+    uint32_t*                                   ਬਫਰ_ਗਿਣਤੀ_Output,
+    ਅੱਖਰ*                                       ਬਫਰ_2);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanGraphicsDeviceKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanGraphicsDeviceKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     VkInstance                                  vkInstance,
     VkPhysicalDevice*                           vkPhysicalDevice);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanGraphicsRequirementsKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanGraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsVulkanKHR*            graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_GRAPHICS_API_D3D11
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_D3D11
 
 // XR_KHR_D3D11_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_D3D11_enable 1
-#define XR_KHR_D3D11_enable_SPEC_VERSION  11
-#define XR_KHR_D3D11_ENABLE_EXTENSION_NAME "XR_KHR_D3D11_enable"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3D11_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3_D11_enable_SPEC_ਸੰਸਕਰਣ  11
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3D11_ENABLE_EXTENSION_NAME "XR_KHR_D3D11_enable"
 // XrGraphicsBindingD3D11KHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingD3D11KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingD3D11KHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     ID3D11Device*               device;
 } XrGraphicsBindingD3D11KHR;
 
-typedef struct XrSwapchainImageD3D11KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageD3D11KHR {
      XrStructureType      type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     ID3D11Texture2D*      texture;
 } XrSwapchainImageD3D11KHR;
 
-typedef struct XrGraphicsRequirementsD3D11KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsD3D11KHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     LUID                  adapterLuid;
     D3D_FEATURE_LEVEL     minFeatureLevel;
 } XrGraphicsRequirementsD3D11KHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetD3D11GraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D11KHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetD3D11GraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D11KHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetD3D11GraphicsRequirementsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetD3D11GraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsD3D11KHR*             graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_D3D11 */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_D3D11 */
 
-#ifdef XR_USE_GRAPHICS_API_D3D12
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_D3D12
 
 // XR_KHR_D3D12_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_D3D12_enable 1
-#define XR_KHR_D3D12_enable_SPEC_VERSION  11
-#define XR_KHR_D3D12_ENABLE_EXTENSION_NAME "XR_KHR_D3D12_enable"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3D12_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3_D12_enable_SPEC_ਸੰਸਕਰਣ  11
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_D3D12_ENABLE_EXTENSION_NAME "XR_KHR_D3D12_enable"
 // XrGraphicsBindingD3D12KHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingD3D12KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingD3D12KHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     ID3D12Device*               device;
-    ID3D12CommandQueue*         queue;
+    ID3_D12_Command_ਕਤਾਰ*         ਕਤਾਰ;
 } XrGraphicsBindingD3D12KHR;
 
-typedef struct XrSwapchainImageD3D12KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageD3D12KHR {
      XrStructureType      type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     ID3D12Resource*       texture;
 } XrSwapchainImageD3D12KHR;
 
-typedef struct XrGraphicsRequirementsD3D12KHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsD3D12KHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     LUID                  adapterLuid;
     D3D_FEATURE_LEVEL     minFeatureLevel;
 } XrGraphicsRequirementsD3D12KHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetD3D12GraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D12KHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetD3D12GraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsD3D12KHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetD3D12GraphicsRequirementsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetD3D12GraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsD3D12KHR*             graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_D3D12 */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_D3D12 */
 
-#ifdef XR_USE_GRAPHICS_API_METAL
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_METAL
 
 // XR_KHR_metal_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_metal_enable 1
-#define XR_KHR_metal_enable_SPEC_VERSION  3
-#define XR_KHR_METAL_ENABLE_EXTENSION_NAME "XR_KHR_metal_enable"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_metal_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_metal_enable_SPEC_ਸੰਸਕਰਣ  3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_METAL_ENABLE_EXTENSION_NAME "XR_KHR_metal_enable"
 // XrGraphicsBindingMetalKHR extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingMetalKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingMetalKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    void* XR_MAY_ALIAS          commandQueue;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਖਾਲੀ* XR_MAY_ALIAS          command_ਕਤਾਰ;
 } XrGraphicsBindingMetalKHR;
 
-typedef struct XrSwapchainImageMetalKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageMetalKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    void* XR_MAY_ALIAS    texture;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਖਾਲੀ* XR_MAY_ALIAS    texture;
 } XrSwapchainImageMetalKHR;
 
-typedef struct XrGraphicsRequirementsMetalKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsRequirementsMetalKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    void* XR_MAY_ALIAS    metalDevice;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਖਾਲੀ* XR_MAY_ALIAS    metalDevice;
 } XrGraphicsRequirementsMetalKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetMetalGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsMetalKHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetMetalGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsMetalKHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetMetalGraphicsRequirementsKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetMetalGraphicsRequirementsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsMetalKHR*             graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_METAL */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_METAL */
 
-#ifdef XR_USE_PLATFORM_WIN32
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 
 // XR_KHR_win32_convert_performance_counter_time is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_win32_convert_performance_counter_time 1
-#define XR_KHR_win32_convert_performance_counter_time_SPEC_VERSION 1
-#define XR_KHR_WIN32_CONVERT_PERFORMANCE_COUNTER_TIME_EXTENSION_NAME "XR_KHR_win32_convert_performance_counter_time"
-typedef XrResult (XRAPI_PTR *PFN_xrConvertWin32PerformanceCounterToTimeKHR)(XrInstance instance, const LARGE_INTEGER* performanceCounter, XrTime* time);
-typedef XrResult (XRAPI_PTR *PFN_xrConvertTimeToWin32PerformanceCounterKHR)(XrInstance instance, XrTime time, LARGE_INTEGER* performanceCounter);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_win32_convert_performance_counter_ਸਮਾਂ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_win32_convert_performance_counter_ਸਮਾਂ_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_WIN32_CONVERT_PERFORMANCE_COUNTER_ਸਮਾਂ_EXTENSION_NAME "XR_KHR_win32_convert_performance_counter_time"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Convert_Win32_Performance_Counter_ਮੰਜ਼ਿਲ_ਸਮਾਂ_KHR)(XrInstance instance, ਅਚਲ LARGE_INTEGER* performanceCounter, Xr_ਸਮਾਂ* ਸਮਾਂ);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Convert_ਸਮਾਂ_ਮੰਜ਼ਿਲ_Win32_Performance_Counter_KHR)(XrInstance instance, Xr_ਸਮਾਂ ਸਮਾਂ, LARGE_INTEGER* performanceCounter);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrConvertWin32PerformanceCounterToTimeKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Convert_Win32_Performance_Counter_ਮੰਜ਼ਿਲ_ਸਮਾਂ_KHR(
     XrInstance                                  instance,
-    const LARGE_INTEGER*                        performanceCounter,
-    XrTime*                                     time);
+    ਅਚਲ LARGE_INTEGER*                        performanceCounter,
+    Xr_ਸਮਾਂ*                                     ਸਮਾਂ);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrConvertTimeToWin32PerformanceCounterKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Convert_ਸਮਾਂ_ਮੰਜ਼ਿਲ_Win32_Performance_Counter_KHR(
     XrInstance                                  instance,
-    XrTime                                      time,
+    Xr_ਸਮਾਂ                                      ਸਮਾਂ,
     LARGE_INTEGER*                              performanceCounter);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_WIN32 */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_WIN32 */
 
-#ifdef XR_USE_TIMESPEC
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_TIMESPEC
 
 // XR_KHR_convert_timespec_time is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_convert_timespec_time 1
-#define XR_KHR_convert_timespec_time_SPEC_VERSION 1
-#define XR_KHR_CONVERT_TIMESPEC_TIME_EXTENSION_NAME "XR_KHR_convert_timespec_time"
-typedef XrResult (XRAPI_PTR *PFN_xrConvertTimespecTimeToTimeKHR)(XrInstance instance, const struct timespec* timespecTime, XrTime* time);
-typedef XrResult (XRAPI_PTR *PFN_xrConvertTimeToTimespecTimeKHR)(XrInstance instance, XrTime time, struct timespec* timespecTime);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_convert_timespec_ਸਮਾਂ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_convert_timespec_ਸਮਾਂ_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_CONVERT_TIMESPEC_ਸਮਾਂ_EXTENSION_NAME "XR_KHR_convert_timespec_time"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Convert_Timespec_ਸਮਾਂ_ਮੰਜ਼ਿਲ_ਸਮਾਂ_KHR)(XrInstance instance, ਅਚਲ ਬਣਤਰ timespec* timespec_ਸਮਾਂ, Xr_ਸਮਾਂ* ਸਮਾਂ);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Convert_ਸਮਾਂ_ਮੰਜ਼ਿਲ_Timespec_ਸਮਾਂ_KHR)(XrInstance instance, Xr_ਸਮਾਂ ਸਮਾਂ, ਬਣਤਰ timespec* timespec_ਸਮਾਂ);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrConvertTimespecTimeToTimeKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Convert_Timespec_ਸਮਾਂ_ਮੰਜ਼ਿਲ_ਸਮਾਂ_KHR(
     XrInstance                                  instance,
-    const struct timespec*                      timespecTime,
-    XrTime*                                     time);
+    ਅਚਲ ਬਣਤਰ timespec*                      timespec_ਸਮਾਂ,
+    Xr_ਸਮਾਂ*                                     ਸਮਾਂ);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrConvertTimeToTimespecTimeKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Convert_ਸਮਾਂ_ਮੰਜ਼ਿਲ_Timespec_ਸਮਾਂ_KHR(
     XrInstance                                  instance,
-    XrTime                                      time,
-    struct timespec*                            timespecTime);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_TIMESPEC */
+    Xr_ਸਮਾਂ                                      ਸਮਾਂ,
+    ਬਣਤਰ timespec*                            timespec_ਸਮਾਂ);
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_TIMESPEC */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_KHR_loader_init_android is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_loader_init_android 1
-#define XR_KHR_loader_init_android_SPEC_VERSION 1
-#define XR_KHR_LOADER_INIT_ANDROID_EXTENSION_NAME "XR_KHR_loader_init_android"
-typedef struct XrLoaderInitInfoAndroidKHR {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_loader_init_android 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_loader_init_android_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_LOADER_INIT_ANDROID_EXTENSION_NAME "XR_KHR_loader_init_android"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrLoaderInitInfoAndroidKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    void* XR_MAY_ALIAS          applicationVM;
-    void* XR_MAY_ALIAS          applicationContext;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਖਾਲੀ* XR_MAY_ALIAS          applicationVM;
+    ਖਾਲੀ* XR_MAY_ALIAS          applicationContext;
 } XrLoaderInitInfoAndroidKHR;
 
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_KHR_vulkan_enable2 is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_vulkan_enable2 1
-#define XR_KHR_vulkan_enable2_SPEC_VERSION 4
-#define XR_KHR_VULKAN_ENABLE2_EXTENSION_NAME "XR_KHR_vulkan_enable2"
-typedef XrFlags64 XrVulkanInstanceCreateFlagsKHR;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_enable2 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_vulkan_enable2_SPEC_ਸੰਸਕਰਣ 4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_KHR_VULKAN_ENABLE2_EXTENSION_NAME "XR_KHR_vulkan_enable2"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrFlags64 XrVulkanInstanceCreateFlagsKHR;
 
 // Flag bits for XrVulkanInstanceCreateFlagsKHR
 
-typedef XrFlags64 XrVulkanDeviceCreateFlagsKHR;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrFlags64 XrVulkanDeviceCreateFlagsKHR;
 
 // Flag bits for XrVulkanDeviceCreateFlagsKHR
 
-typedef struct XrVulkanInstanceCreateInfoKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrVulkanInstanceCreateInfoKHR {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS          ਅਗਲਾ;
     XrSystemId                        systemId;
     XrVulkanInstanceCreateFlagsKHR    createFlags;
     PFN_vkGetInstanceProcAddr         pfnGetInstanceProcAddr;
-    const VkInstanceCreateInfo*       vulkanCreateInfo;
-    const VkAllocationCallbacks*      vulkanAllocator;
+    ਅਚਲ VkInstanceCreateInfo*       vulkanCreateInfo;
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*      vulkanAllocator;
 } XrVulkanInstanceCreateInfoKHR;
 
-typedef struct XrVulkanDeviceCreateInfoKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrVulkanDeviceCreateInfoKHR {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS        ਅਗਲਾ;
     XrSystemId                      systemId;
     XrVulkanDeviceCreateFlagsKHR    createFlags;
     PFN_vkGetInstanceProcAddr       pfnGetInstanceProcAddr;
     VkPhysicalDevice                vulkanPhysicalDevice;
-    const VkDeviceCreateInfo*       vulkanCreateInfo;
-    const VkAllocationCallbacks*    vulkanAllocator;
+    ਅਚਲ VkDeviceCreateInfo*       vulkanCreateInfo;
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*    vulkanAllocator;
 } XrVulkanDeviceCreateInfoKHR;
 
-typedef XrGraphicsBindingVulkanKHR XrGraphicsBindingVulkan2KHR;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrGraphicsBindingVulkanKHR XrGraphicsBindingVulkan2KHR;
 
-typedef struct XrVulkanGraphicsDeviceGetInfoKHR {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrVulkanGraphicsDeviceGetInfoKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     XrSystemId                  systemId;
     VkInstance                  vulkanInstance;
 } XrVulkanGraphicsDeviceGetInfoKHR;
 
-typedef XrSwapchainImageVulkanKHR XrSwapchainImageVulkan2KHR;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrSwapchainImageVulkanKHR XrSwapchainImageVulkan2KHR;
 
-typedef XrGraphicsRequirementsVulkanKHR XrGraphicsRequirementsVulkan2KHR;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrGraphicsRequirementsVulkanKHR XrGraphicsRequirementsVulkan2KHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVulkanInstanceKHR)(XrInstance instance, const XrVulkanInstanceCreateInfoKHR* createInfo, VkInstance* vulkanInstance, VkResult* vulkanResult);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVulkanDeviceKHR)(XrInstance instance, const XrVulkanDeviceCreateInfoKHR* createInfo, VkDevice* vulkanDevice, VkResult* vulkanResult);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsDevice2KHR)(XrInstance instance, const XrVulkanGraphicsDeviceGetInfoKHR* getInfo, VkPhysicalDevice* vulkanPhysicalDevice);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirements2KHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsVulkanKHR* graphicsRequirements);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrCreateVulkanInstanceKHR)(XrInstance instance, ਅਚਲ XrVulkanInstanceCreateInfoKHR* createInfo, VkInstance* vulkanInstance, Vk_ਨਤੀਜਾ* vulkan_ਨਤੀਜਾ);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrCreateVulkanDeviceKHR)(XrInstance instance, ਅਚਲ XrVulkanDeviceCreateInfoKHR* createInfo, VkDevice* vulkanDevice, Vk_ਨਤੀਜਾ* vulkan_ਨਤੀਜਾ);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanGraphicsDevice2KHR)(XrInstance instance, ਅਚਲ XrVulkanGraphicsDeviceGetInfoKHR* getInfo, VkPhysicalDevice* vulkanPhysicalDevice);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirements2KHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsVulkanKHR* graphicsRequirements);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateVulkanInstanceKHR(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrCreateVulkanInstanceKHR(
     XrInstance                                  instance,
-    const XrVulkanInstanceCreateInfoKHR*        createInfo,
+    ਅਚਲ XrVulkanInstanceCreateInfoKHR*        createInfo,
     VkInstance*                                 vulkanInstance,
-    VkResult*                                   vulkanResult);
+    Vk_ਨਤੀਜਾ*                                   vulkan_ਨਤੀਜਾ);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateVulkanDeviceKHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrCreateVulkanDeviceKHR(
     XrInstance                                  instance,
-    const XrVulkanDeviceCreateInfoKHR*          createInfo,
+    ਅਚਲ XrVulkanDeviceCreateInfoKHR*          createInfo,
     VkDevice*                                   vulkanDevice,
-    VkResult*                                   vulkanResult);
+    Vk_ਨਤੀਜਾ*                                   vulkan_ਨਤੀਜਾ);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanGraphicsDevice2KHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanGraphicsDevice2KHR(
     XrInstance                                  instance,
-    const XrVulkanGraphicsDeviceGetInfoKHR*     getInfo,
+    ਅਚਲ XrVulkanGraphicsDeviceGetInfoKHR*     getInfo,
     VkPhysicalDevice*                           vulkanPhysicalDevice);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanGraphicsRequirements2KHR(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetVulkanGraphicsRequirements2KHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrGraphicsRequirementsVulkanKHR*            graphicsRequirements);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_PLATFORM_EGL
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_EGL
 
 // XR_MNDX_egl_enable is a preprocessor guard. Do not pass it to API calls.
-#define XR_MNDX_egl_enable 1
-#define XR_MNDX_egl_enable_SPEC_VERSION   2
-#define XR_MNDX_EGL_ENABLE_EXTENSION_NAME "XR_MNDX_egl_enable"
-typedef PFN_xrVoidFunction (*PFN_xrEglGetProcAddressMNDX)(const char *name);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MNDX_egl_enable 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MNDX_egl_enable_SPEC_ਸੰਸਕਰਣ   2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MNDX_EGL_ENABLE_EXTENSION_NAME "XR_MNDX_egl_enable"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ PFN_xrVoidFunction (*PFN_xr_Egl_Get_Proc_ਪਤਾ_MNDX)(ਅਚਲ ਅੱਖਰ *name);
 // XrGraphicsBindingEGLMNDX extends XrSessionCreateInfo
-typedef struct XrGraphicsBindingEGLMNDX {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrGraphicsBindingEGLMNDX {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
-    PFN_xrEglGetProcAddressMNDX    getProcAddress;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS       ਅਗਲਾ;
+    PFN_xr_Egl_Get_Proc_ਪਤਾ_MNDX    get_Proc_ਪਤਾ;
     EGLDisplay                     display;
     EGLConfig                      config;
     EGLContext                     context;
 } XrGraphicsBindingEGLMNDX;
 
-#endif /* XR_USE_PLATFORM_EGL */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_EGL */
 
-#ifdef XR_USE_PLATFORM_WIN32
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 
 // XR_MSFT_perception_anchor_interop is a preprocessor guard. Do not pass it to API calls.
-#define XR_MSFT_perception_anchor_interop 1
-#define XR_MSFT_perception_anchor_interop_SPEC_VERSION 1
-#define XR_MSFT_PERCEPTION_ANCHOR_INTEROP_EXTENSION_NAME "XR_MSFT_perception_anchor_interop"
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPerceptionAnchorMSFT)(XrSession session, IUnknown* perceptionAnchor, XrSpatialAnchorMSFT* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrTryGetPerceptionAnchorFromSpatialAnchorMSFT)(XrSession session, XrSpatialAnchorMSFT anchor, IUnknown** perceptionAnchor);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_perception_anchor_interop 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_perception_anchor_interop_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_PERCEPTION_ANCHOR_INTEROP_EXTENSION_NAME "XR_MSFT_perception_anchor_interop"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPerceptionAnchorMSFT)(XrSession session, IUnknown* perceptionAnchor, XrSpatialAnchorMSFT* anchor);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrTryGetPerceptionAnchorFromSpatialAnchorMSFT)(XrSession session, XrSpatialAnchorMSFT anchor, IUnknown** perceptionAnchor);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorFromPerceptionAnchorMSFT(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrCreateSpatialAnchorFromPerceptionAnchorMSFT(
     XrSession                                   session,
     IUnknown*                                   perceptionAnchor,
     XrSpatialAnchorMSFT*                        anchor);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrTryGetPerceptionAnchorFromSpatialAnchorMSFT(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrTryGetPerceptionAnchorFromSpatialAnchorMSFT(
     XrSession                                   session,
     XrSpatialAnchorMSFT                         anchor,
     IUnknown**                                  perceptionAnchor);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_WIN32 */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_WIN32 */
 
-#ifdef XR_USE_PLATFORM_WIN32
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 
 // XR_MSFT_holographic_window_attachment is a preprocessor guard. Do not pass it to API calls.
-#define XR_MSFT_holographic_window_attachment 1
-#define XR_MSFT_holographic_window_attachment_SPEC_VERSION 1
-#define XR_MSFT_HOLOGRAPHIC_WINDOW_ATTACHMENT_EXTENSION_NAME "XR_MSFT_holographic_window_attachment"
-#ifdef XR_USE_PLATFORM_WIN32
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_holographic_ਖਿੜਕੀ_attachment 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_holographic_ਖਿੜਕੀ_attachment_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MSFT_HOLOGRAPHIC_ਖਿੜਕੀ_ATTACHMENT_EXTENSION_NAME "XR_MSFT_holographic_window_attachment"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 // XrHolographicWindowAttachmentMSFT extends XrSessionCreateInfo
-typedef struct XrHolographicWindowAttachmentMSFT {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Xr_Holographic_ਖਿੜਕੀ_Attachment_MSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     IUnknown*                   holographicSpace;
-    IUnknown*                   coreWindow;
-} XrHolographicWindowAttachmentMSFT;
-#endif // XR_USE_PLATFORM_WIN32
+    IUnknown*                   core_ਖਿੜਕੀ;
+} Xr_Holographic_ਖਿੜਕੀ_Attachment_MSFT;
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_WIN32
 
-#endif /* XR_USE_PLATFORM_WIN32 */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_WIN32 */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_FB_android_surface_swapchain_create is a preprocessor guard. Do not pass it to API calls.
-#define XR_FB_android_surface_swapchain_create 1
-#define XR_FB_android_surface_swapchain_create_SPEC_VERSION 1
-#define XR_FB_ANDROID_SURFACE_SWAPCHAIN_CREATE_EXTENSION_NAME "XR_FB_android_surface_swapchain_create"
-typedef XrFlags64 XrAndroidSurfaceSwapchainFlagsFB;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_android_surface_swapchain_create 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_android_surface_swapchain_create_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_ANDROID_SURFACE_SWAPCHAIN_CREATE_EXTENSION_NAME "XR_FB_android_surface_swapchain_create"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ XrFlags64 XrAndroidSurfaceSwapchainFlagsFB;
 
 // Flag bits for XrAndroidSurfaceSwapchainFlagsFB
-static const XrAndroidSurfaceSwapchainFlagsFB XR_ANDROID_SURFACE_SWAPCHAIN_SYNCHRONOUS_BIT_FB = 0x00000001;
-static const XrAndroidSurfaceSwapchainFlagsFB XR_ANDROID_SURFACE_SWAPCHAIN_USE_TIMESTAMPS_BIT_FB = 0x00000002;
+ਸਥਿਰ ਅਚਲ XrAndroidSurfaceSwapchainFlagsFB XR_ANDROID_SURFACE_SWAPCHAIN_SYNCHRONOUS_ਦੋਆਧਾਰੀ_ਅੰਕ_FB = 0x00000001;
+ਸਥਿਰ ਅਚਲ XrAndroidSurfaceSwapchainFlagsFB XR_ANDROID_SURFACE_SWAPCHAIN_USE_TIMESTAMPS_ਦੋਆਧਾਰੀ_ਅੰਕ_FB = 0x00000002;
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 // XrAndroidSurfaceSwapchainCreateInfoFB extends XrSwapchainCreateInfo
-typedef struct XrAndroidSurfaceSwapchainCreateInfoFB {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrAndroidSurfaceSwapchainCreateInfoFB {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS            ਅਗਲਾ;
     XrAndroidSurfaceSwapchainFlagsFB    createFlags;
 } XrAndroidSurfaceSwapchainCreateInfoFB;
-#endif // XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_ANDROID
 
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_PLATFORM_ML
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ML
 
 // XR_ML_compat is a preprocessor guard. Do not pass it to API calls.
-#define XR_ML_compat 1
-#define XR_ML_compat_SPEC_VERSION         1
-#define XR_ML_COMPAT_EXTENSION_NAME       "XR_ML_compat"
-typedef struct XrCoordinateSpaceCreateInfoML {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ML_compat 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ML_compat_SPEC_ਸੰਸਕਰਣ         1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ML_COMPAT_EXTENSION_NAME       "XR_ML_compat"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrCoordinateSpaceCreateInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    MLCoordinateFrameUID        cfuid;
-    XrPosef                     poseInCoordinateSpace;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    MLCoordinate_ਚੌਖਟਾ_UID        cfuid;
+    XrPosef                     pose_ਵਿੱਚ_Coordinate_Space;
 } XrCoordinateSpaceCreateInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpaceFromCoordinateFrameUIDML)(XrSession session, const XrCoordinateSpaceCreateInfoML *createInfo, XrSpace* space);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Create_Space_From_Coordinate_ਚੌਖਟਾ_UIDML)(XrSession session, ਅਚਲ XrCoordinateSpaceCreateInfoML *createInfo, XrSpace* space);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpaceFromCoordinateFrameUIDML(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Create_Space_From_Coordinate_ਚੌਖਟਾ_UIDML(
     XrSession                                   session,
-    const XrCoordinateSpaceCreateInfoML *       createInfo,
+    ਅਚਲ XrCoordinateSpaceCreateInfoML *       createInfo,
     XrSpace*                                    space);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_ML */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ML */
 
-#ifdef XR_USE_PLATFORM_WIN32
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_WIN32
 
 // XR_OCULUS_audio_device_guid is a preprocessor guard. Do not pass it to API calls.
-#define XR_OCULUS_audio_device_guid 1
-#define XR_OCULUS_audio_device_guid_SPEC_VERSION 1
-#define XR_OCULUS_AUDIO_DEVICE_GUID_EXTENSION_NAME "XR_OCULUS_audio_device_guid"
-#define XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS 128
-typedef XrResult (XRAPI_PTR *PFN_xrGetAudioOutputDeviceGuidOculus)(XrInstance instance, wchar_t buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAudioInputDeviceGuidOculus)(XrInstance instance, wchar_t buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_OCULUS_audio_device_guid 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_OCULUS_audio_device_guid_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_OCULUS_AUDIO_DEVICE_GUID_EXTENSION_NAME "XR_OCULUS_audio_device_guid"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_MAX_AUDIO_DEVICE_STR_ਮਾਪ_OCULUS 128
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrGetAudioOutputDeviceGuidOculus)(XrInstance instance, wchar_t ਬਫਰ_2[XR_MAX_AUDIO_DEVICE_STR_ਮਾਪ_OCULUS]);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xr_Get_Audio_ਨਿਵੇਸ਼_Device_Guid_Oculus)(XrInstance instance, wchar_t ਬਫਰ_2[XR_MAX_AUDIO_DEVICE_STR_ਮਾਪ_OCULUS]);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetAudioOutputDeviceGuidOculus(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrGetAudioOutputDeviceGuidOculus(
     XrInstance                                  instance,
-    wchar_t                                     buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
+    wchar_t                                     ਬਫਰ_2[XR_MAX_AUDIO_DEVICE_STR_ਮਾਪ_OCULUS]);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetAudioInputDeviceGuidOculus(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xr_Get_Audio_ਨਿਵੇਸ਼_Device_Guid_Oculus(
     XrInstance                                  instance,
-    wchar_t                                     buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_WIN32 */
+    wchar_t                                     ਬਫਰ_2[XR_MAX_AUDIO_DEVICE_STR_ਮਾਪ_OCULUS]);
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_WIN32 */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_FB_foveation_vulkan is a preprocessor guard. Do not pass it to API calls.
-#define XR_FB_foveation_vulkan 1
-#define XR_FB_foveation_vulkan_SPEC_VERSION 1
-#define XR_FB_FOVEATION_VULKAN_EXTENSION_NAME "XR_FB_foveation_vulkan"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_foveation_vulkan 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_foveation_vulkan_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_FOVEATION_VULKAN_EXTENSION_NAME "XR_FB_foveation_vulkan"
 // XrSwapchainImageFoveationVulkanFB extends XrSwapchainImageVulkanKHR
-typedef struct XrSwapchainImageFoveationVulkanFB {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainImageFoveationVulkanFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     VkImage               image;
-    uint32_t              width;
-    uint32_t              height;
+    uint32_t              ਚੌੜਾਈ;
+    uint32_t              ਉਚਾਈ;
 } XrSwapchainImageFoveationVulkanFB;
 
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_FB_swapchain_update_state_android_surface is a preprocessor guard. Do not pass it to API calls.
-#define XR_FB_swapchain_update_state_android_surface 1
-#define XR_FB_swapchain_update_state_android_surface_SPEC_VERSION 1
-#define XR_FB_SWAPCHAIN_UPDATE_STATE_ANDROID_SURFACE_EXTENSION_NAME "XR_FB_swapchain_update_state_android_surface"
-#ifdef XR_USE_PLATFORM_ANDROID
-typedef struct XrSwapchainStateAndroidSurfaceDimensionsFB {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_android_surface 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_android_surface_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_SWAPCHAIN_UPDATE_STATE_ANDROID_SURFACE_EXTENSION_NAME "XR_FB_swapchain_update_state_android_surface"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainStateAndroidSurfaceDimensionsFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              width;
-    uint32_t              height;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    uint32_t              ਚੌੜਾਈ;
+    uint32_t              ਉਚਾਈ;
 } XrSwapchainStateAndroidSurfaceDimensionsFB;
-#endif // XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਅੰਤ // XR_USE_PLATFORM_ANDROID
 
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef XR_USE_GRAPHICS_API_OPENGL_ES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_OPENGL_ES
 
 // XR_FB_swapchain_update_state_opengl_es is a preprocessor guard. Do not pass it to API calls.
-#define XR_FB_swapchain_update_state_opengl_es 1
-#define XR_FB_swapchain_update_state_opengl_es_SPEC_VERSION 1
-#define XR_FB_SWAPCHAIN_UPDATE_STATE_OPENGL_ES_EXTENSION_NAME "XR_FB_swapchain_update_state_opengl_es"
-#ifdef XR_USE_GRAPHICS_API_OPENGL_ES
-typedef struct XrSwapchainStateSamplerOpenGLESFB {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_opengl_es 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_opengl_es_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_SWAPCHAIN_UPDATE_STATE_OPENGL_ES_EXTENSION_NAME "XR_FB_swapchain_update_state_opengl_es"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_OPENGL_ES
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainStateSamplerOpenGLESFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     EGLenum               minFilter;
     EGLenum               magFilter;
-    EGLenum               wrapModeS;
-    EGLenum               wrapModeT;
+    EGLenum               wrap_ਬਹੁਲਕ_S;
+    EGLenum               wrap_ਬਹੁਲਕ_T;
     EGLenum               swizzleRed;
     EGLenum               swizzleGreen;
     EGLenum               swizzleBlue;
     EGLenum               swizzleAlpha;
-    float                 maxAnisotropy;
+    ਦਸ਼ਮਲਵ                 maxAnisotropy;
     XrColor4f             borderColor;
 } XrSwapchainStateSamplerOpenGLESFB;
-#endif // XR_USE_GRAPHICS_API_OPENGL_ES
+#ਜੇ_ਅੰਤ // XR_USE_GRAPHICS_API_OPENGL_ES
 
-#endif /* XR_USE_GRAPHICS_API_OPENGL_ES */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_OPENGL_ES */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_FB_swapchain_update_state_vulkan is a preprocessor guard. Do not pass it to API calls.
-#define XR_FB_swapchain_update_state_vulkan 1
-#define XR_FB_swapchain_update_state_vulkan_SPEC_VERSION 1
-#define XR_FB_SWAPCHAIN_UPDATE_STATE_VULKAN_EXTENSION_NAME "XR_FB_swapchain_update_state_vulkan"
-#ifdef XR_USE_GRAPHICS_API_VULKAN
-typedef struct XrSwapchainStateSamplerVulkanFB {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_vulkan 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_swapchain_update_state_vulkan_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_FB_SWAPCHAIN_UPDATE_STATE_VULKAN_EXTENSION_NAME "XR_FB_swapchain_update_state_vulkan"
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSwapchainStateSamplerVulkanFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ਖਾਲੀ* XR_MAY_ALIAS      ਅਗਲਾ;
     VkFilter                minFilter;
     VkFilter                magFilter;
-    VkSamplerMipmapMode     mipmapMode;
-    VkSamplerAddressMode    wrapModeS;
-    VkSamplerAddressMode    wrapModeT;
+    Vk_Sampler_Mipmap_ਬਹੁਲਕ     mipmap_ਬਹੁਲਕ;
+    Vk_Sampler_ਪਤਾ_ਬਹੁਲਕ    wrap_ਬਹੁਲਕ_S;
+    Vk_Sampler_ਪਤਾ_ਬਹੁਲਕ    wrap_ਬਹੁਲਕ_T;
     VkComponentSwizzle      swizzleRed;
     VkComponentSwizzle      swizzleGreen;
     VkComponentSwizzle      swizzleBlue;
     VkComponentSwizzle      swizzleAlpha;
-    float                   maxAnisotropy;
+    ਦਸ਼ਮਲਵ                   maxAnisotropy;
     XrColor4f               borderColor;
 } XrSwapchainStateSamplerVulkanFB;
-#endif // XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਅੰਤ // XR_USE_GRAPHICS_API_VULKAN
 
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_GRAPHICS_API_VULKAN
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_GRAPHICS_API_VULKAN
 
 // XR_META_vulkan_swapchain_create_info is a preprocessor guard. Do not pass it to API calls.
-#define XR_META_vulkan_swapchain_create_info 1
-#define XR_META_vulkan_swapchain_create_info_SPEC_VERSION 1
-#define XR_META_VULKAN_SWAPCHAIN_CREATE_INFO_EXTENSION_NAME "XR_META_vulkan_swapchain_create_info"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_META_vulkan_swapchain_create_info 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_META_vulkan_swapchain_create_info_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_META_VULKAN_SWAPCHAIN_CREATE_INFO_EXTENSION_NAME "XR_META_vulkan_swapchain_create_info"
 // XrVulkanSwapchainCreateInfoMETA extends XrSwapchainCreateInfo
-typedef struct XrVulkanSwapchainCreateInfoMETA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrVulkanSwapchainCreateInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     VkImageCreateFlags          additionalCreateFlags;
     VkImageUsageFlags           additionalUsageFlags;
 } XrVulkanSwapchainCreateInfoMETA;
 
-#endif /* XR_USE_GRAPHICS_API_VULKAN */
+#ਜੇ_ਅੰਤ /* XR_USE_GRAPHICS_API_VULKAN */
 
-#ifdef XR_USE_PLATFORM_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_USE_PLATFORM_ANDROID
 
 // XR_ANDROID_anchor_sharing_export is a preprocessor guard. Do not pass it to API calls.
-#define XR_ANDROID_anchor_sharing_export 1
-#define XR_ANDROID_anchor_sharing_export_SPEC_VERSION 1
-#define XR_ANDROID_ANCHOR_SHARING_EXPORT_EXTENSION_NAME "XR_ANDROID_anchor_sharing_export"
-typedef struct XrAnchorSharingInfoANDROID {
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ANDROID_anchor_sharing_export 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ANDROID_anchor_sharing_export_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XR_ANDROID_ANCHOR_SHARING_EXPORT_EXTENSION_NAME "XR_ANDROID_anchor_sharing_export"
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrAnchorSharingInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ਅਚਲ ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     XrSpace                     anchor;
 } XrAnchorSharingInfoANDROID;
 
-typedef struct XrAnchorSharingTokenANDROID {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrAnchorSharingTokenANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    struct AIBinder*      token;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
+    ਬਣਤਰ AIBinder*      token;
 } XrAnchorSharingTokenANDROID;
 
 // XrSystemAnchorSharingExportPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemAnchorSharingExportPropertiesANDROID {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ XrSystemAnchorSharingExportPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ਖਾਲੀ* XR_MAY_ALIAS    ਅਗਲਾ;
     XrBool32              supportsAnchorSharingExport;
 } XrSystemAnchorSharingExportPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareAnchorANDROID)(XrSession session, const XrAnchorSharingInfoANDROID* sharingInfo, XrAnchorSharingTokenANDROID* anchorToken);
-typedef XrResult (XRAPI_PTR *PFN_xrUnshareAnchorANDROID)(XrSession session, XrSpace anchor);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrShareAnchorANDROID)(XrSession session, ਅਚਲ XrAnchorSharingInfoANDROID* sharingInfo, XrAnchorSharingTokenANDROID* anchorToken);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Xr_ਨਤੀਜਾ (XRAPI_PTR *PFN_xrUnshareAnchorANDROID)(XrSession session, XrSpace anchor);
 
-#ifndef XR_NO_PROTOTYPES
-#ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrShareAnchorANDROID(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XR_NO_PROTOTYPES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XR_EXTENSION_PROTOTYPES
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrShareAnchorANDROID(
     XrSession                                   session,
-    const XrAnchorSharingInfoANDROID*           sharingInfo,
+    ਅਚਲ XrAnchorSharingInfoANDROID*           sharingInfo,
     XrAnchorSharingTokenANDROID*                anchorToken);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrUnshareAnchorANDROID(
+XRAPI_ATTR Xr_ਨਤੀਜਾ XRAPI_CALL xrUnshareAnchorANDROID(
     XrSession                                   session,
     XrSpace                                     anchor);
-#endif /* XR_EXTENSION_PROTOTYPES */
-#endif /* !XR_NO_PROTOTYPES */
-#endif /* XR_USE_PLATFORM_ANDROID */
+#ਜੇ_ਅੰਤ /* XR_EXTENSION_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* !XR_NO_PROTOTYPES */
+#ਜੇ_ਅੰਤ /* XR_USE_PLATFORM_ANDROID */
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

@@ -18,87 +18,87 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_x11dyn_h_
-#define SDL_x11dyn_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11dyn_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11dyn_h_
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#include <X11/Xresource.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xutil.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xatom.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xresource.h>
 
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-#include <X11/XKBlib.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/XKBlib.h>
+#ਜੇ_ਅੰਤ
 
 // Apparently some X11 systems can't include this multiple times...
-#ifndef SDL_INCLUDED_XLIBINT_H
-#define SDL_INCLUDED_XLIBINT_H 1
-#include <X11/Xlibint.h>
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_INCLUDED_XLIBINT_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_INCLUDED_XLIBINT_H 1
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xlibint.h>
+#ਜੇ_ਅੰਤ
 
-#include <X11/Xproto.h>
-#include <X11/extensions/Xext.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xproto.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/Xext.h>
 
-#ifndef NO_SHARED_MEMORY
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <X11/extensions/XShm.h>
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ NO_SHARED_ਸਮ੍ਰਿਤੀ
+#ਅਨ੍ਤਰ੍ਭਾਵ <sys/ipc.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <sys/shm.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/XShm.h>
+#ਜੇ_ਅੰਤ
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-#include <X11/Xcursor/Xcursor.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XDBE
-#include <X11/extensions/Xdbe.h>
-#endif
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
-#include <X11/extensions/XInput2.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-#include <X11/extensions/Xfixes.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-#include <X11/extensions/sync.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-#include <X11/extensions/Xrandr.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-#include <X11/extensions/scrnsaver.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-#include <X11/extensions/shape.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-#include <X11/extensions/XTest.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XCURSOR
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/Xcursor/Xcursor.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XDBE
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/Xdbe.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/XInput2.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XFIXES
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/Xfixes.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XSYNC
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/sync.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XRANDR
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/Xrandr.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/scrnsaver.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XSHAPE
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/shape.h>
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XTEST
+#ਅਨ੍ਤਰ੍ਭਾਵ <X11/extensions/XTest.h>
+#ਜੇ_ਅੰਤ
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 // evil function signatures...
-typedef Bool (*SDL_X11_XESetWireToEventRetType)(Display *, XEvent *, xEvent *);
-typedef int (*SDL_X11_XSynchronizeRetType)(Display *);
-typedef Status (*SDL_X11_XESetEventToWireRetType)(Display *, XEvent *, xEvent *);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Bool (*SDL_X11_XESet_Wire_ਮੰਜ਼ਿਲ_Event_Ret_Type)(Display *, XEvent *, xEvent *);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੂਰਨ (*SDL_X11_XSynchronizeRetType)(Display *);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਸਥਿਤੀ_2 (*SDL_X11_XESet_Event_ਮੰਜ਼ਿਲ_Wire_Ret_Type)(Display *, XEvent *, xEvent *);
 
-extern bool SDL_X11_LoadSymbols(void);
-extern void SDL_X11_UnloadSymbols(void);
+ਬਾਹਰੀ bool SDL_X11_ਲੱਦੋ_Symbols(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ SDL_X11_UnloadSymbols(ਖਾਲੀ);
 
 // Declare all the function pointers and wrappers...
-#define SDL_X11_SYM(rc, fn, params) \
-    typedef rc(*SDL_DYNX11FN_##fn) params;     \
-    extern SDL_DYNX11FN_##fn X11_##fn;
-#include "SDL_x11sym.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_X11_SYM(rc, fn, params) \
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ rc(*SDL_DYNX11FN_##fn) params;     \
+    ਬਾਹਰੀ SDL_DYNX11FN_##fn X11_##fn;
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) extern int SDL_X11_HAVE_##modname;
-#include "SDL_x11sym.h"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_X11_MODULE(modname) ਬਾਹਰੀ ਪੂਰਨ SDL_X11_HAVE_##modname;
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11sym.h"
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif // !defined SDL_x11dyn_h_
+#ਜੇ_ਅੰਤ // !defined SDL_x11dyn_h_

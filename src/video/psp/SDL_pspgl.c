@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_PSP
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_PSP
 
-#include <stdlib.h>
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
-#include "SDL_pspvideo.h"
-#include "SDL_pspgl_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_pspvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_pspgl_c.h"
 
 /*****************************************************************************/
 // SDL OpenGL/OpenGL ES functions
 /*****************************************************************************/
-#define EGLCHK(stmt)                           \
-    do {                                       \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ EGLCHK(stmt)                           \
+    ਕਰੋ {                                       \
         EGLint err;                            \
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
-            SDL_SetError("EGL error %d", err); \
-            return NULL;                          \
+        ਜੇ (err != EGL_SUCCESS) {              \
+            SDL_ਸੈੱਟ_Error("EGL error %d", err); \
+            ਵਾਪਸ ਨਿਰਾ;                          \
         }                                      \
-    } while (0)
+    } ਜਦੋਂ (0)
 
-bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool PSP_GL_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ)
 {
-    return true;
+    ਵਾਪਸ true;
 }
 
 /* pspgl doesn't provide this call, so stub it out since SDL requires it.
@@ -54,137 +54,137 @@ bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 GLSTUB(glOrtho,(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top,
                     GLdouble zNear, GLdouble zFar))
 */
-SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_ਸੂਚਕ PSP_GL_Get_Proc_ਪਤਾ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *proc)
 {
-    return eglGetProcAddress(proc);
+    ਵਾਪਸ egl_Get_Proc_ਪਤਾ(proc);
 }
 
-void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this)
+ਖਾਲੀ PSP_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    eglTerminate(_this->gl_data->display);
+    eglTerminate(_this->gl_ਅੰਕੜੇ->display);
 }
 
-static EGLint width = 480;
-static EGLint height = 272;
+ਸਥਿਰ EGLint ਚੌੜਾਈ = 480;
+ਸਥਿਰ EGLint ਉਚਾਈ = 272;
 
-SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
 
-    SDL_WindowData *wdata = window->internal;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
     EGLint attribs[32];
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     EGLConfig config;
-    EGLint num_configs;
-    int i;
+    EGLint ਅੰਕ_configs;
+    ਪੂਰਨ i;
 
     // EGL init taken from glutCreateWindow() in PSPGL's glut.c.
     EGLCHK(display = eglGetDisplay(0));
-    EGLCHK(eglInitialize(display, NULL, NULL));
-    wdata->uses_gles = true;
-    window->flags |= SDL_WINDOW_FULLSCREEN;
+    EGLCHK(eglInitialize(display, ਨਿਰਾ, ਨਿਰਾ));
+    wdata->ਵਰਤਦਾ_gles = true;
+    ਖਿੜਕੀ->flags |= SDL_ਖਿੜਕੀ_FULLSCREEN;
 
     // Setup the config based on SDL's current values.
     i = 0;
-    attribs[i++] = EGL_RED_SIZE;
-    attribs[i++] = _this->gl_config.red_size;
-    attribs[i++] = EGL_GREEN_SIZE;
-    attribs[i++] = _this->gl_config.green_size;
-    attribs[i++] = EGL_BLUE_SIZE;
-    attribs[i++] = _this->gl_config.blue_size;
-    attribs[i++] = EGL_DEPTH_SIZE;
-    attribs[i++] = _this->gl_config.depth_size;
+    attribs[i++] = EGL_RED_ਮਾਪ;
+    attribs[i++] = _this->gl_config.red_ਮਾਪ;
+    attribs[i++] = EGL_GREEN_ਮਾਪ;
+    attribs[i++] = _this->gl_config.green_ਮਾਪ;
+    attribs[i++] = EGL_BLUE_ਮਾਪ;
+    attribs[i++] = _this->gl_config.blue_ਮਾਪ;
+    attribs[i++] = EGL_ਡੂੰਘਾਈ_ਮਾਪ;
+    attribs[i++] = _this->gl_config.ਡੂੰਘਾਈ_ਮਾਪ;
 
-    if (_this->gl_config.alpha_size) {
-        attribs[i++] = EGL_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.alpha_size;
+    ਜੇ (_this->gl_config.alpha_ਮਾਪ) {
+        attribs[i++] = EGL_ALPHA_ਮਾਪ;
+        attribs[i++] = _this->gl_config.alpha_ਮਾਪ;
     }
-    if (_this->gl_config.stencil_size) {
-        attribs[i++] = EGL_STENCIL_SIZE;
-        attribs[i++] = _this->gl_config.stencil_size;
+    ਜੇ (_this->gl_config.stencil_ਮਾਪ) {
+        attribs[i++] = EGL_STENCIL_ਮਾਪ;
+        attribs[i++] = _this->gl_config.stencil_ਮਾਪ;
     }
 
     attribs[i++] = EGL_NONE;
 
-    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
+    EGLCHK(egl_ਚੁਣੋ_Config(display, attribs, &config, 1, &ਅੰਕ_configs));
 
-    if (num_configs == 0) {
-        SDL_SetError("No valid EGL configs for requested mode");
-        return NULL;
+    ਜੇ (ਅੰਕ_configs == 0) {
+        SDL_ਸੈੱਟ_Error("No valid EGL configs for requested mode");
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    EGLCHK(eglGetConfigAttrib(display, config, EGL_WIDTH, &width));
-    EGLCHK(eglGetConfigAttrib(display, config, EGL_HEIGHT, &height));
+    EGLCHK(eglGetConfigAttrib(display, config, EGL_ਚੌੜਾਈ, &ਚੌੜਾਈ));
+    EGLCHK(eglGetConfigAttrib(display, config, EGL_ਉਚਾਈ, &ਉਚਾਈ));
 
-    EGLCHK(context = eglCreateContext(display, config, NULL, NULL));
-    EGLCHK(surface = eglCreateWindowSurface(display, config, 0, NULL));
+    EGLCHK(context = eglCreateContext(display, config, ਨਿਰਾ, ਨਿਰਾ));
+    EGLCHK(surface = egl_Create_ਖਿੜਕੀ_Surface(display, config, 0, ਨਿਰਾ));
     EGLCHK(eglMakeCurrent(display, surface, surface, context));
 
-    _this->gl_data->display = display;
-    _this->gl_data->context = context;
-    _this->gl_data->surface = surface;
+    _this->gl_ਅੰਕੜੇ->display = display;
+    _this->gl_ਅੰਕੜੇ->context = context;
+    _this->gl_ਅੰਕੜੇ->surface = surface;
 
-    return context;
+    ਵਾਪਸ context;
 }
 
-bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context)
 {
-    if (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
-                        _this->gl_data->surface, _this->gl_data->context)) {
-        return SDL_SetError("Unable to make EGL context current");
+    ਜੇ (!eglMakeCurrent(_this->gl_ਅੰਕੜੇ->display, _this->gl_ਅੰਕੜੇ->surface,
+                        _this->gl_ਅੰਕੜੇ->surface, _this->gl_ਅੰਕੜੇ->context)) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Unable to make EGL context current");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool PSP_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ interval)
 {
-    EGLBoolean status;
-    status = eglSwapInterval(_this->gl_data->display, interval);
-    if (status == EGL_TRUE) {
+    EGLBoolean ਸਥਿਤੀ;
+    ਸਥਿਤੀ = egl_ਅਦਲਾ_ਬਦਲੀ_Interval(_this->gl_ਅੰਕੜੇ->display, interval);
+    ਜੇ (ਸਥਿਤੀ == EGL_TRUE) {
         // Return success to upper level
-        _this->gl_data->swapinterval = interval;
-        return true;
+        _this->gl_ਅੰਕੜੇ->swapinterval = interval;
+        ਵਾਪਸ true;
     }
     // Failed to set swap interval
-    return SDL_SetError("Unable to set the EGL swap interval");
+    ਵਾਪਸ SDL_ਸੈੱਟ_Error("Unable to set the EGL swap interval");
 }
 
-bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool PSP_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ *interval)
 {
-    *interval = _this->gl_data->swapinterval;
-    return true;
+    *interval = _this->gl_ਅੰਕੜੇ->swapinterval;
+    ਵਾਪਸ true;
 }
 
-bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool PSP_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    if (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
-        return SDL_SetError("eglSwapBuffers() failed");
+    ਜੇ (!egl_ਅਦਲਾ_ਬਦਲੀ_Buffers(_this->gl_ਅੰਕੜੇ->display, _this->gl_ਅੰਕੜੇ->surface)) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("eglSwapBuffers() failed");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
 bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_VideoData *phdata = _this->internal;
-    EGLBoolean status;
+    SDL_Video_ਅੰਕੜੇ *phdata = _this->ਅੰਦਰੂਨੀ;
+    EGLBoolean ਸਥਿਤੀ;
 
-    if (phdata->egl_initialized != true) {
-        return SDL_SetError("PSP: GLES initialization failed, no OpenGL ES support");
+    ਜੇ (phdata->egl_initialized != true) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("PSP: GLES initialization failed, no OpenGL ES support");
     }
 
     // Check if OpenGL ES connection has been initialized
-    if (_this->gl_data->display != EGL_NO_DISPLAY) {
-        if (context != EGL_NO_CONTEXT) {
-            status = eglDestroyContext(_this->gl_data->display, context);
-            if (status != EGL_TRUE) {
+    ਜੇ (_this->gl_ਅੰਕੜੇ->display != EGL_NO_DISPLAY) {
+        ਜੇ (context != EGL_NO_CONTEXT) {
+            ਸਥਿਤੀ = eglDestroyContext(_this->gl_ਅੰਕੜੇ->display, context);
+            ਜੇ (ਸਥਿਤੀ != EGL_TRUE) {
                 // Error during OpenGL ES context destroying
-                return SDL_SetError("PSP: OpenGL ES context destroy error");
+                ਵਾਪਸ SDL_ਸੈੱਟ_Error("PSP: OpenGL ES context destroy error");
             }
         }
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-#endif // SDL_VIDEO_DRIVER_PSP
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_PSP

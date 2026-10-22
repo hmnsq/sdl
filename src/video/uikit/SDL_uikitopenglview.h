@@ -19,44 +19,44 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ਜੇ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)init_With_ਚੌਖਟਾ:(CGRect)ਚੌਖਟਾ
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        r_ਬਿੱਟ:(ਪੂਰਨ)r_ਬਿੱਟ
+                        g_ਬਿੱਟ:(ਪੂਰਨ)g_ਬਿੱਟ
+                        b_ਬਿੱਟ:(ਪੂਰਨ)b_ਬਿੱਟ
+                        a_ਬਿੱਟ:(ਪੂਰਨ)a_ਬਿੱਟ
+                    ਡੂੰਘਾਈ_ਬਿੱਟ:(ਪੂਰਨ)ਡੂੰਘਾਈ_ਬਿੱਟ
+                  stencil_ਬਿੱਟ:(ਪੂਰਨ)stencil_ਬਿੱਟ
+                         sRGB:(ਪੂਰਨ)sRGB
+                 multisamples:(ਪੂਰਨ)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) ਪੂਰਨ backing_ਚੌੜਾਈ;
+@property(nonatomic, readonly) ਪੂਰਨ backing_ਉਚਾਈ;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;
 @property(nonatomic, readonly) GLuint msaaResolveFramebuffer;
 
-- (void)swapBuffers;
+- (ਖਾਲੀ)ਅਦਲਾ_ਬਦਲੀ_Buffers_2;
 
-- (void)updateFrame;
+- (ਖਾਲੀ)update_ਚੌਖਟਾ;
 
-@end
+@ਸਿਰਾ
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#ਜੇ_ਅੰਤ // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2

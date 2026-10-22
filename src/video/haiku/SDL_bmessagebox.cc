@@ -20,97 +20,97 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_HAIKU
 
 
 // For application signature.
-#include "../../core/haiku/SDL_BeApp.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/haiku/SDL_BeApp.h"
 
-#include <Alert.h>
-#include <Application.h>
-#include <Button.h>
-#include <Font.h>
-#include <Layout.h>
-#include <String.h>
-#include <TextView.h>
-#include <View.h>
-#include <Window.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Alert.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Application.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Button.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Font.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Layout.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <String.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <TextView.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <View.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Window.h>
 
-#include <InterfaceDefs.h>
-#include <SupportDefs.h>
-#include <GraphicsDefs.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <InterfaceDefs.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <SupportDefs.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GraphicsDefs.h>
 
-#include <new>
-#include <vector>
-#include <algorithm>
-#include <memory>
+#ਅਨ੍ਤਰ੍ਭਾਵ <new>
+#ਅਨ੍ਤਰ੍ਭਾਵ <vector>
+#ਅਨ੍ਤਰ੍ਭਾਵ <algorithm>
+#ਅਨ੍ਤਰ੍ਭਾਵ <memory>
 
-enum
+ਗਿਣਤੀ
 {
 	G_CLOSE_BUTTON_ID   = -1,
 	G_DEFAULT_BUTTON_ID = 0,
-	G_MAX_STRING_LENGTH_BYTES = 120
+	G_MAX_STRING_ਲੰਮਾਈ_ਬਾਈਟਾਂ = 120
 };
 
-class HAIKU_SDL_MessageBox : public BAlert
+ਵਰਗ HAIKU_SDL_ਸੁਨੇਹਾ_Box : ਜਨਤਕ BAlert
 {
-	float fComputedMessageBoxWidth;
+	ਦਸ਼ਮਲਵ f_Computed_ਸੁਨੇਹਾ_Box_ਚੌੜਾਈ;
 
-	BTextView *fMessageBoxTextView;
+	BTextView *f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View;
 
-	int fCloseButton;
-	int fDefaultButton;
+	ਪੂਰਨ fCloseButton;
+	ਪੂਰਨ fDefaultButton;
 
-	bool fCustomColorScheme;
-	bool fThereIsLongLine;
-	rgb_color fTextColor;
+	ਤਾਰਕਿਕ fCustomColorScheme;
+	ਤਾਰਕਿਕ f_There_Is_Long_ਸਤਰ;
+	rgb_color f_ਪਾਠ_Color;
 
-	const char *fTitle;
-	const char *HAIKU_SDL_DefTitle;
-	const char *HAIKU_SDL_DefMessage;
-	const char *HAIKU_SDL_DefButton;
+	ਅਚਲ ਅੱਖਰ *fTitle;
+	ਅਚਲ ਅੱਖਰ *HAIKU_SDL_DefTitle;
+	ਅਚਲ ਅੱਖਰ *HAIKU_SDL_Def_ਸੁਨੇਹਾ;
+	ਅਚਲ ਅੱਖਰ *HAIKU_SDL_DefButton;
 
-	std::vector<const SDL_MessageBoxButtonData *> fButtons;
+	std::ਸਦਿਸ਼<ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Button_ਅੰਕੜੇ *> fButtons;
 
-	static bool
-	SortButtonsPredicate(const SDL_MessageBoxButtonData *aButtonLeft,
-	                                 const SDL_MessageBoxButtonData *aButtonRight)
+	ਸਥਿਰ ਤਾਰਕਿਕ
+	ਛਾਂਟੋ_Buttons_Predicate(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Button_ਅੰਕੜੇ *a_Button_ਖੱਬਾ,
+	                                 ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Button_ਅੰਕੜੇ *a_Button_ਸੱਜਾ)
 	{
-		return aButtonLeft->buttonID < aButtonRight->buttonID;
+		ਵਾਪਸ a_Button_ਖੱਬਾ->buttonID < a_Button_ਸੱਜਾ->buttonID;
 	}
 
 	alert_type
-	ConvertMessageBoxType(const SDL_MessageBoxFlags aWindowType) const
+	Convert_ਸੁਨੇਹਾ_Box_Type(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Flags a_ਖਿੜਕੀ_Type) ਅਚਲ
 	{
-		switch (aWindowType)
+		ਚੋਣ (a_ਖਿੜਕੀ_Type)
 		{
-			default:
-			case SDL_MESSAGEBOX_WARNING:
+			ਮੂਲ:
+			ਹਾਲਤ SDL_MESSAGEBOX_WARNING:
 			{
-				return B_WARNING_ALERT;
+				ਵਾਪਸ B_WARNING_ALERT;
 			}
-			case SDL_MESSAGEBOX_ERROR:
+			ਹਾਲਤ SDL_MESSAGEBOX_ERROR:
 			{
-				return B_STOP_ALERT;
+				ਵਾਪਸ B_STOP_ALERT;
 			}
-			case SDL_MESSAGEBOX_INFORMATION:
+			ਹਾਲਤ SDL_MESSAGEBOX_INFORMATION:
 			{
-				return B_INFO_ALERT;
+				ਵਾਪਸ B_INFO_ALERT;
 			}
 		}
 	}
 
 	rgb_color
-	ConvertColorType(const SDL_MessageBoxColor *aColor) const
+	ConvertColorType(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *aColor) ਅਚਲ
 	{
 		rgb_color color = { aColor->r, aColor->g, aColor->b, color.alpha = 255 };
-		return color;
+		ਵਾਪਸ color;
 	}
 
 	int32
-	GetLeftPanelWidth(void) const
+	Get_ਖੱਬਾ_Panel_ਚੌੜਾਈ(ਖਾਲੀ) ਅਚਲ
 	{
 		// See file "haiku/src/kits/interface/Alert.cpp" for this magic numbers.
 		//    IconStripeWidth = 30 * Scale
@@ -118,123 +118,123 @@ class HAIKU_SDL_MessageBox : public BAlert
 		//    Scale = max_c(1, ((int32)be_plain_font->Size() + 15) / 16)
 		//    RealWidth = (IconStripeWidth * Scale) + (IconSize * Scale)
 
-		int32 scale = max_c(1, ((int32)be_plain_font->Size() + 15) / 16);
-		return (30 * scale) + (32 * scale);
+		int32 scale = max_c(1, ((int32)be_plain_font->ਮਾਪ_2() + 15) / 16);
+		ਵਾਪਸ (30 * scale) + (32 * scale);
 	}
 
-	void
-	UpdateTextViewWidth(void)
+	ਖਾਲੀ
+	Update_ਪਾਠ_View_ਚੌੜਾਈ(ਖਾਲੀ)
 	{
-		fComputedMessageBoxWidth = fMessageBoxTextView->PreferredSize().Width() + GetLeftPanelWidth();
+		f_Computed_ਸੁਨੇਹਾ_Box_ਚੌੜਾਈ = f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->Preferred_ਮਾਪ().ਚੌੜਾਈ_2() + Get_ਖੱਬਾ_Panel_ਚੌੜਾਈ();
 	}
 
-	void
-	ParseSdlMessageBoxData(const SDL_MessageBoxData *aMessageBoxData)
+	ਖਾਲੀ
+	Parse_Sdl_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ)
 	{
-		if (aMessageBoxData == NULL) {
-			SetTitle(HAIKU_SDL_DefTitle);
-			SetMessageText(HAIKU_SDL_DefMessage);
-			AddButton(HAIKU_SDL_DefButton);
-			return;
+		ਜੇ (a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ == ਨਿਰਾ) {
+			ਸੈੱਟ_Title_2(HAIKU_SDL_DefTitle);
+			ਸੈੱਟ_ਸੁਨੇਹਾ_ਪਾਠ(HAIKU_SDL_Def_ਸੁਨੇਹਾ);
+			ਜੋੜੋ_Button(HAIKU_SDL_DefButton);
+			ਵਾਪਸ;
 		}
 
-		if (aMessageBoxData->numbuttons <= 0) {
-			AddButton(HAIKU_SDL_DefButton);
-		} else {
-			AddSdlButtons(aMessageBoxData->buttons, aMessageBoxData->numbuttons);
+		ਜੇ (a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->numbuttons <= 0) {
+			ਜੋੜੋ_Button(HAIKU_SDL_DefButton);
+		} ਨਹੀਂਤਾਂ {
+			ਜੋੜੋ_Sdl_Buttons(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->buttons, a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->numbuttons);
 		}
 
-		if (aMessageBoxData->colorScheme != NULL) {
-			fCustomColorScheme = true;
-			ApplyAndParseColorScheme(aMessageBoxData->colorScheme);
+		ਜੇ (a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->colorScheme != ਨਿਰਾ) {
+			fCustomColorScheme = ਸੱਚ;
+			ApplyAndParseColorScheme(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->colorScheme);
 		}
 
-		(aMessageBoxData->title[0]) ?
-			SetTitle(aMessageBoxData->title) : SetTitle(HAIKU_SDL_DefTitle);
-		(aMessageBoxData->message[0]) ?
-			SetMessageText(aMessageBoxData->message) : SetMessageText(HAIKU_SDL_DefMessage);
+		(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->title[0]) ?
+			ਸੈੱਟ_Title_2(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->title) : ਸੈੱਟ_Title_2(HAIKU_SDL_DefTitle);
+		(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->ਸੁਨੇਹਾ[0]) ?
+			ਸੈੱਟ_ਸੁਨੇਹਾ_ਪਾਠ(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->ਸੁਨੇਹਾ) : ਸੈੱਟ_ਸੁਨੇਹਾ_ਪਾਠ(HAIKU_SDL_Def_ਸੁਨੇਹਾ);
 
-		SetType(ConvertMessageBoxType(aMessageBoxData->flags));
+		ਸੈੱਟ_Type(Convert_ਸੁਨੇਹਾ_Box_Type(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ->flags));
 	}
 
-	void
-	ApplyAndParseColorScheme(const SDL_MessageBoxColorScheme *aColorScheme)
+	ਖਾਲੀ
+	ApplyAndParseColorScheme(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color_Scheme *aColorScheme)
 	{
-		SetBackgroundColor(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND]);
-		fTextColor = ConvertColorType(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_TEXT]);
-		SetButtonColors(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BORDER],
+		ਸੈੱਟ_Background_Color(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND]);
+		f_ਪਾਠ_Color = ConvertColorType(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_ਪਾਠ]);
+		ਸੈੱਟ_Button_Colors(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BORDER],
 		                &aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND],
-		                &aColorScheme->colors[SDL_MESSAGEBOX_COLOR_TEXT],
+		                &aColorScheme->colors[SDL_MESSAGEBOX_COLOR_ਪਾਠ],
 		                &aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED]);
 	}
 
-	void
-	SetButtonColors(const SDL_MessageBoxColor *aBorderColor,
-	                const SDL_MessageBoxColor *aBackgroundColor,
-	                const SDL_MessageBoxColor *aTextColor,
-	                const SDL_MessageBoxColor *aSelectedColor)
+	ਖਾਲੀ
+	ਸੈੱਟ_Button_Colors(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *aBorderColor,
+	                ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *aBackgroundColor,
+	                ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *a_ਪਾਠ_Color,
+	                ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *aSelectedColor)
 	{
-		if (fCustomColorScheme) {
-			int32 countButtons = CountButtons();
-			for (int i = 0; i < countButtons; ++i) {
-				ButtonAt(i)->SetViewColor(ConvertColorType(aBorderColor));
-				ButtonAt(i)->SetLowColor(ConvertColorType(aBackgroundColor));
+		ਜੇ (fCustomColorScheme) {
+			int32 ਗਿਣਤੀ_Buttons = ਗਿਣਤੀ_Buttons_2();
+			ਲਈ (ਪੂਰਨ i = 0; i < ਗਿਣਤੀ_Buttons; ++i) {
+				ButtonAt(i)->ਸੈੱਟ_View_Color(ConvertColorType(aBorderColor));
+				ButtonAt(i)->ਸੈੱਟ_ਨੀਵਾਂ_Color(ConvertColorType(aBackgroundColor));
 
 				// This doesn't work. See this why:
 				// https://github.com/haiku/haiku/commit/de9c53f8f5008c7b3b0af75d944a628e17f6dffe
 				// Let it remain.
-				ButtonAt(i)->SetHighColor(ConvertColorType(aTextColor));
+				ButtonAt(i)->ਸੈੱਟ_ਉੱਚਾ_Color(ConvertColorType(a_ਪਾਠ_Color));
 			}
 		}
 		// TODO: Not Implemented.
 		// Is it even necessary?!
-		(void)aSelectedColor;
+		(ਖਾਲੀ)aSelectedColor;
 	}
 
-	void
-	SetBackgroundColor(const SDL_MessageBoxColor *aColor)
+	ਖਾਲੀ
+	ਸੈੱਟ_Background_Color(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Color *aColor)
 	{
 		rgb_color background = ConvertColorType(aColor);
 
-		GetLayout()->View()->SetViewColor(background);
+		GetLayout()->View()->ਸੈੱਟ_View_Color(background);
 		// See file "haiku/src/kits/interface/Alert.cpp", the "TAlertView" is the internal name of the left panel.
-		FindView("TAlertView")->SetViewColor(background);
-		fMessageBoxTextView->SetViewColor(background);
+		ਲੱਭੋ_View("TAlertView")->ਸੈੱਟ_View_Color(background);
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਸੈੱਟ_View_Color(background);
 	}
 
-	bool
-	CheckLongLines(const char *aMessage)
+	ਤਾਰਕਿਕ
+	Check_Long_ਸਤਰਾਂ(ਅਚਲ ਅੱਖਰ *a_ਸੁਨੇਹਾ)
 	{
-		int final = 0;
+		ਪੂਰਨ final = 0;
 
 		// This UTF-8 friendly.
-		BString message = aMessage;
-		int32 length = message.CountChars();
+		BString ਸੁਨੇਹਾ = a_ਸੁਨੇਹਾ;
+		int32 ਲੰਮਾਈ = ਸੁਨੇਹਾ.ਗਿਣਤੀ_Chars();
 
-		for (int i = 0, c = 0; i < length; ++i) {
+		ਲਈ (ਪੂਰਨ i = 0, c = 0; i < ਲੰਮਾਈ; ++i) {
 			c++;
-			if (*(message.CharAt(i)) == '\n') {
+			ਜੇ (*(ਸੁਨੇਹਾ.CharAt(i)) == '\n') {
 				c = 0;
 			}
-			if (c > final) {
+			ਜੇ (c > final) {
 				final = c;
 			}
 		}
 
-		return (final > G_MAX_STRING_LENGTH_BYTES);
+		ਵਾਪਸ (final > G_MAX_STRING_ਲੰਮਾਈ_ਬਾਈਟਾਂ);
 	}
 
-	void
-	SetMessageText(const char *aMessage)
+	ਖਾਲੀ
+	ਸੈੱਟ_ਸੁਨੇਹਾ_ਪਾਠ(ਅਚਲ ਅੱਖਰ *a_ਸੁਨੇਹਾ)
 	{
-		fThereIsLongLine = CheckLongLines(aMessage);
-		if (fThereIsLongLine) {
-			fMessageBoxTextView->SetWordWrap(true);
+		f_There_Is_Long_ਸਤਰ = Check_Long_ਸਤਰਾਂ(a_ਸੁਨੇਹਾ);
+		ਜੇ (f_There_Is_Long_ਸਤਰ) {
+			f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਸੈੱਟ_ਸ਼ਬਦ_Wrap(ਸੱਚ);
 		}
 
-		rgb_color textColor = ui_color(B_PANEL_TEXT_COLOR);
-		if (fCustomColorScheme) {
-			textColor = fTextColor;
+		rgb_color ਪਾਠ_Color = ui_color(B_PANEL_ਪਾਠ_COLOR);
+		ਜੇ (fCustomColorScheme) {
+			ਪਾਠ_Color = f_ਪਾਠ_Color;
 		}
 
 		/*
@@ -246,96 +246,96 @@ class HAIKU_SDL_MessageBox : public BAlert
 		}
 		*/
 
-		fMessageBoxTextView->SetFontAndColor(be_plain_font, B_FONT_ALL, &textColor);
-		fMessageBoxTextView->Insert(aMessage);
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਸੈੱਟ_Font_And_Color(be_plain_font, B_FONT_ALL, &ਪਾਠ_Color);
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਪਾਓ(a_ਸੁਨੇਹਾ);
 
 		// Be sure to call update width method.
-		UpdateTextViewWidth();
+		Update_ਪਾਠ_View_ਚੌੜਾਈ();
 	}
 
-	void
-	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, int aNumButtons)
+	ਖਾਲੀ
+	ਜੋੜੋ_Sdl_Buttons(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_Button_ਅੰਕੜੇ *aButtons, ਪੂਰਨ a_ਅੰਕ_Buttons)
 	{
-		for (int i = 0; i < aNumButtons; ++i) {
-			fButtons.push_back(&aButtons[i]);
+		ਲਈ (ਪੂਰਨ i = 0; i < a_ਅੰਕ_Buttons; ++i) {
+			fButtons.ਧੱਕੋ_ਪਿੱਠ(&aButtons[i]);
 		}
 
-		std::sort(fButtons.begin(), fButtons.end(), &HAIKU_SDL_MessageBox::SortButtonsPredicate);
+		std::ਛਾਂਟੋ(fButtons.begin(), fButtons.ਸਿਰਾ(), &HAIKU_SDL_ਸੁਨੇਹਾ_Box::ਛਾਂਟੋ_Buttons_Predicate);
 
-		size_t countButtons = fButtons.size();
-		for (size_t i = 0; i < countButtons; ++i) {
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
-                fCloseButton = static_cast<int>(i);
+		size_t ਗਿਣਤੀ_Buttons = fButtons.ਮਾਪ();
+		ਲਈ (size_t i = 0; i < ਗਿਣਤੀ_Buttons; ++i) {
+			ਜੇ (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+                fCloseButton = static_cast<ਪੂਰਨ>(i);
             }
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
-                fDefaultButton = static_cast<int>(i);
+			ਜੇ (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+                fDefaultButton = static_cast<ਪੂਰਨ>(i);
             }
-			AddButton(fButtons[i]->text);
+			ਜੋੜੋ_Button(fButtons[i]->ਪਾਠ);
 		}
 
-		SetDefaultButton(ButtonAt(fDefaultButton));
+		ਸੈੱਟ_Default_Button(ButtonAt(fDefaultButton));
 	}
 
-public:
-	explicit
-	HAIKU_SDL_MessageBox(const SDL_MessageBoxData *aMessageBoxData)
-		: BAlert(NULL, NULL, NULL, NULL, NULL, B_WIDTH_FROM_LABEL, B_WARNING_ALERT),
-		  fComputedMessageBoxWidth(0.0f),
+ਜਨਤਕ:
+	ਸਪਸ਼ਟ
+	HAIKU_SDL_ਸੁਨੇਹਾ_Box(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ)
+		: BAlert(ਨਿਰਾ, ਨਿਰਾ, ਨਿਰਾ, ਨਿਰਾ, ਨਿਰਾ, B_ਚੌੜਾਈ_FROM_LABEL, B_WARNING_ALERT),
+		  f_Computed_ਸੁਨੇਹਾ_Box_ਚੌੜਾਈ(0.0f),
 		  fCloseButton(G_CLOSE_BUTTON_ID), fDefaultButton(G_DEFAULT_BUTTON_ID),
-		  fCustomColorScheme(false), fThereIsLongLine(false),
+		  fCustomColorScheme(ਝੂਠ), f_There_Is_Long_ਸਤਰ(ਝੂਠ),
 		  HAIKU_SDL_DefTitle("SDL MessageBox"),
-		  HAIKU_SDL_DefMessage("Some information has been lost."),
+		  HAIKU_SDL_Def_ਸੁਨੇਹਾ("Some information has been lost."),
 		  HAIKU_SDL_DefButton("OK")
 	{
 		// MessageBox settings.
 		// We need a title to display it.
-		SetLook(B_TITLED_WINDOW_LOOK);
-		SetFlags(Flags() | B_CLOSE_ON_ESCAPE);
+		ਸੈੱਟ_Look(B_TITLED_ਖਿੜਕੀ_LOOK);
+		ਸੈੱਟ_Flags(Flags() | B_CLOSE_ON_ESCAPE);
 
 		// MessageBox TextView settings.
-		fMessageBoxTextView = TextView();
-		fMessageBoxTextView->SetWordWrap(false);
-		fMessageBoxTextView->SetStylable(true);
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View = ਪਾਠ_View();
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਸੈੱਟ_ਸ਼ਬਦ_Wrap(ਝੂਠ);
+		f_ਸੁਨੇਹਾ_Box_ਪਾਠ_View->ਸੈੱਟ_Stylable(ਸੱਚ);
 
-		ParseSdlMessageBoxData(aMessageBoxData);
+		Parse_Sdl_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ(a_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ);
 	}
 
-	int
-	GetCloseButtonId(void) const
+	ਪੂਰਨ
+	GetCloseButtonId(ਖਾਲੀ) ਅਚਲ
 	{
-		return fCloseButton;
+		ਵਾਪਸ fCloseButton;
 	}
 
-	virtual
-	~HAIKU_SDL_MessageBox(void)
+	ਆਭਾਸੀ
+	~HAIKU_SDL_ਸੁਨੇਹਾ_Box(ਖਾਲੀ)
 	{
 		fButtons.clear();
 	}
 
-protected:
-	virtual void
-	FrameResized(float aNewWidth, float aNewHeight)
+ਸੁਰੱਖਿਅਤ:
+	ਆਭਾਸੀ ਖਾਲੀ
+	ਚੌਖਟਾ_Resized(ਦਸ਼ਮਲਵ a_New_ਚੌੜਾਈ, ਦਸ਼ਮਲਵ a_New_ਉਚਾਈ)
 	{
-		if (fComputedMessageBoxWidth > aNewWidth) {
-			ResizeTo(fComputedMessageBoxWidth, aNewHeight);
-		} else {
-			BAlert::FrameResized(aNewWidth, aNewHeight);
+		ਜੇ (f_Computed_ਸੁਨੇਹਾ_Box_ਚੌੜਾਈ > a_New_ਚੌੜਾਈ) {
+			Resize_ਮੰਜ਼ਿਲ(f_Computed_ਸੁਨੇਹਾ_Box_ਚੌੜਾਈ, a_New_ਉਚਾਈ);
+		} ਨਹੀਂਤਾਂ {
+			BAlert::ਚੌਖਟਾ_Resized(a_New_ਚੌੜਾਈ, a_New_ਉਚਾਈ);
 		}
 	}
 
-	virtual void
-	SetTitle(const char *aTitle)
+	ਆਭਾਸੀ ਖਾਲੀ
+	ਸੈੱਟ_Title_2(ਅਚਲ ਅੱਖਰ *aTitle)
 	{
 		fTitle = aTitle;
-		BAlert::SetTitle(aTitle);
+		BAlert::ਸੈੱਟ_Title_2(aTitle);
 	}
 };
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
-bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+ਤਾਰਕਿਕ HAIKU_Show_ਸੁਨੇਹਾ_Box(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *messageboxdata, ਪੂਰਨ *buttonID)
 {
 	// Initialize button by closed or error value first.
 	*buttonID = G_CLOSE_BUTTON_ID;
@@ -345,22 +345,22 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// "You need a valid BApplication object before interacting with the app_server."
 	// "2 BApplication objects were created. Only one is allowed."
 	std::unique_ptr<BApplication> application;
-	if (!be_app) {
-		application = std::unique_ptr<BApplication>(new(std::nothrow) BApplication(SDL_signature));
-		if (!application) {
-			return SDL_SetError("Cannot create the BApplication object. Lack of memory?");
+	ਜੇ (!be_app) {
+		application = std::unique_ptr<BApplication>(ਨਵਾਂ(std::nothrow) BApplication(SDL_signature));
+		ਜੇ (!application) {
+			ਵਾਪਸ SDL_ਸੈੱਟ_Error("Cannot create the BApplication object. Lack of memory?");
 		}
 	}
 
-	HAIKU_SDL_MessageBox *SDL_MessageBox = new(std::nothrow) HAIKU_SDL_MessageBox(messageboxdata);
-	if (!SDL_MessageBox) {
-		return SDL_SetError("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
+	HAIKU_SDL_ਸੁਨੇਹਾ_Box *SDL_ਸੁਨੇਹਾ_Box = ਨਵਾਂ(std::nothrow) HAIKU_SDL_ਸੁਨੇਹਾ_Box(messageboxdata);
+	ਜੇ (!SDL_ਸੁਨੇਹਾ_Box) {
+		ਵਾਪਸ SDL_ਸੈੱਟ_Error("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
 	}
-	const int closeButton = SDL_MessageBox->GetCloseButtonId();
-	int pushedButton = SDL_MessageBox->Go();
+	ਅਚਲ ਪੂਰਨ closeButton = SDL_ਸੁਨੇਹਾ_Box->GetCloseButtonId();
+	ਪੂਰਨ pushedButton = SDL_ਸੁਨੇਹਾ_Box->Go();
 
 	// The close button is equivalent to pressing Escape.
-	if (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
+	ਜੇ (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
 		pushedButton = closeButton;
 	}
 
@@ -373,11 +373,11 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// Initialize button by real pushed value then.
 	*buttonID = pushedButton;
 
-	return true;
+	ਵਾਪਸ ਸੱਚ;
 }
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_HAIKU

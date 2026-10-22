@@ -18,55 +18,55 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_cocoavideo_h_
-#define SDL_cocoavideo_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_cocoavideo_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_cocoavideo_h_
 
-#include <SDL3/SDL_opengl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <SDL3/SDL_opengl.h>
 
-#include <ApplicationServices/ApplicationServices.h>
-#include <IOKit/pwr_mgt/IOPMLib.h>
-#include <Cocoa/Cocoa.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <ApplicationServices/ApplicationServices.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <IOKit/pwr_mgt/IOPMLib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <Cocoa/Cocoa.h>
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-#include "SDL_cocoaclipboard.h"
-#include "SDL_cocoaevents.h"
-#include "SDL_cocoakeyboard.h"
-#include "SDL_cocoamodes.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoawindow.h"
-#include "SDL_cocoapen.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoaclipboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoaevents.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoakeyboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoamodes.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoamouse.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoaopengl.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoawindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_cocoapen.h"
 
 // Private display data
 
 @class SDL3TranslatorResponder;
 
-typedef enum
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ
 {
     OptionAsAltNone,
-    OptionAsAltOnlyLeft,
-    OptionAsAltOnlyRight,
+    Option_As_Alt_Only_ਖੱਬਾ,
+    Option_As_Alt_Only_ਸੱਜਾ,
     OptionAsAltBoth,
 } OptionAsAlt;
 
-@interface SDL_CocoaVideoData : NSObject
-@property(nonatomic) int allow_spaces;
-@property(nonatomic) int trackpad_is_touch_only;
-@property(nonatomic) unsigned int modifierFlags;
-@property(nonatomic) void *key_layout;
-@property(nonatomic) SDL3TranslatorResponder *fieldEdit;
-@property(nonatomic) NSInteger clipboard_count;
+@interface SDL_Cocoa_Video_ਅੰਕੜੇ : NSObject
+@property(nonatomic) ਪੂਰਨ allow_spaces;
+@property(nonatomic) ਪੂਰਨ trackpad_is_touch_only;
+@property(nonatomic) ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ modifierFlags;
+@property(nonatomic) ਖਾਲੀ *ਕੁੰਜੀ_layout;
+@property(nonatomic) SDL3TranslatorResponder *ਖੇਤਰ_Edit;
+@property(nonatomic) NSInteger clipboard_ਗਿਣਤੀ;
 @property(nonatomic) IOPMAssertionID screensaver_assertion;
 @property(nonatomic) SDL_Mutex *swaplock;
 @property(nonatomic) OptionAsAlt option_as_alt;
-@property(nonatomic) CGFloat mainDisplayHeight;
-@end
+@property(nonatomic) CGFloat main_Display_ਉਚਾਈ;
+@ਸਿਰਾ
 
 // Utility functions
-extern SDL_SystemTheme Cocoa_GetSystemTheme(void);
-extern NSImage *Cocoa_CreateImage(SDL_Surface *surface);
+ਬਾਹਰੀ SDL_SystemTheme Cocoa_GetSystemTheme(ਖਾਲੀ);
+ਬਾਹਰੀ NSImage *Cocoa_CreateImage(SDL_Surface *surface);
 
-#endif // SDL_cocoavideo_h_
+#ਜੇ_ਅੰਤ // SDL_cocoavideo_h_

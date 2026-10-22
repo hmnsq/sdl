@@ -18,18 +18,18 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11
 
-#include <limits.h> // For INT_MAX
+#ਅਨ੍ਤਰ੍ਭਾਵ <limits.h> // For INT_MAX
 
-#include "SDL_x11video.h"
-#include "SDL_x11clipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11video.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11clipboard.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_clipboard_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_events_c.h"
 
-static const char *const text_mime_types[] = {
+ਸਥਿਰ ਅਚਲ ਅੱਖਰ *ਅਚਲ ਪਾਠ_mime_types[] = {
     "UTF8_STRING",
     "text/plain;charset=utf-8",
     "text/plain",
@@ -38,298 +38,298 @@ static const char *const text_mime_types[] = {
 };
 
 // Get any application owned window handle for clipboard association
-Window GetWindow(SDL_VideoDevice *_this)
+ਖਿੜਕੀ_2 Get_ਖਿੜਕੀ(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = _this->ਅੰਦਰੂਨੀ;
 
     /* We create an unmapped window that exists just to manage the clipboard,
        since X11 selection data is tied to a specific window and dies with it.
        We create the window on demand, so apps that don't use the clipboard
        don't have to keep an unnecessary resource around. */
-    if (data->clipboard_window == None) {
-        Display *dpy = data->display;
-        Window parent = RootWindow(dpy, DefaultScreen(dpy));
-        XSetWindowAttributes xattr;
-        data->clipboard_window = X11_XCreateWindow(dpy, parent, -10, -10, 1, 1, 0,
-                                                   CopyFromParent, InputOnly,
-                                                   NULL, 0, &xattr);
+    ਜੇ (ਅੰਕੜੇ->clipboard_ਖਿੜਕੀ == None) {
+        Display *dpy = ਅੰਕੜੇ->display;
+        ਖਿੜਕੀ_2 ਮਾਪਾ = ਜੜ੍ਹ_ਖਿੜਕੀ(dpy, DefaultScreen(dpy));
+        XSet_ਖਿੜਕੀ_ਗੁਣ xattr;
+        ਅੰਕੜੇ->clipboard_ਖਿੜਕੀ = X11_XCreate_ਖਿੜਕੀ(dpy, ਮਾਪਾ, -10, -10, 1, 1, 0,
+                                                   Copy_From_ਮਾਪਾ, ਨਿਵੇਸ਼_Only,
+                                                   ਨਿਰਾ, 0, &xattr);
 
-        X11_XSelectInput(dpy, data->clipboard_window, PropertyChangeMask);
-        X11_XFlush(data->display);
+        X11_XSelect_ਨਿਵੇਸ਼(dpy, ਅੰਕੜੇ->clipboard_ਖਿੜਕੀ, Property_Change_ਨਕਾਬ);
+        X11_XFlush(ਅੰਕੜੇ->display);
     }
 
-    return data->clipboard_window;
+    ਵਾਪਸ ਅੰਕੜੇ->clipboard_ਖਿੜਕੀ;
 }
 
-static bool SetSelectionData(SDL_VideoDevice *_this, Atom selection, SDL_ClipboardDataCallback callback,
-                            void *userdata, const char *const *mime_types, size_t mime_count, Uint32 sequence)
+ਸਥਿਰ bool ਸੈੱਟ_Selection_ਅੰਕੜੇ(SDL_VideoDevice *_this, Atom selection, SDL_Clipboard_ਅੰਕੜੇ_Callback callback,
+                            ਖਾਲੀ *userdata, ਅਚਲ ਅੱਖਰ *ਅਚਲ *mime_types, size_t mime_ਗਿਣਤੀ, Uint32 sequence)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *videodata = _this->ਅੰਦਰੂਨੀ;
     Display *display = videodata->display;
-    Window window;
-    SDLX11_ClipboardData *clipboard;
+    ਖਿੜਕੀ_2 ਖਿੜਕੀ;
+    SDLX11_Clipboard_ਅੰਕੜੇ *clipboard;
     bool clipboard_owner = false;
 
-    window = GetWindow(_this);
-    if (window == None) {
-        return SDL_SetError("Couldn't find a window to own the selection");
+    ਖਿੜਕੀ = Get_ਖਿੜਕੀ(_this);
+    ਜੇ (ਖਿੜਕੀ == None) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Couldn't find a window to own the selection");
     }
 
-    if (selection == XA_PRIMARY) {
+    ਜੇ (selection == XA_PRIMARY) {
         clipboard = &videodata->primary_selection;
-    } else {
+    } ਨਹੀਂਤਾਂ {
         clipboard = &videodata->clipboard;
     }
 
-    clipboard_owner = X11_XGetSelectionOwner(display, selection) == window;
+    clipboard_owner = X11_XGetSelectionOwner(display, selection) == ਖਿੜਕੀ;
 
     // If we are canceling our own data we need to clean it up
-    if (clipboard_owner && clipboard->sequence == 0) {
+    ਜੇ (clipboard_owner && clipboard->sequence == 0) {
         SDL_free(clipboard->userdata);
     }
 
     clipboard->callback = callback;
     clipboard->userdata = userdata;
     clipboard->mime_types = mime_types;
-    clipboard->mime_count = mime_count;
+    clipboard->mime_ਗਿਣਤੀ = mime_ਗਿਣਤੀ;
     clipboard->sequence = sequence;
 
-    X11_XSetSelectionOwner(display, selection, window, CurrentTime);
-    return true;
+    X11_XSetSelectionOwner(display, selection, ਖਿੜਕੀ, Current_ਸਮਾਂ);
+    ਵਾਪਸ true;
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t len)
+ਸਥਿਰ ਖਾਲੀ *Clone_ਅੰਕੜੇ_ਬਫਰ(ਅਚਲ ਖਾਲੀ *ਬਫਰ_2, ਅਚਲ size_t len)
 {
-    void *clone = NULL;
-    if (len > 0 && buffer) {
-        clone = SDL_malloc(len + sizeof(Uint32));
-        if (clone) {
-            SDL_memcpy(clone, buffer, len);
-            SDL_memset((Uint8 *)clone + len, 0, sizeof(Uint32));
+    ਖਾਲੀ *clone = ਨਿਰਾ;
+    ਜੇ (len > 0 && ਬਫਰ_2) {
+        clone = SDL_malloc(len + ਆਕਾਰ(Uint32));
+        ਜੇ (clone) {
+            SDL_memcpy(clone, ਬਫਰ_2, len);
+            SDL_memset((Uint8 *)clone + len, 0, ਆਕਾਰ(Uint32));
         }
     }
-    return clone;
+    ਵਾਪਸ clone;
 }
 
 /*
  * original_buffer is considered unusable after the function is called.
  */
-static void *AppendDataBuffer(void *original_buffer, const size_t old_len, const void *buffer, const size_t buffer_len)
+ਸਥਿਰ ਖਾਲੀ *Append_ਅੰਕੜੇ_ਬਫਰ(ਖਾਲੀ *original_ਬਫਰ, ਅਚਲ size_t old_len, ਅਚਲ ਖਾਲੀ *ਬਫਰ_2, ਅਚਲ size_t ਬਫਰ_len)
 {
-    void *resized_buffer;
+    ਖਾਲੀ *resized_ਬਫਰ;
 
-    if (buffer_len > 0 && buffer) {
-        resized_buffer = SDL_realloc(original_buffer, old_len + buffer_len + sizeof(Uint32));
-        if (resized_buffer) {
-            SDL_memcpy((Uint8 *)resized_buffer + old_len, buffer, buffer_len);
-            SDL_memset((Uint8 *)resized_buffer + old_len + buffer_len, 0, sizeof(Uint32));
+    ਜੇ (ਬਫਰ_len > 0 && ਬਫਰ_2) {
+        resized_ਬਫਰ = SDL_realloc(original_ਬਫਰ, old_len + ਬਫਰ_len + ਆਕਾਰ(Uint32));
+        ਜੇ (resized_ਬਫਰ) {
+            SDL_memcpy((Uint8 *)resized_ਬਫਰ + old_len, ਬਫਰ_2, ਬਫਰ_len);
+            SDL_memset((Uint8 *)resized_ਬਫਰ + old_len + ਬਫਰ_len, 0, ਆਕਾਰ(Uint32));
         }
 
-        return resized_buffer;
-    } else {
-        return original_buffer;
+        ਵਾਪਸ resized_ਬਫਰ;
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ original_ਬਫਰ;
     }
 }
 
-static bool WaitForSelection(SDL_VideoDevice *_this, Atom selection_type, bool *flag)
+ਸਥਿਰ bool WaitForSelection(SDL_VideoDevice *_this, Atom selection_type, bool *flag)
 {
-    Uint64 waitStart;
+    Uint64 wait_ਸ਼ੁਰੂ;
     Uint64 waitElapsed;
 
-    waitStart = SDL_GetTicks();
+    wait_ਸ਼ੁਰੂ = SDL_GetTicks();
     *flag = true;
-    while (*flag) {
+    ਜਦੋਂ (*flag) {
         X11_PumpEvents(_this);
-        waitElapsed = SDL_GetTicks() - waitStart;
+        waitElapsed = SDL_GetTicks() - wait_ਸ਼ੁਰੂ;
         // Wait one second for a selection response.
-        if (waitElapsed > 1000) {
+        ਜੇ (waitElapsed > 1000) {
             *flag = false;
-            SDL_SetError("Selection timeout");
+            SDL_ਸੈੱਟ_Error("Selection timeout");
             /* We need to set the selection text so that next time we won't
                timeout, otherwise we will hang on every call to this function. */
-            SetSelectionData(_this, selection_type, SDL_ClipboardTextCallback, NULL,
-                             text_mime_types, SDL_arraysize(text_mime_types), 0);
-            return false;
+            ਸੈੱਟ_Selection_ਅੰਕੜੇ(_this, selection_type, SDL_Clipboard_ਪਾਠ_Callback, ਨਿਰਾ,
+                             ਪਾਠ_mime_types, SDL_arraysize(ਪਾਠ_mime_types), 0);
+            ਵਾਪਸ false;
         }
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
-                              const char *mime_type, size_t *length)
+ਸਥਿਰ ਖਾਲੀ *Get_Selection_ਅੰਕੜੇ(SDL_VideoDevice *_this, Atom selection_type,
+                              ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *videodata = _this->ਅੰਦਰੂਨੀ;
     Display *display = videodata->display;
-    Window window;
-    Window owner;
+    ਖਿੜਕੀ_2 ਖਿੜਕੀ;
+    ਖਿੜਕੀ_2 owner;
     Atom selection;
     Atom seln_type;
-    int seln_format;
-    unsigned long count;
-    unsigned long overflow;
+    ਪੂਰਨ seln_format;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ਗਿਣਤੀ_2;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ਉਛਾਲ;
 
-    SDLX11_ClipboardData *clipboard;
-    void *data = NULL;
-    unsigned char *src = NULL;
+    SDLX11_Clipboard_ਅੰਕੜੇ *clipboard;
+    ਖਾਲੀ *ਅੰਕੜੇ = ਨਿਰਾ;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *src = ਨਿਰਾ;
     bool incr_success = false;
     Atom XA_MIME = X11_XInternAtom(display, mime_type, False);
 
-    *length = 0;
+    *ਲੰਮਾਈ = 0;
 
     // Get the window that holds the selection
-    window = GetWindow(_this);
+    ਖਿੜਕੀ = Get_ਖਿੜਕੀ(_this);
     owner = X11_XGetSelectionOwner(display, selection_type);
-    if (owner == None) {
+    ਜੇ (owner == None) {
         // This requires a fallback to ancient X10 cut-buffers. We will just skip those for now
-        data = NULL;
-    } else if (owner == window) {
-        owner = DefaultRootWindow(display);
-        if (selection_type == XA_PRIMARY) {
+        ਅੰਕੜੇ = ਨਿਰਾ;
+    } ਨਹੀਂਤਾਂ ਜੇ (owner == ਖਿੜਕੀ) {
+        owner = Default_ਜੜ੍ਹ_ਖਿੜਕੀ(display);
+        ਜੇ (selection_type == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else {
+        } ਨਹੀਂਤਾਂ {
             clipboard = &videodata->clipboard;
         }
 
-        if (clipboard->callback) {
-            const void *clipboard_data = clipboard->callback(clipboard->userdata, mime_type, length);
-            data = CloneDataBuffer(clipboard_data, *length);
+        ਜੇ (clipboard->callback) {
+            ਅਚਲ ਖਾਲੀ *clipboard_ਅੰਕੜੇ = clipboard->callback(clipboard->userdata, mime_type, ਲੰਮਾਈ);
+            ਅੰਕੜੇ = Clone_ਅੰਕੜੇ_ਬਫਰ(clipboard_ਅੰਕੜੇ, *ਲੰਮਾਈ);
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         // Request that the selection owner copy the data to our window
-        owner = window;
+        owner = ਖਿੜਕੀ;
         selection = videodata->atoms.SDL_SELECTION;
         X11_XConvertSelection(display, selection_type, XA_MIME, selection, owner,
-                              CurrentTime);
+                              Current_ਸਮਾਂ);
 
-        if (WaitForSelection(_this, selection_type, &videodata->selection_waiting) == false) {
-            data = NULL;
-            *length = 0;
+        ਜੇ (WaitForSelection(_this, selection_type, &videodata->selection_ਉਡੀਕ) == false) {
+            ਅੰਕੜੇ = ਨਿਰਾ;
+            *ਲੰਮਾਈ = 0;
         }
 
-        if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
-                                   XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) == Success) {
-            if (seln_type == XA_MIME) {
-                *length = (size_t)count;
-                data = CloneDataBuffer(src, count);
-            } else if (seln_type == videodata->atoms.INCR) {
-                while (1) {
+        ਜੇ (X11_XGet_ਖਿੜਕੀ_Property(display, owner, selection, 0, ਵੱਧ_ਤੋਂ_ਵੱਧ_ਅੰਕ / 4, False,
+                                   XA_MIME, &seln_type, &seln_format, &ਗਿਣਤੀ_2, &ਉਛਾਲ, &src) == Success) {
+            ਜੇ (seln_type == XA_MIME) {
+                *ਲੰਮਾਈ = (size_t)ਗਿਣਤੀ_2;
+                ਅੰਕੜੇ = Clone_ਅੰਕੜੇ_ਬਫਰ(src, ਗਿਣਤੀ_2);
+            } ਨਹੀਂਤਾਂ ਜੇ (seln_type == videodata->atoms.INCR) {
+                ਜਦੋਂ (1) {
                     // Only delete the property after being done with the previous "chunk".
                     X11_XDeleteProperty(display, owner, selection);
                     X11_XFlush(display);
 
-                    if (WaitForSelection(_this, selection_type, &videodata->selection_incr_waiting) == false) {
-                        break;
+                    ਜੇ (WaitForSelection(_this, selection_type, &videodata->selection_incr_ਉਡੀਕ) == false) {
+                        ਰੋਕੋ;
                     }
 
                     X11_XFree(src);
-                    if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
-                                           XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) != Success) {
-                        break;
+                    ਜੇ (X11_XGet_ਖਿੜਕੀ_Property(display, owner, selection, 0, ਵੱਧ_ਤੋਂ_ਵੱਧ_ਅੰਕ / 4, False,
+                                           XA_MIME, &seln_type, &seln_format, &ਗਿਣਤੀ_2, &ਉਛਾਲ, &src) != Success) {
+                        ਰੋਕੋ;
                     }
 
-                    if (count == 0) {
+                    ਜੇ (ਗਿਣਤੀ_2 == 0) {
                         incr_success = true;
-                        break;
+                        ਰੋਕੋ;
                     }
 
-                    if (*length == 0) {
-                        *length = (size_t)count;
-                        data = CloneDataBuffer(src, count);
-                    } else {
-                        data = AppendDataBuffer(data, *length, src, count);
-                        *length += (size_t)count;
+                    ਜੇ (*ਲੰਮਾਈ == 0) {
+                        *ਲੰਮਾਈ = (size_t)ਗਿਣਤੀ_2;
+                        ਅੰਕੜੇ = Clone_ਅੰਕੜੇ_ਬਫਰ(src, ਗਿਣਤੀ_2);
+                    } ਨਹੀਂਤਾਂ {
+                        ਅੰਕੜੇ = Append_ਅੰਕੜੇ_ਬਫਰ(ਅੰਕੜੇ, *ਲੰਮਾਈ, src, ਗਿਣਤੀ_2);
+                        *ਲੰਮਾਈ += (size_t)ਗਿਣਤੀ_2;
                     }
 
-                    if (data == NULL) {
-                        break;
+                    ਜੇ (ਅੰਕੜੇ == ਨਿਰਾ) {
+                        ਰੋਕੋ;
                     }
                 }
 
-                if (incr_success == false) {
-                    SDL_free(data);
-                    data = NULL;
-                    *length = 0;
+                ਜੇ (incr_success == false) {
+                    SDL_free(ਅੰਕੜੇ);
+                    ਅੰਕੜੇ = ਨਿਰਾ;
+                    *ਲੰਮਾਈ = 0;
                 }
             }
             X11_XFree(src);
         }
     }
-    return data;
+    ਵਾਪਸ ਅੰਕੜੇ;
 }
 
-const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ਅਚਲ ਅੱਖਰ *ਅਚਲ *X11_Get_ਪਾਠ_Mime_Types(SDL_VideoDevice *_this, size_t *ਅੰਕ_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *ਅੰਕ_mime_types = SDL_arraysize(ਪਾਠ_mime_types);
+    ਵਾਪਸ ਪਾਠ_mime_types;
 }
 
-bool X11_SetClipboardData(SDL_VideoDevice *_this)
+bool X11_ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
-    return SetSelectionData(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, _this->clipboard_sequence);
+    SDL_Video_ਅੰਕੜੇ *videodata = _this->ਅੰਦਰੂਨੀ;
+    ਵਾਪਸ ਸੈੱਟ_Selection_ਅੰਕੜੇ(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (ਅਚਲ ਅੱਖਰ **)_this->clipboard_mime_types, _this->ਅੰਕ_clipboard_mime_types, _this->clipboard_sequence);
 }
 
-void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+ਖਾਲੀ *X11_Get_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *videodata = _this->ਅੰਦਰੂਨੀ;
 
-    *length = 0;
+    *ਲੰਮਾਈ = 0;
 
-    if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    ਜੇ (!SDL_Has_ਅੰਦਰੂਨੀ_Clipboard_ਅੰਕੜੇ(_this, mime_type)) {
         // This mime type wasn't advertised by the last selection owner.
         // The atom might still have data, but it's stale, so ignore it.
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
-    return GetSelectionData(_this, videodata->atoms.CLIPBOARD, mime_type, length);
+    ਵਾਪਸ Get_Selection_ਅੰਕੜੇ(_this, videodata->atoms.CLIPBOARD, mime_type, ਲੰਮਾਈ);
 }
 
-bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool X11_Has_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type)
 {
-    size_t length;
-    void *data;
-    data = X11_GetClipboardData(_this, mime_type, &length);
-    SDL_free(data);
-    return length > 0;
+    size_t ਲੰਮਾਈ;
+    ਖਾਲੀ *ਅੰਕੜੇ;
+    ਅੰਕੜੇ = X11_Get_Clipboard_ਅੰਕੜੇ(_this, mime_type, &ਲੰਮਾਈ);
+    SDL_free(ਅੰਕੜੇ);
+    ਵਾਪਸ ਲੰਮਾਈ > 0;
 }
 
-bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool X11_ਸੈੱਟ_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਪਾਠ)
 {
-    return SetSelectionData(_this, XA_PRIMARY, SDL_ClipboardTextCallback, SDL_strdup(text), text_mime_types, SDL_arraysize(text_mime_types), 0);
+    ਵਾਪਸ ਸੈੱਟ_Selection_ਅੰਕੜੇ(_this, XA_PRIMARY, SDL_Clipboard_ਪਾਠ_Callback, SDL_strdup(ਪਾਠ), ਪਾਠ_mime_types, SDL_arraysize(ਪਾਠ_mime_types), 0);
 }
 
-char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this)
+ਅੱਖਰ *X11_Get_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this)
 {
-    size_t length;
-    char *text = GetSelectionData(_this, XA_PRIMARY, text_mime_types[0], &length);
-    if (!text) {
-        text = SDL_strdup("");
+    size_t ਲੰਮਾਈ;
+    ਅੱਖਰ *ਪਾਠ = Get_Selection_ਅੰਕੜੇ(_this, XA_PRIMARY, ਪਾਠ_mime_types[0], &ਲੰਮਾਈ);
+    ਜੇ (!ਪਾਠ) {
+        ਪਾਠ = SDL_strdup("");
     }
-    return text;
+    ਵਾਪਸ ਪਾਠ;
 }
 
-bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this)
+bool X11_Has_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this)
 {
-    bool result = false;
-    char *text = X11_GetPrimarySelectionText(_this);
-    if (text) {
-        if (text[0] != '\0') {
-            result = true;
+    bool ਨਤੀਜਾ = false;
+    ਅੱਖਰ *ਪਾਠ = X11_Get_Primary_Selection_ਪਾਠ(_this);
+    ਜੇ (ਪਾਠ) {
+        ਜੇ (ਪਾਠ[0] != '\0') {
+            ਨਤੀਜਾ = true;
         }
-        SDL_free(text);
+        SDL_free(ਪਾਠ);
     }
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 }
 
-void X11_QuitClipboard(SDL_VideoDevice *_this)
+ਖਾਲੀ X11_QuitClipboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    if (data->primary_selection.sequence == 0) {
-        SDL_free(data->primary_selection.userdata);
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = _this->ਅੰਦਰੂਨੀ;
+    ਜੇ (ਅੰਕੜੇ->primary_selection.sequence == 0) {
+        SDL_free(ਅੰਕੜੇ->primary_selection.userdata);
     }
-    if (data->clipboard.sequence == 0) {
-        SDL_free(data->clipboard.userdata);
+    ਜੇ (ਅੰਕੜੇ->clipboard.sequence == 0) {
+        SDL_free(ਅੰਕੜੇ->clipboard.userdata);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_X11

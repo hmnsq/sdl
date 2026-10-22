@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_RPI
 
-#include "SDL_rpivideo.h"
-#include "SDL_rpimouse.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpivideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_rpimouse.h"
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/default_cursor.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/default_cursor.h"
 
 // Copied from vc_vchi_dispmanx.h which is bugged and tries to include a non existing file
 // Attributes changes flag mask
-#define ELEMENT_CHANGE_LAYER         (1 << 0)
-#define ELEMENT_CHANGE_OPACITY       (1 << 1)
-#define ELEMENT_CHANGE_DEST_RECT     (1 << 2)
-#define ELEMENT_CHANGE_SRC_RECT      (1 << 3)
-#define ELEMENT_CHANGE_MASK_RESOURCE (1 << 4)
-#define ELEMENT_CHANGE_TRANSFORM     (1 << 5)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_LAYER         (1 << 0)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_OPACITY       (1 << 1)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_DEST_RECT     (1 << 2)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_SRC_RECT      (1 << 3)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_ਨਕਾਬ_RESOURCE (1 << 4)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ELEMENT_CHANGE_TRANSFORM     (1 << 5)
 // End copied from vc_vchi_dispmanx.h
 
-static SDL_Cursor *RPI_CreateDefaultCursor(void);
-static SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y);
-static bool RPI_ShowCursor(SDL_Cursor *cursor);
-static bool RPI_MoveCursor(SDL_Cursor *cursor);
-static void RPI_FreeCursor(SDL_Cursor *cursor);
+ਸਥਿਰ SDL_Cursor *RPI_CreateDefaultCursor(ਖਾਲੀ);
+ਸਥਿਰ SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, ਪੂਰਨ hot_x, ਪੂਰਨ hot_y);
+ਸਥਿਰ bool RPI_ShowCursor(SDL_Cursor *cursor);
+ਸਥਿਰ bool RPI_MoveCursor(SDL_Cursor *cursor);
+ਸਥਿਰ ਖਾਲੀ RPI_FreeCursor(SDL_Cursor *cursor);
 
-static SDL_Cursor *global_cursor;
+ਸਥਿਰ SDL_Cursor *global_cursor;
 
-static SDL_Cursor *RPI_CreateDefaultCursor(void)
+ਸਥਿਰ SDL_Cursor *RPI_CreateDefaultCursor(ਖਾਲੀ)
 {
-    return SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
+    ਵਾਪਸ SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
 }
 
 // Create a cursor from a surface
-static SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+ਸਥਿਰ SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, ਪੂਰਨ hot_x, ਪੂਰਨ hot_y)
 {
-    int rc;
-    SDL_CursorData *curdata;
+    ਪੂਰਨ rc;
+    SDL_Cursor_ਅੰਕੜੇ *curdata;
     SDL_Cursor *cursor;
     VC_RECT_T dst_rect;
     Uint32 dummy;
@@ -64,14 +64,14 @@ static SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
     SDL_assert(surface->format == SDL_PIXELFORMAT_ARGB8888);
     SDL_assert(surface->pitch == surface->w * 4);
 
-    cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    cursor = (SDL_Cursor *)SDL_calloc(1, ਆਕਾਰ(*cursor));
+    ਜੇ (!cursor) {
+        ਵਾਪਸ ਨਿਰਾ;
     }
-    curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-    if (!curdata) {
+    curdata = (SDL_Cursor_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(*curdata));
+    ਜੇ (!curdata) {
         SDL_free(cursor);
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
     curdata->hot_x = hot_x;
@@ -82,39 +82,39 @@ static SDL_Cursor *RPI_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
     // This usage is inspired by Wayland/Weston RPI code, how they figured this out is anyone's guess
     curdata->resource = vc_dispmanx_resource_create(VC_IMAGE_ARGB8888, surface->w | (surface->pitch << 16), surface->h | (surface->h << 16), &dummy);
     SDL_assert(curdata->resource);
-    vc_dispmanx_rect_set(&dst_rect, 0, 0, curdata->w, curdata->h);
+    vc_dispmanx_rect_ਸੈੱਟ(&dst_rect, 0, 0, curdata->w, curdata->h);
     /* A note from Weston:
      * vc_dispmanx_resource_write_data() ignores ifmt,
      * rect.x, rect.width, and uses stride only for computing
      * the size of the transfer as rect.height * stride.
      * Therefore we can only write rows starting at x=0.
      */
-    rc = vc_dispmanx_resource_write_data(curdata->resource, VC_IMAGE_ARGB8888, surface->pitch, surface->pixels, &dst_rect);
+    rc = vc_dispmanx_resource_write_ਅੰਕੜੇ(curdata->resource, VC_IMAGE_ARGB8888, surface->pitch, surface->pixels, &dst_rect);
     SDL_assert(rc == DISPMANX_SUCCESS);
 
-    cursor->internal = curdata;
+    cursor->ਅੰਦਰੂਨੀ = curdata;
 
-    return cursor;
+    ਵਾਪਸ cursor;
 }
 
 // Show the specified cursor, or hide if cursor is NULL
-static bool RPI_ShowCursor(SDL_Cursor *cursor)
+ਸਥਿਰ bool RPI_ShowCursor(SDL_Cursor *cursor)
 {
-    int rc;
+    ਪੂਰਨ rc;
     DISPMANX_UPDATE_HANDLE_T update;
-    SDL_CursorData *curdata;
+    SDL_Cursor_ਅੰਕੜੇ *curdata;
     VC_RECT_T src_rect, dst_rect;
     SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_DisplayData *data;
-    VC_DISPMANX_ALPHA_T alpha = { DISPMANX_FLAGS_ALPHA_FROM_SOURCE /* flags */, 255 /*opacity 0->255*/, 0 /* mask */ };
+    SDL_Display_ਅੰਕੜੇ *ਅੰਕੜੇ;
+    VC_DISPMANX_ALPHA_T alpha = { DISPMANX_FLAGS_ALPHA_FROM_ਸਰੋਤ /* flags */, 255 /*opacity 0->255*/, 0 /*ਨਕਾਬ*/ };
     uint32_t layer = SDL_RPI_MOUSELAYER;
-    const char *hint;
+    ਅਚਲ ਅੱਖਰ *hint;
 
-    if (cursor != global_cursor) {
-        if (global_cursor) {
-            curdata = global_cursor->internal;
-            if (curdata && curdata->element > DISPMANX_NO_HANDLE) {
-                update = vc_dispmanx_update_start(0);
+    ਜੇ (cursor != global_cursor) {
+        ਜੇ (global_cursor) {
+            curdata = global_cursor->ਅੰਦਰੂਨੀ;
+            ਜੇ (curdata && curdata->element > DISPMANX_NO_HANDLE) {
+                update = vc_dispmanx_update_ਸ਼ੁਰੂ(0);
                 SDL_assert(update);
                 rc = vc_dispmanx_element_remove(update, curdata->element);
                 SDL_assert(rc == DISPMANX_SUCCESS);
@@ -126,38 +126,38 @@ static bool RPI_ShowCursor(SDL_Cursor *cursor)
         global_cursor = cursor;
     }
 
-    if (!cursor) {
-        return true;
+    ਜੇ (!cursor) {
+        ਵਾਪਸ true;
     }
 
-    curdata = cursor->internal;
-    if (!curdata) {
-        return false;
+    curdata = cursor->ਅੰਦਰੂਨੀ;
+    ਜੇ (!curdata) {
+        ਵਾਪਸ false;
     }
 
-    if (!mouse->focus) {
-        return false;
+    ਜੇ (!mouse->focus) {
+        ਵਾਪਸ false;
     }
 
-    data = SDL_GetDisplayDriverDataForWindow(mouse->focus);
-    if (!data) {
-        return false;
+    ਅੰਕੜੇ = SDL_Get_Display_Driver_ਅੰਕੜੇ_For_ਖਿੜਕੀ(mouse->focus);
+    ਜੇ (!ਅੰਕੜੇ) {
+        ਵਾਪਸ false;
     }
 
-    if (curdata->element == DISPMANX_NO_HANDLE) {
-        vc_dispmanx_rect_set(&src_rect, 0, 0, curdata->w << 16, curdata->h << 16);
-        vc_dispmanx_rect_set(&dst_rect, (int)mouse->x - curdata->hot_x, (int)mouse->y - curdata->hot_y, curdata->w, curdata->h);
+    ਜੇ (curdata->element == DISPMANX_NO_HANDLE) {
+        vc_dispmanx_rect_ਸੈੱਟ(&src_rect, 0, 0, curdata->w << 16, curdata->h << 16);
+        vc_dispmanx_rect_ਸੈੱਟ(&dst_rect, (ਪੂਰਨ)mouse->x - curdata->hot_x, (ਪੂਰਨ)mouse->y - curdata->hot_y, curdata->w, curdata->h);
 
-        update = vc_dispmanx_update_start(0);
+        update = vc_dispmanx_update_ਸ਼ੁਰੂ(0);
         SDL_assert(update);
 
         hint = SDL_GetHint(SDL_HINT_RPI_VIDEO_LAYER);
-        if (hint) {
+        ਜੇ (hint) {
             layer = SDL_atoi(hint) + 1;
         }
 
-        curdata->element = vc_dispmanx_element_add(update,
-                                                   data->dispman_display,
+        curdata->element = vc_dispmanx_element_ਜੋੜੋ(update,
+                                                   ਅੰਕੜੇ->dispman_display,
                                                    layer,
                                                    &dst_rect,
                                                    curdata->resource,
@@ -171,22 +171,22 @@ static bool RPI_ShowCursor(SDL_Cursor *cursor)
         SDL_assert(rc == DISPMANX_SUCCESS);
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
 // Free a window manager cursor
-static void RPI_FreeCursor(SDL_Cursor *cursor)
+ਸਥਿਰ ਖਾਲੀ RPI_FreeCursor(SDL_Cursor *cursor)
 {
-    int rc;
+    ਪੂਰਨ rc;
     DISPMANX_UPDATE_HANDLE_T update;
-    SDL_CursorData *curdata;
+    SDL_Cursor_ਅੰਕੜੇ *curdata;
 
-    if (cursor) {
-        curdata = cursor->internal;
+    ਜੇ (cursor) {
+        curdata = cursor->ਅੰਦਰੂਨੀ;
 
-        if (curdata) {
-            if (curdata->element != DISPMANX_NO_HANDLE) {
-                update = vc_dispmanx_update_start(0);
+        ਜੇ (curdata) {
+            ਜੇ (curdata->element != DISPMANX_NO_HANDLE) {
+                update = vc_dispmanx_update_ਸ਼ੁਰੂ(0);
                 SDL_assert(update);
                 rc = vc_dispmanx_element_remove(update, curdata->element);
                 SDL_assert(rc == DISPMANX_SUCCESS);
@@ -194,53 +194,53 @@ static void RPI_FreeCursor(SDL_Cursor *cursor)
                 SDL_assert(rc == DISPMANX_SUCCESS);
             }
 
-            if (curdata->resource != DISPMANX_NO_HANDLE) {
+            ਜੇ (curdata->resource != DISPMANX_NO_HANDLE) {
                 rc = vc_dispmanx_resource_delete(curdata->resource);
                 SDL_assert(rc == DISPMANX_SUCCESS);
             }
 
-            SDL_free(cursor->internal);
+            SDL_free(cursor->ਅੰਦਰੂਨੀ);
         }
         SDL_free(cursor);
-        if (cursor == global_cursor) {
-            global_cursor = NULL;
+        ਜੇ (cursor == global_cursor) {
+            global_cursor = ਨਿਰਾ;
         }
     }
 }
 
-static bool RPI_WarpMouseGlobalGraphically(float x, float y)
+ਸਥਿਰ bool RPI_WarpMouseGlobalGraphically(ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
-    int rc;
-    SDL_CursorData *curdata;
+    ਪੂਰਨ rc;
+    SDL_Cursor_ਅੰਕੜੇ *curdata;
     DISPMANX_UPDATE_HANDLE_T update;
     VC_RECT_T dst_rect;
     VC_RECT_T src_rect;
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
-        return true;
+    ਜੇ (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->ਅੰਦਰੂਨੀ) {
+        ਵਾਪਸ true;
     }
 
-    curdata = mouse->cur_cursor->internal;
-    if (curdata->element == DISPMANX_NO_HANDLE) {
-        return true;
+    curdata = mouse->cur_cursor->ਅੰਦਰੂਨੀ;
+    ਜੇ (curdata->element == DISPMANX_NO_HANDLE) {
+        ਵਾਪਸ true;
     }
 
-    update = vc_dispmanx_update_start(0);
-    if (!update) {
-        return true;
+    update = vc_dispmanx_update_ਸ਼ੁਰੂ(0);
+    ਜੇ (!update) {
+        ਵਾਪਸ true;
     }
 
     src_rect.x = 0;
     src_rect.y = 0;
-    src_rect.width = curdata->w << 16;
-    src_rect.height = curdata->h << 16;
-    dst_rect.x = (int)x - curdata->hot_x;
-    dst_rect.y = (int)y - curdata->hot_y;
-    dst_rect.width = curdata->w;
-    dst_rect.height = curdata->h;
+    src_rect.ਚੌੜਾਈ = curdata->w << 16;
+    src_rect.ਉਚਾਈ = curdata->h << 16;
+    dst_rect.x = (ਪੂਰਨ)x - curdata->hot_x;
+    dst_rect.y = (ਪੂਰਨ)y - curdata->hot_y;
+    dst_rect.ਚੌੜਾਈ = curdata->w;
+    dst_rect.ਉਚਾਈ = curdata->h;
 
-    rc = vc_dispmanx_element_change_attributes(
+    rc = vc_dispmanx_element_change_ਗੁਣ(
         update,
         curdata->element,
         0,
@@ -250,38 +250,38 @@ static bool RPI_WarpMouseGlobalGraphically(float x, float y)
         &src_rect,
         DISPMANX_NO_HANDLE,
         DISPMANX_NO_ROTATE);
-    if (rc != DISPMANX_SUCCESS) {
-        return SDL_SetError("vc_dispmanx_element_change_attributes() failed");
+    ਜੇ (rc != DISPMANX_SUCCESS) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("vc_dispmanx_element_change_attributes() failed");
     }
 
     // Submit asynchronously, otherwise the performance suffers a lot
-    rc = vc_dispmanx_update_submit(update, 0, NULL);
-    if (rc != DISPMANX_SUCCESS) {
-        return SDL_SetError("vc_dispmanx_update_submit() failed");
+    rc = vc_dispmanx_update_submit(update, 0, ਨਿਰਾ);
+    ਜੇ (rc != DISPMANX_SUCCESS) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("vc_dispmanx_update_submit() failed");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-static bool RPI_WarpMouseGlobal(float x, float y)
+ਸਥਿਰ bool RPI_WarpMouseGlobal(ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->internal) {
-        return true;
+    ਜੇ (!mouse || !mouse->cur_cursor || !mouse->cur_cursor->ਅੰਦਰੂਨੀ) {
+        ਵਾਪਸ true;
     }
 
     // Update internal mouse position.
     SDL_SendMouseMotion(0, mouse->focus, SDL_GLOBAL_MOUSE_ID, false, x, y);
 
-    return RPI_WarpMouseGlobalGraphically(x, y);
+    ਵਾਪਸ RPI_WarpMouseGlobalGraphically(x, y);
 }
 
-static bool RPI_WarpMouse(SDL_Window *window, float x, float y)
+ਸਥਿਰ bool RPI_WarpMouse(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y)
 {
-    return RPI_WarpMouseGlobal(x, y);
+    ਵਾਪਸ RPI_WarpMouseGlobal(x, y);
 }
 
-void RPI_InitMouse(SDL_VideoDevice *_this)
+ਖਾਲੀ RPI_InitMouse(SDL_VideoDevice *_this)
 {
     /* FIXME: Using UDEV it should be possible to scan all mice
      * but there's no point in doing so as there's no multimice support...yet!
@@ -295,20 +295,20 @@ void RPI_InitMouse(SDL_VideoDevice *_this)
     mouse->WarpMouse = RPI_WarpMouse;
     mouse->WarpMouseGlobal = RPI_WarpMouseGlobal;
 
-    SDL_SetDefaultCursor(RPI_CreateDefaultCursor());
+    SDL_ਸੈੱਟ_Default_Cursor(RPI_CreateDefaultCursor());
 }
 
-void RPI_QuitMouse(SDL_VideoDevice *_this)
+ਖਾਲੀ RPI_QuitMouse(SDL_VideoDevice *_this)
 {
 }
 
 // This is called when a mouse motion event occurs
-static bool RPI_MoveCursor(SDL_Cursor *cursor)
+ਸਥਿਰ bool RPI_MoveCursor(SDL_Cursor *cursor)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
     /* We must NOT call SDL_SendMouseMotion() on the next call or we will enter recursivity,
      * so we create a version of WarpMouseGlobal without it. */
-    return RPI_WarpMouseGlobalGraphically(mouse->x, mouse->y);
+    ਵਾਪਸ RPI_WarpMouseGlobalGraphically(mouse->x, mouse->y);
 }
 
-#endif // SDL_VIDEO_DRIVER_RPI
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_RPI

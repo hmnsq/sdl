@@ -19,122 +19,122 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylandcolor.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
-#include "color-management-v1-client-protocol.h"
-#include "../../events/SDL_windowevents_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandcolor.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandwindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "color-management-v1-client-protocol.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_windowevents_c.h"
 
-typedef struct Wayland_ColorInfoState
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Wayland_ColorInfoState
 {
-    struct wp_image_description_v1 *wp_image_description;
-    struct wp_image_description_info_v1 *wp_image_description_info;
-    struct wl_event_queue *queue;
+    ਬਣਤਰ wp_image_description_v1 *wp_image_description;
+    ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info;
+    ਬਣਤਰ wl_event_ਕਤਾਰ *ਕਤਾਰ;
 
-    union
+    ਸੰਘ
     {
-        SDL_WindowData *window_data;
-        SDL_DisplayData *display_data;
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2;
+        SDL_Display_ਅੰਕੜੇ *display_ਅੰਕੜੇ;
     };
 
-    enum
+    ਗਿਣਤੀ
     {
-        WAYLAND_COLOR_OBJECT_TYPE_WINDOW,
+        WAYLAND_COLOR_OBJECT_TYPE_ਖਿੜਕੀ,
         WAYLAND_COLOR_OBJECT_TYPE_DISPLAY
     } object_type;
 
     SDL_HDROutputProperties HDR;
 
     // The ICC fd is only valid if the size is non-zero.
-    int icc_fd;
-    Uint32 icc_size;
+    ਪੂਰਨ icc_fd;
+    Uint32 icc_ਮਾਪ;
 
     bool deferred_event_processing;
 } Wayland_ColorInfoState;
 
-static void Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
+ਸਥਿਰ ਖਾਲੀ Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
 {
-    if (state) {
-        if (state->wp_image_description_info) {
+    ਜੇ (state) {
+        ਜੇ (state->wp_image_description_info) {
             wp_image_description_info_v1_destroy(state->wp_image_description_info);
-            state->wp_image_description_info = NULL;
+            state->wp_image_description_info = ਨਿਰਾ;
         }
-        if (state->wp_image_description) {
+        ਜੇ (state->wp_image_description) {
             wp_image_description_v1_destroy(state->wp_image_description);
-            state->wp_image_description = NULL;
+            state->wp_image_description = ਨਿਰਾ;
         }
     }
 }
 
-void Wayland_FreeColorInfoState(Wayland_ColorInfoState *state)
+ਖਾਲੀ Wayland_FreeColorInfoState(Wayland_ColorInfoState *state)
 {
-    if (state) {
+    ਜੇ (state) {
         Wayland_CancelColorInfoRequest(state);
-        if (state->queue) {
-            WAYLAND_wl_event_queue_destroy(state->queue);
+        ਜੇ (state->ਕਤਾਰ) {
+            WAYLAND_wl_event_ਕਤਾਰ_destroy(state->ਕਤਾਰ);
         }
 
-        switch (state->object_type) {
-        case WAYLAND_COLOR_OBJECT_TYPE_WINDOW:
-            state->window_data->color_info_state = NULL;
-            break;
-        case WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
-            state->display_data->color_info_state = NULL;
-            break;
+        ਚੋਣ (state->object_type) {
+        ਹਾਲਤ WAYLAND_COLOR_OBJECT_TYPE_ਖਿੜਕੀ:
+            state->ਖਿੜਕੀ_ਅੰਕੜੇ_2->color_info_state = ਨਿਰਾ;
+            ਰੋਕੋ;
+        ਹਾਲਤ WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
+            state->display_ਅੰਕੜੇ->color_info_state = ਨਿਰਾ;
+            ਰੋਕੋ;
         }
 
         SDL_free(state);
     }
 }
 
-static void image_description_info_handle_done(void *data,
-                                               struct wp_image_description_info_v1 *wp_image_description_info_v1)
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_ਪੂਰਾ(ਖਾਲੀ *ਅੰਕੜੇ,
+                                               ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)ਅੰਕੜੇ;
     Wayland_CancelColorInfoRequest(state);
 
-    switch (state->object_type) {
-        case WAYLAND_COLOR_OBJECT_TYPE_WINDOW:
+    ਚੋਣ (state->object_type) {
+        ਹਾਲਤ WAYLAND_COLOR_OBJECT_TYPE_ਖਿੜਕੀ:
         {
-            SDL_SetWindowHDRProperties(state->window_data->sdlwindow, &state->HDR, true);
-            if (state->icc_size) {
-                state->window_data->icc_fd = state->icc_fd;
-                state->window_data->icc_size = state->icc_size;
-                SDL_SendWindowEvent(state->window_data->sdlwindow, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+            SDL_ਸੈੱਟ_ਖਿੜਕੀ_HDRProperties(state->ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, &state->HDR, true);
+            ਜੇ (state->icc_ਮਾਪ) {
+                state->ਖਿੜਕੀ_ਅੰਕੜੇ_2->icc_fd = state->icc_fd;
+                state->ਖਿੜਕੀ_ਅੰਕੜੇ_2->icc_ਮਾਪ = state->icc_ਮਾਪ;
+                SDL_Send_ਖਿੜਕੀ_Event(state->ਖਿੜਕੀ_ਅੰਕੜੇ_2->sdlwindow, SDL_EVENT_ਖਿੜਕੀ_ICCPROF_ਬਦਲਿਆ, 0, 0);
             }
-        } break;
-        case WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
+        } ਰੋਕੋ;
+        ਹਾਲਤ WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
         {
-            SDL_copyp(&state->display_data->HDR, &state->HDR);
+            SDL_copyp(&state->display_ਅੰਕੜੇ->HDR, &state->HDR);
 
-            if (state->display_data->display) {
-                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(state->display_data->display);
-                if (disp) {
-                    SDL_SetDisplayHDRProperties(disp, &state->HDR);
+            ਜੇ (state->display_ਅੰਕੜੇ->display) {
+                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(state->display_ਅੰਕੜੇ->display);
+                ਜੇ (disp) {
+                    SDL_ਸੈੱਟ_Display_HDRProperties(disp, &state->HDR);
                 }
-            } else {
-                SDL_copyp(&state->display_data->placeholder.HDR, &state->HDR);
+            } ਨਹੀਂਤਾਂ {
+                SDL_copyp(&state->display_ਅੰਕੜੇ->placeholder.HDR, &state->HDR);
             }
-        } break;
+        } ਰੋਕੋ;
     }
 }
 
-static void image_description_info_handle_icc_file(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
-                                                   int32_t icc, uint32_t icc_size)
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_icc_file(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                   ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
+                                                   int32_t icc, uint32_t icc_ਮਾਪ)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)ਅੰਕੜੇ;
 
     state->icc_fd = icc;
-    state->icc_size = icc_size;
+    state->icc_ਮਾਪ = icc_ਮਾਪ;
 }
 
-static void image_description_info_handle_primaries(void *data,
-                                                    struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_primaries(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                    ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                     int32_t r_x, int32_t r_y,
                                                     int32_t g_x, int32_t g_y,
                                                     int32_t b_x, int32_t b_y,
@@ -143,44 +143,44 @@ static void image_description_info_handle_primaries(void *data,
     // NOP
 }
 
-static void image_description_info_handle_primaries_named(void *data,
-                                                          struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_primaries_named(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                          ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                           uint32_t primaries)
 {
     // NOP
 }
 
-static void image_description_info_handle_tf_power(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_tf_power(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                   ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                    uint32_t eexp)
 {
     // NOP
 }
 
-static void image_description_info_handle_tf_named(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_tf_named(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                   ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                    uint32_t tf)
 {
     // NOP
 }
 
-static void image_description_info_handle_luminances(void *data,
-                                                     struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_luminances(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                     ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                      uint32_t min_lum,
                                                      uint32_t max_lum,
                                                      uint32_t reference_lum)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
-    if (max_lum > reference_lum && reference_lum > 0) {
-        state->HDR.HDR_headroom = (float)max_lum / (float)reference_lum;
-    } else {
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)ਅੰਕੜੇ;
+    ਜੇ (max_lum > reference_lum && reference_lum > 0) {
+        state->HDR.HDR_headroom = (ਦਸ਼ਮਲਵ)max_lum / (ਦਸ਼ਮਲਵ)reference_lum;
+    } ਨਹੀਂਤਾਂ {
         state->HDR.HDR_headroom = 1.0f;
     }
     state->HDR.SDR_white_level = 1.0f;
 }
 
-static void image_description_info_handle_target_primaries(void *data,
-                                                           struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_ਨਿਸ਼ਾਨਾ_primaries(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                           ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                            int32_t r_x, int32_t r_y,
                                                            int32_t g_x, int32_t g_y,
                                                            int32_t b_x, int32_t b_y,
@@ -189,165 +189,165 @@ static void image_description_info_handle_target_primaries(void *data,
     // NOP
 }
 
-static void image_description_info_handle_target_luminance(void *data,
-                                                           struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_ਨਿਸ਼ਾਨਾ_luminance(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                           ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                            uint32_t min_lum,
                                                            uint32_t max_lum)
 {
     // NOP
 }
 
-static void image_description_info_handle_target_max_cll(void *data,
-                                                         struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_ਨਿਸ਼ਾਨਾ_max_cll(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                         ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                          uint32_t max_cll)
 {
     // NOP
 }
 
-static void image_description_info_handle_target_max_fall(void *data,
-                                                          struct wp_image_description_info_v1 *wp_image_description_info_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_info_handle_ਨਿਸ਼ਾਨਾ_max_fall(ਖਾਲੀ *ਅੰਕੜੇ,
+                                                          ਬਣਤਰ wp_image_description_info_v1 *wp_image_description_info_v1,
                                                           uint32_t max_fall)
 {
     // NOP
 }
 
-static const struct wp_image_description_info_v1_listener image_description_info_listener = {
-    image_description_info_handle_done,
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wp_image_description_info_v1_listener image_description_info_listener = {
+    image_description_info_handle_ਪੂਰਾ,
     image_description_info_handle_icc_file,
     image_description_info_handle_primaries,
     image_description_info_handle_primaries_named,
     image_description_info_handle_tf_power,
     image_description_info_handle_tf_named,
     image_description_info_handle_luminances,
-    image_description_info_handle_target_primaries,
-    image_description_info_handle_target_luminance,
-    image_description_info_handle_target_max_cll,
-    image_description_info_handle_target_max_fall
+    image_description_info_handle_ਨਿਸ਼ਾਨਾ_primaries,
+    image_description_info_handle_ਨਿਸ਼ਾਨਾ_luminance,
+    image_description_info_handle_ਨਿਸ਼ਾਨਾ_max_cll,
+    image_description_info_handle_ਨਿਸ਼ਾਨਾ_max_fall
 };
 
-static void PumpColorspaceEvents(Wayland_ColorInfoState *state)
+ਸਥਿਰ ਖਾਲੀ PumpColorspaceEvents(Wayland_ColorInfoState *state)
 {
-    SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
+    SDL_Video_ਅੰਕੜੇ *vid = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
 
     // Run the image description sequence to completion in its own queue.
-    while (state->wp_image_description) {
-        WAYLAND_wl_display_dispatch_queue(vid->display, state->queue);
+    ਜਦੋਂ (state->wp_image_description) {
+        WAYLAND_wl_display_dispatch_ਕਤਾਰ(vid->display, state->ਕਤਾਰ);
     }
 
     Wayland_FreeColorInfoState(state);
 }
 
-static void image_description_handle_failed(void *data,
-                                            struct wp_image_description_v1 *wp_image_description_v1,
+ਸਥਿਰ ਖਾਲੀ image_description_handle_failed(ਖਾਲੀ *ਅੰਕੜੇ,
+                                            ਬਣਤਰ wp_image_description_v1 *wp_image_description_v1,
                                             uint32_t cause,
-                                            const char *msg)
+                                            ਅਚਲ ਅੱਖਰ *ਸੁਨੇਹਾ_2)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)ਅੰਕੜੇ;
     Wayland_CancelColorInfoRequest(state);
 
-    if (state->deferred_event_processing) {
+    ਜੇ (state->deferred_event_processing) {
         Wayland_FreeColorInfoState(state);
     }
 }
 
-static void image_description_handle_ready2(void *data,
-                                            struct wp_image_description_v1 *wp_image_description_v1,
-                                            uint32_t identity_hi, uint32_t identity_lo)
+ਸਥਿਰ ਖਾਲੀ image_description_handle_ready2(ਖਾਲੀ *ਅੰਕੜੇ,
+                                            ਬਣਤਰ wp_image_description_v1 *wp_image_description_v1,
+                                            uint32_t ਪਛਾਣ_ਤੱਤ_hi, uint32_t ਪਛਾਣ_ਤੱਤ_lo)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)ਅੰਕੜੇ;
 
     /* If event processing was deferred, then the image description is on the default queue.
      * Otherwise, it will inherit the queue from the image description object.
      */
-    if (state->deferred_event_processing) {
-        SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
-        state->queue = Wayland_DisplayCreateQueue(vid->display, "SDL Color Management Queue");
+    ਜੇ (state->deferred_event_processing) {
+        SDL_Video_ਅੰਕੜੇ *vid = SDL_GetVideoDevice()->ਅੰਦਰੂਨੀ;
+        state->ਕਤਾਰ = Wayland_Display_Create_ਕਤਾਰ(vid->display, "SDL Color Management Queue");
 
-        struct wl_proxy *image_desc_wrapper = WAYLAND_wl_proxy_create_wrapper(state->wp_image_description);
-        WAYLAND_wl_proxy_set_queue(image_desc_wrapper, state->queue);
-        state->wp_image_description_info = wp_image_description_v1_get_information((struct wp_image_description_v1 *)image_desc_wrapper);
+        ਬਣਤਰ wl_proxy *image_desc_wrapper = WAYLAND_wl_proxy_create_wrapper(state->wp_image_description);
+        WAYLAND_wl_proxy_ਸੈੱਟ_ਕਤਾਰ(image_desc_wrapper, state->ਕਤਾਰ);
+        state->wp_image_description_info = wp_image_description_v1_get_information((ਬਣਤਰ wp_image_description_v1 *)image_desc_wrapper);
         WAYLAND_wl_proxy_wrapper_destroy(image_desc_wrapper);
-    } else {
+    } ਨਹੀਂਤਾਂ {
         state->wp_image_description_info = wp_image_description_v1_get_information(state->wp_image_description);
     }
-    wp_image_description_info_v1_add_listener(state->wp_image_description_info, &image_description_info_listener, data);
+    wp_image_description_info_v1_ਜੋੜੋ_listener(state->wp_image_description_info, &image_description_info_listener, ਅੰਕੜੇ);
 
-    if (state->deferred_event_processing) {
+    ਜੇ (state->deferred_event_processing) {
         PumpColorspaceEvents(state);
     }
 }
 
-static void image_description_handle_ready(void *data,
-                                           struct wp_image_description_v1 *wp_image_description_v1,
-                                           uint32_t identity)
+ਸਥਿਰ ਖਾਲੀ image_description_handle_ready(ਖਾਲੀ *ਅੰਕੜੇ,
+                                           ਬਣਤਰ wp_image_description_v1 *wp_image_description_v1,
+                                           uint32_t ਪਛਾਣ_ਤੱਤ)
 {
-    image_description_handle_ready2(data, wp_image_description_v1, 0, identity);
+    image_description_handle_ready2(ਅੰਕੜੇ, wp_image_description_v1, 0, ਪਛਾਣ_ਤੱਤ);
 }
 
-static const struct wp_image_description_v1_listener image_description_listener = {
+ਸਥਿਰ ਅਚਲ ਬਣਤਰ wp_image_description_v1_listener image_description_listener = {
     image_description_handle_failed,
     image_description_handle_ready,
     image_description_handle_ready2
 };
 
-void Wayland_GetColorInfoForWindow(SDL_WindowData *window_data, bool defer_event_processing)
+ਖਾਲੀ Wayland_Get_Color_Info_For_ਖਿੜਕੀ(SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *ਖਿੜਕੀ_ਅੰਕੜੇ_2, bool defer_event_processing)
 {
     // Cancel any pending request, as it is out-of-date.
-    Wayland_FreeColorInfoState(window_data->color_info_state);
-    Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
+    Wayland_FreeColorInfoState(ਖਿੜਕੀ_ਅੰਕੜੇ_2->color_info_state);
+    Wayland_ColorInfoState *state = SDL_calloc(1, ਆਕਾਰ(Wayland_ColorInfoState));
 
-    if (state) {
-        window_data->color_info_state = state;
-        state->window_data = window_data;
-        state->object_type = WAYLAND_COLOR_OBJECT_TYPE_WINDOW;
+    ਜੇ (state) {
+        ਖਿੜਕੀ_ਅੰਕੜੇ_2->color_info_state = state;
+        state->ਖਿੜਕੀ_ਅੰਕੜੇ_2 = ਖਿੜਕੀ_ਅੰਕੜੇ_2;
+        state->object_type = WAYLAND_COLOR_OBJECT_TYPE_ਖਿੜਕੀ;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
-            state->queue = Wayland_DisplayCreateQueue(window_data->waylandData->display, "SDL Color Management Queue");
+        ਜੇ (!defer_event_processing) {
+            state->ਕਤਾਰ = Wayland_Display_Create_ਕਤਾਰ(ਖਿੜਕੀ_ਅੰਕੜੇ_2->wayland_ਅੰਕੜੇ->display, "SDL Color Management Queue");
 
-            struct wl_proxy *surface_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(window_data->wp_color_management_surface_feedback);
-            WAYLAND_wl_proxy_set_queue(surface_feedback_wrapper, state->queue);
-            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred((struct wp_color_management_surface_feedback_v1 *)surface_feedback_wrapper);
+            ਬਣਤਰ wl_proxy *surface_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(ਖਿੜਕੀ_ਅੰਕੜੇ_2->wp_color_management_surface_feedback);
+            WAYLAND_wl_proxy_ਸੈੱਟ_ਕਤਾਰ(surface_feedback_wrapper, state->ਕਤਾਰ);
+            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred((ਬਣਤਰ wp_color_management_surface_feedback_v1 *)surface_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(surface_feedback_wrapper);
-        } else {
-            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred(window_data->wp_color_management_surface_feedback);
+        } ਨਹੀਂਤਾਂ {
+            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred(ਖਿੜਕੀ_ਅੰਕੜੇ_2->wp_color_management_surface_feedback);
         }
-        wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
+        wp_image_description_v1_ਜੋੜੋ_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        ਜੇ (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }
 }
 
-void Wayland_GetColorInfoForOutput(SDL_DisplayData *display_data, bool defer_event_processing)
+ਖਾਲੀ Wayland_GetColorInfoForOutput(SDL_Display_ਅੰਕੜੇ *display_ਅੰਕੜੇ, bool defer_event_processing)
 {
     // Cancel any pending request, as it is out-of-date.
-    Wayland_FreeColorInfoState(display_data->color_info_state);
-    Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
+    Wayland_FreeColorInfoState(display_ਅੰਕੜੇ->color_info_state);
+    Wayland_ColorInfoState *state = SDL_calloc(1, ਆਕਾਰ(Wayland_ColorInfoState));
 
-    if (state) {
-        display_data->color_info_state = state;
-        state->display_data = display_data;
+    ਜੇ (state) {
+        display_ਅੰਕੜੇ->color_info_state = state;
+        state->display_ਅੰਕੜੇ = display_ਅੰਕੜੇ;
         state->object_type = WAYLAND_COLOR_OBJECT_TYPE_DISPLAY;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
-            state->queue = Wayland_DisplayCreateQueue(display_data->videodata->display, "SDL Color Management Queue");
+        ਜੇ (!defer_event_processing) {
+            state->ਕਤਾਰ = Wayland_Display_Create_ਕਤਾਰ(display_ਅੰਕੜੇ->videodata->display, "SDL Color Management Queue");
 
-            struct wl_proxy *output_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(display_data->wp_color_management_output);
-            WAYLAND_wl_proxy_set_queue(output_feedback_wrapper, state->queue);
-            state->wp_image_description = wp_color_management_output_v1_get_image_description((struct wp_color_management_output_v1 *)output_feedback_wrapper);
+            ਬਣਤਰ wl_proxy *output_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(display_ਅੰਕੜੇ->wp_color_management_output);
+            WAYLAND_wl_proxy_ਸੈੱਟ_ਕਤਾਰ(output_feedback_wrapper, state->ਕਤਾਰ);
+            state->wp_image_description = wp_color_management_output_v1_get_image_description((ਬਣਤਰ wp_color_management_output_v1 *)output_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(output_feedback_wrapper);
-        } else {
-            state->wp_image_description = wp_color_management_output_v1_get_image_description(display_data->wp_color_management_output);
+        } ਨਹੀਂਤਾਂ {
+            state->wp_image_description = wp_color_management_output_v1_get_image_description(display_ਅੰਕੜੇ->wp_color_management_output);
         }
-        wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
+        wp_image_description_v1_ਜੋੜੋ_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        ਜੇ (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WAYLAND

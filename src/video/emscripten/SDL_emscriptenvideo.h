@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_emscriptenvideo_h_
-#define SDL_emscriptenvideo_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_emscriptenvideo_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_touch_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <emscripten/emscripten.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <emscripten/html5.h>
 
-struct SDL_WindowData
+ਬਣਤਰ SDL_ਖਿੜਕੀ_ਅੰਕੜੇ
 {
-    SDL_Window *window;
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    ਪੂਰਨ non_fill_document_ਚੌੜਾਈ;
+    ਪੂਰਨ non_fill_document_ਉਚਾਈ;
 
-    char *canvas_id;
-    char *keyboard_element;
+    ਅੱਖਰ *canvas_id;
+    ਅੱਖਰ *keyboard_element;
 
-    float pixel_ratio;
+    ਦਸ਼ਮਲਵ pixel_ਅਨੁਪਾਤ;
 
-    bool external_size;
+    bool external_ਮਾਪ;
 
-    Uint32 fullscreen_mode_flags;
+    Uint32 fullscreen_ਬਹੁਲਕ_flags;
     bool fullscreen_resize;
-    bool fullscreen_change_in_progress;
+    bool fullscreen_change_ਵਿੱਚ_ਤਰੱਕੀ;
 
-    bool has_pointer_lock;
+    bool has_ਸੂਚਕ_ਤਾਲਾ;
 
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+ਬਾਹਰੀ SDL_ਖਿੜਕੀ *Emscripten_fill_document_ਖਿੜਕੀ;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_Should_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(ਪੂਰਨ interval);
+ਪੂਰਨ Emscripten_Get_Pending_ਅਦਲਾ_ਬਦਲੀ_Interval(ਖਾਲੀ);
 
-#endif // SDL_emscriptenvideo_h_
+#ਜੇ_ਅੰਤ // SDL_emscriptenvideo_h_

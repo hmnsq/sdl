@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_windowskeyboard_h_
-#define SDL_windowskeyboard_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_windowskeyboard_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ WIN_InitKeyboard(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ WIN_UpdateKeymap(bool send_event);
+ਬਾਹਰੀ ਖਾਲੀ WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+ਬਾਹਰੀ ਖਾਲੀ WIN_Reset_Dead_ਕੁੰਜੀਆਂ(ਖਾਲੀ);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool WIN_ਸ਼ੁਰੂ_ਪਾਠ_ਨਿਵੇਸ਼(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID props);
+ਬਾਹਰੀ bool WIN_Stop_ਪਾਠ_ਨਿਵੇਸ਼(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool WIN_Update_ਪਾਠ_ਨਿਵੇਸ਼_Area(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool WIN_HandleIMEMessage(HWND hwnd, UINT ਸੁਨੇਹਾ_2, WPARAM wParam, LPARAM *lParam, ਬਣਤਰ SDL_Video_ਅੰਕੜੇ *videodata);
+ਬਾਹਰੀ ਖਾਲੀ WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
-#endif // SDL_windowskeyboard_h_
+#ਜੇ_ਅੰਤ // SDL_windowskeyboard_h_

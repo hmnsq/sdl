@@ -18,183 +18,183 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsopengles.h"
-#include "../../SDL_hints_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowsvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_windowsopengles.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../SDL_hints_c.h"
 
 // WGL implementation of SDL OpenGL support
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-#include <SDL3/SDL_opengl.h>
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_WGL
+#ਅਨ੍ਤਰ੍ਭਾਵ <SDL3/SDL_opengl.h>
 
-#define DEFAULT_OPENGL "OPENGL32.DLL"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DEFAULT_OPENGL "OPENGL32.DLL"
 
-#ifndef WGL_ARB_create_context
-#define WGL_ARB_create_context
-#define WGL_CONTEXT_MAJOR_VERSION_ARB          0x2091
-#define WGL_CONTEXT_MINOR_VERSION_ARB          0x2092
-#define WGL_CONTEXT_LAYER_PLANE_ARB            0x2093
-#define WGL_CONTEXT_FLAGS_ARB                  0x2094
-#define WGL_CONTEXT_DEBUG_BIT_ARB              0x0001
-#define WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB 0x0002
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_create_context
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_create_context
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_MAJOR_ਸੰਸਕਰਣ_ARB          0x2091
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_MINOR_ਸੰਸਕਰਣ_ARB          0x2092
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_LAYER_PLANE_ARB            0x2093
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_FLAGS_ARB                  0x2094
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_DEBUG_ਦੋਆਧਾਰੀ_ਅੰਕ_ARB              0x0001
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_FORWARD_COMPATIBLE_ਦੋਆਧਾਰੀ_ਅੰਕ_ARB 0x0002
 
-#ifndef WGL_ARB_create_context_profile
-#define WGL_ARB_create_context_profile
-#define WGL_CONTEXT_PROFILE_MASK_ARB              0x9126
-#define WGL_CONTEXT_CORE_PROFILE_BIT_ARB          0x00000001
-#define WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB 0x00000002
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_create_context_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_create_context_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_PROFILE_ਨਕਾਬ_ARB              0x9126
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_CORE_PROFILE_ਦੋਆਧਾਰੀ_ਅੰਕ_ARB          0x00000001
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_COMPATIBILITY_PROFILE_ਦੋਆਧਾਰੀ_ਅੰਕ_ARB 0x00000002
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_ARB_create_context_robustness
-#define WGL_ARB_create_context_robustness
-#define WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB           0x00000004
-#define WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
-#define WGL_NO_RESET_NOTIFICATION_ARB               0x8261
-#define WGL_LOSE_CONTEXT_ON_RESET_ARB               0x8252
-#endif
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_create_context_robustness
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_create_context_robustness
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_ROBUST_ACCESS_ਦੋਆਧਾਰੀ_ਅੰਕ_ARB           0x00000004
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_NO_RESET_NOTIFICATION_ARB               0x8261
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_LOSE_CONTEXT_ON_RESET_ARB               0x8252
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_EXT_create_context_es2_profile
-#define WGL_EXT_create_context_es2_profile
-#define WGL_CONTEXT_ES2_PROFILE_BIT_EXT 0x00000004
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_EXT_create_context_es2_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_EXT_create_context_es2_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_ES2_PROFILE_ਦੋਆਧਾਰੀ_ਅੰਕ_EXT 0x00000004
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_EXT_create_context_es_profile
-#define WGL_EXT_create_context_es_profile
-#define WGL_CONTEXT_ES_PROFILE_BIT_EXT 0x00000004
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_EXT_create_context_es_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_EXT_create_context_es_profile
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_ES_PROFILE_ਦੋਆਧਾਰੀ_ਅੰਕ_EXT 0x00000004
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_ARB_framebuffer_sRGB
-#define WGL_ARB_framebuffer_sRGB
-#define WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20A9
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_framebuffer_sRGB
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_framebuffer_sRGB
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20A9
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_ARB_pixel_format_float
-#define WGL_ARB_pixel_format_float
-#define WGL_TYPE_RGBA_FLOAT_ARB 0x21A0
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_pixel_format_float
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_pixel_format_float
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_TYPE_RGBA_FLOAT_ARB 0x21A0
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_ARB_context_flush_control
-#define WGL_ARB_context_flush_control
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_context_flush_control
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_context_flush_control
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
+#ਜੇ_ਅੰਤ
 
-#ifndef WGL_ARB_create_context_no_error
-#define WGL_ARB_create_context_no_error
-#define WGL_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ WGL_ARB_create_context_no_error
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_ARB_create_context_no_error
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WGL_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
+#ਜੇ_ਅੰਤ
 
-typedef HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
                                                            HGLRC
                                                                hShareContext,
-                                                           const int
+                                                           ਅਚਲ ਪੂਰਨ
                                                                *attribList);
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-#define GetDC(hwnd)          (HDC) hwnd
-#define ReleaseDC(hwnd, hdc) 1
-#define SwapBuffers          _this->gl_data->wglSwapBuffers
-#define DescribePixelFormat  _this->gl_data->wglDescribePixelFormat
-#define ChoosePixelFormat    _this->gl_data->wglChoosePixelFormat
-#define GetPixelFormat       _this->gl_data->wglGetPixelFormat
-#define SetPixelFormat       _this->gl_data->wglSetPixelFormat
-#endif
+#ਜੇ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ GetDC(hwnd)          (HDC) hwnd
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ReleaseDC(hwnd, hdc) 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਅਦਲਾ_ਬਦਲੀ_Buffers          _this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Buffers
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DescribePixelFormat  _this->gl_ਅੰਕੜੇ->wglDescribePixelFormat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਚੁਣੋ_Pixel_Format    _this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ GetPixelFormat       _this->gl_ਅੰਕੜੇ->wglGetPixelFormat
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਸੈੱਟ_Pixel_Format       _this->gl_ਅੰਕੜੇ->wgl_ਸੈੱਟ_Pixel_Format
+#ਜੇ_ਅੰਤ
 
-static bool WIN_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *path)
+ਸਥਿਰ bool WIN_GL_ਲੱਦੋ_Library_EGLFallback(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
     WIN_GL_UnloadLibrary(_this);
-    _this->GL_LoadLibrary = WIN_GLES_LoadLibrary;
-    _this->GL_GetProcAddress = WIN_GLES_GetProcAddress;
+    _this->GL_ਲੱਦੋ_Library = WIN_GLES_ਲੱਦੋ_Library;
+    _this->GL_Get_Proc_ਪਤਾ = WIN_GLES_Get_Proc_ਪਤਾ;
     _this->GL_UnloadLibrary = WIN_GLES_UnloadLibrary;
     _this->GL_CreateContext = WIN_GLES_CreateContext;
     _this->GL_MakeCurrent = WIN_GLES_MakeCurrent;
-    _this->GL_SetSwapInterval = WIN_GLES_SetSwapInterval;
-    _this->GL_GetSwapInterval = WIN_GLES_GetSwapInterval;
-    _this->GL_SwapWindow = WIN_GLES_SwapWindow;
+    _this->GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GLES_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval;
+    _this->GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval = WIN_GLES_Get_ਅਦਲਾ_ਬਦਲੀ_Interval;
+    _this->GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ = WIN_GLES_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ;
     _this->GL_DestroyContext = WIN_GLES_DestroyContext;
     _this->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
-    return WIN_GLES_LoadLibrary(_this, path);
-#else
-    return SDL_SetError("SDL not configured with EGL support");
-#endif
+    ਵਾਪਸ WIN_GLES_ਲੱਦੋ_Library(_this, ਰਸਤਾ);
+#ਨਹੀਂਤਾਂ
+    ਵਾਪਸ SDL_ਸੈੱਟ_Error("SDL not configured with EGL support");
+#ਜੇ_ਅੰਤ
 }
 
-bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_GL_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ)
 {
-    void *handle;
+    ਖਾਲੀ *handle;
 
-    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
+    ਜੇ ((_this->gl_config.profile_ਨਕਾਬ == SDL_GL_CONTEXT_PROFILE_ES) &&
         SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false)) {
-        return WIN_GL_LoadLibrary_EGLFallback(_this, path);
+        ਵਾਪਸ WIN_GL_ਲੱਦੋ_Library_EGLFallback(_this, ਰਸਤਾ);
     }
 
-    if (path == NULL) {
-        path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
+    ਜੇ (ਰਸਤਾ == ਨਿਰਾ) {
+        ਰਸਤਾ = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
-    if (path == NULL) {
-        path = DEFAULT_OPENGL;
+    ਜੇ (ਰਸਤਾ == ਨਿਰਾ) {
+        ਰਸਤਾ = DEFAULT_OPENGL;
     }
-    _this->gl_config.dll_handle = SDL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-        return false;
+    _this->gl_config.dll_handle = SDL_ਲੱਦੋ_Object(ਰਸਤਾ);
+    ਜੇ (!_this->gl_config.dll_handle) {
+        ਵਾਪਸ false;
     }
-    SDL_strlcpy(_this->gl_config.driver_path, path,
-                SDL_arraysize(_this->gl_config.driver_path));
+    SDL_strlcpy(_this->gl_config.driver_ਰਸਤਾ, ਰਸਤਾ,
+                SDL_arraysize(_this->gl_config.driver_ਰਸਤਾ));
 
     // Allocate OpenGL memory
-    _this->gl_data = (struct SDL_GLDriverData *)SDL_calloc(1, sizeof(struct SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_ਅੰਕੜੇ = (ਬਣਤਰ SDL_GLDriver_ਅੰਕੜੇ *)SDL_calloc(1, ਆਕਾਰ(ਬਣਤਰ SDL_GLDriver_ਅੰਕੜੇ));
+    ਜੇ (!_this->gl_ਅੰਕੜੇ) {
+        ਵਾਪਸ false;
     }
 
     // Load function pointers
     handle = _this->gl_config.dll_handle;
     /* *INDENT-OFF* */ // clang-format off
-    _this->gl_data->wglGetProcAddress = (PROC (WINAPI *)(const char *))
-        SDL_LoadFunction(handle, "wglGetProcAddress");
-    _this->gl_data->wglCreateContext = (HGLRC (WINAPI *)(HDC))
-        SDL_LoadFunction(handle, "wglCreateContext");
-    _this->gl_data->wglDeleteContext = (BOOL (WINAPI *)(HGLRC))
-        SDL_LoadFunction(handle, "wglDeleteContext");
-    _this->gl_data->wglMakeCurrent = (BOOL (WINAPI *)(HDC, HGLRC))
-        SDL_LoadFunction(handle, "wglMakeCurrent");
-    _this->gl_data->wglShareLists = (BOOL (WINAPI *)(HGLRC, HGLRC))
-        SDL_LoadFunction(handle, "wglShareLists");
+    _this->gl_ਅੰਕੜੇ->wgl_Get_Proc_ਪਤਾ = (PROC (WINAPI *)(ਅਚਲ ਅੱਖਰ *))
+        SDL_ਲੱਦੋ_Function(handle, "wglGetProcAddress");
+    _this->gl_ਅੰਕੜੇ->wglCreateContext = (HGLRC (WINAPI *)(HDC))
+        SDL_ਲੱਦੋ_Function(handle, "wglCreateContext");
+    _this->gl_ਅੰਕੜੇ->wglDeleteContext = (BOOL (WINAPI *)(HGLRC))
+        SDL_ਲੱਦੋ_Function(handle, "wglDeleteContext");
+    _this->gl_ਅੰਕੜੇ->wglMakeCurrent = (BOOL (WINAPI *)(HDC, HGLRC))
+        SDL_ਲੱਦੋ_Function(handle, "wglMakeCurrent");
+    _this->gl_ਅੰਕੜੇ->wglShareLists = (BOOL (WINAPI *)(HGLRC, HGLRC))
+        SDL_ਲੱਦੋ_Function(handle, "wglShareLists");
     /* *INDENT-ON* */ // clang-format on
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    _this->gl_data->wglSwapBuffers = (BOOL(WINAPI *)(HDC))
-        SDL_LoadFunction(handle, "wglSwapBuffers");
-    _this->gl_data->wglDescribePixelFormat = (int(WINAPI *)(HDC, int, UINT, LPPIXELFORMATDESCRIPTOR))
-        SDL_LoadFunction(handle, "wglDescribePixelFormat");
-    _this->gl_data->wglChoosePixelFormat = (int(WINAPI *)(HDC, const PIXELFORMATDESCRIPTOR *))
-        SDL_LoadFunction(handle, "wglChoosePixelFormat");
-    _this->gl_data->wglSetPixelFormat = (BOOL(WINAPI *)(HDC, int, const PIXELFORMATDESCRIPTOR *))
-        SDL_LoadFunction(handle, "wglSetPixelFormat");
-    _this->gl_data->wglGetPixelFormat = (int(WINAPI *)(HDC hdc))
-        SDL_LoadFunction(handle, "wglGetPixelFormat");
-#endif
+#ਜੇ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    _this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Buffers = (BOOL(WINAPI *)(HDC))
+        SDL_ਲੱਦੋ_Function(handle, "wglSwapBuffers");
+    _this->gl_ਅੰਕੜੇ->wglDescribePixelFormat = (ਪੂਰਨ(WINAPI *)(HDC, ਪੂਰਨ, UINT, LPPIXELFORMATDESCRIPTOR))
+        SDL_ਲੱਦੋ_Function(handle, "wglDescribePixelFormat");
+    _this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format = (ਪੂਰਨ(WINAPI *)(HDC, ਅਚਲ PIXELFORMATDESCRIPTOR *))
+        SDL_ਲੱਦੋ_Function(handle, "wglChoosePixelFormat");
+    _this->gl_ਅੰਕੜੇ->wgl_ਸੈੱਟ_Pixel_Format = (BOOL(WINAPI *)(HDC, ਪੂਰਨ, ਅਚਲ PIXELFORMATDESCRIPTOR *))
+        SDL_ਲੱਦੋ_Function(handle, "wglSetPixelFormat");
+    _this->gl_ਅੰਕੜੇ->wglGetPixelFormat = (ਪੂਰਨ(WINAPI *)(HDC hdc))
+        SDL_ਲੱਦੋ_Function(handle, "wglGetPixelFormat");
+#ਜੇ_ਅੰਤ
 
-    if (!_this->gl_data->wglGetProcAddress ||
-        !_this->gl_data->wglCreateContext ||
-        !_this->gl_data->wglDeleteContext ||
-        !_this->gl_data->wglMakeCurrent
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-        || !_this->gl_data->wglSwapBuffers ||
-        !_this->gl_data->wglDescribePixelFormat ||
-        !_this->gl_data->wglChoosePixelFormat ||
-        !_this->gl_data->wglGetPixelFormat ||
-        !_this->gl_data->wglSetPixelFormat
-#endif
+    ਜੇ (!_this->gl_ਅੰਕੜੇ->wgl_Get_Proc_ਪਤਾ ||
+        !_this->gl_ਅੰਕੜੇ->wglCreateContext ||
+        !_this->gl_ਅੰਕੜੇ->wglDeleteContext ||
+        !_this->gl_ਅੰਕੜੇ->wglMakeCurrent
+#ਜੇ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+        || !_this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Buffers ||
+        !_this->gl_ਅੰਕੜੇ->wglDescribePixelFormat ||
+        !_this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format ||
+        !_this->gl_ਅੰਕੜੇ->wglGetPixelFormat ||
+        !_this->gl_ਅੰਕੜੇ->wgl_ਸੈੱਟ_Pixel_Format
+#ਜੇ_ਅੰਤ
     ) {
-        return SDL_SetError("Could not retrieve OpenGL functions");
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Could not retrieve OpenGL functions");
     }
 
     /* XXX Too sleazy? WIN_GL_InitExtensions looks for certain OpenGL
@@ -235,466 +235,466 @@ bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     WIN_GL_InitExtensions(_this);
     --_this->gl_config.driver_loaded;
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_ਸੂਚਕ WIN_GL_Get_Proc_ਪਤਾ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *proc)
 {
-    SDL_FunctionPointer func;
+    SDL_Function_ਸੂਚਕ func;
 
     // This is to pick up extensions
-    func = (SDL_FunctionPointer)_this->gl_data->wglGetProcAddress(proc);
-    if (!func) {
+    func = (SDL_Function_ਸੂਚਕ)_this->gl_ਅੰਕੜੇ->wgl_Get_Proc_ਪਤਾ(proc);
+    ਜੇ (!func) {
         // This is probably a normal GL function
-        func = (SDL_FunctionPointer)GetProcAddress((HMODULE)_this->gl_config.dll_handle, proc);
+        func = (SDL_Function_ਸੂਚਕ)Get_Proc_ਪਤਾ((HMODULE)_this->gl_config.dll_handle, proc);
     }
-    return func;
+    ਵਾਪਸ func;
 }
 
-void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
+ਖਾਲੀ WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_UnloadObject(_this->gl_config.dll_handle);
-    _this->gl_config.dll_handle = NULL;
+    _this->gl_config.dll_handle = ਨਿਰਾ;
 
     // Free OpenGL memory
-    SDL_free(_this->gl_data);
-    _this->gl_data = NULL;
+    SDL_free(_this->gl_ਅੰਕੜੇ);
+    _this->gl_ਅੰਕੜੇ = ਨਿਰਾ;
 }
 
-static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTOR *pfd)
+ਸਥਿਰ ਖਾਲੀ WIN_GL_ਤਿਆਰੀ_Pixel_Format(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTOR *pfd)
 {
     SDL_zerop(pfd);
-    pfd->nSize = sizeof(*pfd);
-    pfd->nVersion = 1;
-    pfd->dwFlags = (PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL);
-    if (_this->gl_config.double_buffer) {
+    pfd->n_ਮਾਪ = ਆਕਾਰ(*pfd);
+    pfd->n_ਸੰਸਕਰਣ = 1;
+    pfd->dwFlags = (PFD_DRAW_ਮੰਜ਼ਿਲ_ਖਿੜਕੀ | PFD_SUPPORT_OPENGL);
+    ਜੇ (_this->gl_config.double_ਬਫਰ) {
         pfd->dwFlags |= PFD_DOUBLEBUFFER;
     }
-    if (_this->gl_config.stereo) {
+    ਜੇ (_this->gl_config.stereo) {
         pfd->dwFlags |= PFD_STEREO;
     }
     pfd->iLayerType = PFD_MAIN_PLANE;
     pfd->iPixelType = PFD_TYPE_RGBA;
-    pfd->cRedBits = (BYTE)_this->gl_config.red_size;
-    pfd->cGreenBits = (BYTE)_this->gl_config.green_size;
-    pfd->cBlueBits = (BYTE)_this->gl_config.blue_size;
-    pfd->cAlphaBits = (BYTE)_this->gl_config.alpha_size;
-    if (_this->gl_config.buffer_size) {
-        pfd->cColorBits = (BYTE)(_this->gl_config.buffer_size - _this->gl_config.alpha_size);
-    } else {
-        pfd->cColorBits = (pfd->cRedBits + pfd->cGreenBits + pfd->cBlueBits);
+    pfd->c_Red_ਬਿੱਟ = (BYTE)_this->gl_config.red_ਮਾਪ;
+    pfd->c_Green_ਬਿੱਟ = (BYTE)_this->gl_config.green_ਮਾਪ;
+    pfd->c_Blue_ਬਿੱਟ = (BYTE)_this->gl_config.blue_ਮਾਪ;
+    pfd->c_Alpha_ਬਿੱਟ = (BYTE)_this->gl_config.alpha_ਮਾਪ;
+    ਜੇ (_this->gl_config.ਬਫਰ_ਮਾਪ) {
+        pfd->c_Color_ਬਿੱਟ = (BYTE)(_this->gl_config.ਬਫਰ_ਮਾਪ - _this->gl_config.alpha_ਮਾਪ);
+    } ਨਹੀਂਤਾਂ {
+        pfd->c_Color_ਬਿੱਟ = (pfd->c_Red_ਬਿੱਟ + pfd->c_Green_ਬਿੱਟ + pfd->c_Blue_ਬਿੱਟ);
     }
-    pfd->cAccumRedBits = (BYTE)_this->gl_config.accum_red_size;
-    pfd->cAccumGreenBits = (BYTE)_this->gl_config.accum_green_size;
-    pfd->cAccumBlueBits = (BYTE)_this->gl_config.accum_blue_size;
-    pfd->cAccumAlphaBits = (BYTE)_this->gl_config.accum_alpha_size;
-    pfd->cAccumBits =
-        (pfd->cAccumRedBits + pfd->cAccumGreenBits + pfd->cAccumBlueBits +
-         pfd->cAccumAlphaBits);
-    pfd->cDepthBits = (BYTE)_this->gl_config.depth_size;
-    pfd->cStencilBits = (BYTE)_this->gl_config.stencil_size;
+    pfd->c_Accum_Red_ਬਿੱਟ = (BYTE)_this->gl_config.accum_red_ਮਾਪ;
+    pfd->c_Accum_Green_ਬਿੱਟ = (BYTE)_this->gl_config.accum_green_ਮਾਪ;
+    pfd->c_Accum_Blue_ਬਿੱਟ = (BYTE)_this->gl_config.accum_blue_ਮਾਪ;
+    pfd->c_Accum_Alpha_ਬਿੱਟ = (BYTE)_this->gl_config.accum_alpha_ਮਾਪ;
+    pfd->c_Accum_ਬਿੱਟ =
+        (pfd->c_Accum_Red_ਬਿੱਟ + pfd->c_Accum_Green_ਬਿੱਟ + pfd->c_Accum_Blue_ਬਿੱਟ +
+         pfd->c_Accum_Alpha_ਬਿੱਟ);
+    pfd->c_ਡੂੰਘਾਈ_ਬਿੱਟ = (BYTE)_this->gl_config.ਡੂੰਘਾਈ_ਮਾਪ;
+    pfd->c_Stencil_ਬਿੱਟ = (BYTE)_this->gl_config.stencil_ਮਾਪ;
 }
 
 /* Choose the closest pixel format that meets or exceeds the target.
    FIXME: Should we weight any particular attribute over any other?
 */
-static bool WIN_GL_ChoosePixelFormat(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *target)
+ਸਥਿਰ bool WIN_GL_ਚੁਣੋ_Pixel_Format(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *ਨਿਸ਼ਾਨਾ)
 {
     PIXELFORMATDESCRIPTOR pfd;
-    int count, index, best = 0;
-    unsigned int dist, best_dist = ~0U;
+    ਪੂਰਨ ਗਿਣਤੀ_2, ਸੂਚਕਾਂਕ, ਉੱਤਮ = 0;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ dist, ਉੱਤਮ_dist = ~0U;
 
-    count = DescribePixelFormat(hdc, 1, sizeof(pfd), NULL);
+    ਗਿਣਤੀ_2 = DescribePixelFormat(hdc, 1, ਆਕਾਰ(pfd), ਨਿਰਾ);
 
-    for (index = 1; index <= count; index++) {
+    ਲਈ (ਸੂਚਕਾਂਕ = 1; ਸੂਚਕਾਂਕ <= ਗਿਣਤੀ_2; ਸੂਚਕਾਂਕ++) {
 
-        if (!DescribePixelFormat(hdc, index, sizeof(pfd), &pfd)) {
-            continue;
+        ਜੇ (!DescribePixelFormat(hdc, ਸੂਚਕਾਂਕ, ਆਕਾਰ(pfd), &pfd)) {
+            ਜਾਰੀ;
         }
 
-        if ((pfd.dwFlags & target->dwFlags) != target->dwFlags) {
-            continue;
+        ਜੇ ((pfd.dwFlags & ਨਿਸ਼ਾਨਾ->dwFlags) != ਨਿਸ਼ਾਨਾ->dwFlags) {
+            ਜਾਰੀ;
         }
 
-        if (pfd.iLayerType != target->iLayerType) {
-            continue;
+        ਜੇ (pfd.iLayerType != ਨਿਸ਼ਾਨਾ->iLayerType) {
+            ਜਾਰੀ;
         }
-        if (pfd.iPixelType != target->iPixelType) {
-            continue;
+        ਜੇ (pfd.iPixelType != ਨਿਸ਼ਾਨਾ->iPixelType) {
+            ਜਾਰੀ;
         }
 
         dist = 0;
 
-        if (pfd.cColorBits < target->cColorBits) {
-            continue;
-        } else {
-            dist += (pfd.cColorBits - target->cColorBits);
+        ਜੇ (pfd.c_Color_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Color_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Color_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Color_ਬਿੱਟ);
         }
-        if (pfd.cRedBits < target->cRedBits) {
-            continue;
-        } else {
-            dist += (pfd.cRedBits - target->cRedBits);
+        ਜੇ (pfd.c_Red_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Red_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Red_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Red_ਬਿੱਟ);
         }
-        if (pfd.cGreenBits < target->cGreenBits) {
-            continue;
-        } else {
-            dist += (pfd.cGreenBits - target->cGreenBits);
+        ਜੇ (pfd.c_Green_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Green_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Green_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Green_ਬਿੱਟ);
         }
-        if (pfd.cBlueBits < target->cBlueBits) {
-            continue;
-        } else {
-            dist += (pfd.cBlueBits - target->cBlueBits);
+        ਜੇ (pfd.c_Blue_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Blue_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Blue_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Blue_ਬਿੱਟ);
         }
-        if (pfd.cAlphaBits < target->cAlphaBits) {
-            continue;
-        } else {
-            dist += (pfd.cAlphaBits - target->cAlphaBits);
+        ਜੇ (pfd.c_Alpha_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Alpha_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Alpha_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Alpha_ਬਿੱਟ);
         }
-        if (pfd.cAccumBits < target->cAccumBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumBits - target->cAccumBits);
+        ਜੇ (pfd.c_Accum_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Accum_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Accum_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Accum_ਬਿੱਟ);
         }
-        if (pfd.cAccumRedBits < target->cAccumRedBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumRedBits - target->cAccumRedBits);
+        ਜੇ (pfd.c_Accum_Red_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Accum_Red_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Accum_Red_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Accum_Red_ਬਿੱਟ);
         }
-        if (pfd.cAccumGreenBits < target->cAccumGreenBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumGreenBits - target->cAccumGreenBits);
+        ਜੇ (pfd.c_Accum_Green_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Accum_Green_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Accum_Green_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Accum_Green_ਬਿੱਟ);
         }
-        if (pfd.cAccumBlueBits < target->cAccumBlueBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumBlueBits - target->cAccumBlueBits);
+        ਜੇ (pfd.c_Accum_Blue_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Accum_Blue_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Accum_Blue_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Accum_Blue_ਬਿੱਟ);
         }
-        if (pfd.cAccumAlphaBits < target->cAccumAlphaBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumAlphaBits - target->cAccumAlphaBits);
+        ਜੇ (pfd.c_Accum_Alpha_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Accum_Alpha_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Accum_Alpha_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Accum_Alpha_ਬਿੱਟ);
         }
-        if (pfd.cDepthBits < target->cDepthBits) {
-            continue;
-        } else {
-            dist += (pfd.cDepthBits - target->cDepthBits);
+        ਜੇ (pfd.c_ਡੂੰਘਾਈ_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_ਡੂੰਘਾਈ_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_ਡੂੰਘਾਈ_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_ਡੂੰਘਾਈ_ਬਿੱਟ);
         }
-        if (pfd.cStencilBits < target->cStencilBits) {
-            continue;
-        } else {
-            dist += (pfd.cStencilBits - target->cStencilBits);
+        ਜੇ (pfd.c_Stencil_ਬਿੱਟ < ਨਿਸ਼ਾਨਾ->c_Stencil_ਬਿੱਟ) {
+            ਜਾਰੀ;
+        } ਨਹੀਂਤਾਂ {
+            dist += (pfd.c_Stencil_ਬਿੱਟ - ਨਿਸ਼ਾਨਾ->c_Stencil_ਬਿੱਟ);
         }
 
-        if (dist < best_dist) {
-            best = index;
-            best_dist = dist;
+        ਜੇ (dist < ਉੱਤਮ_dist) {
+            ਉੱਤਮ = ਸੂਚਕਾਂਕ;
+            ਉੱਤਮ_dist = dist;
         }
     }
 
-    return best;
+    ਵਾਪਸ ਉੱਤਮ;
 }
 
-static bool HasExtension(const char *extension, const char *extensions)
+ਸਥਿਰ bool HasExtension(ਅਚਲ ਅੱਖਰ *extension, ਅਚਲ ਅੱਖਰ *extensions)
 {
-    const char *start;
-    const char *where, *terminator;
+    ਅਚਲ ਅੱਖਰ *ਸ਼ੁਰੂ;
+    ਅਚਲ ਅੱਖਰ *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    ਜੇ (where || *extension == '\0') {
+        ਵਾਪਸ false;
     }
 
-    if (!extensions) {
-        return false;
+    ਜੇ (!extensions) {
+        ਵਾਪਸ false;
     }
 
     /* It takes a bit of care to be fool-proof about parsing the
      * OpenGL extensions string. Don't be fooled by sub-strings,
      * etc. */
 
-    start = extensions;
+    ਸ਼ੁਰੂ = extensions;
 
-    for (;;) {
-        where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+    ਲਈ (;;) {
+        where = SDL_strstr(ਸ਼ੁਰੂ, extension);
+        ਜੇ (!where) {
+            ਰੋਕੋ;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == start || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        ਜੇ (where == ਸ਼ੁਰੂ || *(where - 1) == ' ') {
+            ਜੇ (*terminator == ' ' || *terminator == '\0') {
+                ਵਾਪਸ true;
             }
         }
 
-        start = terminator;
+        ਸ਼ੁਰੂ = terminator;
     }
-    return false;
+    ਵਾਪਸ false;
 }
 
-void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
+ਖਾਲੀ WIN_GL_InitExtensions(SDL_VideoDevice *_this)
 {
     /* *INDENT-OFF* */ // clang-format off
-    const char *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
+    ਅਚਲ ਅੱਖਰ *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
     /* *INDENT-ON* */ // clang-format on
-    const char *extensions;
+    ਅਚਲ ਅੱਖਰ *extensions;
     HWND hwnd;
     HDC hdc;
     HGLRC hglrc;
     PIXELFORMATDESCRIPTOR pfd;
 
-    if (!_this->gl_data) {
-        return;
+    ਜੇ (!_this->gl_ਅੰਕੜੇ) {
+        ਵਾਪਸ;
     }
 
     hwnd =
-        CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
-                     10, 10, NULL, NULL, SDL_Instance, NULL);
-    if (!hwnd) {
-        return;
+        Create_ਖਿੜਕੀ(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
+                     10, 10, ਨਿਰਾ, ਨਿਰਾ, SDL_Instance, ਨਿਰਾ);
+    ਜੇ (!hwnd) {
+        ਵਾਪਸ;
     }
     WIN_PumpEventsForHWND(_this, hwnd);
 
     hdc = GetDC(hwnd);
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_ਤਿਆਰੀ_Pixel_Format(_this, &pfd);
 
-    SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
+    ਸੈੱਟ_Pixel_Format(hdc, ਚੁਣੋ_Pixel_Format(hdc, &pfd), &pfd);
 
-    hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (!hglrc) {
-        return;
+    hglrc = _this->gl_ਅੰਕੜੇ->wglCreateContext(hdc);
+    ਜੇ (!hglrc) {
+        ਵਾਪਸ;
     }
-    _this->gl_data->wglMakeCurrent(hdc, hglrc);
+    _this->gl_ਅੰਕੜੇ->wglMakeCurrent(hdc, hglrc);
 
     /* *INDENT-OFF* */ // clang-format off
-    wglGetExtensionsStringARB = (const char *(WINAPI *)(HDC))
-        _this->gl_data->wglGetProcAddress("wglGetExtensionsStringARB");
+    wglGetExtensionsStringARB = (ਅਚਲ ਅੱਖਰ *(WINAPI *)(HDC))
+        _this->gl_ਅੰਕੜੇ->wgl_Get_Proc_ਪਤਾ("wglGetExtensionsStringARB");
     /* *INDENT-ON* */ // clang-format on
-    if (wglGetExtensionsStringARB) {
+    ਜੇ (wglGetExtensionsStringARB) {
         extensions = wglGetExtensionsStringARB(hdc);
-    } else {
-        extensions = NULL;
+    } ਨਹੀਂਤਾਂ {
+        extensions = ਨਿਰਾ;
     }
 
     // Check for WGL_ARB_pixel_format
-    _this->gl_data->HAS_WGL_ARB_pixel_format = false;
-    if (HasExtension("WGL_ARB_pixel_format", extensions)) {
+    _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_pixel_format = false;
+    ਜੇ (HasExtension("WGL_ARB_pixel_format", extensions)) {
         /* *INDENT-OFF* */ // clang-format off
-        _this->gl_data->wglChoosePixelFormatARB =
-            (BOOL (WINAPI *)(HDC, const int *, const FLOAT *, UINT, int *, UINT *))
-            WIN_GL_GetProcAddress(_this, "wglChoosePixelFormatARB");
-        _this->gl_data->wglGetPixelFormatAttribivARB =
-            (BOOL (WINAPI *)(HDC, int, int, UINT, const int *, int *))
-            WIN_GL_GetProcAddress(_this, "wglGetPixelFormatAttribivARB");
+        _this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format_ARB =
+            (BOOL (WINAPI *)(HDC, ਅਚਲ ਪੂਰਨ *, ਅਚਲ FLOAT *, UINT, ਪੂਰਨ *, UINT *))
+            WIN_GL_Get_Proc_ਪਤਾ(_this, "wglChoosePixelFormatARB");
+        _this->gl_ਅੰਕੜੇ->wglGetPixelFormatAttribivARB =
+            (BOOL (WINAPI *)(HDC, ਪੂਰਨ, ਪੂਰਨ, UINT, ਅਚਲ ਪੂਰਨ *, ਪੂਰਨ *))
+            WIN_GL_Get_Proc_ਪਤਾ(_this, "wglGetPixelFormatAttribivARB");
         /* *INDENT-ON* */ // clang-format on
 
-        if ((_this->gl_data->wglChoosePixelFormatARB != NULL) &&
-            (_this->gl_data->wglGetPixelFormatAttribivARB != NULL)) {
-            _this->gl_data->HAS_WGL_ARB_pixel_format = true;
+        ਜੇ ((_this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format_ARB != ਨਿਰਾ) &&
+            (_this->gl_ਅੰਕੜੇ->wglGetPixelFormatAttribivARB != ਨਿਰਾ)) {
+            _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_pixel_format = true;
         }
     }
 
     // Check for WGL_EXT_swap_control
-    _this->gl_data->HAS_WGL_EXT_swap_control_tear = false;
-    if (HasExtension("WGL_EXT_swap_control", extensions)) {
-        _this->gl_data->wglSwapIntervalEXT =
-            (BOOL (WINAPI *)(int))
-            WIN_GL_GetProcAddress(_this, "wglSwapIntervalEXT");
-        _this->gl_data->wglGetSwapIntervalEXT =
-            (int (WINAPI *)(void))
-            WIN_GL_GetProcAddress(_this, "wglGetSwapIntervalEXT");
-        if (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
-            _this->gl_data->HAS_WGL_EXT_swap_control_tear = true;
+    _this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_ਅਦਲਾ_ਬਦਲੀ_control_tear = false;
+    ਜੇ (HasExtension("WGL_EXT_swap_control", extensions)) {
+        _this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT =
+            (BOOL (WINAPI *)(ਪੂਰਨ))
+            WIN_GL_Get_Proc_ਪਤਾ(_this, "wglSwapIntervalEXT");
+        _this->gl_ਅੰਕੜੇ->wgl_Get_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT =
+            (ਪੂਰਨ (WINAPI *)(ਖਾਲੀ))
+            WIN_GL_Get_Proc_ਪਤਾ(_this, "wglGetSwapIntervalEXT");
+        ਜੇ (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
+            _this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_ਅਦਲਾ_ਬਦਲੀ_control_tear = true;
         }
-    } else {
-        _this->gl_data->wglSwapIntervalEXT = NULL;
-        _this->gl_data->wglGetSwapIntervalEXT = NULL;
+    } ਨਹੀਂਤਾਂ {
+        _this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT = ਨਿਰਾ;
+        _this->gl_ਅੰਕੜੇ->wgl_Get_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT = ਨਿਰਾ;
     }
 
     // Check for WGL_EXT_create_context_es2_profile
     // see if we can get at OpenGL ES profiles even if EGL isn't available.
-    _this->gl_data->HAS_WGL_EXT_create_context_es2_profile = HasExtension("WGL_EXT_create_context_es2_profile", extensions);
-    if (_this->gl_data->HAS_WGL_EXT_create_context_es2_profile) {
+    _this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_create_context_es2_profile = HasExtension("WGL_EXT_create_context_es2_profile", extensions);
+    ਜੇ (_this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_create_context_es2_profile) {
         SDL_GL_DeduceMaxSupportedESProfile(
-            &_this->gl_data->es_profile_max_supported_version.major,
-            &_this->gl_data->es_profile_max_supported_version.minor);
+            &_this->gl_ਅੰਕੜੇ->es_profile_max_supported_ਸੰਸਕਰਣ.major,
+            &_this->gl_ਅੰਕੜੇ->es_profile_max_supported_ਸੰਸਕਰਣ.minor);
     }
 
     // Check for WGL_ARB_context_flush_control
-    if (HasExtension("WGL_ARB_context_flush_control", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_context_flush_control = true;
+    ਜੇ (HasExtension("WGL_ARB_context_flush_control", extensions)) {
+        _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_context_flush_control = true;
     }
 
     // Check for WGL_ARB_create_context_robustness
-    if (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_create_context_robustness = true;
+    ਜੇ (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
+        _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_create_context_robustness = true;
     }
 
     // Check for WGL_ARB_create_context_no_error
-    if (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_create_context_no_error = true;
+    ਜੇ (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
+        _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_create_context_no_error = true;
     }
 
     // Check for WGL_ARB_framebuffer_sRGB
-    if (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
-    } else if (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
-        _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
+    ਜੇ (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
+        _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_framebuffer_sRGB = true;
+    } ਨਹੀਂਤਾਂ ਜੇ (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
+        _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_framebuffer_sRGB = true;
     }
 
     /* Check for WGL_ARB_pixel_format_float */
-    _this->gl_data->HAS_WGL_ARB_pixel_format_float =
+    _this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_pixel_format_float =
         HasExtension("WGL_ARB_pixel_format_float", extensions);
 
-    _this->gl_data->wglMakeCurrent(hdc, NULL);
-    _this->gl_data->wglDeleteContext(hglrc);
+    _this->gl_ਅੰਕੜੇ->wglMakeCurrent(hdc, ਨਿਰਾ);
+    _this->gl_ਅੰਕੜੇ->wglDeleteContext(hglrc);
     ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    Destroy_ਖਿੜਕੀ(hwnd);
     WIN_PumpEventsForHWND(_this, hwnd);
 }
 
-static int WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, int *iAttribs, float *fAttribs)
+ਸਥਿਰ ਪੂਰਨ WIN_GL_ਚੁਣੋ_Pixel_Format_ARB(SDL_VideoDevice *_this, ਪੂਰਨ *iAttribs, ਦਸ਼ਮਲਵ *fAttribs)
 {
     HWND hwnd;
     HDC hdc;
     PIXELFORMATDESCRIPTOR pfd;
     HGLRC hglrc;
-    int pixel_format = 0;
-    unsigned int matching;
+    ਪੂਰਨ pixel_format = 0;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ matching;
 
     hwnd =
-        CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
-                     10, 10, NULL, NULL, SDL_Instance, NULL);
+        Create_ਖਿੜਕੀ(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
+                     10, 10, ਨਿਰਾ, ਨਿਰਾ, SDL_Instance, ਨਿਰਾ);
     WIN_PumpEventsForHWND(_this, hwnd);
 
     hdc = GetDC(hwnd);
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_ਤਿਆਰੀ_Pixel_Format(_this, &pfd);
 
-    SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
+    ਸੈੱਟ_Pixel_Format(hdc, ਚੁਣੋ_Pixel_Format(hdc, &pfd), &pfd);
 
-    hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (hglrc) {
-        _this->gl_data->wglMakeCurrent(hdc, hglrc);
+    hglrc = _this->gl_ਅੰਕੜੇ->wglCreateContext(hdc);
+    ਜੇ (hglrc) {
+        _this->gl_ਅੰਕੜੇ->wglMakeCurrent(hdc, hglrc);
 
-        if (_this->gl_data->HAS_WGL_ARB_pixel_format) {
-            _this->gl_data->wglChoosePixelFormatARB(hdc, iAttribs, fAttribs,
+        ਜੇ (_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_pixel_format) {
+            _this->gl_ਅੰਕੜੇ->wgl_ਚੁਣੋ_Pixel_Format_ARB(hdc, iAttribs, fAttribs,
                                                     1, &pixel_format,
                                                     &matching);
 
             // Check whether we actually got an SRGB capable buffer
-            int srgb = 0;
-            if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-                int qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
-                _this->gl_data->wglGetPixelFormatAttribivARB(hdc, pixel_format, 0, 1, &qAttrib, &srgb);
+            ਪੂਰਨ srgb = 0;
+            ਜੇ (_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_framebuffer_sRGB) {
+                ਪੂਰਨ qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
+                _this->gl_ਅੰਕੜੇ->wglGetPixelFormatAttribivARB(hdc, pixel_format, 0, 1, &qAttrib, &srgb);
             }
             _this->gl_config.framebuffer_srgb_capable = srgb;
         }
 
-        _this->gl_data->wglMakeCurrent(hdc, NULL);
-        _this->gl_data->wglDeleteContext(hglrc);
+        _this->gl_ਅੰਕੜੇ->wglMakeCurrent(hdc, ਨਿਰਾ);
+        _this->gl_ਅੰਕੜੇ->wglDeleteContext(hglrc);
     }
     ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    Destroy_ਖਿੜਕੀ(hwnd);
     WIN_PumpEventsForHWND(_this, hwnd);
 
-    return pixel_format;
+    ਵਾਪਸ pixel_format;
 }
 
 // actual work of WIN_GL_SetupWindow() happens here.
-static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *window)
+ਸਥਿਰ bool WIN_GL_ਤਿਆਰੀ_ਖਿੜਕੀ_ਅੰਦਰੂਨੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ->hdc;
     PIXELFORMATDESCRIPTOR pfd;
-    int pixel_format = 0;
-    int iAttribs[64];
-    int *iAttr;
-    int *iAccelAttr;
-    float fAttribs[1] = { 0 };
+    ਪੂਰਨ pixel_format = 0;
+    ਪੂਰਨ iAttribs[64];
+    ਪੂਰਨ *iAttr;
+    ਪੂਰਨ *iAccelAttr;
+    ਦਸ਼ਮਲਵ fAttribs[1] = { 0 };
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_ਤਿਆਰੀ_Pixel_Format(_this, &pfd);
 
     // setup WGL_ARB_pixel_format attribs
     iAttr = &iAttribs[0];
 
-    *iAttr++ = WGL_DRAW_TO_WINDOW_ARB;
+    *iAttr++ = WGL_DRAW_ਮੰਜ਼ਿਲ_ਖਿੜਕੀ_ARB;
     *iAttr++ = GL_TRUE;
-    *iAttr++ = WGL_RED_BITS_ARB;
-    *iAttr++ = _this->gl_config.red_size;
-    *iAttr++ = WGL_GREEN_BITS_ARB;
-    *iAttr++ = _this->gl_config.green_size;
-    *iAttr++ = WGL_BLUE_BITS_ARB;
-    *iAttr++ = _this->gl_config.blue_size;
+    *iAttr++ = WGL_RED_ਬਿੱਟ_ARB;
+    *iAttr++ = _this->gl_config.red_ਮਾਪ;
+    *iAttr++ = WGL_GREEN_ਬਿੱਟ_ARB;
+    *iAttr++ = _this->gl_config.green_ਮਾਪ;
+    *iAttr++ = WGL_BLUE_ਬਿੱਟ_ARB;
+    *iAttr++ = _this->gl_config.blue_ਮਾਪ;
 
-    if (_this->gl_config.alpha_size) {
-        *iAttr++ = WGL_ALPHA_BITS_ARB;
-        *iAttr++ = _this->gl_config.alpha_size;
+    ਜੇ (_this->gl_config.alpha_ਮਾਪ) {
+        *iAttr++ = WGL_ALPHA_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.alpha_ਮਾਪ;
     }
 
-    *iAttr++ = WGL_DOUBLE_BUFFER_ARB;
-    *iAttr++ = _this->gl_config.double_buffer;
+    *iAttr++ = WGL_DOUBLE_ਬਫਰ_ARB;
+    *iAttr++ = _this->gl_config.double_ਬਫਰ;
 
-    *iAttr++ = WGL_DEPTH_BITS_ARB;
-    *iAttr++ = _this->gl_config.depth_size;
+    *iAttr++ = WGL_ਡੂੰਘਾਈ_ਬਿੱਟ_ARB;
+    *iAttr++ = _this->gl_config.ਡੂੰਘਾਈ_ਮਾਪ;
 
-    if (_this->gl_config.stencil_size) {
-        *iAttr++ = WGL_STENCIL_BITS_ARB;
-        *iAttr++ = _this->gl_config.stencil_size;
+    ਜੇ (_this->gl_config.stencil_ਮਾਪ) {
+        *iAttr++ = WGL_STENCIL_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.stencil_ਮਾਪ;
     }
 
-    if (_this->gl_config.accum_red_size) {
-        *iAttr++ = WGL_ACCUM_RED_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_red_size;
+    ਜੇ (_this->gl_config.accum_red_ਮਾਪ) {
+        *iAttr++ = WGL_ACCUM_RED_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.accum_red_ਮਾਪ;
     }
 
-    if (_this->gl_config.accum_green_size) {
-        *iAttr++ = WGL_ACCUM_GREEN_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_green_size;
+    ਜੇ (_this->gl_config.accum_green_ਮਾਪ) {
+        *iAttr++ = WGL_ACCUM_GREEN_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.accum_green_ਮਾਪ;
     }
 
-    if (_this->gl_config.accum_blue_size) {
-        *iAttr++ = WGL_ACCUM_BLUE_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_blue_size;
+    ਜੇ (_this->gl_config.accum_blue_ਮਾਪ) {
+        *iAttr++ = WGL_ACCUM_BLUE_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.accum_blue_ਮਾਪ;
     }
 
-    if (_this->gl_config.accum_alpha_size) {
-        *iAttr++ = WGL_ACCUM_ALPHA_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_alpha_size;
+    ਜੇ (_this->gl_config.accum_alpha_ਮਾਪ) {
+        *iAttr++ = WGL_ACCUM_ALPHA_ਬਿੱਟ_ARB;
+        *iAttr++ = _this->gl_config.accum_alpha_ਮਾਪ;
     }
 
-    if (_this->gl_config.stereo) {
+    ਜੇ (_this->gl_config.stereo) {
         *iAttr++ = WGL_STEREO_ARB;
         *iAttr++ = GL_TRUE;
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    ਜੇ (_this->gl_config.multisamplebuffers) {
         *iAttr++ = WGL_SAMPLE_BUFFERS_ARB;
         *iAttr++ = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    ਜੇ (_this->gl_config.multisamplesamples) {
         *iAttr++ = WGL_SAMPLES_ARB;
         *iAttr++ = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
+    ਜੇ (_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
         *iAttr++ = WGL_PIXEL_TYPE_ARB;
         *iAttr++ = WGL_TYPE_RGBA_FLOAT_ARB;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+    ਜੇ (_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_framebuffer_sRGB) {
+        ਅਚਲ ਅੱਖਰ *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        ਜੇ (srgbhint && *srgbhint) {
+            ਜੇ (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } ਨਹੀਂਤਾਂ {
                 *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 *iAttr++ = SDL_GetStringBoolean(srgbhint, false) ? GL_TRUE : GL_FALSE;
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
+        } ਨਹੀਂਤਾਂ ਜੇ (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
             *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
             *iAttr++ = GL_TRUE;
         }
@@ -706,145 +706,145 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
        a perfectly valid result in any case). */
     *iAttr++ = WGL_ACCELERATION_ARB;
     iAccelAttr = iAttr;
-    if (_this->gl_config.accelerated) {
-        *iAttr++ = WGL_FULL_ACCELERATION_ARB;
-    } else {
+    ਜੇ (_this->gl_config.accelerated) {
+        *iAttr++ = WGL_ਭਰਿਆ_ACCELERATION_ARB;
+    } ਨਹੀਂਤਾਂ {
         *iAttr++ = WGL_NO_ACCELERATION_ARB;
     }
 
     *iAttr = 0;
 
     // Choose and set the closest available pixel format
-    pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
+    pixel_format = WIN_GL_ਚੁਣੋ_Pixel_Format_ARB(_this, iAttribs, fAttribs);
 
     // App said "don't care about accel" and FULL accel failed. Try NO.
-    if ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
+    ਜੇ ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
         *iAccelAttr = WGL_NO_ACCELERATION_ARB;
-        pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
-        *iAccelAttr = WGL_FULL_ACCELERATION_ARB; // if we try again.
+        pixel_format = WIN_GL_ਚੁਣੋ_Pixel_Format_ARB(_this, iAttribs, fAttribs);
+        *iAccelAttr = WGL_ਭਰਿਆ_ACCELERATION_ARB; // if we try again.
     }
-    if (!pixel_format) {
-        pixel_format = WIN_GL_ChoosePixelFormat(_this, hdc, &pfd);
+    ਜੇ (!pixel_format) {
+        pixel_format = WIN_GL_ਚੁਣੋ_Pixel_Format(_this, hdc, &pfd);
     }
-    if (!pixel_format) {
-        return SDL_SetError("No matching GL pixel format available");
+    ਜੇ (!pixel_format) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("No matching GL pixel format available");
     }
-    if (!SetPixelFormat(hdc, pixel_format, &pfd)) {
-        return WIN_SetError("SetPixelFormat()");
+    ਜੇ (!ਸੈੱਟ_Pixel_Format(hdc, pixel_format, &pfd)) {
+        ਵਾਪਸ WIN_ਸੈੱਟ_Error("SetPixelFormat()");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GL_ਤਿਆਰੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
     // The current context is lost in here; save it and reset it.
-    SDL_Window *current_win = SDL_GL_GetCurrentWindow();
+    SDL_ਖਿੜਕੀ *current_win = SDL_GL_Get_Current_ਖਿੜਕੀ();
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
-    const int result = WIN_GL_SetupWindowInternal(_this, window);
+    ਅਚਲ ਪੂਰਨ ਨਤੀਜਾ = WIN_GL_ਤਿਆਰੀ_ਖਿੜਕੀ_ਅੰਦਰੂਨੀ(_this, ਖਿੜਕੀ);
     WIN_GL_MakeCurrent(_this, current_win, current_ctx);
-    return result;
+    ਵਾਪਸ ਨਤੀਜਾ;
 }
 
 bool WIN_GL_UseEGL(SDL_VideoDevice *_this)
 {
-    SDL_assert(_this->gl_data != NULL);
-    SDL_assert(_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_assert(_this->gl_ਅੰਕੜੇ != ਨਿਰਾ);
+    SDL_assert(_this->gl_config.profile_ਨਕਾਬ == SDL_GL_CONTEXT_PROFILE_ES);
 
     // (we don't need EGL to do OpenGL ES if HAS_WGL_EXT_create_context_es2_profile exists.)
-    return !_this->gl_data->HAS_WGL_EXT_create_context_es2_profile ||
+    ਵਾਪਸ !_this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_create_context_es2_profile ||
            SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) ||
-           _this->gl_config.major_version > _this->gl_data->es_profile_max_supported_version.major ||
-           (_this->gl_config.major_version == _this->gl_data->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_data->es_profile_max_supported_version.minor);
+           _this->gl_config.major_ਸੰਸਕਰਣ > _this->gl_ਅੰਕੜੇ->es_profile_max_supported_ਸੰਸਕਰਣ.major ||
+           (_this->gl_config.major_ਸੰਸਕਰਣ == _this->gl_ਅੰਕੜੇ->es_profile_max_supported_ਸੰਸਕਰਣ.major && _this->gl_config.minor_ਸੰਸਕਰਣ > _this->gl_ਅੰਕੜੇ->es_profile_max_supported_ਸੰਸਕਰਣ.minor);
 }
 
-SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ->hdc;
     HGLRC context, share_context;
 
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
-#ifdef SDL_VIDEO_OPENGL_EGL
+    ਜੇ (_this->gl_config.profile_ਨਕਾਬ == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
         // Switch to EGL based functions
 
-        if (!WIN_GL_LoadLibrary_EGLFallback(_this, NULL)) {
-            return NULL;
+        ਜੇ (!WIN_GL_ਲੱਦੋ_Library_EGLFallback(_this, ਨਿਰਾ)) {
+            ਵਾਪਸ ਨਿਰਾ;
         }
 
-        return WIN_GLES_CreateContext(_this, window);
-#else
-        SDL_SetError("SDL not configured with EGL support");
-        return NULL;
-#endif
+        ਵਾਪਸ WIN_GLES_CreateContext(_this, ਖਿੜਕੀ);
+#ਨਹੀਂਤਾਂ
+        SDL_ਸੈੱਟ_Error("SDL not configured with EGL support");
+        ਵਾਪਸ ਨਿਰਾ;
+#ਜੇ_ਅੰਤ
     }
 
-    if (_this->gl_config.share_with_current_context) {
+    ਜੇ (_this->gl_config.share_with_current_context) {
         share_context = (HGLRC)SDL_GL_GetCurrentContext();
-    } else {
+    } ਨਹੀਂਤਾਂ {
         share_context = 0;
     }
 
-    if (_this->gl_config.major_version < 3 &&
-        _this->gl_config.profile_mask == 0 &&
+    ਜੇ (_this->gl_config.major_ਸੰਸਕਰਣ < 3 &&
+        _this->gl_config.profile_ਨਕਾਬ == 0 &&
         _this->gl_config.flags == 0) {
         // Create legacy context
-        context = _this->gl_data->wglCreateContext(hdc);
-        if (share_context != 0) {
-            _this->gl_data->wglShareLists(share_context, context);
+        context = _this->gl_ਅੰਕੜੇ->wglCreateContext(hdc);
+        ਜੇ (share_context != 0) {
+            _this->gl_ਅੰਕੜੇ->wglShareLists(share_context, context);
         }
-    } else {
+    } ਨਹੀਂਤਾਂ {
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
-        HGLRC temp_context = _this->gl_data->wglCreateContext(hdc);
-        if (!temp_context) {
-            SDL_SetError("Could not create GL context");
-            return NULL;
+        HGLRC ਆਰਜ਼ੀ_context = _this->gl_ਅੰਕੜੇ->wglCreateContext(hdc);
+        ਜੇ (!ਆਰਜ਼ੀ_context) {
+            SDL_ਸੈੱਟ_Error("Could not create GL context");
+            ਵਾਪਸ ਨਿਰਾ;
         }
 
         // Make the context current
-        if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)temp_context)) {
-            WIN_GL_DestroyContext(_this, (SDL_GLContext)temp_context);
-            return NULL;
+        ਜੇ (!WIN_GL_MakeCurrent(_this, ਖਿੜਕੀ, (SDL_GLContext)ਆਰਜ਼ੀ_context)) {
+            WIN_GL_DestroyContext(_this, (SDL_GLContext)ਆਰਜ਼ੀ_context);
+            ਵਾਪਸ ਨਿਰਾ;
         }
 
         wglCreateContextAttribsARB =
-            (PFNWGLCREATECONTEXTATTRIBSARBPROC)_this->gl_data->wglGetProcAddress("wglCreateContextAttribsARB");
-        if (!wglCreateContextAttribsARB) {
-            SDL_SetError("GL 3.x is not supported");
-            context = temp_context;
-        } else {
-            int attribs[15]; // max 14 attributes plus terminator
-            int iattr = 0;
+            (PFNWGLCREATECONTEXTATTRIBSARBPROC)_this->gl_ਅੰਕੜੇ->wgl_Get_Proc_ਪਤਾ("wglCreateContextAttribsARB");
+        ਜੇ (!wglCreateContextAttribsARB) {
+            SDL_ਸੈੱਟ_Error("GL 3.x is not supported");
+            context = ਆਰਜ਼ੀ_context;
+        } ਨਹੀਂਤਾਂ {
+            ਪੂਰਨ attribs[15]; // max 14 attributes plus terminator
+            ਪੂਰਨ iattr = 0;
 
-            attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.major_version;
-            attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.minor_version;
+            attribs[iattr++] = WGL_CONTEXT_MAJOR_ਸੰਸਕਰਣ_ARB;
+            attribs[iattr++] = _this->gl_config.major_ਸੰਸਕਰਣ;
+            attribs[iattr++] = WGL_CONTEXT_MINOR_ਸੰਸਕਰਣ_ARB;
+            attribs[iattr++] = _this->gl_config.minor_ਸੰਸਕਰਣ;
 
             // SDL profile bits match WGL profile bits
-            if (_this->gl_config.profile_mask != 0) {
-                attribs[iattr++] = WGL_CONTEXT_PROFILE_MASK_ARB;
-                attribs[iattr++] = _this->gl_config.profile_mask;
+            ਜੇ (_this->gl_config.profile_ਨਕਾਬ != 0) {
+                attribs[iattr++] = WGL_CONTEXT_PROFILE_ਨਕਾਬ_ARB;
+                attribs[iattr++] = _this->gl_config.profile_ਨਕਾਬ;
             }
 
             // SDL flags match WGL flags
-            if (_this->gl_config.flags != 0) {
+            ਜੇ (_this->gl_config.flags != 0) {
                 attribs[iattr++] = WGL_CONTEXT_FLAGS_ARB;
                 attribs[iattr++] = _this->gl_config.flags;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
+            ਜੇ ((_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RELEASE_BEHAVIOR_ARB;
                 attribs[iattr++] = _this->gl_config.release_behavior ? WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB : WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
+            ਜੇ ((_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB;
                 attribs[iattr++] = _this->gl_config.reset_notification ? WGL_LOSE_CONTEXT_ON_RESET_ARB : WGL_NO_RESET_NOTIFICATION_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
+            ਜੇ ((_this->gl_ਅੰਕੜੇ->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_OPENGL_NO_ERROR_ARB;
                 attribs[iattr++] = _this->gl_config.no_error;
             }
@@ -854,99 +854,99 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             // Create the GL 3.x context
             context = wglCreateContextAttribsARB(hdc, share_context, attribs);
             // Delete the GL 2.x context
-            _this->gl_data->wglDeleteContext(temp_context);
+            _this->gl_ਅੰਕੜੇ->wglDeleteContext(ਆਰਜ਼ੀ_context);
         }
     }
 
-    if (!context) {
-        WIN_SetError("Could not create GL context");
-        return NULL;
+    ਜੇ (!context) {
+        WIN_ਸੈੱਟ_Error("Could not create GL context");
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)context)) {
+    ਜੇ (!WIN_GL_MakeCurrent(_this, ਖਿੜਕੀ, (SDL_GLContext)context)) {
         WIN_GL_DestroyContext(_this, (SDL_GLContext)context);
-        return NULL;
+        ਵਾਪਸ ਨਿਰਾ;
     }
 
-    _this->gl_config.HAS_GL_ARB_color_buffer_float =
+    _this->gl_config.HAS_GL_ARB_color_ਬਫਰ_float =
         SDL_GL_ExtensionSupported("GL_ARB_color_buffer_float");
 
-    return (SDL_GLContext)context;
+    ਵਾਪਸ (SDL_GLContext)context;
 }
 
-bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context)
 {
     HDC hdc;
 
-    if (!_this->gl_data) {
-        return SDL_SetError("OpenGL not initialized");
+    ਜੇ (!_this->gl_ਅੰਕੜੇ) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("OpenGL not initialized");
     }
 
     // sanity check that higher level handled this.
-    SDL_assert(window || (window == NULL && !context));
+    SDL_assert(ਖਿੜਕੀ || (ਖਿੜਕੀ == ਨਿਰਾ && !context));
 
     /* Some Windows drivers freak out if hdc is NULL, even when context is
        NULL, against spec. Since hdc is _supposed_ to be ignored if context
        is NULL, we either use the current GL window, or do nothing if we
        already have no current context. */
-    if (!window) {
-        window = SDL_GL_GetCurrentWindow();
-        if (!window) {
-            SDL_assert(SDL_GL_GetCurrentContext() == NULL);
-            return true; // already done.
+    ਜੇ (!ਖਿੜਕੀ) {
+        ਖਿੜਕੀ = SDL_GL_Get_Current_ਖਿੜਕੀ();
+        ਜੇ (!ਖਿੜਕੀ) {
+            SDL_assert(SDL_GL_GetCurrentContext() == ਨਿਰਾ);
+            ਵਾਪਸ true; // already done.
         }
     }
 
-    hdc = window->internal->hdc;
-    if (!_this->gl_data->wglMakeCurrent(hdc, (HGLRC)context)) {
-        return WIN_SetError("wglMakeCurrent()");
+    hdc = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ->hdc;
+    ਜੇ (!_this->gl_ਅੰਕੜੇ->wglMakeCurrent(hdc, (HGLRC)context)) {
+        ਵਾਪਸ WIN_ਸੈੱਟ_Error("wglMakeCurrent()");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool WIN_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ interval)
 {
-    if ((interval < 0) && (!_this->gl_data->HAS_WGL_EXT_swap_control_tear)) {
-        return SDL_SetError("Negative swap interval unsupported in this GL");
-    } else if (_this->gl_data->wglSwapIntervalEXT) {
-        if (!_this->gl_data->wglSwapIntervalEXT(interval)) {
-            return WIN_SetError("wglSwapIntervalEXT()");
+    ਜੇ ((interval < 0) && (!_this->gl_ਅੰਕੜੇ->HAS_WGL_EXT_ਅਦਲਾ_ਬਦਲੀ_control_tear)) {
+        ਵਾਪਸ SDL_ਸੈੱਟ_Error("Negative swap interval unsupported in this GL");
+    } ਨਹੀਂਤਾਂ ਜੇ (_this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT) {
+        ਜੇ (!_this->gl_ਅੰਕੜੇ->wgl_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT(interval)) {
+            ਵਾਪਸ WIN_ਸੈੱਟ_Error("wglSwapIntervalEXT()");
         }
-    } else {
-        return SDL_Unsupported();
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_Unsupported();
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool WIN_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ *interval)
 {
-    if (_this->gl_data->wglGetSwapIntervalEXT) {
-        *interval = _this->gl_data->wglGetSwapIntervalEXT();
-        return true;
-    } else {
-        return SDL_Unsupported();
+    ਜੇ (_this->gl_ਅੰਕੜੇ->wgl_Get_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT) {
+        *interval = _this->gl_ਅੰਕੜੇ->wgl_Get_ਅਦਲਾ_ਬਦਲੀ_Interval_EXT();
+        ਵਾਪਸ true;
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ SDL_Unsupported();
     }
 }
 
-bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ->hdc;
 
-    if (!SwapBuffers(hdc)) {
-        return WIN_SetError("SwapBuffers()");
+    ਜੇ (!ਅਦਲਾ_ਬਦਲੀ_Buffers(hdc)) {
+        ਵਾਪਸ WIN_ਸੈੱਟ_Error("SwapBuffers()");
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
 bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    if (!_this->gl_data) {
-        return true;
+    ਜੇ (!_this->gl_ਅੰਕੜੇ) {
+        ਵਾਪਸ true;
     }
-    _this->gl_data->wglDeleteContext((HGLRC)context);
-    return true;
+    _this->gl_ਅੰਕੜੇ->wglDeleteContext((HGLRC)context);
+    ਵਾਪਸ true;
 }
 
-#endif // SDL_VIDEO_OPENGL_WGL
+#ਜੇ_ਅੰਤ // SDL_VIDEO_OPENGL_WGL
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_WINDOWS

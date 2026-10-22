@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamessagebox.h"
-#include <psp2/message_dialog.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_vitavideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_vitamessagebox.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <psp2/message_dialog.h>
 
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-#include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_RENDER_VITA_GXM
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
+#ਜੇ_ਅੰਤ // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_Show_ਸੁਨੇਹਾ_Box(ਅਚਲ SDL_ਸੁਨੇਹਾ_Box_ਅੰਕੜੇ *messageboxdata, ਪੂਰਨ *buttonID)
 {
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
-    SceDisplayFrameBuf dispparam;
-    char message[512];
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_RENDER_VITA_GXM
+    Sce_ਸੁਨੇਹਾ_Dialog_Param param;
+    Sce_ਸੁਨੇਹਾ_Dialog_User_ਸੁਨੇਹਾ_Param ਸੁਨੇਹਾ_Param;
+    Sce_ਸੁਨੇਹਾ_Dialog_Buttons_Param buttonParam;
+    Sce_Display_ਚੌਖਟਾ_Buf dispparam;
+    ਅੱਖਰ ਸੁਨੇਹਾ[512];
 
-    SceMsgDialogResult dialog_result;
-    SceCommonDialogErrorCode init_result;
-    bool setup_minimal_gxm = false;
+    Sce_ਸੁਨੇਹਾ_Dialog_ਨਤੀਜਾ dialog_ਨਤੀਜਾ;
+    Sce_Common_Dialog_Error_ਕੋਡ init_ਨਤੀਜਾ;
+    bool ਤਿਆਰੀ_ਨਿਊਨਤਮ_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    ਜੇ (messageboxdata->numbuttons > 3) {
+        ਵਾਪਸ false;
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_ਸੁਨੇਹਾ_Dialog_Param_Init(&param);
+    param.ਬਹੁਲਕ = SCE_ਸੁਨੇਹਾ_DIALOG_ਬਹੁਲਕ_USER_ਸੁਨੇਹਾ;
 
-    SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_zero(ਸੁਨੇਹਾ_Param);
+    SDL_snprintf(ਸੁਨੇਹਾ, ਆਕਾਰ(ਸੁਨੇਹਾ), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->ਸੁਨੇਹਾ);
 
-    msgParam.msg = (const SceChar8 *)message;
+    ਸੁਨੇਹਾ_Param.ਸੁਨੇਹਾ_2 = (ਅਚਲ SceChar8 *)ਸੁਨੇਹਾ;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
-        buttonParam.msg1 = messageboxdata->buttons[0].text;
-        buttonParam.msg2 = messageboxdata->buttons[1].text;
-        buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+    ਜੇ (messageboxdata->numbuttons == 3) {
+        ਸੁਨੇਹਾ_Param.buttonType = SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        ਸੁਨੇਹਾ_Param.buttonParam = &buttonParam;
+        buttonParam.msg1 = messageboxdata->buttons[0].ਪਾਠ;
+        buttonParam.msg2 = messageboxdata->buttons[1].ਪਾਠ;
+        buttonParam.msg3 = messageboxdata->buttons[2].ਪਾਠ;
+    } ਨਹੀਂਤਾਂ ਜੇ (messageboxdata->numbuttons == 2) {
+        ਸੁਨੇਹਾ_Param.buttonType = SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_TYPE_YESNO;
+    } ਨਹੀਂਤਾਂ ਜੇ (messageboxdata->numbuttons == 1) {
+        ਸੁਨੇਹਾ_Param.buttonType = SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_ਸੁਨੇਹਾ_Param = &ਸੁਨੇਹਾ_Param;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.ਮਾਪ = ਆਕਾਰ(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_ਨਤੀਜਾ = sce_ਸੁਨੇਹਾ_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
-        gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
-        setup_minimal_gxm = true;
+    ਜੇ (init_ਨਤੀਜਾ == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+        gxm_ਨਿਊਨਤਮ_init_for_common_dialog();
+        init_ਨਤੀਜਾ = sce_ਸੁਨੇਹਾ_Dialog_Init(&param);
+        ਤਿਆਰੀ_ਨਿਊਨਤਮ_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
-            gxm_swap_for_common_dialog();
+    ਜੇ (init_ਨਤੀਜਾ >= 0) {
+        ਜਦੋਂ (sce_ਸੁਨੇਹਾ_Dialog_Get_ਸਥਿਤੀ() == SCE_COMMON_DIALOG_ਸਥਿਤੀ_RUNNING) {
+            gxm_ਅਦਲਾ_ਬਦਲੀ_for_common_dialog();
         }
-        SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        SDL_zero(dialog_ਨਤੀਜਾ);
+        sce_ਸੁਨੇਹਾ_Dialog_Get_ਨਤੀਜਾ(&dialog_ਨਤੀਜਾ);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } ਨਹੀਂਤਾਂ ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } ਨਹੀਂਤਾਂ ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } ਨਹੀਂਤਾਂ ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } ਨਹੀਂਤਾਂ ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } ਨਹੀਂਤਾਂ ਜੇ (dialog_ਨਤੀਜਾ.buttonId == SCE_ਸੁਨੇਹਾ_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
-    } else {
-        return false;
+        sce_ਸੁਨੇਹਾ_Dialog_ਪਦ();
+    } ਨਹੀਂਤਾਂ {
+        ਵਾਪਸ false;
     }
 
-    gxm_term_for_common_dialog();
+    gxm_ਪਦ_for_common_dialog();
 
-    if (setup_minimal_gxm) {
-        gxm_minimal_term_for_common_dialog();
+    ਜੇ (ਤਿਆਰੀ_ਨਿਊਨਤਮ_gxm) {
+        gxm_ਨਿਊਨਤਮ_ਪਦ_for_common_dialog();
     }
 
-    return true;
-#else
-    (void)messageboxdata;
-    (void)buttonID;
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+    ਵਾਪਸ true;
+#ਨਹੀਂਤਾਂ
+    (ਖਾਲੀ)messageboxdata;
+    (ਖਾਲੀ)buttonID;
+    ਵਾਪਸ SDL_Unsupported();
+#ਜੇ_ਅੰਤ // SDL_VIDEO_RENDER_VITA_GXM
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_VITA

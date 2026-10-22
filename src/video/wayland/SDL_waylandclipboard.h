@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_waylandclipboard_h_
-#define SDL_waylandclipboard_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_waylandclipboard_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_waylandclipboard_h_
 
-extern const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਅਚਲ ਅੱਖਰ *ਅਚਲ *Wayland_Get_ਪਾਠ_Mime_Types(SDL_VideoDevice *_this, size_t *ਅੰਕ_mime_types);
+ਬਾਹਰੀ bool Wayland_ਸੈੱਟ_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_Get_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ bool Wayland_Has_Clipboard_ਅੰਕੜੇ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *mime_type);
+ਬਾਹਰੀ bool Wayland_ਸੈੱਟ_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਪਾਠ);
+ਬਾਹਰੀ ਅੱਖਰ *Wayland_Get_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool Wayland_Has_Primary_Selection_ਪਾਠ(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandclipboard_h_
+#ਜੇ_ਅੰਤ // SDL_waylandclipboard_h_

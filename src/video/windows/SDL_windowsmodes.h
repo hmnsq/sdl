@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_windowsmodes_h_
-#define SDL_windowsmodes_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_windowsmodes_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_windowsmodes_h_
 
-typedef enum
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+ਬਣਤਰ SDL_Display_ਅੰਕੜੇ
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,18 +39,18 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+ਬਣਤਰ SDL_Display_ਬਹੁਲਕ_ਅੰਕੜੇ
 {
-    DEVMODEW DeviceMode;
+    DEVMODEW Device_ਬਹੁਲਕ;
 };
 
-extern bool WIN_InitModes(SDL_VideoDevice *_this);
-extern bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void WIN_RefreshDisplays(SDL_VideoDevice *_this);
-extern void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
-extern void WIN_QuitModes(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool WIN_InitModes(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ਬਾਹਰੀ bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ਬਾਹਰੀ bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ਬਾਹਰੀ bool WIN_ਸੈੱਟ_Display_ਬਹੁਲਕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ਬਹੁਲਕ *ਬਹੁਲਕ);
+ਬਾਹਰੀ ਖਾਲੀ WIN_RefreshDisplays(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
+ਬਾਹਰੀ ਖਾਲੀ WIN_QuitModes(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsmodes_h_
+#ਜੇ_ਅੰਤ // SDL_windowsmodes_h_

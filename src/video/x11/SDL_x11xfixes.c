@@ -19,119 +19,119 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#ਜੇ defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11video.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_x11xfixes.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_touch_c.h"
 
-static bool xfixes_initialized = true;
-static int xfixes_selection_notify_event = 0;
+ਸਥਿਰ bool xfixes_initialized = true;
+ਸਥਿਰ ਪੂਰਨ xfixes_selection_notify_event = 0;
 
-static int query_xfixes_version(Display *display, int major, int minor)
+ਸਥਿਰ ਪੂਰਨ query_xfixes_ਸੰਸਕਰਣ(Display *display, ਪੂਰਨ major, ਪੂਰਨ minor)
 {
     // We don't care if this fails, so long as it sets major/minor on it's way out the door.
-    X11_XFixesQueryVersion(display, &major, &minor);
-    return (major * 1000) + minor;
+    X11_XFixes_Query_ਸੰਸਕਰਣ(display, &major, &minor);
+    ਵਾਪਸ (major * 1000) + minor;
 }
 
-static bool xfixes_version_atleast(const int version, const int wantmajor, const int wantminor)
+ਸਥਿਰ bool xfixes_ਸੰਸਕਰਣ_atleast(ਅਚਲ ਪੂਰਨ ਸੰਸਕਰਣ, ਅਚਲ ਪੂਰਨ wantmajor, ਅਚਲ ਪੂਰਨ wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    ਵਾਪਸ ਸੰਸਕਰਣ >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXfixes(SDL_VideoDevice *_this)
+ਖਾਲੀ X11_InitXfixes(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = _this->ਅੰਦਰੂਨੀ;
 
-    int version = 0;
-    int event, error;
-    int fixes_opcode;
+    ਪੂਰਨ ਸੰਸਕਰਣ = 0;
+    ਪੂਰਨ event, error;
+    ਪੂਰਨ fixes_opcode;
 
-    Atom XA_CLIPBOARD = data->atoms.CLIPBOARD;
+    Atom XA_CLIPBOARD = ਅੰਕੜੇ->atoms.CLIPBOARD;
 
-    if (!SDL_X11_HAVE_XFIXES ||
-        !X11_XQueryExtension(data->display, "XFIXES", &fixes_opcode, &event, &error)) {
-        return;
+    ਜੇ (!SDL_X11_HAVE_XFIXES ||
+        !X11_XQueryExtension(ਅੰਕੜੇ->display, "XFIXES", &fixes_opcode, &event, &error)) {
+        ਵਾਪਸ;
     }
 
     // Selection tracking is available in all versions of XFixes
     xfixes_selection_notify_event = event + XFixesSelectionNotify;
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
-            XA_CLIPBOARD, XFixesSetSelectionOwnerNotifyMask);
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
-            XA_PRIMARY, XFixesSetSelectionOwnerNotifyMask);
+    X11_XFixes_Select_Selection_ਨਿਵੇਸ਼(ਅੰਕੜੇ->display, Default_ਜੜ੍ਹ_ਖਿੜਕੀ(ਅੰਕੜੇ->display),
+            XA_CLIPBOARD, XFixes_ਸੈੱਟ_Selection_Owner_Notify_ਨਕਾਬ);
+    X11_XFixes_Select_Selection_ਨਿਵੇਸ਼(ਅੰਕੜੇ->display, Default_ਜੜ੍ਹ_ਖਿੜਕੀ(ਅੰਕੜੇ->display),
+            XA_PRIMARY, XFixes_ਸੈੱਟ_Selection_Owner_Notify_ਨਕਾਬ);
 
     // We need at least 5.0 for barriers.
-    version = query_xfixes_version(data->display, 5, 0);
-    if (!xfixes_version_atleast(version, 5, 0)) {
-        return; // X server does not support the version we want at all.
+    ਸੰਸਕਰਣ = query_xfixes_ਸੰਸਕਰਣ(ਅੰਕੜੇ->display, 5, 0);
+    ਜੇ (!xfixes_ਸੰਸਕਰਣ_atleast(ਸੰਸਕਰਣ, 5, 0)) {
+        ਵਾਪਸ; // X server does not support the version we want at all.
     }
 
     xfixes_initialized = 1;
 }
 
-bool X11_XfixesIsInitialized(void)
+bool X11_XfixesIsInitialized(ਖਾਲੀ)
 {
-    return xfixes_initialized;
+    ਵਾਪਸ xfixes_initialized;
 }
 
-int X11_GetXFixesSelectionNotifyEvent(void)
+ਪੂਰਨ X11_GetXFixesSelectionNotifyEvent(ਖਾਲੀ)
 {
-    return xfixes_selection_notify_event;
+    ਵਾਪਸ xfixes_selection_notify_event;
 }
 
-bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Mouse_Rect(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        X11_ConfineCursorWithFlags(_this, window, NULL, 0);
-    } else {
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-            X11_ConfineCursorWithFlags(_this, window, &window->mouse_rect, 0);
-        } else {
+    ਜੇ (SDL_Rect_ਖਾਲੀ_ਥਾਵਾਂ(&ਖਿੜਕੀ->mouse_rect)) {
+        X11_ConfineCursorWithFlags(_this, ਖਿੜਕੀ, ਨਿਰਾ, 0);
+    } ਨਹੀਂਤਾਂ {
+        ਜੇ (ਖਿੜਕੀ->flags & SDL_ਖਿੜਕੀ_ਨਿਵੇਸ਼_FOCUS) {
+            X11_ConfineCursorWithFlags(_this, ਖਿੜਕੀ, &ਖਿੜਕੀ->mouse_rect, 0);
+        } ਨਹੀਂਤਾਂ {
             // Save the state for when we get focus again
-            SDL_WindowData *wdata = window->internal;
+            SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-            SDL_memcpy(&wdata->barrier_rect, &window->mouse_rect, sizeof(wdata->barrier_rect));
+            SDL_memcpy(&wdata->barrier_rect, &ਖਿੜਕੀ->mouse_rect, ਆਕਾਰ(wdata->barrier_rect));
 
-            wdata->pointer_barrier_active = true;
+            wdata->ਸੂਚਕ_barrier_ਸਰਗਰਮ = true;
         }
     }
 
-    return true;
+    ਵਾਪਸ true;
 }
 
-bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags)
+bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਅਚਲ SDL_Rect *rect, ਪੂਰਨ flags)
 {
     /* Yaakuro: For some reason Xfixes when confining inside a rect where the
      * edges exactly match, a rectangle the cursor 'slips' out of the barrier.
      * To prevent that the lines for the barriers will span the whole screen.
      */
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wdata;
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = _this->ਅੰਦਰੂਨੀ;
+    SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata;
 
-    if (!X11_XfixesIsInitialized()) {
-        return SDL_Unsupported();
+    ਜੇ (!X11_XfixesIsInitialized()) {
+        ਵਾਪਸ SDL_Unsupported();
     }
 
     // If there is already a set of barriers active, disable them.
-    if (data->active_cursor_confined_window) {
-        X11_DestroyPointerBarrier(_this, data->active_cursor_confined_window);
+    ਜੇ (ਅੰਕੜੇ->ਸਰਗਰਮ_cursor_confined_ਖਿੜਕੀ) {
+        X11_Destroy_ਸੂਚਕ_Barrier(_this, ਅੰਕੜੇ->ਸਰਗਰਮ_cursor_confined_ਖਿੜਕੀ);
     }
 
-    SDL_assert(window != NULL);
-    wdata = window->internal;
+    SDL_assert(ਖਿੜਕੀ != ਨਿਰਾ);
+    wdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
     /* If user did not specify an area to confine, destroy the barrier that was/is assigned to
      * this window it was assigned */
-    if (rect) {
-        int x1, y1, x2, y2;
+    ਜੇ (rect) {
+        ਪੂਰਨ x1, y1, x2, y2;
         SDL_Rect bounds;
-        SDL_GetWindowPosition(window, &bounds.x, &bounds.y);
-        SDL_GetWindowSize(window, &bounds.w, &bounds.h);
+        SDL_Get_ਖਿੜਕੀ_Position(ਖਿੜਕੀ, &bounds.x, &bounds.y);
+        SDL_Get_ਖਿੜਕੀ_ਮਾਪ(ਖਿੜਕੀ, &bounds.w, &bounds.h);
 
         /** Negative values are not allowed. Clip values relative to the specified window. */
         x1 = bounds.x + SDL_max(rect->x, 0);
@@ -139,7 +139,7 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         x2 = SDL_min(bounds.x + rect->x + rect->w, bounds.x + bounds.w);
         y2 = SDL_min(bounds.y + rect->y + rect->h, bounds.y + bounds.h);
 
-        if ((wdata->barrier_rect.x != rect->x) ||
+        ਜੇ ((wdata->barrier_rect.x != rect->x) ||
             (wdata->barrier_rect.y != rect->y) ||
             (wdata->barrier_rect.w != rect->w) ||
             (wdata->barrier_rect.h != rect->h)) {
@@ -147,68 +147,68 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         }
 
         // Use the display bounds to ensure the barriers don't have corner gaps
-        SDL_GetDisplayBounds(SDL_GetDisplayForWindow(window), &bounds);
+        SDL_GetDisplayBounds(SDL_Get_Display_For_ਖਿੜਕੀ(ਖਿੜਕੀ), &bounds);
 
         /** Create the left barrier */
-        wdata->barrier[0] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[0] = X11_XFixes_Create_ਸੂਚਕ_Barrier(ਅੰਕੜੇ->display, wdata->xwindow,
                                                            x1, bounds.y,
                                                            x1, bounds.y + bounds.h,
-                                                           BarrierPositiveX,
-                                                           0, NULL);
+                                                           Barrier_ਸਕਾਰਾਤਮਕ_X,
+                                                           0, ਨਿਰਾ);
         /** Create the right barrier */
-        wdata->barrier[1] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[1] = X11_XFixes_Create_ਸੂਚਕ_Barrier(ਅੰਕੜੇ->display, wdata->xwindow,
                                                            x2, bounds.y,
                                                            x2, bounds.y + bounds.h,
                                                            BarrierNegativeX,
-                                                           0, NULL);
+                                                           0, ਨਿਰਾ);
         /** Create the top barrier */
-        wdata->barrier[2] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[2] = X11_XFixes_Create_ਸੂਚਕ_Barrier(ਅੰਕੜੇ->display, wdata->xwindow,
                                                            bounds.x, y1,
                                                            bounds.x + bounds.w, y1,
-                                                           BarrierPositiveY,
-                                                           0, NULL);
+                                                           Barrier_ਸਕਾਰਾਤਮਕ_Y,
+                                                           0, ਨਿਰਾ);
         /** Create the bottom barrier */
-        wdata->barrier[3] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[3] = X11_XFixes_Create_ਸੂਚਕ_Barrier(ਅੰਕੜੇ->display, wdata->xwindow,
                                                            bounds.x, y2,
                                                            bounds.x + bounds.w, y2,
                                                            BarrierNegativeY,
-                                                           0, NULL);
+                                                           0, ਨਿਰਾ);
 
-        X11_XFlush(data->display);
+        X11_XFlush(ਅੰਕੜੇ->display);
 
         // Lets remember current active confined window.
-        data->active_cursor_confined_window = window;
+        ਅੰਕੜੇ->ਸਰਗਰਮ_cursor_confined_ਖਿੜਕੀ = ਖਿੜਕੀ;
 
         /* User activated the confinement for this window. We use this later to reactivate
          * the confinement if it got deactivated by FocusOut or UnmapNotify */
-        wdata->pointer_barrier_active = true;
-    } else {
-        X11_DestroyPointerBarrier(_this, window);
+        wdata->ਸੂਚਕ_barrier_ਸਰਗਰਮ = true;
+    } ਨਹੀਂਤਾਂ {
+        X11_Destroy_ਸੂਚਕ_Barrier(_this, ਖਿੜਕੀ);
 
         // Only set barrier inactive when user specified NULL and not handled by focus out.
-        if (flags != X11_BARRIER_HANDLED_BY_EVENT) {
-            wdata->pointer_barrier_active = false;
+        ਜੇ (flags != X11_BARRIER_HANDLED_BY_EVENT) {
+            wdata->ਸੂਚਕ_barrier_ਸਰਗਰਮ = false;
         }
     }
-    return true;
+    ਵਾਪਸ true;
 }
 
-void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window)
+ਖਾਲੀ X11_Destroy_ਸੂਚਕ_Barrier(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ)
 {
-    int i;
-    SDL_VideoData *data = _this->internal;
-    if (window) {
-        SDL_WindowData *wdata = window->internal;
+    ਪੂਰਨ i;
+    SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ = _this->ਅੰਦਰੂਨੀ;
+    ਜੇ (ਖਿੜਕੀ) {
+        SDL_ਖਿੜਕੀ_ਅੰਕੜੇ *wdata = ਖਿੜਕੀ->ਅੰਦਰੂਨੀ;
 
-        for (i = 0; i < 4; i++) {
-            if (wdata->barrier[i] > 0) {
-                X11_XFixesDestroyPointerBarrier(data->display, wdata->barrier[i]);
+        ਲਈ (i = 0; i < 4; i++) {
+            ਜੇ (wdata->barrier[i] > 0) {
+                X11_XFixes_Destroy_ਸੂਚਕ_Barrier(ਅੰਕੜੇ->display, wdata->barrier[i]);
                 wdata->barrier[i] = 0;
             }
         }
-        X11_XFlush(data->display);
+        X11_XFlush(ਅੰਕੜੇ->display);
     }
-    data->active_cursor_confined_window = NULL;
+    ਅੰਕੜੇ->ਸਰਗਰਮ_cursor_confined_ਖਿੜਕੀ = ਨਿਰਾ;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES

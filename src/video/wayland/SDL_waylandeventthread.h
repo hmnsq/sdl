@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_waylandeventthread_h_
-#define SDL_waylandeventthread_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_waylandeventthread_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_waylandeventthread_h_
 
-#include "../SDL_sysvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../SDL_sysvideo.h"
 
-typedef struct Wayland_EventThreadContext Wayland_EventThreadContext;
-typedef struct Wayland_JobThreadContext Wayland_JobThreadContext;
-typedef void (*Wayland_JobThreadCallback)(void *userdata);
-typedef Uint32 Wayland_JobID;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Wayland_EventThreadContext Wayland_EventThreadContext;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Wayland_ਕੰਮ_Thread_Context Wayland_ਕੰਮ_Thread_Context;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ (*Wayland_ਕੰਮ_Thread_Callback)(ਖਾਲੀ *userdata);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Uint32 Wayland_ਕੰਮ_ID;
 
-extern Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_VideoData *data, const char *queue_name);
-extern void Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
-extern void *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, void *obj);
-extern void Wayland_LockEventThread(Wayland_EventThreadContext *context);
-extern void Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
+ਬਾਹਰੀ Wayland_EventThreadContext *Wayland_CreateEventThread(SDL_Video_ਅੰਕੜੇ *ਅੰਕੜੇ, ਅਚਲ ਅੱਖਰ *ਕਤਾਰ_name);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_DestroyEventThread(Wayland_EventThreadContext *context);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_CreateEventThreadProxyWrapper(Wayland_EventThreadContext *context, ਖਾਲੀ *obj);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਤਾਲਾ_Event_Thread(Wayland_EventThreadContext *context);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_UnlockEventThread(Wayland_EventThreadContext *context);
 
-extern Wayland_JobThreadContext *Wayland_CreateJobThread();
-extern void Wayland_DestroyJobThread(Wayland_JobThreadContext *context);
-extern bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThreadCallback callback, void *userdata, Wayland_JobID *id);
-extern void Wayland_JobThreadCancelJob(Wayland_JobThreadContext *context, Wayland_JobID id);
+ਬਾਹਰੀ Wayland_ਕੰਮ_Thread_Context *Wayland_Create_ਕੰਮ_Thread();
+ਬਾਹਰੀ ਖਾਲੀ Wayland_Destroy_ਕੰਮ_Thread(Wayland_ਕੰਮ_Thread_Context *context);
+ਬਾਹਰੀ bool Wayland_ਕੰਮ_Thread_ਜੋੜੋ_ਕੰਮ(Wayland_ਕੰਮ_Thread_Context *context, Wayland_ਕੰਮ_Thread_Callback callback, ਖਾਲੀ *userdata, Wayland_ਕੰਮ_ID *id);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਕੰਮ_Thread_Cancel_ਕੰਮ(Wayland_ਕੰਮ_Thread_Context *context, Wayland_ਕੰਮ_ID id);
 
-#endif // SDL_waylandeventthread_h_
+#ਜੇ_ਅੰਤ // SDL_waylandeventthread_h_

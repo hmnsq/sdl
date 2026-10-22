@@ -18,87 +18,87 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidpen.h"
-#include "../../events/SDL_pen_c.h"
-#include "../../core/android/SDL_android.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_androidpen.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_pen_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/android/SDL_android.h"
 
-#define ACTION_DOWN   0
-#define ACTION_UP     1
-#define ACTION_CANCEL 3
-#define ACTION_POINTER_DOWN 5
-#define ACTION_POINTER_UP   6
-#define ACTION_HOVER_ENTER  9
-#define ACTION_HOVER_EXIT   10
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਥੱਲੇ   0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਉੱਪਰ     1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_CANCEL 3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਸੂਚਕ_ਥੱਲੇ 5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਸੂਚਕ_ਉੱਪਰ   6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_HOVER_ENTER  9
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+ਖਾਲੀ Android_OnPen(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ pen_id_ਵਿੱਚ, SDL_PenDeviceType device_type, ਪੂਰਨ button, ਪੂਰਨ action, ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y, ਦਸ਼ਮਲਵ p)
 {
-    if (!window) {
-        return;
+    ਜੇ (!ਖਿੜਕੀ) {
+        ਵਾਪਸ;
     }
 
     // pointer index starts from zero.
-    pen_id_in++;
+    pen_id_ਵਿੱਚ++;
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    SDL_PenID pen = SDL_ਲੱਭੋ_Pen_By_Handle((ਖਾਲੀ *) (size_t) pen_id_ਵਿੱਚ);
+    ਜੇ (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
-        peninfo.num_buttons = 2;
+        peninfo.ਅੰਕ_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
-        pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
-            SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+        pen = SDL_ਜੋੜੋ_Pen_Device(0, ਨਿਰਾ, ਖਿੜਕੀ, &peninfo, (ਖਾਲੀ *) (size_t) pen_id_ਵਿੱਚ, true);
+        ਜੇ (!pen) {
+            SDL_Log("error: can't add a pen device %d", pen_id_ਵਿੱਚ);
+            ਵਾਪਸ;
         }
     }
 
-    SDL_SendPenMotion(0, pen, window, x, y);
-    SDL_SendPenAxis(0, pen, window, SDL_PEN_AXIS_PRESSURE, p);
+    SDL_SendPenMotion(0, pen, ਖਿੜਕੀ, x, y);
+    SDL_SendPenAxis(0, pen, ਖਿੜਕੀ, SDL_PEN_AXIS_PRESSURE, p);
     // TODO: add more axis
 
-    SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
-            Uint8 mask = (1 << i);
-            if (diff & mask) {
-                SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
+    SDL_Pen_ਨਿਵੇਸ਼_Flags current = SDL_Get_Pen_ਸਥਿਤੀ(pen, ਨਿਰਾ, 0);
+    ਪੂਰਨ diff = current ^ button;
+    ਜੇ (diff != 0) {
+        ਲਈ (Uint8 i = 1; i <= 5; ++i) {
+            Uint8 ਨਕਾਬ = (1 << i);
+            ਜੇ (diff & ਨਕਾਬ) {
+                SDL_SendPenButton(0, pen, ਖਿੜਕੀ, i, (button & ਨਕਾਬ) != 0);
             }
         }
     }
 
     // button contains DOWN/ERASER_TIP on DOWN/UP regardless of pressed state, use action to distinguish
     // we don't compare tip flags above because MotionEvent.getButtonState doesn't return stylus tip/eraser state.
-    switch (action) {
-    case ACTION_HOVER_ENTER:
-        SDL_SendPenProximity(0, pen, window, true, true);
-        break;
+    ਚੋਣ (action) {
+    ਹਾਲਤ ACTION_HOVER_ENTER:
+        SDL_SendPenProximity(0, pen, ਖਿੜਕੀ, true, true);
+        ਰੋਕੋ;
 
-    case ACTION_CANCEL:
-    case ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
-        SDL_SendPenProximity(0, pen, window, false, false);
-        break;
+    ਹਾਲਤ ACTION_CANCEL:
+    ਹਾਲਤ ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
+        SDL_SendPenProximity(0, pen, ਖਿੜਕੀ, false, false);
+        ਰੋਕੋ;
 
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
-        break;
+    ਹਾਲਤ ACTION_ਥੱਲੇ:
+    ਹਾਲਤ ACTION_ਸੂਚਕ_ਥੱਲੇ:
+        SDL_SendPenTouch(0, pen, ਖਿੜਕੀ, (button & SDL_PEN_ਨਿਵੇਸ਼_ERASER_TIP) != 0, true);
+        ਰੋਕੋ;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
-        break;
+    ਹਾਲਤ ACTION_ਉੱਪਰ:
+    ਹਾਲਤ ACTION_ਸੂਚਕ_ਉੱਪਰ:
+        SDL_SendPenTouch(0, pen, ਖਿੜਕੀ, (button & SDL_PEN_ਨਿਵੇਸ਼_ERASER_TIP) != 0, false);
+        ਰੋਕੋ;
 
-    default:
-        break;
+    ਮੂਲ:
+        ਰੋਕੋ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_ANDROID

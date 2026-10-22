@@ -1,5 +1,5 @@
-#ifndef VULKAN_FUCHSIA_H_
-#define VULKAN_FUCHSIA_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VULKAN_FUCHSIA_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VULKAN_FUCHSIA_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,283 +13,283 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
 
 // VK_FUCHSIA_imagepipe_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_imagepipe_surface 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_imagepipe_surface 1
 
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_VERSION 1
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
 
-typedef VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
 
-typedef struct VkImagePipeSurfaceCreateInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkImagePipeSurfaceCreateInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ਅਚਲ ਖਾਲੀ*                             p_ਅਗਲਾ;
     VkImagePipeSurfaceCreateFlagsFUCHSIA    flags;
     zx_handle_t                             imagePipeHandle;
 } VkImagePipeSurfaceCreateInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, ਅਚਲ VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
     VkInstance                                  instance,
-    const VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ਅਚਲ VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 // VK_FUCHSIA_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_memory 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_external_ਸਮ੍ਰਿਤੀ 1
 
-#define VK_FUCHSIA_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_MEMORY_EXTENSION_NAME "VK_FUCHSIA_external_memory"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_EXTERNAL_ਸਮ੍ਰਿਤੀ_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_EXTERNAL_ਸਮ੍ਰਿਤੀ_EXTENSION_NAME "VK_FUCHSIA_external_memory"
 
-typedef struct VkImportMemoryZirconHandleInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Import_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
+    ਅਚਲ ਖਾਲੀ*                           p_ਅਗਲਾ;
+    Vk_External_ਸਮ੍ਰਿਤੀ_Handle_Type_Flag_ਬਿੱਟ    handleType;
     zx_handle_t                           handle;
-} VkImportMemoryZirconHandleInfoFUCHSIA;
+} Vk_Import_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Info_FUCHSIA;
 
-typedef struct VkMemoryZirconHandlePropertiesFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryZirconHandlePropertiesFUCHSIA;
+    ਖਾਲੀ*              p_ਅਗਲਾ;
+    uint32_t           ਸਮ੍ਰਿਤੀ_Type_ਬਿੱਟ;
+} Vk_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA;
 
-typedef struct VkMemoryGetZirconHandleInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਸਮ੍ਰਿਤੀ_Get_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetZirconHandleInfoFUCHSIA;
+    ਅਚਲ ਖਾਲੀ*                           p_ਅਗਲਾ;
+    Vk_Device_ਸਮ੍ਰਿਤੀ                        ਸਮ੍ਰਿਤੀ;
+    Vk_External_ਸਮ੍ਰਿਤੀ_Handle_Type_Flag_ਬਿੱਟ    handleType;
+} Vk_ਸਮ੍ਰਿਤੀ_Get_Zircon_Handle_Info_FUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandleFUCHSIA)(VkDevice device, const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle, VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Get_ਸਮ੍ਰਿਤੀ_Zircon_Handle_FUCHSIA)(VkDevice device, ਅਚਲ Vk_ਸਮ੍ਰਿਤੀ_Get_Zircon_Handle_Info_FUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Get_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA)(VkDevice device, Vk_External_ਸਮ੍ਰਿਤੀ_Handle_Type_Flag_ਬਿੱਟ handleType, zx_handle_t zirconHandle, Vk_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA* p_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandleFUCHSIA(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Get_ਸਮ੍ਰਿਤੀ_Zircon_Handle_FUCHSIA(
     VkDevice                                    device,
-    const VkMemoryGetZirconHandleInfoFUCHSIA*   pGetZirconHandleInfo,
+    ਅਚਲ Vk_ਸਮ੍ਰਿਤੀ_Get_Zircon_Handle_Info_FUCHSIA*   pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Get_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
+    Vk_External_ਸਮ੍ਰਿਤੀ_Handle_Type_Flag_ਬਿੱਟ          handleType,
     zx_handle_t                                 zirconHandle,
-    VkMemoryZirconHandlePropertiesFUCHSIA*      pMemoryZirconHandleProperties);
-#endif
-#endif
+    Vk_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties_FUCHSIA*      p_ਸਮ੍ਰਿਤੀ_Zircon_Handle_Properties);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 // VK_FUCHSIA_external_semaphore is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_semaphore 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_external_semaphore 1
 
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_ਸੰਸਕਰਣ 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
 
-typedef struct VkImportSemaphoreZirconHandleInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkImportSemaphoreZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ਅਚਲ ਖਾਲੀ*                              p_ਅਗਲਾ;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_ਬਿੱਟ    handleType;
     zx_handle_t                              zirconHandle;
 } VkImportSemaphoreZirconHandleInfoFUCHSIA;
 
-typedef struct VkSemaphoreGetZirconHandleInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkSemaphoreGetZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ਅਚਲ ਖਾਲੀ*                              p_ਅਗਲਾ;
     VkSemaphore                              semaphore;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_ਬਿੱਟ    handleType;
 } VkSemaphoreGetZirconHandleInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, ਅਚਲ VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, ਅਚਲ VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
+    ਅਚਲ VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
+    ਅਚਲ VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#endif
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 
 // VK_FUCHSIA_buffer_collection is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_buffer_collection 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_ਬਫਰ_collection 1
 
-VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBufferCollectionFUCHSIA)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(Vk_ਬਫਰ_Collection_FUCHSIA)
 
-#define VK_FUCHSIA_BUFFER_COLLECTION_SPEC_VERSION 2
-#define VK_FUCHSIA_BUFFER_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_ਬਫਰ_COLLECTION_SPEC_ਸੰਸਕਰਣ 2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_FUCHSIA_ਬਫਰ_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
 
-typedef VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
 
-typedef enum VkImageConstraintsInfoFlagBitsFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ Vk_Image_Constraints_Info_Flag_ਬਿੱਟ_FUCHSIA {
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_RARELY_FUCHSIA = 0x00000001,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_OFTEN_FUCHSIA = 0x00000002,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_RARELY_FUCHSIA = 0x00000004,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_OFTEN_FUCHSIA = 0x00000008,
     VK_IMAGE_CONSTRAINTS_INFO_PROTECTED_OPTIONAL_FUCHSIA = 0x00000010,
-    VK_IMAGE_CONSTRAINTS_INFO_FLAG_BITS_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
-} VkImageConstraintsInfoFlagBitsFUCHSIA;
-typedef VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
+    VK_IMAGE_CONSTRAINTS_INFO_FLAG_ਬਿੱਟ_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
+} Vk_Image_Constraints_Info_Flag_ਬਿੱਟ_FUCHSIA;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
 
-typedef struct VkBufferCollectionCreateInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Collection_Create_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ਅਚਲ ਖਾਲੀ*        p_ਅਗਲਾ;
     zx_handle_t        collectionToken;
-} VkBufferCollectionCreateInfoFUCHSIA;
+} Vk_ਬਫਰ_Collection_Create_Info_FUCHSIA;
 
-typedef struct VkImportMemoryBufferCollectionFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_Import_ਸਮ੍ਰਿਤੀ_ਬਫਰ_Collection_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkImportMemoryBufferCollectionFUCHSIA;
+    ਅਚਲ ਖਾਲੀ*                  p_ਅਗਲਾ;
+    Vk_ਬਫਰ_Collection_FUCHSIA    collection;
+    uint32_t                     ਸੂਚਕਾਂਕ;
+} Vk_Import_ਸਮ੍ਰਿਤੀ_ਬਫਰ_Collection_FUCHSIA;
 
-typedef struct VkBufferCollectionImageCreateInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Collection_Image_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionImageCreateInfoFUCHSIA;
+    ਅਚਲ ਖਾਲੀ*                  p_ਅਗਲਾ;
+    Vk_ਬਫਰ_Collection_FUCHSIA    collection;
+    uint32_t                     ਸੂਚਕਾਂਕ;
+} Vk_ਬਫਰ_Collection_Image_Create_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionConstraintsInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Collection_Constraints_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           minBufferCount;
-    uint32_t           maxBufferCount;
-    uint32_t           minBufferCountForCamping;
-    uint32_t           minBufferCountForDedicatedSlack;
-    uint32_t           minBufferCountForSharedSlack;
-} VkBufferCollectionConstraintsInfoFUCHSIA;
+    ਅਚਲ ਖਾਲੀ*        p_ਅਗਲਾ;
+    uint32_t           min_ਬਫਰ_ਗਿਣਤੀ;
+    uint32_t           max_ਬਫਰ_ਗਿਣਤੀ;
+    uint32_t           min_ਬਫਰ_ਗਿਣਤੀ_For_Camping;
+    uint32_t           min_ਬਫਰ_ਗਿਣਤੀ_For_Dedicated_Slack;
+    uint32_t           min_ਬਫਰ_ਗਿਣਤੀ_For_Shared_Slack;
+} Vk_ਬਫਰ_Collection_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferConstraintsInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Constraints_Info_FUCHSIA {
     VkStructureType                             sType;
-    const void*                                 pNext;
-    VkBufferCreateInfo                          createInfo;
+    ਅਚਲ ਖਾਲੀ*                                 p_ਅਗਲਾ;
+    Vk_ਬਫਰ_Create_Info                          createInfo;
     VkFormatFeatureFlags                        requiredFormatFeatures;
-    VkBufferCollectionConstraintsInfoFUCHSIA    bufferCollectionConstraints;
-} VkBufferConstraintsInfoFUCHSIA;
+    Vk_ਬਫਰ_Collection_Constraints_Info_FUCHSIA    ਬਫਰ_Collection_Constraints;
+} Vk_ਬਫਰ_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionBufferCreateInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Collection_ਬਫਰ_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionBufferCreateInfoFUCHSIA;
+    ਅਚਲ ਖਾਲੀ*                  p_ਅਗਲਾ;
+    Vk_ਬਫਰ_Collection_FUCHSIA    collection;
+    uint32_t                     ਸੂਚਕਾਂਕ;
+} Vk_ਬਫਰ_Collection_ਬਫਰ_Create_Info_FUCHSIA;
 
-typedef struct VkSysmemColorSpaceFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkSysmemColorSpaceFUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ਅਚਲ ਖਾਲੀ*        p_ਅਗਲਾ;
     uint32_t           colorSpace;
 } VkSysmemColorSpaceFUCHSIA;
 
-typedef struct VkBufferCollectionPropertiesFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Vk_ਬਫਰ_Collection_Properties_FUCHSIA {
     VkStructureType                  sType;
-    void*                            pNext;
-    uint32_t                         memoryTypeBits;
-    uint32_t                         bufferCount;
-    uint32_t                         createInfoIndex;
+    ਖਾਲੀ*                            p_ਅਗਲਾ;
+    uint32_t                         ਸਮ੍ਰਿਤੀ_Type_ਬਿੱਟ;
+    uint32_t                         ਬਫਰ_ਗਿਣਤੀ;
+    uint32_t                         create_Info_ਸੂਚਕਾਂਕ;
     uint64_t                         sysmemPixelFormat;
     VkFormatFeatureFlags             formatFeatures;
-    VkSysmemColorSpaceFUCHSIA        sysmemColorSpaceIndex;
+    VkSysmemColorSpaceFUCHSIA        sysmem_Color_Space_ਸੂਚਕਾਂਕ;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkBufferCollectionPropertiesFUCHSIA;
+    VkChromaLocation                 suggested_XChroma_ਵਿੱਥ;
+    VkChromaLocation                 suggested_YChroma_ਵਿੱਥ;
+} Vk_ਬਫਰ_Collection_Properties_FUCHSIA;
 
-typedef struct VkImageFormatConstraintsInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkImageFormatConstraintsInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ਅਚਲ ਖਾਲੀ*                             p_ਅਗਲਾ;
     VkImageCreateInfo                       imageCreateInfo;
     VkFormatFeatureFlags                    requiredFormatFeatures;
     VkImageFormatConstraintsFlagsFUCHSIA    flags;
     uint64_t                                sysmemPixelFormat;
-    uint32_t                                colorSpaceCount;
-    const VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
+    uint32_t                                color_Space_ਗਿਣਤੀ;
+    ਅਚਲ VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
 } VkImageFormatConstraintsInfoFUCHSIA;
 
-typedef struct VkImageConstraintsInfoFUCHSIA {
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ VkImageConstraintsInfoFUCHSIA {
     VkStructureType                               sType;
-    const void*                                   pNext;
-    uint32_t                                      formatConstraintsCount;
-    const VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
-    VkBufferCollectionConstraintsInfoFUCHSIA      bufferCollectionConstraints;
+    ਅਚਲ ਖਾਲੀ*                                   p_ਅਗਲਾ;
+    uint32_t                                      format_Constraints_ਗਿਣਤੀ;
+    ਅਚਲ VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
+    Vk_ਬਫਰ_Collection_Constraints_Info_FUCHSIA      ਬਫਰ_Collection_Constraints;
     VkImageConstraintsInfoFlagsFUCHSIA            flags;
 } VkImageConstraintsInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateBufferCollectionFUCHSIA)(VkDevice device, const VkBufferCollectionCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBufferCollectionFUCHSIA* pCollection);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionImageConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionBufferConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo);
-typedef void (VKAPI_PTR *PFN_vkDestroyBufferCollectionFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkAllocationCallbacks* pAllocator);
-typedef VkResult (VKAPI_PTR *PFN_vkGetBufferCollectionPropertiesFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, VkBufferCollectionPropertiesFUCHSIA* pProperties);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Create_ਬਫਰ_Collection_FUCHSIA)(VkDevice device, ਅਚਲ Vk_ਬਫਰ_Collection_Create_Info_FUCHSIA* pCreateInfo, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator, Vk_ਬਫਰ_Collection_FUCHSIA* pCollection);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_ਸੈੱਟ_ਬਫਰ_Collection_Image_Constraints_FUCHSIA)(VkDevice device, Vk_ਬਫਰ_Collection_FUCHSIA collection, ਅਚਲ VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_ਸੈੱਟ_ਬਫਰ_Collection_ਬਫਰ_Constraints_FUCHSIA)(VkDevice device, Vk_ਬਫਰ_Collection_FUCHSIA collection, ਅਚਲ Vk_ਬਫਰ_Constraints_Info_FUCHSIA* p_ਬਫਰ_Constraints_Info);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ (VKAPI_PTR *PFN_vk_Destroy_ਬਫਰ_Collection_FUCHSIA)(VkDevice device, Vk_ਬਫਰ_Collection_FUCHSIA collection, ਅਚਲ Vk_ਵੰਡ_Callbacks* pAllocator);
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ Vk_ਨਤੀਜਾ (VKAPI_PTR *PFN_vk_Get_ਬਫਰ_Collection_Properties_FUCHSIA)(VkDevice device, Vk_ਬਫਰ_Collection_FUCHSIA collection, Vk_ਬਫਰ_Collection_Properties_FUCHSIA* pProperties);
 
-#ifndef VK_NO_PROTOTYPES
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferCollectionFUCHSIA(
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Create_ਬਫਰ_Collection_FUCHSIA(
     VkDevice                                    device,
-    const VkBufferCollectionCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
-    VkBufferCollectionFUCHSIA*                  pCollection);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionImageConstraintsFUCHSIA(
+    ਅਚਲ Vk_ਬਫਰ_Collection_Create_Info_FUCHSIA*  pCreateInfo,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator,
+    Vk_ਬਫਰ_Collection_FUCHSIA*                  pCollection);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_ਸੈੱਟ_ਬਫਰ_Collection_Image_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionBufferConstraintsFUCHSIA(
+    Vk_ਬਫਰ_Collection_FUCHSIA                   collection,
+    ਅਚਲ VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_ਸੈੱਟ_ਬਫਰ_Collection_ਬਫਰ_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkBufferConstraintsInfoFUCHSIA*       pBufferConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyBufferCollectionFUCHSIA(
+    Vk_ਬਫਰ_Collection_FUCHSIA                   collection,
+    ਅਚਲ Vk_ਬਫਰ_Constraints_Info_FUCHSIA*       p_ਬਫਰ_Constraints_Info);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR ਖਾਲੀ VKAPI_CALL vk_Destroy_ਬਫਰ_Collection_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkAllocationCallbacks*                pAllocator);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetBufferCollectionPropertiesFUCHSIA(
+    Vk_ਬਫਰ_Collection_FUCHSIA                   collection,
+    ਅਚਲ Vk_ਵੰਡ_Callbacks*                pAllocator);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ਨਤੀਜਾ VKAPI_CALL vk_Get_ਬਫਰ_Collection_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    VkBufferCollectionPropertiesFUCHSIA*        pProperties);
-#endif
-#endif
+    Vk_ਬਫਰ_Collection_FUCHSIA                   collection,
+    Vk_ਬਫਰ_Collection_Properties_FUCHSIA*        pProperties);
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

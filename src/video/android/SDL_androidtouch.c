@@ -18,94 +18,94 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_ANDROID
 
-#include <android/log.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <android/log.h>
 
-#include "SDL_androidtouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../core/android/SDL_android.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_androidtouch.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_mouse_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../events/SDL_touch_c.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "../../core/android/SDL_android.h"
 
-#define ACTION_DOWN 0
-#define ACTION_UP   1
-#define ACTION_MOVE 2
-#define ACTION_CANCEL 3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਥੱਲੇ 0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਉੱਪਰ   1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_MOVE 2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_CANCEL 3
 // #define ACTION_OUTSIDE 4
-#define ACTION_POINTER_DOWN 5
-#define ACTION_POINTER_UP   6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਸੂਚਕ_ਥੱਲੇ 5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ACTION_ਸੂਚਕ_ਉੱਪਰ   6
 
-void Android_InitTouch(void)
+ਖਾਲੀ Android_InitTouch(ਖਾਲੀ)
 {
     // Add all touch devices
     Android_JNI_InitTouch();
 }
 
-void Android_QuitTouch(void)
+ਖਾਲੀ Android_QuitTouch(ਖਾਲੀ)
 {
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(ਪੂਰਨ touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    ਜੇ (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } ਨਹੀਂਤਾਂ {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    ਵਾਪਸ retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+ਖਾਲੀ Android_OnTouch(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ touch_device_id_ਵਿੱਚ, ਪੂਰਨ ਸੂਚਕ_finger_id_ਵਿੱਚ, ਪੂਰਨ action, ਦਸ਼ਮਲਵ x, ਦਸ਼ਮਲਵ y, ਦਸ਼ਮਲਵ p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    ਜੇ (!ਖਿੜਕੀ) {
+        ਵਾਪਸ;
     }
 
-    touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
+    touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_ਵਿੱਚ);
 
     // Finger ID should be greater than 0
-    fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
+    fingerId = (SDL_FingerID)(ਸੂਚਕ_finger_id_ਵਿੱਚ + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    ਜੇ (SDL_ਜੋੜੋ_Touch(touchDeviceId, SDL_TOUCH_DEVICE_ਸਿੱਧਾ, "") < 0) {
+        ਵਾਪਸ;
     }
 
-    switch (action) {
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_DOWN, x, y, p);
-        break;
+    ਚੋਣ (action) {
+    ਹਾਲਤ ACTION_ਥੱਲੇ:
+    ਹਾਲਤ ACTION_ਸੂਚਕ_ਥੱਲੇ:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ਖਿੜਕੀ, SDL_EVENT_FINGER_ਥੱਲੇ, x, y, p);
+        ਰੋਕੋ;
 
-    case ACTION_MOVE:
-        SDL_SendTouchMotion(0, touchDeviceId, fingerId, window, x, y, p);
-        break;
+    ਹਾਲਤ ACTION_MOVE:
+        SDL_SendTouchMotion(0, touchDeviceId, fingerId, ਖਿੜਕੀ, x, y, p);
+        ਰੋਕੋ;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_UP, x, y, p);
-        break;
+    ਹਾਲਤ ACTION_ਉੱਪਰ:
+    ਹਾਲਤ ACTION_ਸੂਚਕ_ਉੱਪਰ:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ਖਿੜਕੀ, SDL_EVENT_FINGER_ਉੱਪਰ, x, y, p);
+        ਰੋਕੋ;
 
-    case ACTION_CANCEL:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_CANCELED, x, y, p);
-        break;
+    ਹਾਲਤ ACTION_CANCEL:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ਖਿੜਕੀ, SDL_EVENT_FINGER_CANCELED, x, y, p);
+        ਰੋਕੋ;
 
-    default:
-        break;
+    ਮੂਲ:
+        ਰੋਕੋ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_ANDROID

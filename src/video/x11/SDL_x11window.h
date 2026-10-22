@@ -18,82 +18,82 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_x11window_h_
-#define SDL_x11window_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11window_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11window_h_
 
 /* We need to queue the focus in/out changes because they may occur during
    video mode changes and we can respond to them by triggering more mode
    changes.
 */
-#define PENDING_FOCUS_TIME 200
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PENDING_FOCUS_ਸਮਾਂ 200
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include <EGL/egl.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
+#ਅਨ੍ਤਰ੍ਭਾਵ <EGL/egl.h>
+#ਜੇ_ਅੰਤ
 
-typedef enum
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਗਿਣਤੀ
 {
     PENDING_FOCUS_NONE,
-    PENDING_FOCUS_IN,
-    PENDING_FOCUS_OUT
+    PENDING_FOCUS_ਵਿੱਚ,
+    PENDING_FOCUS_ਬਾਹਰਲਾ
 } PendingFocusEnum;
 
-struct SDL_WindowData
+ਬਣਤਰ SDL_ਖਿੜਕੀ_ਅੰਕੜੇ
 {
-    SDL_Window *window;
-    Window xwindow;
+    SDL_ਖਿੜਕੀ *ਖਿੜਕੀ;
+    ਖਿੜਕੀ_2 xwindow;
     Visual *visual;
     Colormap colormap;
-#ifndef NO_SHARED_MEMORY
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ NO_SHARED_ਸਮ੍ਰਿਤੀ
     // MIT shared memory extension information
     bool use_mitshm;
     XShmSegmentInfo shminfo;
-#endif
+#ਜੇ_ਅੰਤ
     XImage *ximage;
     GC gc;
     XIC ic;
     bool created;
-    int border_left;
-    int border_right;
-    int border_top;
-    int border_bottom;
+    ਪੂਰਨ border_ਖੱਬਾ;
+    ਪੂਰਨ border_ਸੱਜਾ;
+    ਪੂਰਨ border_ਸਿਖਰ;
+    ਪੂਰਨ border_bottom;
     bool xinput2_mouse_enabled;
     bool xinput2_keyboard_enabled;
     bool mouse_grabbed;
-    Uint64 last_focus_event_time;
-    unsigned long ignore_button_press_serial;
+    Uint64 ਆਖਰੀ_focus_event_ਸਮਾਂ;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ignore_button_press_serial;
     PendingFocusEnum pending_focus;
-    Uint64 pending_focus_time;
+    Uint64 pending_focus_ਸਮਾਂ;
     bool pending_move;
-    SDL_Point pending_move_point;
-    XConfigureEvent last_xconfigure;
+    SDL_ਬਿੰਦੂ pending_move_ਬਿੰਦੂ;
+    XConfigureEvent ਆਖਰੀ_xconfigure;
     XConfigureEvent pending_xconfigure;
-    struct SDL_VideoData *videodata;
-    unsigned long user_time;
+    ਬਣਤਰ SDL_Video_ਅੰਕੜੇ *videodata;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ user_ਸਮਾਂ;
     Atom xdnd_req;
-    Window xdnd_source;
-    bool flashing_window;
-    Uint64 flash_cancel_time;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    ਖਿੜਕੀ_2 xdnd_ਸਰੋਤ;
+    bool flashing_ਖਿੜਕੀ;
+    Uint64 flash_cancel_ਸਮਾਂ;
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    bool pointer_barrier_active;
-    PointerBarrier barrier[4];
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XFIXES
+    bool ਸੂਚਕ_barrier_ਸਰਗਰਮ;
+    ਸੂਚਕ_Barrier barrier[4];
     SDL_Rect barrier_rect;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_X11_XFIXES
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XSYNC
     XSyncCounter resize_counter;
-    XSyncValue resize_id;
-    bool resize_in_progress;
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+    XSync_ਮੁੱਲ resize_id;
+    bool resize_ਵਿੱਚ_ਤਰੱਕੀ;
+#ਜੇ_ਅੰਤ /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
     SDL_Rect expected;
-    SDL_DisplayMode requested_fullscreen_mode;
+    SDL_Display_ਬਹੁਲਕ requested_fullscreen_ਬਹੁਲਕ;
 
-    enum
+    ਗਿਣਤੀ
     {
         X11_PENDING_OP_NONE = 0x00,
         X11_PENDING_OP_RESTORE = 0x01,
@@ -104,71 +104,71 @@ struct SDL_WindowData
         X11_PENDING_OP_RESIZE = 0x20
     } pending_operation;
 
-    enum
+    ਗਿਣਤੀ
     {
-        X11_SIZE_MOVE_EVENTS_DISABLE = 0x01, // Events are completely disabled.
-        X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS = 0x02, // Events are disabled until a _NET_FRAME_EXTENTS event arrives.
-    } size_move_event_flags;
+        X11_ਮਾਪ_MOVE_EVENTS_DISABLE = 0x01, // Events are completely disabled.
+        X11_ਮਾਪ_MOVE_EVENTS_WAIT_FOR_BORDERS = 0x02, // Events are disabled until a _NET_FRAME_EXTENTS event arrives.
+    } ਮਾਪ_move_event_flags;
 
-    bool pending_size;
+    bool pending_ਮਾਪ;
     bool pending_position;
     bool fs_repositioned;
-    bool window_was_maximized;
-    bool previous_borders_nonzero;
+    bool ਖਿੜਕੀ_was_maximized;
+    bool ਪਿਛਲਾ_borders_nonzero;
     bool toggle_borders;
     bool fullscreen_borders_forced_on;
     bool was_shown;
-    bool emit_size_move_after_property_notify;
-    SDL_HitTestResult hit_test_result;
+    bool emit_ਮਾਪ_move_after_property_notify;
+    SDL_ਪ੍ਰਾਪਤੀ_Test_ਨਤੀਜਾ ਪ੍ਰਾਪਤੀ_test_ਨਤੀਜਾ;
     bool pending_grab;
 
     XPoint xim_spot;
-    char *preedit_text;
+    ਅੱਖਰ *preedit_ਪਾਠ;
     XIMFeedback *preedit_feedback;
-    int preedit_length;
-    int preedit_cursor;
+    ਪੂਰਨ preedit_ਲੰਮਾਈ;
+    ਪੂਰਨ preedit_cursor;
     bool ime_needs_clear_composition;
 };
 
-extern void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags flags);
-extern SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Window xwindow);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_Net_WMState(SDL_VideoDevice *_this, ਖਿੜਕੀ_2 xwindow, SDL_ਖਿੜਕੀ_Flags flags);
+ਬਾਹਰੀ SDL_ਖਿੜਕੀ_Flags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਖਿੜਕੀ_2 xwindow);
 
-extern bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow);
-extern void X11_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void X11_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+ਬਾਹਰੀ bool X11_Create_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_PropertiesID create_props);
+ਬਾਹਰੀ ਅੱਖਰ *X11_Get_ਖਿੜਕੀ_Title(SDL_VideoDevice *_this, ਖਿੜਕੀ_2 xwindow);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Title(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Icon(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_Surface *icon);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Position(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Minimum_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_ਵੱਧ_ਤੋਂ_ਵੱਧ_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Aspect_ਅਨੁਪਾਤ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_Get_ਖਿੜਕੀ_Borders_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ *ਸਿਖਰ, ਪੂਰਨ *ਖੱਬਾ, ਪੂਰਨ *bottom, ਪੂਰਨ *ਸੱਜਾ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Opacity(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਦਸ਼ਮਲਵ opacity);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪਾ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_ਖਿੜਕੀ *ਮਾਪਾ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Modal(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool modal);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_ਮਾਪ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Show_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Hide_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Raise_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Maximize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Minimize_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_Restore_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Bordered(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool bordered);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Resizable(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool resizable);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Always_On_ਸਿਖਰ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool on_ਸਿਖਰ);
+ਬਾਹਰੀ SDL_Fullscreen_ਨਤੀਜਾ X11_ਸੈੱਟ_ਖਿੜਕੀ_Fullscreen(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ਬਾਹਰੀ ਖਾਲੀ *X11_Get_ਖਿੜਕੀ_ICCProfile(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, size_t *ਮਾਪ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Mouse_Grab(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool grabbed);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool grabbed);
+ਬਾਹਰੀ ਖਾਲੀ X11_Destroy_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_ਪ੍ਰਾਪਤੀ_Test(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool enabled);
+ਬਾਹਰੀ ਖਾਲੀ X11_AcceptDragAndDrop(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool accept);
+ਬਾਹਰੀ bool X11_Flash_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_FlashOperation operation);
+ਬਾਹਰੀ ਖਾਲੀ X11_Show_ਖਿੜਕੀ_System_Menu(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, ਪੂਰਨ x, ਪੂਰਨ y);
+ਬਾਹਰੀ bool X11_Sync_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool X11_ਸੈੱਟ_ਖਿੜਕੀ_Focusable(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool focusable);
 
-extern bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title);
-extern void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position);
-extern void X11_SetWindowMinMax(SDL_Window *window, bool use_current);
+ਬਾਹਰੀ bool SDL_X11_ਸੈੱਟ_ਖਿੜਕੀ_Title(Display *display, ਖਿੜਕੀ_2 xwindow, ਅੱਖਰ *title);
+ਬਾਹਰੀ ਖਾਲੀ X11_Update_ਖਿੜਕੀ_Position(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool use_current_position);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਸੈੱਟ_ਖਿੜਕੀ_Min_Max(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, bool use_current);
 
-#endif // SDL_x11window_h_
+#ਜੇ_ਅੰਤ // SDL_x11window_h_

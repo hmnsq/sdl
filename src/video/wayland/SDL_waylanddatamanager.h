@@ -19,131 +19,131 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_waylanddatamanager_h_
-#define SDL_waylanddatamanager_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_waylanddatamanager_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_waylanddatamanager_h_
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_waylandwindow.h"
 
-#define TEXT_MIME            "text/plain;charset=utf-8"
-#define FILE_MIME            "text/uri-list"
-#define FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
-#define SDL_DATA_ORIGIN_MIME "application/x-sdl3-source-id"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪਾਠ_MIME            "text/plain;charset=utf-8"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ FILE_MIME            "text/uri-list"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_ਅੰਕੜੇ_ORIGIN_MIME "application/x-sdl3-source-id"
 
-typedef struct SDL_WaylandDataDevice SDL_WaylandDataDevice;
-typedef struct SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ SDL_Wayland_ਅੰਕੜੇ_Device SDL_Wayland_ਅੰਕੜੇ_Device;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
 
-typedef struct SDL_WaylandUserdata
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ SDL_WaylandUserdata
 {
-    void *data;
+    ਖਾਲੀ *ਅੰਕੜੇ;
     Uint32 sequence;
 } SDL_WaylandUserdata;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    struct wl_data_source *source;
-    SDL_WaylandDataDevice *data_device;
-    SDL_ClipboardDataCallback data_callback;
+    ਬਣਤਰ wl_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device;
+    SDL_Clipboard_ਅੰਕੜੇ_Callback ਅੰਕੜੇ_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandDataSource;
+} SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    struct zwp_primary_selection_source_v1 *source;
+    ਬਣਤਰ zwp_primary_selection_ਸਰੋਤ_v1 *ਸਰੋਤ;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
-    SDL_ClipboardDataCallback data_callback;
+    SDL_Clipboard_ਅੰਕੜੇ_Callback ਅੰਕੜੇ_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandPrimarySelectionSource;
+} SDL_Wayland_Primary_Selection_ਸਰੋਤ;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    struct wl_data_offer *offer;
-    struct wl_array mimes;
-    SDL_WaylandDataDevice *data_device;
+    ਬਣਤਰ wl_ਅੰਕੜੇ_offer *offer;
+    ਬਣਤਰ wl_array mimes;
+    SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device;
 
     // Callback data for queued receive.
-    struct wl_callback *callback;
-    int read_fd;
-} SDL_WaylandDataOffer;
+    ਬਣਤਰ wl_callback *callback;
+    ਪੂਰਨ read_fd;
+} SDL_Wayland_ਅੰਕੜੇ_Offer;
 
-typedef struct Wayland_DropData
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ Wayland_Drop_ਅੰਕੜੇ
 {
-    SDL_WaylandDataOffer *offer;
-    SDL_Window *dnd_window;
-    const char *text_mime_type;
-    struct wl_callback *cleanup_callback;
-    Wayland_JobID id;
+    SDL_Wayland_ਅੰਕੜੇ_Offer *offer;
+    SDL_ਖਿੜਕੀ *dnd_ਖਿੜਕੀ;
+    ਅਚਲ ਅੱਖਰ *ਪਾਠ_mime_type;
+    ਬਣਤਰ wl_callback *cleanup_callback;
+    Wayland_ਕੰਮ_ID id;
 
-    struct wl_list link;
-} Wayland_DropData;
+    ਬਣਤਰ wl_list link;
+} Wayland_Drop_ਅੰਕੜੇ;
 
-typedef struct
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ
 {
-    struct zwp_primary_selection_offer_v1 *offer;
-    struct wl_array mimes;
+    ਬਣਤਰ zwp_primary_selection_offer_v1 *offer;
+    ਬਣਤਰ wl_array mimes;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
 } SDL_WaylandPrimarySelectionOffer;
 
-struct SDL_WaylandDataDevice
+ਬਣਤਰ SDL_Wayland_ਅੰਕੜੇ_Device
 {
-    struct wl_data_device *data_device;
-    struct SDL_WaylandSeat *seat;
-    char *id_str;
+    ਬਣਤਰ wl_ਅੰਕੜੇ_device *ਅੰਕੜੇ_device;
+    ਬਣਤਰ SDL_WaylandSeat *seat;
+    ਅੱਖਰ *id_str;
 
     // Drag and Drop
     uint32_t drag_serial;
-    SDL_WaylandDataOffer *drag_offer;
-    SDL_WaylandDataOffer *selection_offer;
-    const char *text_mime_type;
+    SDL_Wayland_ਅੰਕੜੇ_Offer *drag_offer;
+    SDL_Wayland_ਅੰਕੜੇ_Offer *selection_offer;
+    ਅਚਲ ਅੱਖਰ *ਪਾਠ_mime_type;
     bool has_mime_file;
-    SDL_Window *dnd_window;
-    struct wl_surface *dnd_surface;
-    struct wl_list pending_drops;
+    SDL_ਖਿੜਕੀ *dnd_ਖਿੜਕੀ;
+    ਬਣਤਰ wl_surface *dnd_surface;
+    ਬਣਤਰ wl_list pending_drops;
 
     // Clipboard and Primary Selection
-    SDL_WaylandDataSource *selection_source;
+    SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *selection_ਸਰੋਤ;
 };
 
-struct SDL_WaylandPrimarySelectionDevice
+ਬਣਤਰ SDL_WaylandPrimarySelectionDevice
 {
-    struct zwp_primary_selection_device_v1 *primary_selection_device;
-    struct SDL_WaylandSeat *seat;
+    ਬਣਤਰ zwp_primary_selection_device_v1 *primary_selection_device;
+    ਬਣਤਰ SDL_WaylandSeat *seat;
 
-    SDL_WaylandPrimarySelectionSource *selection_source;
+    SDL_Wayland_Primary_Selection_ਸਰੋਤ *selection_ਸਰੋਤ;
     SDL_WaylandPrimarySelectionOffer *selection_offer;
 };
 
 // Wayland Data Source / Primary Selection Source - (Sending)
-extern SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data);
-extern SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data);
-extern ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd);
-extern ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd);
-extern void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence);
-extern void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata);
-extern void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length);
-extern void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source);
-extern void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source);
+ਬਾਹਰੀ SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *Wayland_ਅੰਕੜੇ_ਸਰੋਤ_Create(SDL_Video_ਅੰਕੜੇ *video_ਅੰਕੜੇ);
+ਬਾਹਰੀ SDL_Wayland_Primary_Selection_ਸਰੋਤ *Wayland_Primary_Selection_ਸਰੋਤ_Create(SDL_Video_ਅੰਕੜੇ *video_ਅੰਕੜੇ);
+ਬਾਹਰੀ ssize_t Wayland_ਅੰਕੜੇ_ਸਰੋਤ_Send(SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ *mime_type, ਪੂਰਨ fd);
+ਬਾਹਰੀ ssize_t Wayland_Primary_Selection_ਸਰੋਤ_Send(SDL_Wayland_Primary_Selection_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ *mime_type, ਪੂਰਨ fd);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਅੰਕੜੇ_ਸਰੋਤ_ਸੈੱਟ_Callback(SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ, SDL_Clipboard_ਅੰਕੜੇ_Callback ਅੰਕੜੇ_callback, SDL_ClipboardCleanupCallback cleanup_callback, ਖਾਲੀ *userdata, Uint32 sequence);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_Primary_Selection_ਸਰੋਤ_ਸੈੱਟ_Callback(SDL_Wayland_Primary_Selection_ਸਰੋਤ *ਸਰੋਤ, SDL_Clipboard_ਅੰਕੜੇ_Callback ਅੰਕੜੇ_callback, SDL_ClipboardCleanupCallback cleanup_callback, ਖਾਲੀ *userdata);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_ਅੰਕੜੇ_ਸਰੋਤ_Get_ਅੰਕੜੇ(SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_Primary_Selection_ਸਰੋਤ_Get_ਅੰਕੜੇ(SDL_Wayland_Primary_Selection_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਅੰਕੜੇ_ਸਰੋਤ_Destroy(SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_Primary_Selection_ਸਰੋਤ_Destroy(SDL_Wayland_Primary_Selection_ਸਰੋਤ *ਸਰੋਤ);
 
 // Wayland Data / Primary Selection Offer - (Receiving)
-extern bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata);
-extern void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length);
-extern void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length);
-extern bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer);
-extern bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer);
-extern void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
+ਬਾਹਰੀ bool Wayland_ਅੰਕੜੇ_Offer_Request_ਅੰਕੜੇ_From_Self(SDL_Wayland_ਅੰਕੜੇ_Offer *offer, ਅਚਲ ਅੱਖਰ *mime_type, ਅਚਲ ਬਣਤਰ wl_callback_listener *completion_listener, ਖਾਲੀ *userdata);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_ਅੰਕੜੇ_Offer_Get_ਅੰਕੜੇ_From_Self(SDL_Wayland_ਅੰਕੜੇ_Offer *offer, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_ਅੰਕੜੇ_Offer_Receive(SDL_Wayland_ਅੰਕੜੇ_Offer *offer, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ ਖਾਲੀ *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, ਅਚਲ ਅੱਖਰ *mime_type, size_t *ਲੰਮਾਈ);
+ਬਾਹਰੀ bool Wayland_ਅੰਕੜੇ_Offer_Has_MIME(SDL_Wayland_ਅੰਕੜੇ_Offer *offer, ਅਚਲ ਅੱਖਰ *mime_type);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_Selection_Offer(SDL_Wayland_ਅੰਕੜੇ_Device *ਅੰਕੜੇ_device, SDL_Wayland_ਅੰਕੜੇ_Offer *offer);
+ਬਾਹਰੀ bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, ਅਚਲ ਅੱਖਰ *mime_type);
+ਬਾਹਰੀ bool Wayland_ਅੰਕੜੇ_Offer_ਜੋੜੋ_MIME(SDL_Wayland_ਅੰਕੜੇ_Offer *offer, ਅਚਲ ਅੱਖਰ *mime_type);
+ਬਾਹਰੀ bool Wayland_Primary_Selection_Offer_ਜੋੜੋ_MIME(SDL_WaylandPrimarySelectionOffer *offer, ਅਚਲ ਅੱਖਰ *mime_type);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_ਅੰਕੜੇ_Offer_Destroy(SDL_Wayland_ਅੰਕੜੇ_Offer *offer);
+ਬਾਹਰੀ ਖਾਲੀ Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
 
 // Clipboard / Primary Selection
-extern bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count);
-extern bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *device, SDL_WaylandPrimarySelectionSource *source, const char *const *mime_types, size_t mime_count);
+ਬਾਹਰੀ bool Wayland_ਅੰਕੜੇ_Device_ਸੈੱਟ_Selection_ਸਰੋਤ(SDL_Wayland_ਅੰਕੜੇ_Device *device, SDL_Wayland_ਅੰਕੜੇ_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ **mime_types, size_t mime_ਗਿਣਤੀ);
+ਬਾਹਰੀ bool Wayland_Primary_Selection_Device_ਸੈੱਟ_Selection(SDL_WaylandPrimarySelectionDevice *device, SDL_Wayland_Primary_Selection_ਸਰੋਤ *ਸਰੋਤ, ਅਚਲ ਅੱਖਰ *ਅਚਲ *mime_types, size_t mime_ਗਿਣਤੀ);
 
-#endif // SDL_waylanddatamanager_h_
+#ਜੇ_ਅੰਤ // SDL_waylanddatamanager_h_

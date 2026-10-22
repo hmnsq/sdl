@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_pspgl_c_h_
-#define SDL_pspgl_c_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_pspgl_c_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_pspgl_c_h_
 
-#include <GLES/egl.h>
-#include <GLES/gl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES/egl.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <GLES/gl.h>
 
-#include "SDL_pspvideo.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_pspvideo.h"
 
-typedef struct SDL_GLDriverData
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ SDL_GLDriver_ਅੰਕੜੇ
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
+} SDL_GLDriver_ਅੰਕੜੇ;
 
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
+ਬਾਹਰੀ SDL_Function_ਸੂਚਕ PSP_GL_Get_Proc_ਪਤਾ(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *proc);
+ਬਾਹਰੀ bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context);
+ਬਾਹਰੀ ਖਾਲੀ PSP_GL_ਅਦਲਾ_ਬਦਲੀ_Buffers(SDL_VideoDevice *_this);
 
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ਬਾਹਰੀ bool PSP_GL_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+ਬਾਹਰੀ bool PSP_GL_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ);
+ਬਾਹਰੀ ਖਾਲੀ PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool PSP_GL_ਸੈੱਟ_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ interval);
+ਬਾਹਰੀ bool PSP_GL_Get_ਅਦਲਾ_ਬਦਲੀ_Interval(SDL_VideoDevice *_this, ਪੂਰਨ *interval);
 
-#endif // SDL_pspgl_c_h_
+#ਜੇ_ਅੰਤ // SDL_pspgl_c_h_

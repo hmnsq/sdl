@@ -18,8 +18,8 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvisionosscene_h_
-#define SDL_uikitvisionosscene_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_uikitvisionosscene_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_uikitvisionosscene_h_
 
 #import <UIKit/UIKit.h>
 #import <Metal/Metal.h>
@@ -27,12 +27,12 @@
 /**
  * Return true if the curved content pointer mode is enabled
  */
-bool SDL_VisionOS_PointerModeEnabled();
+bool SDL_Vision_OS_ਸੂਚਕ_ਬਹੁਲਕ_Enabled();
 
 /**
  * Check if any window is using curved content mode (UIHostingController-based).
  */
-bool SDL_UIKit_HasCurvedWindow();
+bool SDL_UIKit_Has_Curved_ਖਿੜਕੀ();
 
 /**
  * Check if a window is using curved content mode (UIHostingController-based).
@@ -40,16 +40,16 @@ bool SDL_UIKit_HasCurvedWindow();
  * @param window The SDL window to check.
  * @return true if the window is in curved mode, false otherwise.
  */
-bool SDL_UIKit_IsCurvedWindow(SDL_Window *window);
+bool SDL_UIKit_Is_Curved_ਖਿੜਕੀ(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
 /**
  * Dismiss the curved content view
  */
-void SDL_UIKit_HideCurvedWindow(SDL_Window *window);
+ਖਾਲੀ SDL_UIKit_Hide_Curved_ਖਿੜਕੀ(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
 /**
  * Get the curved content display texture.
  */
-id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, int width, int height, MTLPixelFormat pixelFormat);
+id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, id<MTLCommand_ਬਫਰ> command_ਬਫਰ, ਪੂਰਨ ਚੌੜਾਈ, ਪੂਰਨ ਉਚਾਈ, MTLPixelFormat pixelFormat);
 
-#endif /* SDL_uikitvisionosscene_h_ */
+#ਜੇ_ਅੰਤ /* SDL_uikitvisionosscene_h_ */

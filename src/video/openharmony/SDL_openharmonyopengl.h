@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_openharmonyopengl_h_
-#define SDL_openharmonyopengl_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_openharmonyopengl_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_openharmonyopengl_h_
 
-extern SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+ਬਾਹਰੀ SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, SDL_GLContext context);
+ਬਾਹਰੀ bool OPENHARMONY_GLES_ਅਦਲਾ_ਬਦਲੀ_ਖਿੜਕੀ(SDL_VideoDevice *_this, SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ bool OPENHARMONY_GLES_ਲੱਦੋ_Library(SDL_VideoDevice *_this, ਅਚਲ ਅੱਖਰ *ਰਸਤਾ);
 
-#endif // SDL_openharmonyopengl_h_
+#ਜੇ_ਅੰਤ // SDL_openharmonyopengl_h_

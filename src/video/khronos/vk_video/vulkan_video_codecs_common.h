@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODECS_COMMON_H_
-#define VULKAN_VIDEO_CODECS_COMMON_H_ 1
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ VULKAN_VIDEO_CODECS_COMMON_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VULKAN_VIDEO_CODECS_COMMON_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,24 +13,24 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 
 
 // vulkan_video_codecs_common is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codecs_common 1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ vulkan_video_codecs_common 1
 
-#if !defined(VK_NO_STDINT_H)
-    #include <stdint.h>
-#endif
+#ਜੇ !defined(VK_NO_STDINT_H)
+    #ਅਨ੍ਤਰ੍ਭਾਵ <stdint.h>
+#ਜੇ_ਅੰਤ
 
-#define VK_MAKE_VIDEO_STD_VERSION(major, minor, patch) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ VK_MAKE_VIDEO_STD_ਸੰਸਕਰਣ(major, minor, patch) \
     ((((uint32_t)(major)) << 22) | (((uint32_t)(minor)) << 12) | ((uint32_t)(patch)))
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif
+#ਜੇ_ਅੰਤ

@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "SDL_internal.h"
 
-#ifndef SDL_x11xsync_h_
-#define SDL_x11xsync_h_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SDL_x11xsync_h_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SDL_x11xsync_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+ਬਾਹਰੀ ਖਾਲੀ X11_InitXsync(SDL_VideoDevice *_this);
+ਬਾਹਰੀ bool X11_XsyncIsInitialized(ਖਾਲੀ);
+ਬਾਹਰੀ bool X11_InitResizeSync(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_ਪਦ_Resize_Sync(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
+ਬਾਹਰੀ ਖਾਲੀ X11_HandleSyncRequest(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, XClient_ਸੁਨੇਹਾ_Event *event);
+ਬਾਹਰੀ ਖਾਲੀ X11_HandleConfigure(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ, XConfigureEvent *event);
+ਬਾਹਰੀ ਖਾਲੀ X11_HandlePresent(SDL_ਖਿੜਕੀ *ਖਿੜਕੀ);
 
-#endif // SDL_VIDEO_DRIVER_X11_XSYNC
+#ਜੇ_ਅੰਤ // SDL_VIDEO_DRIVER_X11_XSYNC
 
-#endif // SDL_x11xsync_h_
+#ਜੇ_ਅੰਤ // SDL_x11xsync_h_
