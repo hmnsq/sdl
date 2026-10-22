@@ -38,8 +38,8 @@ typedef struct X11_SettingsData {
 extern void X11_InitXsettings(SDL_VideoDevice *_this);
 extern void X11_QuitXsettings(SDL_VideoDevice *_this);
 extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+extern ціле X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, ціле fallback_value);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+extern ціле X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, ціле fallback_value);
 
 #endif // SDL_x11settings_h_

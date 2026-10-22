@@ -111,10 +111,10 @@
  */
 #define ALPHA_BLIT32_888(to, from, length, bpp, alpha)       \
     do {                                                     \
-        int i;                                               \
+        ціле i;                                               \
         Uint32 *src = (Uint32 *)(from);                      \
         Uint32 *dst = (Uint32 *)(to);                        \
-        for (i = 0; i < (int)(length); i++) {                \
+        для (i = 0; i < (ціле)(length); i++) {                \
             Uint32 s = *src++;                               \
             Uint32 d = *dst;                                 \
             Uint32 s1 = s & 0xff00ff;                        \
@@ -125,7 +125,7 @@
             d = (d + ((s - d) * alpha >> 8)) & 0xff00;       \
             *dst++ = d1 | d;                                 \
         }                                                    \
-    } while (0)
+    } поки (0)
 
 /*
  * For 16bpp pixels we can go a step further: put the middle component
@@ -135,11 +135,11 @@
  */
 #define ALPHA_BLIT16_565(to, from, length, bpp, alpha) \
     do {                                               \
-        int i;                                         \
+        ціле i;                                         \
         Uint16 *src = (Uint16 *)(from);                \
         Uint16 *dst = (Uint16 *)(to);                  \
         Uint32 ALPHA = alpha >> 3;                     \
-        for (i = 0; i < (int)(length); i++) {          \
+        для (i = 0; i < (ціле)(length); i++) {          \
             Uint32 s = *src++;                         \
             Uint32 d = *dst;                           \
             s = (s | s << 16) & 0x07e0f81f;            \
@@ -148,15 +148,15 @@
             d &= 0x07e0f81f;                           \
             *dst++ = (Uint16)(d | d >> 16);            \
         }                                              \
-    } while (0)
+    } поки (0)
 
 #define ALPHA_BLIT16_555(to, from, length, bpp, alpha) \
     do {                                               \
-        int i;                                         \
+        ціле i;                                         \
         Uint16 *src = (Uint16 *)(from);                \
         Uint16 *dst = (Uint16 *)(to);                  \
         Uint32 ALPHA = alpha >> 3;                     \
-        for (i = 0; i < (int)(length); i++) {          \
+        для (i = 0; i < (ціле)(length); i++) {          \
             Uint32 s = *src++;                         \
             Uint32 d = *dst;                           \
             s = (s | s << 16) & 0x03e07c1f;            \
@@ -165,17 +165,17 @@
             d &= 0x03e07c1f;                           \
             *dst++ = (Uint16)(d | d >> 16);            \
         }                                              \
-    } while (0)
+    } поки (0)
 
 /*
  * The general slow catch-all function, for remaining depths and formats
  */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#якщо SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define SET_RGB24(dst, d)      \
     dst[0] = (Uint8)(d >> 16); \
     dst[1] = (Uint8)(d >> 8);  \
     dst[2] = (Uint8)(d);
-#else
+#інакше
 #define SET_RGB24(dst, d)      \
     dst[0] = (Uint8)(d);       \
     dst[1] = (Uint8)(d >> 8);  \
@@ -183,10 +183,10 @@
 #endif
 #define ALPHA_BLIT_ANY(to, from, length, bpp, alpha)             \
     do {                                                         \
-        int i;                                                   \
+        ціле i;                                                   \
         Uint8 *src = from;                                       \
         Uint8 *dst = to;                                         \
-        for (i = 0; i < (int)(length); i++) {                    \
+        для (i = 0; i < (ціле)(length); i++) {                    \
             Uint32 s = 0, d = 0;                                 \
             unsigned rs, gs, bs, rd, gd, bd;                     \
             switch (bpp) {                                       \
@@ -223,7 +223,7 @@
             src += bpp;                                          \
             dst += bpp;                                          \
         }                                                        \
-    } while (0)
+    } поки (0)
 
 /*
  * Special case: 50% alpha (alpha=128)
@@ -235,15 +235,15 @@
  */
 #define ALPHA_BLIT32_888_50(to, from, length, bpp, alpha)                                 \
     do {                                                                                  \
-        int i;                                                                            \
+        ціле i;                                                                            \
         Uint32 *src = (Uint32 *)(from);                                                   \
         Uint32 *dst = (Uint32 *)(to);                                                     \
-        for (i = 0; i < (int)(length); i++) {                                             \
+        для (i = 0; i < (ціле)(length); i++) {                                             \
             Uint32 s = *src++;                                                            \
             Uint32 d = *dst;                                                              \
             *dst++ = (((s & 0x00fefefe) + (d & 0x00fefefe)) >> 1) + (s & d & 0x00010101); \
         }                                                                                 \
-    } while (0)
+    } поки (0)
 
 /*
  * For 16bpp, we can actually blend two pixels in parallel, if we take
@@ -257,7 +257,7 @@
         Uint32 d = *dst;                                     \
         *dst++ = (Uint16)((((s & mask) + (d & mask)) >> 1) + \
                           (s & d & (~mask & 0xffff)));       \
-    } while (0)
+    } поки (0)
 
 // basic 16bpp blender. mask is the pixels to keep when adding.
 #define ALPHA_BLIT16_50(to, from, length, bpp, alpha, mask)                                                                              \
@@ -265,27 +265,27 @@
         unsigned n = (length);                                                                                                           \
         Uint16 *src = (Uint16 *)(from);                                                                                                  \
         Uint16 *dst = (Uint16 *)(to);                                                                                                    \
-        if (((uintptr_t)src ^ (uintptr_t)dst) & 3) {                                                                                     \
+        якщо (((uintptr_t)src ^ (uintptr_t)dst) & 3) {                                                                                     \
             /* source and destination not in phase, blit one by one */                                                                   \
-            while (n--)                                                                                                                  \
+            поки (n--)                                                                                                                  \
                 BLEND16_50(dst, src, mask);                                                                                              \
-        } else {                                                                                                                         \
-            if ((uintptr_t)src & 3) {                                                                                                    \
+        } інакше {                                                                                                                         \
+            якщо ((uintptr_t)src & 3) {                                                                                                    \
                 /* first odd pixel */                                                                                                    \
                 BLEND16_50(dst, src, mask);                                                                                              \
                 n--;                                                                                                                     \
             }                                                                                                                            \
-            for (; n > 1; n -= 2) {                                                                                                      \
+            для (; n > 1; n -= 2) {                                                                                                      \
                 Uint32 s = *(Uint32 *)src;                                                                                               \
                 Uint32 d = *(Uint32 *)dst;                                                                                               \
                 *(Uint32 *)dst = ((s & (mask | mask << 16)) >> 1) + ((d & (mask | mask << 16)) >> 1) + (s & d & (~(mask | mask << 16))); \
                 src += 2;                                                                                                                \
                 dst += 2;                                                                                                                \
             }                                                                                                                            \
-            if (n)                                                                                                                       \
+            якщо (n)                                                                                                                       \
                 BLEND16_50(dst, src, mask); /* last odd pixel */                                                                         \
         }                                                                                                                                \
-    } while (0)
+    } поки (0)
 
 #define ALPHA_BLIT16_565_50(to, from, length, bpp, alpha) \
     ALPHA_BLIT16_50(to, from, length, bpp, alpha, 0xf7deU)
@@ -295,7 +295,7 @@
 
 #define CHOOSE_BLIT(blitter, alpha, fmt)                                                                                                              \
     do {                                                                                                                                              \
-        if (alpha == 255) {                                                                                                                           \
+        якщо (alpha == 255) {                                                                                                                           \
             switch (fmt->bytes_per_pixel) {                                                                                                             \
             case 1:                                                                                                                                   \
                 blitter(1, Uint8, OPAQUE_BLIT);                                                                                                       \
@@ -310,7 +310,7 @@
                 blitter(4, Uint16, OPAQUE_BLIT);                                                                                                      \
                 break;                                                                                                                                \
             }                                                                                                                                         \
-        } else {                                                                                                                                      \
+        } інакше {                                                                                                                                      \
             switch (fmt->bytes_per_pixel) {                                                                                                             \
             case 1:                                                                                                                                   \
                 /* No 8bpp alpha blitting */                                                                                                          \
@@ -319,26 +319,26 @@
             case 2:                                                                                                                                   \
                 switch (fmt->Rmask | fmt->Gmask | fmt->Bmask) {                                                                                       \
                 case 0xffff:                                                                                                                          \
-                    if (fmt->Gmask == 0x07e0 || fmt->Rmask == 0x07e0 || fmt->Bmask == 0x07e0) {                                                       \
-                        if (alpha == 128) {                                                                                                           \
+                    якщо (fmt->Gmask == 0x07e0 || fmt->Rmask == 0x07e0 || fmt->Bmask == 0x07e0) {                                                       \
+                        якщо (alpha == 128) {                                                                                                           \
                             blitter(2, Uint8, ALPHA_BLIT16_565_50);                                                                                   \
-                        } else {                                                                                                                      \
+                        } інакше {                                                                                                                      \
                             blitter(2, Uint8, ALPHA_BLIT16_565);                                                                                      \
                         }                                                                                                                             \
-                    } else {                                                                                                                          \
+                    } інакше {                                                                                                                          \
                         goto general16;                                                                                                               \
                     }                                                                                                                                 \
                     break;                                                                                                                            \
                                                                                                                                                       \
                 case 0x7fff:                                                                                                                          \
-                    if (fmt->Gmask == 0x03e0 || fmt->Rmask == 0x03e0 || fmt->Bmask == 0x03e0) {                                                       \
-                        if (alpha == 128) {                                                                                                           \
+                    якщо (fmt->Gmask == 0x03e0 || fmt->Rmask == 0x03e0 || fmt->Bmask == 0x03e0) {                                                       \
+                        якщо (alpha == 128) {                                                                                                           \
                             blitter(2, Uint8, ALPHA_BLIT16_555_50);                                                                                   \
-                        } else {                                                                                                                      \
+                        } інакше {                                                                                                                      \
                             blitter(2, Uint8, ALPHA_BLIT16_555);                                                                                      \
                         }                                                                                                                             \
                         break;                                                                                                                        \
-                    } else {                                                                                                                          \
+                    } інакше {                                                                                                                          \
                         goto general16;                                                                                                               \
                     }                                                                                                                                 \
                     break;                                                                                                                            \
@@ -354,19 +354,19 @@
                 break;                                                                                                                                \
                                                                                                                                                       \
             case 4:                                                                                                                                   \
-                if ((fmt->Rmask | fmt->Gmask | fmt->Bmask) == 0x00ffffff && (fmt->Gmask == 0xff00 || fmt->Rmask == 0xff00 || fmt->Bmask == 0xff00)) { \
-                    if (alpha == 128) {                                                                                                               \
+                якщо ((fmt->Rmask | fmt->Gmask | fmt->Bmask) == 0x00ffffff && (fmt->Gmask == 0xff00 || fmt->Rmask == 0xff00 || fmt->Bmask == 0xff00)) { \
+                    якщо (alpha == 128) {                                                                                                               \
                         blitter(4, Uint16, ALPHA_BLIT32_888_50);                                                                                      \
-                    } else {                                                                                                                          \
+                    } інакше {                                                                                                                          \
                         blitter(4, Uint16, ALPHA_BLIT32_888);                                                                                         \
                     }                                                                                                                                 \
-                } else {                                                                                                                              \
+                } інакше {                                                                                                                              \
                     blitter(4, Uint16, ALPHA_BLIT_ANY);                                                                                               \
                 }                                                                                                                                     \
                 break;                                                                                                                                \
             }                                                                                                                                         \
         }                                                                                                                                             \
-    } while (0)
+    } поки (0)
 
 /*
  * Set a pixel value using the given format, except that the alpha value is
@@ -386,51 +386,51 @@
  */
 #define RLECLIPBLIT(bpp, Type, do_blit)                                    \
     do {                                                                   \
-        int linecount = srcrect->h;                                        \
-        int ofs = 0;                                                       \
-        int left = srcrect->x;                                             \
-        int right = left + srcrect->w;                                     \
+        ціле linecount = srcrect->h;                                        \
+        ціле ofs = 0;                                                       \
+        ціле left = srcrect->x;                                             \
+        ціле right = left + srcrect->w;                                     \
         dstbuf -= left * bpp;                                              \
-        for (;;) {                                                         \
-            int run;                                                       \
+        для (;;) {                                                         \
+            ціле run;                                                       \
             ofs += *(Type *)srcbuf;                                        \
             run = ((Type *)srcbuf)[1];                                     \
             srcbuf += 2 * sizeof(Type);                                    \
-            if (run) {                                                     \
+            якщо (run) {                                                     \
                 /* clip to left and right borders */                       \
-                if (ofs < right) {                                         \
-                    int start = 0;                                         \
-                    int len = run;                                         \
-                    int startcol;                                          \
-                    if (left - ofs > 0) {                                  \
+                якщо (ofs < right) {                                         \
+                    ціле start = 0;                                         \
+                    ціле len = run;                                         \
+                    ціле startcol;                                          \
+                    якщо (left - ofs > 0) {                                  \
                         start = left - ofs;                                \
                         len -= start;                                      \
-                        if (len <= 0)                                      \
+                        якщо (len <= 0)                                      \
                             goto nocopy##bpp##do_blit;                     \
                     }                                                      \
                     startcol = ofs + start;                                \
-                    if (len > right - startcol)                            \
+                    якщо (len > right - startcol)                            \
                         len = right - startcol;                            \
                     do_blit(dstbuf + startcol * bpp, srcbuf + start * bpp, \
                             len, bpp, alpha);                              \
                 }                                                          \
                 nocopy##bpp##do_blit : srcbuf += run * bpp;                \
                 ofs += run;                                                \
-            } else if (!ofs) {                                             \
+            } інакше якщо (!ofs) {                                             \
                 break;                                                     \
             }                                                              \
                                                                            \
-            if (ofs == w) {                                                \
+            якщо (ofs == w) {                                                \
                 ofs = 0;                                                   \
                 dstbuf += surf_dst->pitch;                                 \
-                if (!--linecount) {                                        \
+                якщо (!--linecount) {                                        \
                     break;                                                 \
                 }                                                          \
             }                                                              \
         }                                                                  \
-    } while (0)
+    } поки (0)
 
-static void RLEClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
+static void RLEClipBlit(ціле w, Uint8 *srcbuf, SDL_Surface *surf_dst,
                         Uint8 *dstbuf, const SDL_Rect *srcrect, unsigned alpha)
 {
     const SDL_PixelFormatDetails *fmt = surf_dst->fmt;
@@ -446,14 +446,14 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 {
     Uint8 *dstbuf;
     Uint8 *srcbuf;
-    int x, y;
-    int w = surf_src->w;
+    ціле x, y;
+    ціле w = surf_src->w;
     unsigned alpha;
 
     // Lock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
-        if (!SDL_LockSurface(surf_dst)) {
-            return false;
+    якщо (SDL_MUSTLOCK(surf_dst)) {
+        якщо (!SDL_LockSurface(surf_dst)) {
+            повернути false;
         }
     }
 
@@ -465,24 +465,24 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 
     {
         // skip lines at the top if necessary
-        int vskip = srcrect->y;
-        int ofs = 0;
-        if (vskip) {
+        ціле vskip = srcrect->y;
+        ціле ofs = 0;
+        якщо (vskip) {
 
 #define RLESKIP(bpp, Type)          \
-    for (;;) {                      \
-        int run;                    \
+    для (;;) {                      \
+        ціле run;                    \
         ofs += *(Type *)srcbuf;     \
         run = ((Type *)srcbuf)[1];  \
         srcbuf += sizeof(Type) * 2; \
-        if (run) {                  \
+        якщо (run) {                  \
             srcbuf += run * bpp;    \
             ofs += run;             \
-        } else if (!ofs)            \
+        } інакше якщо (!ofs)            \
             goto done;              \
-        if (ofs == w) {             \
+        якщо (ofs == w) {             \
             ofs = 0;                \
-            if (!--vskip)           \
+            якщо (!--vskip)           \
                 break;              \
         }                           \
     }
@@ -508,34 +508,34 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 
     alpha = surf_src->map.info.a;
     // if left or right edge clipping needed, call clip blit
-    if (srcrect->x || srcrect->w != surf_src->w) {
+    якщо (srcrect->x || srcrect->w != surf_src->w) {
         RLEClipBlit(w, srcbuf, surf_dst, dstbuf, srcrect, alpha);
-    } else {
+    } інакше {
         const SDL_PixelFormatDetails *fmt = surf_src->fmt;
 
 #define RLEBLIT(bpp, Type, do_blit)                                   \
     do {                                                              \
-        int linecount = srcrect->h;                                   \
-        int ofs = 0;                                                  \
-        for (;;) {                                                    \
+        ціле linecount = srcrect->h;                                   \
+        ціле ofs = 0;                                                  \
+        для (;;) {                                                    \
             unsigned run;                                             \
             ofs += *(Type *)srcbuf;                                   \
             run = ((Type *)srcbuf)[1];                                \
             srcbuf += 2 * sizeof(Type);                               \
-            if (run) {                                                \
+            якщо (run) {                                                \
                 do_blit(dstbuf + ofs * bpp, srcbuf, run, bpp, alpha); \
                 srcbuf += run * bpp;                                  \
                 ofs += run;                                           \
-            } else if (!ofs)                                          \
+            } інакше якщо (!ofs)                                          \
                 break;                                                \
-            if (ofs == w) {                                           \
+            якщо (ofs == w) {                                           \
                 ofs = 0;                                              \
                 dstbuf += surf_dst->pitch;                            \
-                if (!--linecount)                                     \
+                якщо (!--linecount)                                     \
                     break;                                            \
             }                                                         \
         }                                                             \
-    } while (0)
+    } поки (0)
 
         CHOOSE_BLIT(RLEBLIT, alpha, fmt);
 
@@ -544,10 +544,10 @@ static bool SDLCALL SDL_RLEBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
 
 done:
     // Unlock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
+    якщо (SDL_MUSTLOCK(surf_dst)) {
         SDL_UnlockSurface(surf_dst);
     }
-    return true;
+    повернути true;
 }
 
 #undef OPAQUE_BLIT
@@ -573,7 +573,7 @@ done:
         d &= 0xff00;                                     \
         d = (d + ((s - d) * alpha >> 8)) & 0xff00;       \
         dst = d1 | d | 0xff000000;                       \
-    } while (0)
+    } поки (0)
 
 /*
  * For 16bpp pixels, we have stored the 5 most significant alpha bits in
@@ -589,7 +589,7 @@ done:
         d += (s - d) * alpha >> 5;         \
         d &= 0x07e0f81f;                   \
         dst = (Uint16)(d | d >> 16);       \
-    } while (0)
+    } поки (0)
 
 #define BLIT_TRANSL_555(src, dst)          \
     do {                                   \
@@ -601,10 +601,10 @@ done:
         d += (s - d) * alpha >> 5;         \
         d &= 0x03e07c1f;                   \
         dst = (Uint16)(d | d >> 16);       \
-    } while (0)
+    } поки (0)
 
 // blit a pixel-alpha RLE surface clipped at the right and/or left edges
-static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
+static void RLEAlphaClipBlit(ціле w, Uint8 *srcbuf, SDL_Surface *surf_dst,
                              Uint8 *dstbuf, const SDL_Rect *srcrect)
 {
     const SDL_PixelFormatDetails *df = surf_dst->fmt;
@@ -615,40 +615,40 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
      */
 #define RLEALPHACLIPBLIT(Ptype, Ctype, do_blend)                          \
     do {                                                                  \
-        int linecount = srcrect->h;                                       \
-        int left = srcrect->x;                                            \
-        int right = left + srcrect->w;                                    \
+        ціле linecount = srcrect->h;                                       \
+        ціле left = srcrect->x;                                            \
+        ціле right = left + srcrect->w;                                    \
         dstbuf -= left * sizeof(Ptype);                                   \
         do {                                                              \
-            int ofs = 0;                                                  \
+            ціле ofs = 0;                                                  \
             /* blit opaque pixels on one line */                          \
             do {                                                          \
                 unsigned run;                                             \
                 ofs += ((Ctype *)srcbuf)[0];                              \
                 run = ((Ctype *)srcbuf)[1];                               \
                 srcbuf += 2 * sizeof(Ctype);                              \
-                if (run) {                                                \
+                якщо (run) {                                                \
                     /* clip to left and right borders */                  \
-                    int cofs = ofs;                                       \
-                    int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
+                    ціле cofs = ofs;                                       \
+                    ціле crun = run;                                       \
+                    якщо (left - cofs > 0) {                                \
                         crun -= left - cofs;                              \
                         cofs = left;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
+                    якщо (crun > right - cofs)                              \
                         crun = right - cofs;                              \
-                    if (crun > 0)                                         \
+                    якщо (crun > 0)                                         \
                         PIXEL_COPY(dstbuf + cofs * sizeof(Ptype),         \
                                    srcbuf + (cofs - ofs) * sizeof(Ptype), \
                                    (unsigned)crun, sizeof(Ptype));        \
                     srcbuf += run * sizeof(Ptype);                        \
                     ofs += run;                                           \
-                } else if (!ofs)                                          \
-                    return;                                               \
-            } while (ofs < w);                                            \
+                } інакше якщо (!ofs)                                          \
+                    повернути;                                               \
+            } поки (ofs < w);                                            \
             /* skip padding if necessary */                               \
             const size_t psize = sizeof(Ptype);                           \
-            if (psize == 2)                                               \
+            якщо (psize == 2)                                               \
                 srcbuf += (uintptr_t)srcbuf & 2;                          \
             /* blit translucent pixels on the same line */                \
             ofs = 0;                                                      \
@@ -657,36 +657,36 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
                 ofs += ((Uint16 *)srcbuf)[0];                             \
                 run = ((Uint16 *)srcbuf)[1];                              \
                 srcbuf += 4;                                              \
-                if (run) {                                                \
+                якщо (run) {                                                \
                     /* clip to left and right borders */                  \
-                    int cofs = ofs;                                       \
-                    int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
+                    ціле cofs = ofs;                                       \
+                    ціле crun = run;                                       \
+                    якщо (left - cofs > 0) {                                \
                         crun -= left - cofs;                              \
                         cofs = left;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
+                    якщо (crun > right - cofs)                              \
                         crun = right - cofs;                              \
-                    if (crun > 0) {                                       \
+                    якщо (crun > 0) {                                       \
                         Ptype *dst = (Ptype *)dstbuf + cofs;              \
                         Uint32 *src = (Uint32 *)srcbuf + (cofs - ofs);    \
-                        int i;                                            \
-                        for (i = 0; i < crun; i++)                        \
+                        ціле i;                                            \
+                        для (i = 0; i < crun; i++)                        \
                             do_blend(src[i], dst[i]);                     \
                     }                                                     \
                     srcbuf += run * 4;                                    \
                     ofs += run;                                           \
                 }                                                         \
-            } while (ofs < w);                                            \
+            } поки (ofs < w);                                            \
             dstbuf += surf_dst->pitch;                                    \
-        } while (--linecount);                                            \
-    } while (0)
+        } поки (--linecount);                                            \
+    } поки (0)
 
     switch (df->bytes_per_pixel) {
     case 2:
-        if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+        якщо (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
             RLEALPHACLIPBLIT(Uint16, Uint8, BLIT_TRANSL_565);
-        } else {
+        } інакше {
             RLEALPHACLIPBLIT(Uint16, Uint8, BLIT_TRANSL_555);
         }
         break;
@@ -700,15 +700,15 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
 static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcrect,
                                      SDL_Surface *surf_dst, const SDL_Rect *dstrect)
 {
-    int x, y;
-    int w = surf_src->w;
+    ціле x, y;
+    ціле w = surf_src->w;
     Uint8 *srcbuf, *dstbuf;
     const SDL_PixelFormatDetails *df = surf_dst->fmt;
 
     // Lock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
-        if (!SDL_LockSurface(surf_dst)) {
-            return false;
+    якщо (SDL_MUSTLOCK(surf_dst)) {
+        якщо (!SDL_LockSurface(surf_dst)) {
+            повернути false;
         }
     }
 
@@ -719,26 +719,26 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
 
     {
         // skip lines at the top if necessary
-        int vskip = srcrect->y;
-        if (vskip) {
-            int ofs;
-            if (df->bytes_per_pixel == 2) {
+        ціле vskip = srcrect->y;
+        якщо (vskip) {
+            ціле ofs;
+            якщо (df->bytes_per_pixel == 2) {
                 // the 16/32 interleaved format
                 do {
                     // skip opaque line
                     ofs = 0;
                     do {
-                        int run;
+                        ціле run;
                         ofs += srcbuf[0];
                         run = srcbuf[1];
                         srcbuf += 2;
-                        if (run) {
+                        якщо (run) {
                             srcbuf += 2 * run;
                             ofs += run;
-                        } else if (ofs == 0) {
+                        } інакше якщо (ofs == 0) {
                             goto done;
                         }
-                    } while (ofs < w);
+                    } поки (ofs < w);
 
                     // skip padding
                     srcbuf += (uintptr_t)srcbuf & 2;
@@ -746,39 +746,39 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
                     // skip translucent line
                     ofs = 0;
                     do {
-                        int run;
+                        ціле run;
                         ofs += ((Uint16 *)srcbuf)[0];
                         run = ((Uint16 *)srcbuf)[1];
                         srcbuf += 4 * (run + 1);
                         ofs += run;
-                    } while (ofs < w);
-                } while (--vskip);
-            } else {
+                    } поки (ofs < w);
+                } поки (--vskip);
+            } інакше {
                 // the 32/32 interleaved format
                 vskip <<= 1; // opaque and translucent have same format
                 do {
                     ofs = 0;
                     do {
-                        int run;
+                        ціле run;
                         ofs += ((Uint16 *)srcbuf)[0];
                         run = ((Uint16 *)srcbuf)[1];
                         srcbuf += 4;
-                        if (run) {
+                        якщо (run) {
                             srcbuf += 4 * run;
                             ofs += run;
-                        } else if (ofs == 0) {
+                        } інакше якщо (ofs == 0) {
                             goto done;
                         }
-                    } while (ofs < w);
-                } while (--vskip);
+                    } поки (ofs < w);
+                } поки (--vskip);
             }
         }
     }
 
     // if left or right edge clipping needed, call clip blit
-    if (srcrect->x || srcrect->w != surf_src->w) {
+    якщо (srcrect->x || srcrect->w != surf_src->w) {
         RLEAlphaClipBlit(w, srcbuf, surf_dst, dstbuf, srcrect);
-    } else {
+    } інакше {
 
         /*
          * non-clipped blitter. Ptype is the destination pixel type,
@@ -787,26 +787,26 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
          */
 #define RLEALPHABLIT(Ptype, Ctype, do_blend)                         \
     do {                                                             \
-        int linecount = srcrect->h;                                  \
+        ціле linecount = srcrect->h;                                  \
         do {                                                         \
-            int ofs = 0;                                             \
+            ціле ofs = 0;                                             \
             /* blit opaque pixels on one line */                     \
             do {                                                     \
                 unsigned run;                                        \
                 ofs += ((Ctype *)srcbuf)[0];                         \
                 run = ((Ctype *)srcbuf)[1];                          \
                 srcbuf += 2 * sizeof(Ctype);                         \
-                if (run) {                                           \
+                якщо (run) {                                           \
                     PIXEL_COPY(dstbuf + ofs * sizeof(Ptype), srcbuf, \
                                run, sizeof(Ptype));                  \
                     srcbuf += run * sizeof(Ptype);                   \
                     ofs += run;                                      \
-                } else if (!ofs)                                     \
+                } інакше якщо (!ofs)                                     \
                     goto done;                                       \
-            } while (ofs < w);                                       \
+            } поки (ofs < w);                                       \
             /* skip padding if necessary */                          \
             const size_t psize = sizeof(Ptype);                      \
-            if (psize == 2)                                          \
+            якщо (psize == 2)                                          \
                 srcbuf += (uintptr_t)srcbuf & 2;                     \
             /* blit translucent pixels on the same line */           \
             ofs = 0;                                                 \
@@ -815,10 +815,10 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
                 ofs += ((Uint16 *)srcbuf)[0];                        \
                 run = ((Uint16 *)srcbuf)[1];                         \
                 srcbuf += 4;                                         \
-                if (run) {                                           \
+                якщо (run) {                                           \
                     Ptype *dst = (Ptype *)dstbuf + ofs;              \
                     unsigned i;                                      \
-                    for (i = 0; i < run; i++) {                      \
+                    для (i = 0; i < run; i++) {                      \
                         Uint32 src = *(Uint32 *)srcbuf;              \
                         do_blend(src, *dst);                         \
                         srcbuf += 4;                                 \
@@ -826,16 +826,16 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
                     }                                                \
                     ofs += run;                                      \
                 }                                                    \
-            } while (ofs < w);                                       \
+            } поки (ofs < w);                                       \
             dstbuf += surf_dst->pitch;                               \
-        } while (--linecount);                                       \
-    } while (0)
+        } поки (--linecount);                                       \
+    } поки (0)
 
         switch (df->bytes_per_pixel) {
         case 2:
-            if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+            якщо (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
                 RLEALPHABLIT(Uint16, Uint8, BLIT_TRANSL_565);
-            } else {
+            } інакше {
                 RLEALPHABLIT(Uint16, Uint8, BLIT_TRANSL_555);
             }
             break;
@@ -847,10 +847,10 @@ static bool SDLCALL SDL_RLEAlphaBlit(SDL_Surface *surf_src, const SDL_Rect *srcr
 
 done:
     // Unlock the destination if necessary
-    if (SDL_MUSTLOCK(surf_dst)) {
+    якщо (SDL_MUSTLOCK(surf_dst)) {
         SDL_UnlockSurface(surf_dst);
     }
-    return true;
+    повернути true;
 }
 
 /*
@@ -864,28 +864,28 @@ done:
  */
 
 // encode 32bpp rgb + a into 16bpp rgb, losing alpha
-static int copy_opaque_16(void *dst, const Uint32 *src, int n,
+static ціле copy_opaque_16(void *dst, const Uint32 *src, ціле n,
                           const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    ціле i;
     Uint16 *d = (Uint16 *)dst;
-    for (i = 0; i < n; i++) {
+    для (i = 0; i < n; i++) {
         unsigned r, g, b;
         RGB_FROM_PIXEL(*src, sfmt, r, g, b);
         PIXEL_FROM_RGB(*d, dfmt, r, g, b);
         src++;
         d++;
     }
-    return n * 2;
+    повернути n * 2;
 }
 
 // encode 32bpp rgb + a into 32bpp G0RAB format for blitting into 565
-static int copy_transl_565(void *dst, const Uint32 *src, int n,
+static ціле copy_transl_565(void *dst, const Uint32 *src, ціле n,
                            const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    ціле i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
+    для (i = 0; i < n; i++) {
         unsigned r, g, b, a;
         Uint16 pix;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
@@ -894,16 +894,16 @@ static int copy_transl_565(void *dst, const Uint32 *src, int n,
         src++;
         d++;
     }
-    return n * 4;
+    повернути n * 4;
 }
 
 // encode 32bpp rgb + a into 32bpp G0RAB format for blitting into 555
-static int copy_transl_555(void *dst, const Uint32 *src, int n,
+static ціле copy_transl_555(void *dst, const Uint32 *src, ціле n,
                            const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    ціле i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
+    для (i = 0; i < n; i++) {
         unsigned r, g, b, a;
         Uint16 pix;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
@@ -912,23 +912,23 @@ static int copy_transl_555(void *dst, const Uint32 *src, int n,
         src++;
         d++;
     }
-    return n * 4;
+    повернути n * 4;
 }
 
 // encode 32bpp rgba into 32bpp rgba, keeping alpha (dual purpose)
-static int copy_32(void *dst, const Uint32 *src, int n,
+static ціле copy_32(void *dst, const Uint32 *src, ціле n,
                    const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
 {
-    int i;
+    ціле i;
     Uint32 *d = (Uint32 *)dst;
-    for (i = 0; i < n; i++) {
+    для (i = 0; i < n; i++) {
         unsigned r, g, b, a;
         RGBA_FROM_8888(*src, sfmt, r, g, b, a);
         RLEPIXEL_FROM_RGBA(*d, dfmt, r, g, b, a);
         d++;
         src++;
     }
-    return n * 4;
+    повернути n * 4;
 }
 
 #define ISOPAQUE(pixel, fmt) ((((pixel)&fmt->Amask) >> fmt->Ashift) == 255)
@@ -941,23 +941,23 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
 {
     SDL_Surface *dest;
     const SDL_PixelFormatDetails *df;
-    int maxsize = 0;
-    int max_opaque_run;
-    int max_transl_run = 65535;
+    ціле maxsize = 0;
+    ціле max_opaque_run;
+    ціле max_transl_run = 65535;
     unsigned masksum;
     Uint8 *rlebuf, *dst;
-    int (*copy_opaque)(void *, const Uint32 *, int,
+    ціле (*copy_opaque)(void *, const Uint32 *, ціле,
                        const SDL_PixelFormatDetails *, const SDL_PixelFormatDetails *);
-    int (*copy_transl)(void *, const Uint32 *, int,
+    ціле (*copy_transl)(void *, const Uint32 *, ціле,
                        const SDL_PixelFormatDetails *, const SDL_PixelFormatDetails *);
 
     dest = surface->map.info.dst_surface;
-    if (!dest) {
-        return false;
+    якщо (!dest) {
+        повернути false;
     }
     df = dest->fmt;
-    if (surface->fmt->bits_per_pixel != 32) {
-        return false; // only 32bpp source supported
+    якщо (surface->fmt->bits_per_pixel != 32) {
+        повернути false; // only 32bpp source supported
     }
 
     /* find out whether the destination is one we support,
@@ -968,23 +968,23 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
         // 16bpp: only support 565 and 555 formats
         switch (masksum) {
         case 0xffff:
-            if (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
+            якщо (df->Gmask == 0x07e0 || df->Rmask == 0x07e0 || df->Bmask == 0x07e0) {
                 copy_opaque = copy_opaque_16;
                 copy_transl = copy_transl_565;
-            } else {
-                return false;
+            } інакше {
+                повернути false;
             }
             break;
         case 0x7fff:
-            if (df->Gmask == 0x03e0 || df->Rmask == 0x03e0 || df->Bmask == 0x03e0) {
+            якщо (df->Gmask == 0x03e0 || df->Rmask == 0x03e0 || df->Bmask == 0x03e0) {
                 copy_opaque = copy_opaque_16;
                 copy_transl = copy_transl_555;
-            } else {
-                return false;
+            } інакше {
+                повернути false;
             }
             break;
         default:
-            return false;
+            повернути false;
         }
         max_opaque_run = 255; // runs stored as bytes
 
@@ -993,8 +993,8 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
         maxsize = surface->h * (2 + (4 + 2) * (surface->w + 1)) + 2;
         break;
     case 4:
-        if (masksum != 0x00ffffff) {
-            return false; // requires unused high byte
+        якщо (masksum != 0x00ffffff) {
+            повернути false; // requires unused high byte
         }
         copy_opaque = copy_32;
         copy_transl = copy_32;
@@ -1004,13 +1004,13 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
         maxsize = surface->h * 2 * 4 * (surface->w + 1) + 4;
         break;
     default:
-        return false; // anything else unsupported right now
+        повернути false; // anything else unsupported right now
     }
 
     maxsize += sizeof(SDL_PixelFormat);
     rlebuf = (Uint8 *)SDL_malloc(maxsize);
-    if (!rlebuf) {
-        return false;
+    якщо (!rlebuf) {
+        повернути false;
     }
     // save the destination format so we can undo the encoding later
     *(SDL_PixelFormat *)rlebuf = dest->format;
@@ -1018,19 +1018,19 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
 
     // Do the actual encoding
     {
-        int x, y;
-        int h = surface->h, w = surface->w;
+        ціле x, y;
+        ціле h = surface->h, w = surface->w;
         const SDL_PixelFormatDetails *sf = surface->fmt;
         Uint32 *src = (Uint32 *)surface->pixels;
         Uint8 *lastline = dst; // end of last non-blank line
 
         // opaque counts are 8 or 16 bits, depending on target depth
 #define ADD_OPAQUE_COUNTS(n, m)           \
-    if (df->bytes_per_pixel == 4) {         \
+    якщо (df->bytes_per_pixel == 4) {         \
         ((Uint16 *)dst)[0] = (Uint16)n;   \
         ((Uint16 *)dst)[1] = (Uint16)m;   \
         dst += 4;                         \
-    } else {                              \
+    } інакше {                              \
         dst[0] = (Uint8)n;                \
         dst[1] = (Uint8)m;                \
         dst += 2;                         \
@@ -1040,27 +1040,27 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
 #define ADD_TRANSL_COUNTS(n, m) \
     (((Uint16 *)dst)[0] = (Uint16)n, ((Uint16 *)dst)[1] = (Uint16)m, dst += 4)
 
-        for (y = 0; y < h; y++) {
-            int runstart, skipstart;
-            int blankline = 0;
+        для (y = 0; y < h; y++) {
+            ціле runstart, skipstart;
+            ціле blankline = 0;
             // First encode all opaque pixels of a scan line
             x = 0;
             do {
-                int run, skip, len;
+                ціле run, skip, len;
                 skipstart = x;
-                while (x < w && !ISOPAQUE(src[x], sf)) {
+                поки (x < w && !ISOPAQUE(src[x], sf)) {
                     x++;
                 }
                 runstart = x;
-                while (x < w && ISOPAQUE(src[x], sf)) {
+                поки (x < w && ISOPAQUE(src[x], sf)) {
                     x++;
                 }
                 skip = runstart - skipstart;
-                if (skip == w) {
+                якщо (skip == w) {
                     blankline = 1;
                 }
                 run = x - runstart;
-                while (skip > max_opaque_run) {
+                поки (skip > max_opaque_run) {
                     ADD_OPAQUE_COUNTS(max_opaque_run, 0);
                     skip -= max_opaque_run;
                 }
@@ -1069,14 +1069,14 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
                 dst += copy_opaque(dst, src + runstart, len, sf, df);
                 runstart += len;
                 run -= len;
-                while (run) {
+                поки (run) {
                     len = SDL_min(run, max_opaque_run);
                     ADD_OPAQUE_COUNTS(0, len);
                     dst += copy_opaque(dst, src + runstart, len, sf, df);
                     runstart += len;
                     run -= len;
                 }
-            } while (x < w);
+            } поки (x < w);
 
             // Make sure the next output address is 32-bit aligned
             dst += (uintptr_t)dst & 2;
@@ -1084,19 +1084,19 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
             // Next, encode all translucent pixels of the same scan line
             x = 0;
             do {
-                int run, skip, len;
+                ціле run, skip, len;
                 skipstart = x;
-                while (x < w && !ISTRANSL(src[x], sf)) {
+                поки (x < w && !ISTRANSL(src[x], sf)) {
                     x++;
                 }
                 runstart = x;
-                while (x < w && ISTRANSL(src[x], sf)) {
+                поки (x < w && ISTRANSL(src[x], sf)) {
                     x++;
                 }
                 skip = runstart - skipstart;
                 blankline &= (skip == w);
                 run = x - runstart;
-                while (skip > max_transl_run) {
+                поки (skip > max_transl_run) {
                     ADD_TRANSL_COUNTS(max_transl_run, 0);
                     skip -= max_transl_run;
                 }
@@ -1105,17 +1105,17 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
                 dst += copy_transl(dst, src + runstart, len, sf, df);
                 runstart += len;
                 run -= len;
-                while (run) {
+                поки (run) {
                     len = SDL_min(run, max_transl_run);
                     ADD_TRANSL_COUNTS(0, len);
                     dst += copy_transl(dst, src + runstart, len, sf, df);
                     runstart += len;
                     run -= len;
                 }
-                if (!blankline) {
+                якщо (!blankline) {
                     lastline = dst;
                 }
-            } while (x < w);
+            } поки (x < w);
 
             src += surface->pitch >> 2;
         }
@@ -1129,37 +1129,37 @@ static bool RLEAlphaSurface(SDL_Surface *surface)
     // reallocate the buffer to release unused memory
     {
         Uint8 *p = (Uint8 *)SDL_realloc(rlebuf, dst - rlebuf);
-        if (!p) {
+        якщо (!p) {
             p = rlebuf;
         }
         surface->map.data = p;
     }
 
-    return true;
+    повернути true;
 }
 
 static Uint32 getpix_8(const Uint8 *srcbuf)
 {
-    return *srcbuf;
+    повернути *srcbuf;
 }
 
 static Uint32 getpix_16(const Uint8 *srcbuf)
 {
-    return *(const Uint16 *)srcbuf;
+    повернути *(const Uint16 *)srcbuf;
 }
 
 static Uint32 getpix_24(const Uint8 *srcbuf)
 {
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-    return srcbuf[0] + (srcbuf[1] << 8) + (srcbuf[2] << 16);
-#else
-    return (srcbuf[0] << 16) + (srcbuf[1] << 8) + srcbuf[2];
+#якщо SDL_BYTEORDER == SDL_LIL_ENDIAN
+    повернути srcbuf[0] + (srcbuf[1] << 8) + (srcbuf[2] << 16);
+#інакше
+    повернути (srcbuf[0] << 16) + (srcbuf[1] << 8) + srcbuf[2];
 #endif
 }
 
 static Uint32 getpix_32(const Uint8 *srcbuf)
 {
-    return *(const Uint32 *)srcbuf;
+    повернути *(const Uint32 *)srcbuf;
 }
 
 typedef Uint32 (*getpix_func)(const Uint8 *);
@@ -1172,18 +1172,18 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
 {
     SDL_Surface *dest;
     Uint8 *rlebuf, *dst;
-    int maxn;
-    int y;
+    ціле maxn;
+    ціле y;
     Uint8 *srcbuf, *lastline;
-    int maxsize = 0;
-    const int bpp = surface->fmt->bytes_per_pixel;
+    ціле maxsize = 0;
+    const ціле bpp = surface->fmt->bytes_per_pixel;
     getpix_func getpix;
     Uint32 ckey, rgbmask;
-    int w, h;
+    ціле w, h;
 
     dest = surface->map.info.dst_surface;
-    if (!dest) {
-        return false;
+    якщо (!dest) {
+        повернути false;
     }
 
     // calculate the worst case size for the compressed surface
@@ -1204,13 +1204,13 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
         break;
 
     default:
-        return false;
+        повернути false;
     }
 
     maxsize += sizeof(SDL_PixelFormat);
     rlebuf = (Uint8 *)SDL_malloc(maxsize);
-    if (!rlebuf) {
-        return false;
+    якщо (!rlebuf) {
+        повернути false;
     }
     // save the destination format so we can undo the encoding later
     *(SDL_PixelFormat *)rlebuf = dest->format;
@@ -1227,41 +1227,41 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
     h = surface->h;
 
 #define ADD_COUNTS(n, m)                \
-    if (bpp == 4) {                     \
+    якщо (bpp == 4) {                     \
         ((Uint16 *)dst)[0] = (Uint16)n; \
         ((Uint16 *)dst)[1] = (Uint16)m; \
         dst += 4;                       \
-    } else {                            \
+    } інакше {                            \
         dst[0] = (Uint8)n;              \
         dst[1] = (Uint8)m;              \
         dst += 2;                       \
     }
 
-    for (y = 0; y < h; y++) {
-        int x = 0;
-        int blankline = 0;
+    для (y = 0; y < h; y++) {
+        ціле x = 0;
+        ціле blankline = 0;
         do {
-            int run, skip;
-            int len;
-            int runstart;
-            int skipstart = x;
+            ціле run, skip;
+            ціле len;
+            ціле runstart;
+            ціле skipstart = x;
 
             // find run of transparent, then opaque pixels
-            while (x < w && (getpix(srcbuf + x * bpp) & rgbmask) == ckey) {
+            поки (x < w && (getpix(srcbuf + x * bpp) & rgbmask) == ckey) {
                 x++;
             }
             runstart = x;
-            while (x < w && (getpix(srcbuf + x * bpp) & rgbmask) != ckey) {
+            поки (x < w && (getpix(srcbuf + x * bpp) & rgbmask) != ckey) {
                 x++;
             }
             skip = runstart - skipstart;
-            if (skip == w) {
+            якщо (skip == w) {
                 blankline = 1;
             }
             run = x - runstart;
 
             // encode segment
-            while (skip > maxn) {
+            поки (skip > maxn) {
                 ADD_COUNTS(maxn, 0);
                 skip -= maxn;
             }
@@ -1271,7 +1271,7 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
             dst += len * bpp;
             run -= len;
             runstart += len;
-            while (run) {
+            поки (run) {
                 len = SDL_min(run, maxn);
                 ADD_COUNTS(0, len);
                 SDL_memcpy(dst, srcbuf + runstart * bpp, (size_t)len * bpp);
@@ -1279,10 +1279,10 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
                 runstart += len;
                 run -= len;
             }
-            if (!blankline) {
+            якщо (!blankline) {
                 lastline = dst;
             }
-        } while (x < w);
+        } поки (x < w);
 
         srcbuf += surface->pitch;
     }
@@ -1295,71 +1295,71 @@ static bool RLEColorkeySurface(SDL_Surface *surface)
     {
         // If SDL_realloc returns NULL, the original block is left intact
         Uint8 *p = (Uint8 *)SDL_realloc(rlebuf, dst - rlebuf);
-        if (!p) {
+        якщо (!p) {
             p = rlebuf;
         }
         surface->map.data = p;
     }
 
-    return true;
+    повернути true;
 }
 
 bool SDL_RLESurface(SDL_Surface *surface)
 {
-    int flags;
+    ціле flags;
 
     // Clear any previous RLE conversion
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    якщо (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         SDL_UnRLESurface(surface);
     }
 
     // We don't support RLE encoding of bitmaps
-    if (SDL_BITSPERPIXEL(surface->format) < 8) {
-        return false;
+    якщо (SDL_BITSPERPIXEL(surface->format) < 8) {
+        повернути false;
     }
 
     // Make sure the pixels are available
-    if (!surface->pixels) {
-        return false;
+    якщо (!surface->pixels) {
+        повернути false;
     }
 
     flags = surface->map.info.flags;
-    if (flags & SDL_COPY_COLORKEY) {
+    якщо (flags & SDL_COPY_COLORKEY) {
         // ok
-    } else if ((flags & SDL_COPY_BLEND) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
+    } інакше якщо ((flags & SDL_COPY_BLEND) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
         // ok
-    } else {
+    } інакше {
         // If we don't have colorkey or blending, nothing to do...
-        return false;
+        повернути false;
     }
 
     // Pass on combinations not supported
-    if ((flags & SDL_COPY_MODULATE_COLOR) ||
+    якщо ((flags & SDL_COPY_MODULATE_COLOR) ||
         ((flags & SDL_COPY_MODULATE_ALPHA) && SDL_ISPIXELFORMAT_ALPHA(surface->format)) ||
         (flags & (SDL_COPY_BLEND_PREMULTIPLIED | SDL_COPY_ADD | SDL_COPY_ADD_PREMULTIPLIED | SDL_COPY_MOD | SDL_COPY_MUL)) ||
         (flags & SDL_COPY_NEAREST)) {
-        return false;
+        повернути false;
     }
 
     // Encode and set up the blit
-    if (!SDL_ISPIXELFORMAT_ALPHA(surface->format) || !(flags & SDL_COPY_BLEND)) {
-        if (!surface->map.identity) {
-            return false;
+    якщо (!SDL_ISPIXELFORMAT_ALPHA(surface->format) || !(flags & SDL_COPY_BLEND)) {
+        якщо (!surface->map.identity) {
+            повернути false;
         }
-        if (!RLEColorkeySurface(surface)) {
-            return false;
+        якщо (!RLEColorkeySurface(surface)) {
+            повернути false;
         }
         surface->map.blit = SDL_RLEBlit;
         surface->map.info.flags |= SDL_COPY_RLE_COLORKEY;
-    } else {
-        if (!RLEAlphaSurface(surface)) {
-            return false;
+    } інакше {
+        якщо (!RLEAlphaSurface(surface)) {
+            повернути false;
         }
         surface->map.blit = SDL_RLEAlphaBlit;
         surface->map.info.flags |= SDL_COPY_RLE_ALPHAKEY;
     }
 
-    if (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
+    якщо (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
         surface->saved_pixels = surface->pixels;
         surface->pixels = NULL;
     }
@@ -1368,17 +1368,17 @@ bool SDL_RLESurface(SDL_Surface *surface)
     surface->internal_flags |= SDL_INTERNAL_SURFACE_RLEACCEL;
     SDL_UpdateSurfaceLockFlag(surface);
 
-    return true;
+    повернути true;
 }
 
 void SDL_UnRLESurface(SDL_Surface *surface)
 {
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+    якщо (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
         surface->internal_flags &= ~SDL_INTERNAL_SURFACE_RLEACCEL;
 
         surface->map.info.flags &= ~(SDL_COPY_RLE_COLORKEY | SDL_COPY_RLE_ALPHAKEY);
 
-        if (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
+        якщо (!(surface->flags & SDL_SURFACE_PREALLOCATED)) {
             surface->pixels = surface->saved_pixels;
             surface->saved_pixels = NULL;
         }

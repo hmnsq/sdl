@@ -67,8 +67,8 @@ extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const c
 extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, ціле interval);
+extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, ціле *interval);
 extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 

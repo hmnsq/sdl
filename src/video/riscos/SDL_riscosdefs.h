@@ -25,25 +25,25 @@
 
 typedef struct sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    ціле size;  // +0
+    ціле count; // +4
+    ціле start; // +8
+    ціле end;   // +12
 } sprite_area;
 
 SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
 
 typedef struct sprite_header
 {
-    int next;         // +0
+    ціле next;         // +0
     char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
+    ціле width;        // +16
+    ціле height;       // +20
+    ціле first_bit;    // +24
+    ціле last_bit;     // +28
+    ціле image_offset; // +32
+    ціле mask_offset;  // +36
+    ціле mode;         // +40
 } sprite_header;
 
 SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);

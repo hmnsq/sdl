@@ -57,22 +57,22 @@ static SDL_VideoDevice *PSP_Create(void)
 
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    якщо (!device) {
+        повернути NULL;
     }
 
     // Initialize internal PSP specific data
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    якщо (!phdata) {
         SDL_free(device);
-        return NULL;
+        повернути NULL;
     }
 
     gldata = (SDL_GLDriverData *)SDL_calloc(1, sizeof(SDL_GLDriverData));
-    if (!gldata) {
+    якщо (!gldata) {
         SDL_free(device);
         SDL_free(phdata);
-        return NULL;
+        повернути NULL;
     }
     device->gl_data = gldata;
 
@@ -119,7 +119,7 @@ static SDL_VideoDevice *PSP_Create(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    повернути device;
 }
 
 static void configure_dialog(pspUtilityMsgDialogParams *dialog, size_t dialog_size)
@@ -145,7 +145,7 @@ static void configure_dialog(pspUtilityMsgDialogParams *dialog, size_t dialog_si
 static void *setup_temporal_gu(void *list)
 {
     // Using GU_PSM_8888 for the framebuffer
-	int bpp = 4;
+	ціле bpp = 4;
 
 	void *doublebuffer = vramalloc(PSP_FRAME_BUFFER_SIZE * bpp * 2);
     void *backbuffer = doublebuffer;
@@ -172,7 +172,7 @@ static void *setup_temporal_gu(void *list)
     sceDisplayWaitVblankStart();
     sceGuDisplay(GU_TRUE);
 
-	return doublebuffer;
+	повернути doublebuffer;
 }
 
 static void term_temporal_gu(void *guBuffer)
@@ -182,15 +182,15 @@ static void term_temporal_gu(void *guBuffer)
 	sceDisplayWaitVblankStart();
 }
 
-bool PSP_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool PSP_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, ціле *buttonID)
 {
 	unsigned char list[64] __attribute__((aligned(64)));
 	pspUtilityMsgDialogParams dialog;
-	int status;
+	ціле status;
     void *guBuffer = NULL;
 
 	// check if it's possible to use existing video context
-	if (SDL_GetKeyboardFocus() == NULL) {
+	якщо (SDL_GetKeyboardFocus() == NULL) {
 		guBuffer = setup_temporal_gu(list);
 	}
 
@@ -205,16 +205,16 @@ bool PSP_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
 	SDL_snprintf(dialog.message, sizeof(dialog.message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
 
 	// too many buttons
-	if (messageboxdata->numbuttons > 2)
-		return SDL_SetError("messageboxdata->numbuttons valid values are 0, 1, 2");
+	якщо (messageboxdata->numbuttons > 2)
+		повернути SDL_SetError("messageboxdata->numbuttons valid values are 0, 1, 2");
 
 	// we only have two options, "yes/no" or "ok"
-	if (messageboxdata->numbuttons == 2)
+	якщо (messageboxdata->numbuttons == 2)
 		dialog.options |= PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS | PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO;
 
 	// start dialog
-	if (sceUtilityMsgDialogInitStart(&dialog) != 0)
-		return SDL_SetError("sceUtilityMsgDialogInitStart() failed for some reason");
+	якщо (sceUtilityMsgDialogInitStart(&dialog) != 0)
+		повернути SDL_SetError("sceUtilityMsgDialogInitStart() failed for some reason");
 
 	// loop while the dialog is active
 	status = PSP_UTILITY_DIALOG_NONE;
@@ -243,23 +243,23 @@ bool PSP_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
 		sceDisplayWaitVblankStart();
 		sceGuSwapBuffers();
 
-	} while (status != PSP_UTILITY_DIALOG_NONE);
+	} поки (status != PSP_UTILITY_DIALOG_NONE);
 
     // cleanup
-	if (guBuffer)
+	якщо (guBuffer)
 	{
 		term_temporal_gu(guBuffer);
 	}
 
 	// success
-	if (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_YES)
+	якщо (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_YES)
 		*buttonID = messageboxdata->buttons[0].buttonID;
-	else if (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_NO)
+	інакше якщо (dialog.buttonPressed == PSP_UTILITY_MSGDIALOG_RESULT_NO)
 		*buttonID = messageboxdata->buttons[1].buttonID;
-	else
+	інакше
 		*buttonID = messageboxdata->buttons[0].buttonID;
 
-	return true;
+	повернути true;
 }
 
 VideoBootStrap PSP_bootstrap = {
@@ -277,8 +277,8 @@ bool PSP_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
 
-    if (!PSP_EventInit(_this)) {
-        return false;  // error string would already be set
+    якщо (!PSP_EventInit(_this)) {
+        повернути false;  // error string would already be set
     }
 
     SDL_zero(mode);
@@ -289,10 +289,10 @@ bool PSP_VideoInit(SDL_VideoDevice *_this)
     // 32 bpp for default
     mode.format = SDL_PIXELFORMAT_ABGR8888;
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    якщо (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        повернути false;
     }
-    return true;
+    повернути true;
 }
 
 void PSP_VideoQuit(SDL_VideoDevice *_this)
@@ -316,12 +316,12 @@ bool PSP_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     // 16 bpp secondary mode
     mode.format = SDL_PIXELFORMAT_BGR565;
     SDL_AddFullscreenDisplayMode(display, &mode);
-    return true;
+    повернути true;
 }
 
 bool PSP_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    повернути true;
 }
 
 #define EGLCHK(stmt)                           \
@@ -330,11 +330,11 @@ bool PSP_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_D
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
+        якщо (err != EGL_SUCCESS) {              \
             SDL_SetError("EGL error %d", err); \
-            return true;                          \
+            повернути true;                          \
         }                                      \
-    } while (0)
+    } поки (0)
 
 bool PSP_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
@@ -342,8 +342,8 @@ bool PSP_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     // Allocate window internal data
     wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    якщо (!wdata) {
+        повернути false;
     }
 
     // Setup driver data for this window
@@ -352,7 +352,7 @@ bool PSP_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    повернути true;
 }
 
 void PSP_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
@@ -360,7 +360,7 @@ void PSP_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool PSP_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_Unsupported();
+    повернути SDL_Unsupported();
 }
 void PSP_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
@@ -389,17 +389,17 @@ void PSP_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
 bool PSP_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    повернути true;
 }
 
 void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     char list[0x20000] __attribute__((aligned(64))); // Needed for sceGuStart to work
-    int done = 0;
-    int input_text_length = 128;
+    ціле done = 0;
+    ціле input_text_length = 128;
     void *received_text = SDL_calloc(input_text_length, sizeof(Uint16));
-    if (!received_text) {
-        return;
+    якщо (!received_text) {
+        повернути;
     }
     void *received_text_start = received_text;
     void *text_string = NULL;
@@ -466,11 +466,11 @@ void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
     SDL_SendScreenKeyboardShown();
 
-    while (!done) {
+    поки (!done) {
         sceGuStart(GU_DIRECT, list);
         sceGuClearColor(0);
         sceGuClear(GU_COLOR_BUFFER_BIT);
-        if (sceGuGetStatus(GU_DEPTH_TEST)) {
+        якщо (sceGuGetStatus(GU_DEPTH_TEST)) {
             sceGuClearDepth(0);
             sceGuClear(GU_DEPTH_BUFFER_BIT);
         }
@@ -496,12 +496,12 @@ void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
     // Convert input list to strings
     iconv = SDL_iconv_open("UTF-8", "UCS-2-INTERNAL");
-    if ((size_t)iconv == SDL_ICONV_ERROR) {
+    якщо ((size_t)iconv == SDL_ICONV_ERROR) {
         goto done;
     }
 
     string_to_send = SDL_calloc(input_text_length, 3); // utf-8 characters can use up to 4 bytes, but the PSP keyboard has characters up to 3
-    if (!string_to_send) {
+    якщо (!string_to_send) {
         SDL_iconv_close(iconv);
         goto done;
     }
@@ -509,7 +509,7 @@ void PSP_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
     text_string = string_to_send;
     outbytesleft = input_text_length * 3;
     iconv_result = SDL_iconv(iconv, (const char **)&received_text, (size_t *)&inbytesleft, (char **)&text_string, &outbytesleft);
-    if (iconv_result == 0) {
+    якщо (iconv_result == 0) {
         SDL_SendKeyboardText(string_to_send);
     }
 

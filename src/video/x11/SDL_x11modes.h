@@ -27,12 +27,12 @@
 
 struct SDL_DisplayData
 {
-    int screen;
+    ціле screen;
     Visual *visual;
-    int depth;
-    int scanline_pad;
-    int x;
-    int y;
+    ціле depth;
+    ціле scanline_pad;
+    ціле x;
+    ціле y;
 
     Uint64 mode_switch_deadline_ns;
 
@@ -48,8 +48,8 @@ struct SDL_DisplayModeData
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
     RRMode xrandr_mode;
-#else
-    int unused; // just so struct isn't empty.
+#інакше
+    ціле unused; // just so struct isn't empty.
 #endif
 };
 

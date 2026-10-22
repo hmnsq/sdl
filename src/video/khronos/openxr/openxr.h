@@ -38,10 +38,10 @@ extern "C" {
 #define XR_MIN_COMPOSITION_LAYERS_SUPPORTED 16
 
 
-#if !defined(XR_NULL_HANDLE)
-#if (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
+#якщо !defined(XR_NULL_HANDLE)
+#якщо (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
     #define XR_NULL_HANDLE nullptr
-#else
+#інакше
     #define XR_NULL_HANDLE 0
 #endif
 #endif
@@ -83,34 +83,34 @@ extern "C" {
 #define XR_EXTENSION_ENUM_STRIDE 1000
 
 
-#if !defined(XR_MAY_ALIAS)
-#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
+#якщо !defined(XR_MAY_ALIAS)
+#якщо defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
 #define XR_MAY_ALIAS __attribute__((__may_alias__))
-#else
+#інакше
 #define XR_MAY_ALIAS
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_HANDLE)
-#if (XR_PTR_SIZE == 8)
+#якщо !defined(XR_DEFINE_HANDLE)
+#якщо (XR_PTR_SIZE == 8)
     #define XR_DEFINE_HANDLE(object) typedef struct object##_T* object;
-#else
+#інакше
     #define XR_DEFINE_HANDLE(object) typedef uint64_t object;
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_OPAQUE_64)
-    #if (XR_PTR_SIZE == 8)
+#якщо !defined(XR_DEFINE_OPAQUE_64)
+    #якщо (XR_PTR_SIZE == 8)
         #define XR_DEFINE_OPAQUE_64(object) typedef struct object##_T* object;
-    #else
+    #інакше
         #define XR_DEFINE_OPAQUE_64(object) typedef uint64_t object;
     #endif
 #endif
 
 
-#if !defined(XR_DEFINE_ATOM)
+#якщо !defined(XR_DEFINE_ATOM)
     #define XR_DEFINE_ATOM(object) typedef uint64_t object;
 #endif
 

@@ -90,7 +90,7 @@
  *                                  int arg2) KHRONOS_APIATTRIBUTES;
  */
 
-#if defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
+#якщо defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
 #   define KHRONOS_STATIC 1
 #endif
 
@@ -99,7 +99,7 @@
  *-------------------------------------------------------------------------
  * This precedes the return type of the function in the function prototype.
  */
-#if defined(KHRONOS_STATIC)
+#якщо defined(KHRONOS_STATIC)
     /* If the preprocessor constant KHRONOS_STATIC is defined, make the
      * header compatible with static linking. */
 #   define KHRONOS_APICALL
@@ -109,7 +109,7 @@
 #   define KHRONOS_APICALL IMPORT_C
 #elif defined(__ANDROID__)
 #   define KHRONOS_APICALL __attribute__((visibility("default")))
-#else
+#інакше
 #   define KHRONOS_APICALL
 #endif
 
@@ -119,12 +119,12 @@
  * This follows the return type of the function  and precedes the function
  * name in the function prototype.
  */
-#if defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
+#якщо defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
     /* Win32 but not WinCE */
 #   define KHRONOS_APIENTRY __stdcall
 #elif defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
 #   define KHRONOS_APIENTRY __stdcall
-#else
+#інакше
 #   define KHRONOS_APIENTRY
 #endif
 
@@ -133,16 +133,16 @@
  *-------------------------------------------------------------------------
  * This follows the closing parenthesis of the function prototype arguments.
  */
-#if defined (__ARMCC_2__)
+#якщо defined (__ARMCC_2__)
 #define KHRONOS_APIATTRIBUTES __softfp
-#else
+#інакше
 #define KHRONOS_APIATTRIBUTES
 #endif
 
 /*-------------------------------------------------------------------------
  * basic type definitions
  *-----------------------------------------------------------------------*/
-#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
+#якщо (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 
 
 /*
@@ -164,8 +164,8 @@ typedef uint64_t                khronos_uint64_t;
  * To avoid changes for existing platforms, we restrict usage of intptr_t to
  * platforms where the size of a pointer is larger than the size of long.
  */
-#if defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
-#if __SIZEOF_POINTER__ > __SIZEOF_LONG__
+#якщо defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
+#якщо __SIZEOF_POINTER__ > __SIZEOF_LONG__
 #define KHRONOS_USE_INTPTR_T
 #endif
 #endif
@@ -200,14 +200,14 @@ typedef unsigned __int64        khronos_uint64_t;
 /*
  * Sun or Digital
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
-#if defined(__arch64__) || defined(_LP64)
-typedef long int                khronos_int64_t;
-typedef unsigned long int       khronos_uint64_t;
-#else
-typedef long long int           khronos_int64_t;
-typedef unsigned long long int  khronos_uint64_t;
+typedef ціле                     khronos_int32_t;
+typedef unsigned ціле            khronos_uint32_t;
+#якщо defined(__arch64__) || defined(_LP64)
+typedef long ціле                khronos_int64_t;
+typedef unsigned long ціле       khronos_uint64_t;
+#інакше
+typedef long long ціле           khronos_int64_t;
+typedef unsigned long long ціле  khronos_uint64_t;
 #endif /* __arch64__ */
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
@@ -217,12 +217,12 @@ typedef unsigned long long int  khronos_uint64_t;
 /*
  * Hypothetical platform with no float or int64 support
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
+typedef ціле                     khronos_int32_t;
+typedef unsigned ціле            khronos_uint32_t;
 #define KHRONOS_SUPPORT_INT64   0
 #define KHRONOS_SUPPORT_FLOAT   0
 
-#else
+#інакше
 
 /*
  * Generic fallback
@@ -243,8 +243,8 @@ typedef uint64_t                khronos_uint64_t;
  */
 typedef signed   char          khronos_int8_t;
 typedef unsigned char          khronos_uint8_t;
-typedef signed   short int     khronos_int16_t;
-typedef unsigned short int     khronos_uint16_t;
+typedef signed   short ціле     khronos_int16_t;
+typedef unsigned short ціле     khronos_uint16_t;
 
 /*
  * Types that differ between LLP64 and LP64 architectures - in LLP64,
@@ -255,29 +255,29 @@ typedef unsigned short int     khronos_uint16_t;
 typedef intptr_t               khronos_intptr_t;
 typedef uintptr_t              khronos_uintptr_t;
 #elif defined(_WIN64)
-typedef signed   long long int khronos_intptr_t;
-typedef unsigned long long int khronos_uintptr_t;
-#else
-typedef signed   long  int     khronos_intptr_t;
-typedef unsigned long  int     khronos_uintptr_t;
+typedef signed   long long ціле khronos_intptr_t;
+typedef unsigned long long ціле khronos_uintptr_t;
+#інакше
+typedef signed   long  ціле     khronos_intptr_t;
+typedef unsigned long  ціле     khronos_uintptr_t;
 #endif
 
-#if defined(_WIN64)
-typedef signed   long long int khronos_ssize_t;
-typedef unsigned long long int khronos_usize_t;
-#else
-typedef signed   long  int     khronos_ssize_t;
-typedef unsigned long  int     khronos_usize_t;
+#якщо defined(_WIN64)
+typedef signed   long long ціле khronos_ssize_t;
+typedef unsigned long long ціле khronos_usize_t;
+#інакше
+typedef signed   long  ціле     khronos_ssize_t;
+typedef unsigned long  ціле     khronos_usize_t;
 #endif
 
-#if KHRONOS_SUPPORT_FLOAT
+#якщо KHRONOS_SUPPORT_FLOAT
 /*
  * Float type
  */
 typedef          float         khronos_float_t;
 #endif
 
-#if KHRONOS_SUPPORT_INT64
+#якщо KHRONOS_SUPPORT_INT64
 /* Time types
  *
  * These types can be used to represent a time interval in nanoseconds or

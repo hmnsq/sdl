@@ -25,12 +25,12 @@
 
 #ifdef SDL_SSE_INTRINSICS
 // This assumes 16-byte aligned src and dst
-static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, int len)
+static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, ціле len)
 {
-    int i;
+    ціле i;
 
     __m128 values[4];
-    for (i = len / 64; i--;) {
+    для (i = len / 64; i--;) {
         _mm_prefetch((const char *)src, _MM_HINT_NTA);
         values[0] = *(__m128 *)(src + 0);
         values[1] = *(__m128 *)(src + 16);
@@ -44,7 +44,7 @@ static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint
         dst += 64;
     }
 
-    if (len & 63) {
+    якщо (len & 63) {
         SDL_memcpy(dst, src, len & 63);
     }
 }
@@ -54,8 +54,8 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
 {
     bool overlap;
     Uint8 *src, *dst;
-    int w, h;
-    int srcskip, dstskip;
+    ціле w, h;
+    ціле srcskip, dstskip;
 
     w = info->dst_w * info->dst_fmt->bytes_per_pixel;
     h = info->dst_h;
@@ -65,44 +65,44 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
     dstskip = info->dst_pitch;
 
     // Properly handle overlapping blits
-    if (src < dst) {
+    якщо (src < dst) {
         overlap = (dst < (src + h * srcskip));
-    } else {
+    } інакше {
         overlap = (src < (dst + h * dstskip));
     }
-    if (overlap) {
-        if (dst < src) {
-            while (h--) {
+    якщо (overlap) {
+        якщо (dst < src) {
+            поки (h--) {
                 SDL_memmove(dst, src, w);
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
+        } інакше {
             src += ((h - 1) * srcskip);
             dst += ((h - 1) * dstskip);
-            while (h--) {
+            поки (h--) {
                 SDL_memmove(dst, src, w);
                 src -= srcskip;
                 dst -= dstskip;
             }
         }
-        return;
+        повернути;
     }
 
 #ifdef SDL_SSE_INTRINSICS
-    if (SDL_HasSSE() &&
+    якщо (SDL_HasSSE() &&
         !((uintptr_t)src & 15) && !(srcskip & 15) &&
         !((uintptr_t)dst & 15) && !(dstskip & 15)) {
-        while (h--) {
+        поки (h--) {
             SDL_memcpySSE(dst, src, w);
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        повернути;
     }
 #endif
 
-    while (h--) {
+    поки (h--) {
         SDL_memcpy(dst, src, w);
         src += srcskip;
         dst += dstskip;

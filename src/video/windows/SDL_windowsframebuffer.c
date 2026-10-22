@@ -20,34 +20,34 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#якщо defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsvideo.h"
 
-bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, ціле *pitch)
 {
     SDL_WindowData *data = window->internal;
     bool isstack;
     size_t size;
     LPBITMAPINFO info;
     HBITMAP hbm;
-    int w, h;
+    ціле w, h;
 
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
     // Free the old framebuffer surface
-    if (data->mdc) {
+    якщо (data->mdc) {
         DeleteDC(data->mdc);
     }
-    if (data->hbm) {
+    якщо (data->hbm) {
         DeleteObject(data->hbm);
     }
 
     // Find out the format of the screen
     size = sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD);
     info = (LPBITMAPINFO)SDL_small_alloc(Uint8, size, &isstack);
-    if (!info) {
-        return false;
+    якщо (!info) {
+        повернути false;
     }
 
     SDL_memset(info, 0, size);
@@ -63,15 +63,15 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
     bool need_alpha = (window->flags & SDL_WINDOW_TRANSPARENT) != 0;
 
     *format = SDL_PIXELFORMAT_UNKNOWN;
-    if (info->bmiHeader.biCompression == BI_BITFIELDS) {
-        int bpp;
+    якщо (info->bmiHeader.biCompression == BI_BITFIELDS) {
+        ціле bpp;
         Uint32 *masks;
 
         bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
         masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
-    if (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
+    якщо (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
         // We'll use RGB or BGRA32 format for now
         *format = need_alpha ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_XRGB8888;
 
@@ -82,8 +82,8 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
         info->bmiHeader.biBitCount = 32;
         info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
-        if (need_alpha) {
-            int tmpbpp;
+        якщо (need_alpha) {
+            ціле tmpbpp;
             Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
             SDL_GetMasksForPixelFormat(SDL_PIXELFORMAT_BGRA32, &tmpbpp, &bgr32masks[0], &bgr32masks[1], &bgr32masks[2], &bgr32masks[3]);
         }
@@ -99,40 +99,40 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
     data->hbm = CreateDIBSection(data->hdc, info, DIB_RGB_COLORS, pixels, NULL, 0);
     SDL_small_free(info, isstack);
 
-    if (!data->hbm) {
-        return WIN_SetError("Unable to create DIB");
+    якщо (!data->hbm) {
+        повернути WIN_SetError("Unable to create DIB");
     }
     SelectObject(data->mdc, data->hbm);
 
-    return true;
+    повернути true;
 }
 
-bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, ціле numrects)
 {
     SDL_WindowData *data = window->internal;
-    int i;
+    ціле i;
 
-    for (i = 0; i < numrects; ++i) {
+    для (i = 0; i < numrects; ++i) {
         BitBlt(data->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
                data->mdc, rects[i].x, rects[i].y, SRCCOPY);
     }
-    return true;
+    повернути true;
 }
 
 void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
 
-    if (!data) {
+    якщо (!data) {
         // The window wasn't fully initialized
-        return;
+        повернути;
     }
 
-    if (data->mdc) {
+    якщо (data->mdc) {
         DeleteDC(data->mdc);
         data->mdc = NULL;
     }
-    if (data->hbm) {
+    якщо (data->hbm) {
         DeleteObject(data->hbm);
         data->hbm = NULL;
     }

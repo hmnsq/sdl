@@ -35,7 +35,7 @@ extern "C"
  * Function declaration:  VKAPI_ATTR void VKAPI_CALL vkCommand(void);
  * Function pointer type: typedef void (VKAPI_PTR *PFN_vkCommand)(void);
  */
-#if defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#якщо defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
     // On Windows, Vulkan commands use the stdcall convention
     #define VKAPI_ATTR
     #define VKAPI_CALL __stdcall
@@ -50,19 +50,19 @@ extern "C"
     #define VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
     #define VKAPI_CALL
     #define VKAPI_PTR  VKAPI_ATTR
-#else
+#інакше
     // On other platforms, use the default calling convention
     #define VKAPI_ATTR
     #define VKAPI_CALL
     #define VKAPI_PTR
 #endif
 
-#if !defined(VK_NO_STDDEF_H)
+#якщо !defined(VK_NO_STDDEF_H)
     #include <stddef.h>
 #endif // !defined(VK_NO_STDDEF_H)
 
-#if !defined(VK_NO_STDINT_H)
-    #if defined(_MSC_VER) && (_MSC_VER < 1600)
+#якщо !defined(VK_NO_STDINT_H)
+    #якщо defined(_MSC_VER) && (_MSC_VER < 1600)
         typedef signed   __int8  int8_t;
         typedef unsigned __int8  uint8_t;
         typedef signed   __int16 int16_t;
@@ -71,7 +71,7 @@ extern "C"
         typedef unsigned __int32 uint32_t;
         typedef signed   __int64 int64_t;
         typedef unsigned __int64 uint64_t;
-    #else
+    #інакше
         #include <stdint.h>
     #endif
 #endif // !defined(VK_NO_STDINT_H)

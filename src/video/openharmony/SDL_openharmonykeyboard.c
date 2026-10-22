@@ -30,16 +30,16 @@
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    повернути true;
 }
 
 void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
+    ціле input_type = 0;
+    ціле cap_type = 0;
+    якщо (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
+        input_type = (ціле)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
+    } інакше {
         switch (SDL_GetTextInputType(props)) {
             #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
             INPUTTYPE(TEXT, 0);
@@ -64,13 +64,13 @@ void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, 
             default: break;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
+        #якщо 0  // !!! FIXME
+        якщо (SDL_GetTextInputAutocorrect(props)) {
             input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
         #endif
 
-        if (SDL_GetTextInputMultiline(props)) {
+        якщо (SDL_GetTextInputMultiline(props)) {
             input_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
@@ -84,7 +84,7 @@ void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 
 void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (_this->screen_keyboard_shown) {
+    якщо (_this->screen_keyboard_shown) {
         OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
     }
 }

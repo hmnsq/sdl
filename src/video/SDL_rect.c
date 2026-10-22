@@ -24,62 +24,62 @@
 
 /* There's no float version of this at the moment, because it's not a public API
    and internally we only need the int version. */
-bool SDL_GetSpanEnclosingRect(int width, int height,
-                         int numrects, const SDL_Rect *rects, SDL_Rect *span)
+bool SDL_GetSpanEnclosingRect(ціле width, ціле height,
+                         ціле numrects, const SDL_Rect *rects, SDL_Rect *span)
 {
-    int i;
-    int span_y1, span_y2;
-    int rect_y1, rect_y2;
+    ціле i;
+    ціле span_y1, span_y2;
+    ціле rect_y1, rect_y2;
 
     CHECK_PARAM(width < 1) {
         SDL_InvalidParamError("width");
-        return false;
+        повернути false;
     }
     CHECK_PARAM(height < 1) {
         SDL_InvalidParamError("height");
-        return false;
+        повернути false;
     }
     CHECK_PARAM(!rects) {
         SDL_InvalidParamError("rects");
-        return false;
+        повернути false;
     }
     CHECK_PARAM(!span) {
         SDL_InvalidParamError("span");
-        return false;
+        повернути false;
     }
     CHECK_PARAM(numrects < 1) {
         SDL_InvalidParamError("numrects");
-        return false;
+        повернути false;
     }
 
     // Initialize to empty rect
     span_y1 = height;
     span_y2 = 0;
 
-    for (i = 0; i < numrects; ++i) {
+    для (i = 0; i < numrects; ++i) {
         rect_y1 = rects[i].y;
         rect_y2 = rect_y1 + rects[i].h;
 
         // Clip out of bounds rectangles, and expand span rect
-        if (rect_y1 < 0) {
+        якщо (rect_y1 < 0) {
             span_y1 = 0;
-        } else if (rect_y1 < span_y1) {
+        } інакше якщо (rect_y1 < span_y1) {
             span_y1 = rect_y1;
         }
-        if (rect_y2 > height) {
+        якщо (rect_y2 > height) {
             span_y2 = height;
-        } else if (rect_y2 > span_y2) {
+        } інакше якщо (rect_y2 > span_y2) {
             span_y2 = rect_y2;
         }
     }
-    if (span_y2 > span_y1) {
+    якщо (span_y2 > span_y1) {
         span->x = 0;
         span->y = span_y1;
         span->w = width;
         span->h = (span_y2 - span_y1);
-        return true;
+        повернути true;
     }
-    return false;
+    повернути false;
 }
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
@@ -91,7 +91,7 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 // Same code twice, for float and int versions...
 #define RECTTYPE                 SDL_Rect
 #define POINTTYPE                SDL_Point
-#define SCALARTYPE               int
+#define SCALARTYPE               ціле
 #define BIGSCALARTYPE            Sint64
 #define COMPUTEOUTCODE           ComputeOutCode
 #define ENCLOSEPOINTS_EPSILON    1

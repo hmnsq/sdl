@@ -57,22 +57,22 @@ typedef struct
 {
     SDL_Surface *src_surface;
     Uint8 *src;
-    int src_w, src_h;
-    int src_pitch;
-    int src_skip;
-    int leading_skip;
+    ціле src_w, src_h;
+    ціле src_pitch;
+    ціле src_skip;
+    ціле leading_skip;
     SDL_Surface *dst_surface;
     Uint8 *dst;
-    int dst_w, dst_h;
-    int dst_pitch;
-    int dst_skip;
+    ціле dst_w, dst_h;
+    ціле dst_pitch;
+    ціле dst_skip;
     const SDL_PixelFormatDetails *src_fmt;
     const SDL_Palette *src_pal;
     const SDL_PixelFormatDetails *dst_fmt;
     const SDL_Palette *dst_pal;
     Uint8 *table;
     SDL_HashTable *palette_map;
-    int flags;
+    ціле flags;
     Uint32 colorkey;
     Uint8 r, g, b, a;
 } SDL_BlitInfo;
@@ -83,7 +83,7 @@ typedef struct
 {
     SDL_PixelFormat src_format;
     SDL_PixelFormat dst_format;
-    int flags;
+    ціле flags;
     SDL_BlitFunc func;
 } SDL_BlitFuncEntry;
 
@@ -92,7 +92,7 @@ typedef bool (SDLCALL *SDL_Blit) (struct SDL_Surface *src, const SDL_Rect *srcre
 // Blit mapping definition
 typedef struct SDL_BlitMap
 {
-    int identity;
+    ціле identity;
     SDL_Blit blit;
     void *data;
     SDL_BlitInfo info;
@@ -120,7 +120,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 #define DECLARE_ALIGNED(t, v, a) t __attribute__((aligned(a))) v
 #elif defined(_MSC_VER)
 #define DECLARE_ALIGNED(t, v, a) __declspec(align(a)) t v
-#else
+#інакше
 #define DECLARE_ALIGNED(t, v, a) t v
 #endif
 
@@ -149,9 +149,9 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         g = ((Pixel & 0xFF00) >> 8);    \
         b = (Pixel & 0xFF);             \
     }
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#якщо SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24(B) (B[2] << 16) | (B[1] << 8) | B[0]
-#else
+#інакше
 #define GET_RGB24(B) (B[0] << 16) | (B[1] << 8) | B[2]
 #endif
 #define RETRIEVE_RGB_PIXEL(buf, bpp, Pixel)                \
@@ -179,11 +179,11 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
             Pixel = 0; /* stop gcc complaints */           \
             break;                                         \
         }                                                  \
-    } while (0)
+    } поки (0)
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#якщо SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + fmt->shift / 8)
-#else
+#інакше
 #define GET_RGB24_COMPONENT(buf, fmt, shift) *((buf) + 2 - fmt->shift / 8)
 #endif
 #define DISEMBLE_RGB(buf, bpp, fmt, Pixel, r, g, b)    \
@@ -218,7 +218,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
             r = g = b = 0;                             \
             break;                                     \
         }                                              \
-    } while (0)
+    } поки (0)
 
 // Assemble R-G-B values into a specified pixel format and store them
 #define PIXEL_FROM_RGB(Pixel, fmt, r, g, b)                 \
@@ -438,7 +438,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
             r = g = b = a = 0;                          \
             break;                                      \
         }                                               \
-    } while (0)
+    } поки (0)
 
 // FIXME: this isn't correct, especially for Alpha (maximum != 255)
 #define PIXEL_FROM_RGBA(Pixel, fmt, r, g, b, a)             \
@@ -490,7 +490,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         Uint8 a, r, g, b;                         \
         RGBA_FROM_PIXEL(src, srcfmt, r, g, b, a); \
         dst = a << 24 | r << 16 | g << 8 | b;     \
-    } while (0)
+    } поки (0)
 // Blend a single color channel or alpha value
 /* dC = ((sC * sA) + (dC * (255 - sA))) / 255 */
 #define ALPHA_BLEND_CHANNEL(sC, dC, sA)                  \
@@ -500,7 +500,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         x += 0x1U;                                       \
         x += x >> 8;                                     \
         dC = x >> 8;                                     \
-    } while (0)
+    } поки (0)
 // Perform a division by 255 after a multiplication of two 8-bit color channels
 /* out = (sC * dC) / 255 */
 #define MULT_DIV_255(sC, dC, out) \
@@ -509,19 +509,19 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         x += 0x1U;                \
         x += x >> 8;              \
         out = x >> 8;             \
-    } while (0)
+    } поки (0)
 // Blend the RGB values of two pixels with an alpha value
 #define ALPHA_BLEND_RGB(sR, sG, sB, A, dR, dG, dB)            \
     do {                                                      \
         ALPHA_BLEND_CHANNEL(sR, dR, A);                       \
         ALPHA_BLEND_CHANNEL(sG, dG, A);                       \
         ALPHA_BLEND_CHANNEL(sB, dB, A);                       \
-    } while (0)
+    } поки (0)
 
 // Blend two 8888 pixels with the same format
 /* Calculates dst = ((src * factor) + (dst * (255 - factor))) / 255 */
 // FIXME: SDL_SIZE_MAX might not be an integer literal
-#if defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
+#якщо defined(SIZE_MAX) && (SIZE_MAX == 0xffffffffffffffff)
 #define FACTOR_BLEND_8888(src, dst, factor)                        \
     do {                                                           \
         Uint64 src64 = src;                                        \
@@ -536,8 +536,8 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         dst64 &= 0xFF00FF00FF00FF00;                               \
                                                                    \
         dst = (Uint32)((dst64 >> 8) | (dst64 >> 32));              \
-    } while (0)
-#else
+    } поки (0)
+#інакше
 #define FACTOR_BLEND_8888(src, dst, factor)                               \
     do {                                                                  \
         Uint32 src02 = src & 0x00FF00FF;                                  \
@@ -556,7 +556,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         res13 += (res13 >> 8) & 0x00FF00FF;                               \
         res13 &= 0xFF00FF00;                                              \
         dst = res02 | res13;                                              \
-    } while (0)
+    } поки (0)
 #endif
 
 // Alpha blend two 8888 pixels with the same formats.
@@ -565,7 +565,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         Uint32 srcA = (src >> fmt->Ashift) & 0xFF; \
         Uint32 tmp = src | fmt->Amask;             \
         FACTOR_BLEND_8888(tmp, dst, srcA);         \
-    } while (0)
+    } поки (0)
 
 // Alpha blend two 8888 pixels with differing formats.
 #define ALPHA_BLEND_SWIZZLE_8888(src, dst, srcfmt, dstfmt)                  \
@@ -576,7 +576,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                      (((src >> srcfmt->Bshift) & 0xFF) << dstfmt->Bshift) | \
                      dstfmt->Amask;                                         \
         FACTOR_BLEND_8888(tmp, dst, srcA);                                  \
-    } while (0)
+    } поки (0)
 // Blend the RGBA values of two pixels
 #define ALPHA_BLEND_RGBA(sR, sG, sB, sA, dR, dG, dB, dA) \
     do {                                                 \
@@ -584,19 +584,19 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
         ALPHA_BLEND_CHANNEL(sG, dG, sA);                 \
         ALPHA_BLEND_CHANNEL(sB, dB, sA);                 \
         ALPHA_BLEND_CHANNEL(255, dA, sA);                \
-    } while (0)
+    } поки (0)
 
 // This is a very useful loop for optimizing blitters
-#if defined(_MSC_VER) && (_MSC_VER == 1300)
+#якщо defined(_MSC_VER) && (_MSC_VER == 1300)
 // There's a bug in the Visual C++ 7 optimizer when compiling this code
-#else
+#інакше
 #define USE_DUFFS_LOOP
 #endif
 
 #define DUFFS_LOOP1(pixel_copy_increment, width) \
     {                                            \
-        int n;                                   \
-        for (n = width; n > 0; --n) {            \
+        ціле n;                                   \
+        для (n = width; n > 0; --n) {            \
             pixel_copy_increment;                \
         }                                        \
     }
@@ -606,7 +606,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 // 8-times unrolled loop
 #define DUFFS_LOOP8(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 7) / 8;                 \
+        ціле n = (width + 7) / 8;                 \
         switch (width & 7) {                     \
         case 0:                                  \
             do {                                 \
@@ -632,14 +632,14 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                 SDL_FALLTHROUGH;                 \
             case 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } поки (--n > 0);                   \
         }                                        \
     }
 
 // 4-times unrolled loop
 #define DUFFS_LOOP4(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 3) / 4;                 \
+        ціле n = (width + 3) / 4;                 \
         switch (width & 3) {                     \
         case 0:                                  \
             do {                                 \
@@ -653,14 +653,14 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                 SDL_FALLTHROUGH;                 \
             case 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } поки (--n > 0);                   \
         }                                        \
     }
 
 // 2-times unrolled loop
 #define DUFFS_LOOP2(pixel_copy_increment, width) \
     {                                            \
-        int n = (width + 1) / 2;                 \
+        ціле n = (width + 1) / 2;                 \
         switch (width & 1) {                     \
         case 0:                                  \
             do {                                 \
@@ -668,7 +668,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                 SDL_FALLTHROUGH;                 \
             case 1:                              \
                 pixel_copy_increment;            \
-            } while (--n > 0);                   \
+            } поки (--n > 0);                   \
         }                                        \
     }
 
@@ -684,29 +684,29 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
                        pixel_copy_increment2,        \
                        pixel_copy_increment4, width) \
     {                                                \
-        int n = width;                               \
-        if (n & 1) {                                 \
+        ціле n = width;                               \
+        якщо (n & 1) {                                 \
             pixel_copy_increment1;                   \
             n -= 1;                                  \
         }                                            \
-        if (n & 2) {                                 \
+        якщо (n & 2) {                                 \
             pixel_copy_increment2;                   \
             n -= 2;                                  \
         }                                            \
-        if (n & 4) {                                 \
+        якщо (n & 4) {                                 \
             pixel_copy_increment4;                   \
             n -= 4;                                  \
         }                                            \
-        if (n) {                                     \
+        якщо (n) {                                     \
             n /= 8;                                  \
             do {                                     \
                 pixel_copy_increment4;               \
                 pixel_copy_increment4;               \
-            } while (--n > 0);                       \
+            } поки (--n > 0);                       \
         }                                            \
     }
 
-#else
+#інакше
 
 // Don't use Duff's device to unroll loops
 #define DUFFS_LOOP(pixel_copy_increment, width) \
@@ -726,7 +726,7 @@ extern SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface);
 
 #endif // USE_DUFFS_LOOP
 
-#if defined(_MSC_VER) && (_MSC_VER >= 600)
+#якщо defined(_MSC_VER) && (_MSC_VER >= 600)
 #pragma warning(disable : 4244) // '=': conversion from 'X' to 'Y', possible loss of data
 #endif
 

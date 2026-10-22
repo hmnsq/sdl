@@ -40,9 +40,9 @@ extern void Cocoa_QuitGCMouse(void);
 struct SDL_CursorData
 {
     NSTimer *frameTimer;
-    int current_frame;
+    ціле current_frame;
 
-    int num_cursors;
+    ціле num_cursors;
     struct
     {
         void *cursor;

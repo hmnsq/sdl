@@ -47,13 +47,13 @@ struct SDL_Window
     SDL_WindowID id;
     char *title;
     SDL_Surface *icon;
-    int x, y;
-    int w, h;
-    int min_w, min_h;
-    int max_w, max_h;
+    ціле x, y;
+    ціле w, h;
+    ціле min_w, min_h;
+    ціле max_w, max_h;
     float min_aspect;
     float max_aspect;
-    int last_pixel_w, last_pixel_h;
+    ціле last_pixel_w, last_pixel_h;
     SDL_WindowFlags flags;
     SDL_WindowFlags pending_flags;
     float display_scale;
@@ -109,16 +109,16 @@ struct SDL_Window
     bool is_destroying;
     bool is_dropping; // drag/drop in progress, expecting SDL_SendDropComplete().
 
-    int safe_inset_left;
-    int safe_inset_right;
-    int safe_inset_top;
-    int safe_inset_bottom;
+    ціле safe_inset_left;
+    ціле safe_inset_right;
+    ціле safe_inset_top;
+    ціле safe_inset_bottom;
     SDL_Rect safe_rect;
 
     SDL_PropertiesID text_input_props;
     bool text_input_active;
     SDL_Rect text_input_rect;
-    int text_input_cursor;
+    ціле text_input_cursor;
 
     SDL_Rect mouse_rect;
 
@@ -130,7 +130,7 @@ struct SDL_Window
 
     SDL_PropertiesID props;
 
-    int num_renderers;
+    ціле num_renderers;
     SDL_Renderer **renderers;
 
     SDL_WindowData *internal;
@@ -162,8 +162,8 @@ struct SDL_VideoDisplay
 {
     SDL_DisplayID id;
     char *name;
-    int max_fullscreen_modes;
-    int num_fullscreen_modes;
+    ціле max_fullscreen_modes;
+    ціле num_fullscreen_modes;
     SDL_DisplayMode *fullscreen_modes;
     SDL_DisplayMode desktop_mode;
     const SDL_DisplayMode *current_mode;
@@ -281,9 +281,9 @@ struct SDL_VideoDevice
     void (*SetWindowMinimumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowMaximumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowAspectRatio)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, ціле *top, ціле *left, ціле *bottom, ціле *right);
     float (*GetWindowContentScale)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+    void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, ціле *w, ціле *h);
     bool (*SetWindowOpacity)(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
     bool (*SetWindowParent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
     bool (*SetWindowModal)(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
@@ -303,10 +303,10 @@ struct SDL_VideoDevice
     bool (*SetWindowMouseGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
     bool (*SetWindowKeyboardGrab)(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
     void (*DestroyWindow)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int vsync);
-    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, int *vsync);
-    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
+    bool (*CreateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, ціле *pitch);
+    bool (*SetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, ціле vsync);
+    bool (*GetWindowFramebufferVSync)(SDL_VideoDevice *_this, SDL_Window *window, ціле *vsync);
+    bool (*UpdateWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, ціле numrects);
     void (*DestroyWindowFramebuffer)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*OnWindowEnter)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*UpdateWindowShape)(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
@@ -327,8 +327,8 @@ struct SDL_VideoDevice
     SDL_GLContext (*GL_CreateContext)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_MakeCurrent)(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
     SDL_EGLSurface (*GL_GetEGLSurface)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, int interval);
-    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, int *interval);
+    bool (*GL_SetSwapInterval)(SDL_VideoDevice *_this, ціле interval);
+    bool (*GL_GetSwapInterval)(SDL_VideoDevice *_this, ціле *interval);
     bool (*GL_SwapWindow)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*GL_DestroyContext)(SDL_VideoDevice *_this, SDL_GLContext context);
     void (*GL_SetDefaultProfileConfig)(SDL_VideoDevice *_this);
@@ -356,7 +356,7 @@ struct SDL_VideoDevice
     /*
      * Event manager functions
      */
-    int (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
+    ціле (*WaitEventTimeout)(SDL_VideoDevice *_this, Sint64 timeoutNS);
     void (*SendWakeupEvent)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*PumpEvents)(SDL_VideoDevice *_this);
 
@@ -390,7 +390,7 @@ struct SDL_VideoDevice
     bool (*HasPrimarySelectionText)(SDL_VideoDevice *_this);
 
     // MessageBox
-    bool (*ShowMessageBox)(SDL_VideoDevice *_this, const SDL_MessageBoxData *messageboxdata, int *buttonID);
+    bool (*ShowMessageBox)(SDL_VideoDevice *_this, const SDL_MessageBoxData *messageboxdata, ціле *buttonID);
 
     // Hit-testing
     bool (*SetWindowHitTest)(SDL_Window *window, bool enabled);
@@ -399,7 +399,7 @@ struct SDL_VideoDevice
     void (*AcceptDragAndDrop)(SDL_Window *window, bool accept);
 
     // Display the system-level window menu
-    void (*ShowWindowSystemMenu)(SDL_Window *window, int x, int y);
+    void (*ShowWindowSystemMenu)(SDL_Window *window, ціле x, ціле y);
 
     /* * * */
     // Data common to all drivers
@@ -407,7 +407,7 @@ struct SDL_VideoDevice
     bool checked_texture_framebuffer;
     bool suspend_screensaver;
     void *wakeup_window;
-    int num_displays;
+    ціле num_displays;
     SDL_VideoDisplay **displays;
     SDL_Rect desktop_bounds;
     SDL_Window *windows;
@@ -429,36 +429,36 @@ struct SDL_VideoDevice
     // Data used by the GL drivers
     struct
     {
-        int red_size;
-        int green_size;
-        int blue_size;
-        int alpha_size;
-        int depth_size;
-        int buffer_size;
-        int stencil_size;
-        int double_buffer;
-        int accum_red_size;
-        int accum_green_size;
-        int accum_blue_size;
-        int accum_alpha_size;
-        int stereo;
-        int multisamplebuffers;
-        int multisamplesamples;
-        int floatbuffers;
-        int accelerated;
-        int major_version;
-        int minor_version;
-        int flags;
-        int profile_mask;
-        int share_with_current_context;
-        int release_behavior;
-        int reset_notification;
-        int framebuffer_srgb_capable;
-        int no_error;
-        int retained_backing;
-        int egl_platform;
-        int driver_loaded;
-        int HAS_GL_ARB_color_buffer_float;
+        ціле red_size;
+        ціле green_size;
+        ціле blue_size;
+        ціле alpha_size;
+        ціле depth_size;
+        ціле buffer_size;
+        ціле stencil_size;
+        ціле double_buffer;
+        ціле accum_red_size;
+        ціле accum_green_size;
+        ціле accum_blue_size;
+        ціле accum_alpha_size;
+        ціле stereo;
+        ціле multisamplebuffers;
+        ціле multisamplesamples;
+        ціле floatbuffers;
+        ціле accelerated;
+        ціле major_version;
+        ціле minor_version;
+        ціле flags;
+        ціле profile_mask;
+        ціле share_with_current_context;
+        ціле release_behavior;
+        ціле reset_notification;
+        ціле framebuffer_srgb_capable;
+        ціле no_error;
+        ціле retained_backing;
+        ціле egl_platform;
+        ціле driver_loaded;
+        ціле HAS_GL_ARB_color_buffer_float;
         char driver_path[256];
         SDL_SharedObject *dll_handle;
     } gl_config;
@@ -489,7 +489,7 @@ struct SDL_VideoDevice
     {
         SDL_FunctionPointer vkGetInstanceProcAddr;
         SDL_FunctionPointer vkEnumerateInstanceExtensionProperties;
-        int loader_loaded;
+        ціле loader_loaded;
         char loader_path[256];
         SDL_SharedObject *loader_handle;
     } vulkan_config;
@@ -503,7 +503,7 @@ struct SDL_VideoDevice
     struct SDL_EGL_VideoData *egl_data;
 #endif
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#якщо defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     struct SDL_PrivateGLESData *gles_data;
 #endif
 
@@ -517,7 +517,7 @@ typedef struct VideoBootStrap
     const char *name;
     const char *desc;
     SDL_VideoDevice *(*create)(void);
-    bool (*ShowMessageBox)(const SDL_MessageBoxData *messageboxdata, int *buttonID);  // can be done without initializing backend!
+    bool (*ShowMessageBox)(const SDL_MessageBoxData *messageboxdata, ціле *buttonID);  // can be done without initializing backend!
     bool is_preferred;
 } VideoBootStrap;
 
@@ -568,20 +568,20 @@ extern SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID display);
 extern SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window);
 extern SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window);
 extern SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window);
-extern int SDL_GetDisplayIndex(SDL_DisplayID displayID);
+extern ціле SDL_GetDisplayIndex(SDL_DisplayID displayID);
 extern SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID display);
 extern SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window);
-extern int SDL_GetMessageBoxCount(void);
+extern ціле SDL_GetMessageBoxCount(void);
 extern void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event);
-extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom);
+extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, ціле left, ціле right, ціле top, ціле bottom);
 
-extern void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor);
+extern void SDL_GL_DeduceMaxSupportedESProfile(ціле *major, ціле *minor);
 
 extern bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags);
 extern bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags);
 extern bool SDL_HasWindows(void);
-extern void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y);
-extern void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y);
+extern void SDL_RelativeToGlobalForWindow(SDL_Window *window, ціле rel_x, ціле rel_y, ціле *abs_x, ціле *abs_y);
+extern void SDL_GlobalToRelativeForWindow(SDL_Window *window, ціле abs_x, ціле abs_y, ціле *rel_x, ціле *rel_y);
 extern bool SDL_ShouldFocusPopup(SDL_Window *window);
 extern bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus);
 

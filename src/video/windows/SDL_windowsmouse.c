@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#якщо defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowsevents.h"
@@ -85,9 +85,9 @@ struct SDL_CursorData
     HCURSOR cursor;
 
     CachedCursor *cache;
-    int hot_x;
-    int hot_y;
-    int num_frames;
+    ціле hot_x;
+    ціле hot_y;
+    ціле num_frames;
     SDL_CursorFrameInfo frames[1];
 };
 
@@ -98,7 +98,7 @@ typedef struct
     Sint64 residual[2];
     Uint32 dpiscale;
     Uint32 dpidenom;
-    int last_node;
+    ціле last_node;
     bool enhanced;
     bool dpiaware;
 } WIN_MouseData;
@@ -110,88 +110,88 @@ static WIN_MouseData WIN_system_scale_data;
 
 static SDL_Cursor *WIN_CreateCursorAndData(HCURSOR hcursor)
 {
-    if (!hcursor) {
-        return NULL;
+    якщо (!hcursor) {
+        повернути NULL;
     }
 
     SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    якщо (!cursor) {
+        повернути NULL;
     }
 
     SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
+    якщо (!data) {
         SDL_free(cursor);
-        return NULL;
+        повернути NULL;
     }
 
     data->cursor = hcursor;
     cursor->internal = data;
-    return cursor;
+    повернути cursor;
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, ціле frame_count, ціле hot_x, ціле hot_y)
 {
     // Dynamically generate cursors at the appropriate DPI
     SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        return NULL;
+    якщо (!cursor) {
+        повернути NULL;
     }
 
     SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data) + (sizeof(SDL_CursorFrameInfo) * (frame_count - 1)));
-    if (!data) {
+    якщо (!data) {
         SDL_free(cursor);
-        return NULL;
+        повернути NULL;
     }
 
     data->hot_x = hot_x;
     data->hot_y = hot_y;
     data->num_frames = frame_count;
-    for (int i = 0; i < frame_count; ++i) {
+    для (ціле i = 0; i < frame_count; ++i) {
         SDL_Surface *surface = frames[i].surface;
-        if (surface->flags & SDL_SURFACE_PREALLOCATED) {
+        якщо (surface->flags & SDL_SURFACE_PREALLOCATED) {
             surface = SDL_DuplicateSurface(surface);
-            if (!surface) {
-                while (i > 0) {
+            якщо (!surface) {
+                поки (i > 0) {
                     --i;
                     SDL_DestroySurface(data->frames[i].surface);
                 }
                 SDL_free(data);
                 SDL_free(cursor);
-                return NULL;
+                повернути NULL;
             }
-        } else {
+        } інакше {
             ++surface->refcount;
         }
         data->frames[i].surface = surface;
         data->frames[i].duration = frames[i].duration;
     }
     cursor->internal = data;
-    return cursor;
+    повернути cursor;
 }
 
 static bool SaveChunkSize(SDL_IOStream* dst, Sint64 offset)
 {
     Sint64 here = SDL_TellIO(dst);
-    if (here < 0) {
-        return false;
+    якщо (here < 0) {
+        повернути false;
     }
-    if (SDL_SeekIO(dst, offset, SDL_IO_SEEK_SET) < 0) {
-        return false;
+    якщо (SDL_SeekIO(dst, offset, SDL_IO_SEEK_SET) < 0) {
+        повернути false;
     }
 
     DWORD size = (DWORD)(here - (offset + sizeof(DWORD)));
-    if (!SDL_WriteU32LE(dst, size)) {
-        return false;
+    якщо (!SDL_WriteU32LE(dst, size)) {
+        повернути false;
     }
-    return SDL_SeekIO(dst, here, SDL_IO_SEEK_SET);
+    повернути SDL_SeekIO(dst, here, SDL_IO_SEEK_SET);
 }
 
-static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, int hot_x, int hot_y, DWORD dwImageSize, DWORD dwImageOffset)
+static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, ціле hot_x, ціле hot_y, DWORD dwImageSize, DWORD dwImageOffset)
 {
-    if (surface->props) {
-        hot_x = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
-        hot_y = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
+    якщо (surface->props) {
+        hot_x = (ціле)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
+        hot_y = (ціле)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
     }
     hot_x = SDL_clamp(hot_x, 0, surface->w - 1);
     hot_y = SDL_clamp(hot_y, 0, surface->h - 1);
@@ -203,28 +203,28 @@ static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, i
     entry->yHotspot = hot_y;
     entry->dwImageSize = dwImageSize;
     entry->dwImageOffset = dwImageOffset;
-    return true;
+    повернути true;
 }
 
 #ifdef SAVE_ICON_PNG
 
 static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
-    if (!SDL_SavePNG_IO(surface, dst, false)) {
-        return false;
+    якщо (!SDL_SavePNG_IO(surface, dst, false)) {
+        повернути false;
     }
 
     // Image data offsets must be WORD aligned
     Sint64 offset = SDL_TellIO(dst);
-    if (offset & 1) {
-        if (!SDL_WriteU8(dst, 0)) {
-            return false;
+    якщо (offset & 1) {
+        якщо (!SDL_WriteU8(dst, 0)) {
+            повернути false;
         }
     }
-    return true;
+    повернути true;
 }
 
-#else
+#інакше
 
 /* For info on the expected mask format see:
  * https://devblogs.microsoft.com/oldnewthing/20101018-00/?p=12513
@@ -232,44 +232,44 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 static void *CreateIconMask(SDL_Surface *surface, size_t *mask_size)
 {
     Uint8 *dst;
-    const int w = (surface->w + 7) / 8;
-    const int pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
-    const int pitch = (w + pad);
+    const ціле w = (surface->w + 7) / 8;
+    const ціле pad = (((w) % 4) ? (4 - ((w) % 4)) : 0);
+    const ціле pitch = (w + pad);
     const size_t size = pitch * surface->h;
     static const unsigned char masks[] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
 
     void *mask = SDL_malloc(size);
-    if (!mask) {
-        return NULL;
+    якщо (!mask) {
+        повернути NULL;
     }
 
     dst = (Uint8 *)mask;
 
     // Make the mask completely transparent.
     SDL_memset(dst, 0xff, size);
-    for (int y = surface->h - 1; y >= 0; --y, dst += pitch) {
-        for (int x = 0; x < surface->w; ++x) {
+    для (ціле y = surface->h - 1; y >= 0; --y, dst += pitch) {
+        для (ціле x = 0; x < surface->w; ++x) {
             Uint8 r, g, b, a;
             SDL_ReadSurfacePixel(surface, x, y, &r, &g, &b, &a);
 
-            if (a != 0) {
+            якщо (a != 0) {
                 // Reset bit of an opaque pixel.
                 dst[x >> 3] &= ~masks[x & 7];
             }
         }
     }
     *mask_size = size;
-    return mask;
+    повернути mask;
 }
 
 static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 {
     SDL_Surface *temp = NULL;
 
-    if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+    якщо (surface->format != SDL_PIXELFORMAT_ARGB8888) {
         temp = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (!temp) {
-            return false;
+        якщо (!temp) {
+            повернути false;
         }
         surface = temp;
     }
@@ -278,7 +278,7 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
     bool ok = true;
     size_t mask_size = 0;
     void *mask = CreateIconMask(surface, &mask_size);
-    if (!mask) {
+    якщо (!mask) {
         ok = false;
         goto done;
     }
@@ -297,7 +297,7 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 
     const Uint8 *pix = surface->pixels;
     pix += (surface->h - 1) * surface->pitch;
-    for (int i = 0; i < surface->h; ++i) {
+    для (ціле i = 0; i < surface->h; ++i) {
         ok &= (SDL_WriteIO(dst, pix, row_size) == row_size);
         pix -= surface->pitch;
     }
@@ -306,26 +306,26 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
 done:
     SDL_free(mask);
     SDL_DestroySurface(temp);
-    return ok;
+    повернути ok;
 }
 
 #endif // SAVE_ICON_PNG
 
-static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, int hot_y, float scale)
+static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, ціле hot_x, ціле hot_y, float scale)
 {
 #ifdef SAVE_MULTIPLE_ICONS
-    int count = 0;
+    ціле count = 0;
     SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &count);
-    if (!surfaces) {
-        return false;
+    якщо (!surfaces) {
+        повернути false;
     }
-#else
+#інакше
     surface = SDL_GetSurfaceImage(surface, scale);
-    if (!surface) {
-        return false;
+    якщо (!surface) {
+        повернути false;
     }
 
-    int count = 1;
+    ціле count = 1;
     SDL_Surface **surfaces = &surface;
 #endif
 
@@ -345,14 +345,14 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
 
     DWORD entries_size = count * sizeof(CURSORICONFILEDIRENTRY);
     CURSORICONFILEDIRENTRY *entries = (CURSORICONFILEDIRENTRY *)SDL_malloc(entries_size);
-    if (!entries) {
+    якщо (!entries) {
         ok = false;
         goto done;
     }
     ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
 
     Sint64 image_offset = SDL_TellIO(dst);
-    for (int i = 0; i < count; ++i) {
+    для (ціле i = 0; i < count; ++i) {
         ok &= WriteIconSurface(dst, surfaces[i]);
 
         Sint64 next_offset = SDL_TellIO(dst);
@@ -375,25 +375,25 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
 done:
 #ifdef SAVE_MULTIPLE_ICONS
     SDL_free(surfaces);
-#else
+#інакше
     SDL_DestroySurface(surface);
 #endif
-    return ok;
+    повернути ok;
 }
 
 /* Windows doesn't have an API to easily create animated cursors from a sequence of images,
  * so we have to build an animated cursor resource file in memory and load it.
  */
-static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y, float scale)
+static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, ціле frame_count, ціле hot_x, ціле hot_y, float scale)
 {
     HCURSOR hcursor = NULL;
     SDL_IOStream *dst = SDL_IOFromDynamicMem();
-    if (!dst) {
-        return NULL;
+    якщо (!dst) {
+        повернути NULL;
     }
 
-    int w = (int)SDL_roundf(frames[0].surface->w * scale);
-    int h = (int)SDL_roundf(frames[0].surface->h * scale);
+    ціле w = (ціле)SDL_roundf(frames[0].surface->w * scale);
+    ціле h = (ціле)SDL_roundf(frames[0].surface->h * scale);
 
     bool ok = true;
     // RIFF header
@@ -418,7 +418,7 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     // Rate chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('r', 'a', 't', 'e'));
     ok &= SDL_WriteU32LE(dst, sizeof(DWORD) * frame_count);
-    for (int i = 0; i < frame_count; ++i) {
+    для (ціле i = 0; i < frame_count; ++i) {
         // Animated Win32 cursors are in jiffy units, and one jiffy is 1/60 of a second.
         const double WIN32_JIFFY = 1000.0 / 60.0;
         DWORD duration = (frames[i].duration ? SDL_lround(frames[i].duration / WIN32_JIFFY) : 0xFFFFFFFF);
@@ -431,14 +431,14 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     ok &= SDL_WriteU32LE(dst, 0);
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('f', 'r', 'a', 'm'));
 
-    for (int i = 0; i < frame_count; ++i) {
+    для (ціле i = 0; i < frame_count; ++i) {
         ok &= WriteIconFrame(dst, frames[i].surface, hot_x, hot_y, scale);
     }
     ok &= SaveChunkSize(dst, frame_list_size_offset);
 
     // All done!
     ok &= SaveChunkSize(dst, riff_size_offset);
-    if (!ok) {
+    якщо (!ok) {
         // The error has been set above
         goto done;
     }
@@ -446,36 +446,36 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     BYTE *mem = (BYTE *)SDL_GetPointerProperty(SDL_GetIOProperties(dst), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, NULL);
     DWORD size = (DWORD)SDL_GetIOSize(dst);
     hcursor = (HCURSOR)CreateIconFromResourceEx(mem, size, FALSE, 0x00030000, w, h, 0);
-    if (!hcursor) {
+    якщо (!hcursor) {
         SDL_SetError("CreateIconFromResource failed");
     }
 
 done:
     SDL_CloseIO(dst);
 
-    return hcursor;
+    повернути hcursor;
 }
 
-static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, ціле hot_x, ціле hot_y)
 {
     SDL_CursorFrameInfo frame = { surface, 0 };
-    return WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
+    повернути WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, ціле frame_count, ціле hot_x, ціле hot_y)
 {
-    return WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
+    повернути WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
 }
 
 static SDL_Cursor *WIN_CreateBlankCursor(void)
 {
     SDL_Cursor *cursor = NULL;
     SDL_Surface *surface = SDL_CreateSurfaceZeroed(32, 32, SDL_PIXELFORMAT_ARGB8888);
-    if (surface) {
+    якщо (surface) {
         cursor = WIN_CreateCursor(surface, 0, 0);
         SDL_DestroySurface(surface);
     }
-    return cursor;
+    повернути cursor;
 }
 
 static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
@@ -485,7 +485,7 @@ static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
     switch (id) {
     default:
         SDL_assert(!"Unknown system cursor ID");
-        return NULL;
+        повернути NULL;
     case SDL_SYSTEM_CURSOR_DEFAULT:
         name = IDC_ARROW;
         break;
@@ -547,31 +547,31 @@ static SDL_Cursor *WIN_CreateSystemCursor(SDL_SystemCursor id)
         name = IDC_HELP;
         break;
     }
-    return WIN_CreateCursorAndData(LoadCursor(NULL, name));
+    повернути WIN_CreateCursorAndData(LoadCursor(NULL, name));
 }
 
 static SDL_Cursor *WIN_CreateDefaultCursor(void)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return WIN_CreateSystemCursor(id);
+    повернути WIN_CreateSystemCursor(id);
 }
 
 static void WIN_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    for (int i = 0; i < data->num_frames; ++i) {
+    для (ціле i = 0; i < data->num_frames; ++i) {
         SDL_DestroySurface(data->frames[i].surface);
     }
-    while (data->cache) {
+    поки (data->cache) {
         CachedCursor *entry = data->cache;
         data->cache = entry->next;
-        if (entry->cursor) {
+        якщо (entry->cursor) {
             DestroyCursor(entry->cursor);
         }
         SDL_free(entry);
     }
-    if (data->cursor) {
+    якщо (data->cursor) {
         DestroyCursor(data->cursor);
     }
     SDL_free(data);
@@ -583,62 +583,62 @@ static HCURSOR GetCachedCursor(SDL_Cursor *cursor)
     SDL_CursorData *data = cursor->internal;
 
     float scale = 1.0f;
-    if (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
+    якщо (SDL_GetHintBoolean(SDL_HINT_MOUSE_DPI_SCALE_CURSORS, false)) {
         scale = SDL_GetDisplayContentScale(SDL_GetDisplayForWindow(SDL_GetMouseFocus()));
-        if (scale == 0.0f) {
+        якщо (scale == 0.0f) {
             scale = 1.0f;
         }
     }
-    for (CachedCursor *entry = data->cache; entry; entry = entry->next) {
-        if (scale == entry->scale) {
-            return entry->cursor;
+    для (CachedCursor *entry = data->cache; entry; entry = entry->next) {
+        якщо (scale == entry->scale) {
+            повернути entry->cursor;
         }
     }
 
     // Need to create a cursor for this content scale
     HCURSOR hcursor = WIN_CreateAnimatedCursorInternal(data->frames, data->num_frames, data->hot_x, data->hot_y, scale);
-    if (!hcursor) {
-        return NULL;
+    якщо (!hcursor) {
+        повернути NULL;
     }
 
     CachedCursor *entry = (CachedCursor *)SDL_calloc(1, sizeof(*entry));
-    if (!entry) {
+    якщо (!entry) {
         DestroyCursor(hcursor);
-        return NULL;
+        повернути NULL;
     }
     entry->cursor = hcursor;
     entry->scale = scale;
     entry->next = data->cache;
     data->cache = entry;
 
-    return hcursor;
+    повернути hcursor;
 }
 
 static bool WIN_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
-        if (GetSystemMetrics(SM_REMOTESESSION)) {
+    якщо (!cursor) {
+        якщо (GetSystemMetrics(SM_REMOTESESSION)) {
             // Use a blank cursor so we continue to get relative motion over RDP
             cursor = SDL_blank_cursor;
         }
     }
-    if (cursor) {
+    якщо (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->num_frames > 0) {
+        якщо (data->num_frames > 0) {
             SDL_cursor = GetCachedCursor(cursor);
-        } else {
+        } інакше {
             SDL_cursor = data->cursor;
         }
-    } else {
+    } інакше {
         SDL_cursor = NULL;
     }
-    if (SDL_GetMouseFocus() != NULL) {
+    якщо (SDL_GetMouseFocus() != NULL) {
         SetCursor(SDL_cursor);
     }
-    return true;
+    повернути true;
 }
 
-void WIN_SetCursorPos(int x, int y)
+void WIN_SetCursorPos(ціле x, ціле y)
 {
     // We need to jitter the value because otherwise Windows will occasionally inexplicably ignore the SetCursorPos() or SendInput()
     SetCursorPos(x, y);
@@ -651,7 +651,7 @@ void WIN_SetCursorPos(int x, int y)
 #pragma warning(disable : 28159)
 #endif
     SDL_last_warp_time = GetTickCount();
-    if (!SDL_last_warp_time) {
+    якщо (!SDL_last_warp_time) {
         SDL_last_warp_time = 1;
     }
 #ifdef _MSC_VER
@@ -666,53 +666,53 @@ static bool WIN_WarpMouse(SDL_Window *window, float x, float y)
     POINT pt;
 
     // Don't warp the mouse while we're doing a modal interaction
-    if (data->in_title_click || data->focus_click_pending) {
-        return true;
+    якщо (data->in_title_click || data->focus_click_pending) {
+        повернути true;
     }
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
+    pt.x = (ціле)SDL_roundf(x);
+    pt.y = (ціле)SDL_roundf(y);
     ClientToScreen(hwnd, &pt);
     WIN_SetCursorPos(pt.x, pt.y);
 
     // Send the exact mouse motion associated with this warp
     SDL_SendMouseMotion(0, window, SDL_GLOBAL_MOUSE_ID, false, x, y);
-    return true;
+    повернути true;
 }
 
 static bool WIN_WarpMouseGlobal(float x, float y)
 {
     POINT pt;
 
-    pt.x = (int)SDL_roundf(x);
-    pt.y = (int)SDL_roundf(y);
+    pt.x = (ціле)SDL_roundf(x);
+    pt.y = (ціле)SDL_roundf(y);
     SetCursorPos(pt.x, pt.y);
-    return true;
+    повернути true;
 }
 
 static bool WIN_SetRelativeMouseMode(bool enabled)
 {
-    return WIN_SetRawMouseEnabled(SDL_GetVideoDevice(), enabled);
+    повернути WIN_SetRawMouseEnabled(SDL_GetVideoDevice(), enabled);
 }
 
 static bool WIN_CaptureMouse(SDL_Window *window)
 {
-    if (window) {
+    якщо (window) {
         SDL_WindowData *data = window->internal;
         SetCapture(data->hwnd);
-    } else {
+    } інакше {
         SDL_Window *focus_window = SDL_GetMouseFocus();
 
-        if (focus_window) {
+        якщо (focus_window) {
             SDL_WindowData *data = focus_window->internal;
-            if (!data->mouse_tracked) {
+            якщо (!data->mouse_tracked) {
                 SDL_SetMouseFocus(NULL);
             }
         }
         ReleaseCapture();
     }
 
-    return true;
+    повернути true;
 }
 
 static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
@@ -731,13 +731,13 @@ static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
     result |= GetAsyncKeyState(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1MASK : 0;
     result |= GetAsyncKeyState(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2MASK : 0;
 
-    return result;
+    повернути result;
 }
 
 static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *window, SDL_MouseID mouseID, float *x, float *y)
 {
-    if (!internal) {
-        return;
+    якщо (!internal) {
+        повернути;
     }
     WIN_MouseData *data = (WIN_MouseData *)internal;
 
@@ -747,7 +747,7 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Sint64 iy = (Sint64)*y * 65536;
     Uint32 dpi = display ? (Uint32)(display->content_scale * USER_DEFAULT_SCREEN_DPI) : USER_DEFAULT_SCREEN_DPI;
 
-    if (!data->enhanced) { // early return if flat scale
+    якщо (!data->enhanced) { // early return if flat scale
         dpi = data->dpiscale * (data->dpiaware ? dpi : USER_DEFAULT_SCREEN_DPI);
         ix *= dpi;
         iy *= dpi;
@@ -763,7 +763,7 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
         // data->residual[1] -= iy;
         *x = (float)ix / 65536.0f;
         *y = (float)iy / 65536.0f;
-        return;
+        повернути;
     }
 
     Uint64 *xs = data->xs;
@@ -771,14 +771,14 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Uint64 absx = SDL_abs(ix);
     Uint64 absy = SDL_abs(iy);
     Uint64 speed = SDL_min(absx, absy) + (SDL_max(absx, absy) << 1); // super cursed approximation used by Windows
-    if (speed == 0) {
-        return;
+    якщо (speed == 0) {
+        повернути;
     }
 
-    int i, j, k;
-    for (i = 1; i < 5; i++) {
+    ціле i, j, k;
+    для (i = 1; i < 5; i++) {
         j = i;
-        if (speed < xs[j]) {
+        якщо (speed < xs[j]) {
             break;
         }
     }
@@ -791,17 +791,17 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     Sint64 scale = 0;
     Sint64 xdiff = xs[j+1] - xs[j];
     Sint64 ydiff = ys[j+1] - ys[j];
-    if (xdiff != 0) {
+    якщо (xdiff != 0) {
         Sint64 slope = ydiff / xdiff;
         Sint64 inter = slope * xs[i] - ys[i];
         scale += slope - inter / speed;
     }
 
-    if (j > k) {
+    якщо (j > k) {
         denom <<= 1;
         xdiff = xs[k+1] - xs[k];
         ydiff = ys[k+1] - ys[k];
-        if (xdiff != 0) {
+        якщо (xdiff != 0) {
             Sint64 slope = ydiff / xdiff;
             Sint64 inter = slope * xs[k] - ys[k];
             scale += slope - inter / speed;
@@ -849,13 +849,13 @@ void WIN_InitMouse(SDL_VideoDevice *_this)
 
 void WIN_QuitMouse(SDL_VideoDevice *_this)
 {
-    if (SDL_blank_cursor) {
+    якщо (SDL_blank_cursor) {
         WIN_FreeCursor(SDL_blank_cursor);
         SDL_blank_cursor = NULL;
     }
 }
 
-static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
+static void ReadMouseCurve(ціле v, Uint64 xs[5], Uint64 ys[5])
 {
     bool win8 = WIN_IsWindows8OrGreater();
     DWORD xbuff[10] = {
@@ -875,15 +875,15 @@ static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
     DWORD xsize = sizeof(xbuff);
     DWORD ysize = sizeof(ybuff);
     HKEY open_handle;
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
+    якщо (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
         RegQueryValueExW(open_handle, L"SmoothMouseXCurve", NULL, NULL, (BYTE*)xbuff, &xsize);
         RegQueryValueExW(open_handle, L"SmoothMouseYCurve", NULL, NULL, (BYTE*)ybuff, &ysize);
         RegCloseKey(open_handle);
     }
     xs[0] = 0; // first node must always be origin
     ys[0] = 0; // first node must always be origin
-    int i;
-    for (i = 1; i < 5; i++) {
+    ціле i;
+    для (i = 1; i < 5; i++) {
         xs[i] = (7 * (Uint64)xbuff[i * 2]);
         ys[i] = (v * (Uint64)ybuff[i * 2]) << 17;
     }
@@ -893,7 +893,7 @@ void WIN_UpdateMouseSystemScale(void)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse->ApplySystemScale == WIN_ApplySystemScale) {
+    якщо (mouse->ApplySystemScale == WIN_ApplySystemScale) {
         mouse->system_scale_data = &WIN_system_scale_data;
     }
 
@@ -906,16 +906,16 @@ void WIN_UpdateMouseSystemScale(void)
     data->dpiaware = WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice());
     data->enhanced = false;
 
-    int v = 10;
-    if (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
+    ціле v = 10;
+    якщо (SystemParametersInfo(SPI_GETMOUSESPEED, 0, &v, 0)) {
         v = SDL_max(1, SDL_min(v, 20));
         data->dpiscale = SDL_max(SDL_max(v, (v - 2) * 4), (v - 6) * 8);
     }
 
-    int params[3];
-    if (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
+    ціле params[3];
+    якщо (SystemParametersInfo(SPI_GETMOUSE, 0, &params, 0)) {
         data->enhanced = params[2] ? true : false;
-        if (params[2]) {
+        якщо (params[2]) {
             ReadMouseCurve(v, data->xs, data->ys);
         }
     }

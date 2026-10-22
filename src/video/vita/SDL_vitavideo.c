@@ -37,7 +37,7 @@
 #include "SDL_vitaframebuffer.h"
 #include "SDL_vitamessagebox.h"
 
-#if defined(SDL_VIDEO_VITA_PVR)
+#якщо defined(SDL_VIDEO_VITA_PVR)
 #define VITA_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define VITA_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
 #define VITA_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
@@ -62,23 +62,23 @@ static SDL_VideoDevice *VITA_Create(void)
 #endif
     // Initialize SDL_VideoDevice structure
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    якщо (!device) {
+        повернути NULL;
     }
 
     // Initialize internal VITA specific data
     phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    якщо (!phdata) {
         SDL_free(device);
-        return NULL;
+        повернути NULL;
     }
 #ifdef SDL_VIDEO_VITA_PIB
 
     gldata = (SDL_GLDriverData *)SDL_calloc(1, sizeof(SDL_GLDriverData));
-    if (!gldata) {
+    якщо (!gldata) {
         SDL_free(device);
         SDL_free(phdata);
-        return NULL;
+        повернути NULL;
     }
     device->gl_data = gldata;
     phdata->egl_initialized = true;
@@ -118,13 +118,13 @@ static SDL_VideoDevice *VITA_Create(void)
         device->DestroyWindowFramebuffer = VITA_DestroyWindowFramebuffer;
     */
 
-#if defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
+#якщо defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
 #ifdef SDL_VIDEO_VITA_PVR_OGL
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
+    якщо (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
         device->GL_LoadLibrary = VITA_GL_LoadLibrary;
         device->GL_CreateContext = VITA_GL_CreateContext;
         device->GL_GetProcAddress = VITA_GL_GetProcAddress;
-    } else {
+    } інакше {
 #endif
         device->GL_LoadLibrary = VITA_GLES_LoadLibrary;
         device->GL_CreateContext = VITA_GLES_CreateContext;
@@ -149,7 +149,7 @@ static SDL_VideoDevice *VITA_Create(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    повернути device;
 }
 
 VideoBootStrap VITA_bootstrap = {
@@ -172,20 +172,20 @@ bool VITA_VideoInit(SDL_VideoDevice *_this)
     SDL_zero(mode);
 
 #ifdef SDL_VIDEO_VITA_PVR
-    if (res) {
+    якщо (res) {
         // 1088i for PSTV (Or Sharpscale)
-        if (SDL_strncmp(res, "1080", 4) == 0) {
+        якщо (SDL_strncmp(res, "1080", 4) == 0) {
             mode.w = 1920;
             mode.h = 1088;
         }
         // 725p for PSTV (Or Sharpscale)
-        else if (SDL_strncmp(res, "720", 3) == 0) {
+        інакше якщо (SDL_strncmp(res, "720", 3) == 0) {
             mode.w = 1280;
             mode.h = 725;
         }
     }
     // 544p
-    else {
+    інакше {
 #endif
         mode.w = 960;
         mode.h = 544;
@@ -198,15 +198,15 @@ bool VITA_VideoInit(SDL_VideoDevice *_this)
     // 32 bpp for default
     mode.format = SDL_PIXELFORMAT_ABGR8888;
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    якщо (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        повернути false;
     }
 
     VITA_InitTouch();
     VITA_InitKeyboard();
     VITA_InitMouse();
 
-    return true;
+    повернути true;
 }
 
 void VITA_VideoQuit(SDL_VideoDevice *_this)
@@ -219,23 +219,23 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     SDL_WindowData *wdata;
 #ifdef SDL_VIDEO_VITA_PVR
     Psp2NativeWindow win;
-    int temp_major = 2;
-    int temp_minor = 1;
-    int temp_profile = 0;
+    ціле temp_major = 2;
+    ціле temp_minor = 1;
+    ціле temp_profile = 0;
 #endif
 
     // Allocate window internal data
     wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    якщо (!wdata) {
+        повернути false;
     }
 
     // Setup driver data for this window
     window->internal = wdata;
 
     // Vita can only have one window
-    if (Vita_Window) {
-        return SDL_SetError("Only one window supported");
+    якщо (Vita_Window) {
+        повернути SDL_SetError("Only one window supported");
     }
 
     Vita_Window = window;
@@ -246,20 +246,20 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     win.flipChainThrdAffinity = 0x20000;
 
     // 1088i for PSTV (Or Sharpscale)
-    if (window->w == 1920) {
+    якщо (window->w == 1920) {
         win.windowSize = PSP2_WINDOW_1920X1088;
     }
     // 725p for PSTV (Or Sharpscale)
-    else if (window->w == 1280) {
+    інакше якщо (window->w == 1280) {
         win.windowSize = PSP2_WINDOW_1280X725;
     }
     // 544p
-    else {
+    інакше {
         win.windowSize = PSP2_WINDOW_960X544;
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    якщо (window->flags & SDL_WINDOW_OPENGL) {
         bool use_opengl = SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false);
-        if (use_opengl) {
+        якщо (use_opengl) {
             // Set version to 2.1 and PROFILE to ES
             temp_major = _this->gl_config.major_version;
             temp_minor = _this->gl_config.minor_version;
@@ -270,10 +270,10 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
             _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
         }
         wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, &win);
-        if (wdata->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Could not create GLES window surface");
+        якщо (wdata->egl_surface == EGL_NO_SURFACE) {
+            повернути SDL_SetError("Could not create GLES window surface");
         }
-        if (use_opengl) {
+        якщо (use_opengl) {
             // Revert
             _this->gl_config.major_version = temp_major;
             _this->gl_config.minor_version = temp_minor;
@@ -286,7 +286,7 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    повернути true;
 }
 
 void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
@@ -294,7 +294,7 @@ void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_Unsupported();
+    повернути SDL_Unsupported();
 }
 void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
@@ -319,7 +319,7 @@ void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
 }
 bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
 {
-    return true;
+    повернути true;
 }
 
 void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -335,7 +335,7 @@ void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
 bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    повернути true;
 }
 
 #ifndef SCE_IME_LANGUAGE_ENGLISH_US
@@ -344,20 +344,20 @@ bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
 static void utf16_to_utf8(const uint16_t *src, uint8_t *dst)
 {
-    int i;
-    for (i = 0; src[i]; i++) {
-        if (!(src[i] & 0xFF80)) {
+    ціле i;
+    для (i = 0; src[i]; i++) {
+        якщо (!(src[i] & 0xFF80)) {
             *(dst++) = src[i] & 0xFF;
-        } else if (!(src[i] & 0xF800)) {
+        } інакше якщо (!(src[i] & 0xF800)) {
             *(dst++) = ((src[i] >> 6) & 0xFF) | 0xC0;
             *(dst++) = (src[i] & 0x3F) | 0x80;
-        } else if ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
+        } інакше якщо ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
             *(dst++) = (((src[i] + 64) >> 8) & 0x3) | 0xF0;
             *(dst++) = (((src[i] >> 2) + 16) & 0x3F) | 0x80;
             *(dst++) = ((src[i] >> 4) & 0x30) | 0x80 | ((src[i + 1] << 2) & 0xF);
             *(dst++) = (src[i + 1] & 0x3F) | 0x80;
             i += 1;
-        } else {
+        } інакше {
             *(dst++) = ((src[i] >> 12) & 0xF) | 0xE0;
             *(dst++) = ((src[i] >> 6) & 0x3F) | 0x80;
             *(dst++) = (src[i] & 0x3F) | 0x80;
@@ -378,14 +378,14 @@ void VITA_ImeEventHandler(void *arg, const SceImeEventData *e)
     uint8_t utf8_buffer[SCE_IME_MAX_TEXT_LENGTH];
     switch (e->id) {
     case SCE_IME_EVENT_UPDATE_TEXT:
-        if (e->param.text.caretIndex == 0) {
+        якщо (e->param.text.caretIndex == 0) {
             SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_BACKSPACE);
             sceImeSetText((SceWChar16 *)libime_initval, 4);
-        } else {
+        } інакше {
             utf16_to_utf8((SceWChar16 *)&libime_out[1], utf8_buffer);
-            if (utf8_buffer[0] == ' ') {
+            якщо (utf8_buffer[0] == ' ') {
                 SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_SPACE);
-            } else {
+            } інакше {
                 SDL_SendKeyboardText((const char *)utf8_buffer);
             }
             SDL_zero(caret_rev);
@@ -454,13 +454,13 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
         break;
     }
     param.option = 0;
-    if (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
+    якщо (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
         param.option |= SCE_IME_OPTION_NO_AUTO_CAPITALIZATION;
     }
-    if (!SDL_GetTextInputAutocorrect(props)) {
+    якщо (!SDL_GetTextInputAutocorrect(props)) {
         param.option |= SCE_IME_OPTION_NO_ASSISTANCE;
     }
-    if (SDL_GetTextInputMultiline(props)) {
+    якщо (SDL_GetTextInputMultiline(props)) {
         param.option |= SCE_IME_OPTION_MULTILINE;
     }
     param.inputTextBuffer = libime_out;
@@ -472,12 +472,12 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     param.work = libime_work;
 
     res = sceImeOpen(&param);
-    if (res < 0) {
+    якщо (res < 0) {
         SDL_SetError("Failed to init IME");
-        return;
+        повернути;
     }
 
-#else
+#інакше
     SceWChar16 *title = u"";
     SceWChar16 *text = u"";
 
@@ -496,9 +496,9 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     param.inputTextBuffer = videodata->ime_buffer;
 
     res = sceImeDialogInit(&param);
-    if (res < 0) {
+    якщо (res < 0) {
         SDL_SetError("Failed to init IME dialog");
-        return;
+        повернути;
     }
 
 #endif
@@ -537,7 +537,7 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
     SDL_VideoData *videodata = _this->internal;
 #endif
 
-    if (_this->suspend_screensaver) {
+    якщо (_this->suspend_screensaver) {
         // cancel all idle timers to prevent vita going to sleep
         sceKernelPowerTick(SCE_KERNEL_POWER_TICK_DEFAULT);
     }
@@ -547,10 +547,10 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
     VITA_PollMouse();
 
 #ifndef SDL_VIDEO_VITA_PVR
-    if (videodata->ime_active == true) {
+    якщо (videodata->ime_active == true) {
         // update IME status. Terminate, if finished
         SceCommonDialogStatus dialogStatus = sceImeDialogGetStatus();
-        if (dialogStatus == SCE_COMMON_DIALOG_STATUS_FINISHED) {
+        якщо (dialogStatus == SCE_COMMON_DIALOG_STATUS_FINISHED) {
             uint8_t utf8_buffer[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
 
             SceImeDialogResult result;
@@ -564,7 +564,7 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
             SDL_SendKeyboardText((const char *)utf8_buffer);
 
             // Send enter key only on enter
-            if (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
+            якщо (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
                 SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
             }
 

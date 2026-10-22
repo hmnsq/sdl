@@ -31,33 +31,33 @@
 #include <kernel.h>
 #include <swis.h>
 
-static SDL_Scancode SDL_RISCOS_translate_keycode(int keycode)
+static SDL_Scancode SDL_RISCOS_translate_keycode(ціле keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(riscos_scancode_table)) {
+    якщо (keycode < SDL_arraysize(riscos_scancode_table)) {
         scancode = riscos_scancode_table[keycode];
 
 #ifdef DEBUG_SCANCODES
-        if (scancode == SDL_SCANCODE_UNKNOWN) {
+        якщо (scancode == SDL_SCANCODE_UNKNOWN) {
             SDL_Log("The key you just pressed is not recognized by SDL: %d", keycode);
         }
 #endif
     }
 
-    return scancode;
+    повернути scancode;
 }
 
 void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     Uint8 key = 2;
-    int i;
+    ціле i;
 
     // Check for key releases
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        if (internal->key_pressed[i] != 255) {
-            if ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
+    для (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
+        якщо (internal->key_pressed[i] != 255) {
+            якщо ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
                 SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, internal->key_pressed[i], SDL_RISCOS_translate_keycode(internal->key_pressed[i]), false);
                 internal->key_pressed[i] = 255;
             }
@@ -65,7 +65,7 @@ void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
     }
 
     // Check for key presses
-    while (key < 0xff) {
+    поки (key < 0xff) {
         key = _kernel_osbyte(121, key + 1, 0) & 0xff;
         switch (key) {
         case 255:
@@ -84,11 +84,11 @@ void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
             SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, key, SDL_RISCOS_translate_keycode(key), true);
 
             // Record the press so we can detect release later.
-            for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-                if (internal->key_pressed[i] == key) {
+            для (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
+                якщо (internal->key_pressed[i] == key) {
                     break;
                 }
-                if (internal->key_pressed[i] == 255) {
+                якщо (internal->key_pressed[i] == 255) {
                     internal->key_pressed[i] = key;
                     break;
                 }
@@ -114,10 +114,10 @@ void RISCOS_PollMouse(SDL_VideoDevice *_this)
     SDL_Mouse *mouse = SDL_GetMouse();
     SDL_Rect rect;
     _kernel_swi_regs regs;
-    int i, x, y, buttons;
+    ціле i, x, y, buttons;
 
-    if (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
-        return;
+    якщо (!SDL_GetDisplayBounds(SDL_GetPrimaryDisplay(), &rect)) {
+        повернути;
     }
 
     _kernel_swi(OS_Mouse, &regs, &regs);
@@ -125,12 +125,12 @@ void RISCOS_PollMouse(SDL_VideoDevice *_this)
     y = rect.h - (regs.r[1] >> 1);
     buttons = regs.r[2];
 
-    if (mouse->x != x || mouse->y != y) {
+    якщо (mouse->x != x || mouse->y != y) {
         SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, (float)x, (float)y);
     }
 
-    if (internal->last_mouse_buttons != buttons) {
-        for (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
+    якщо (internal->last_mouse_buttons != buttons) {
+        для (i = 0; i < SDL_arraysize(mouse_button_map); i++) {
             bool down = ((buttons & (1 << i)) != 0);
             SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, mouse_button_map[i], down);
         }
@@ -142,9 +142,9 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
     _kernel_swi_regs regs;
-    int i, status;
+    ціле i, status;
 
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
+    для (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
         internal->key_pressed[i] = 255;
     }
 
@@ -159,7 +159,7 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
     // Disable escape.
     _kernel_osbyte(229, 1, 0);
 
-    return true;
+    повернути true;
 }
 
 void RISCOS_PumpEvents(SDL_VideoDevice *_this)
