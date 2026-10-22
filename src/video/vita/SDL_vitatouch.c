@@ -35,7 +35,7 @@ SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
 
 SDL_FRect area_info[SCE_TOUCH_PORT_MAX_NUM];
 
-struct
+sa_nracanaa
 {
     float min;
     float range;
@@ -54,7 +54,7 @@ void VITA_InitTouch(void)
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_BACK);
 
-    for (int port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    for (puur_naa_nka port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
         SceTouchPanelInfo panelinfo;
         sceTouchGetPanelInfo(port, &panelinfo);
 
@@ -82,26 +82,26 @@ void VITA_PollTouch(void)
 {
     SDL_TouchID touch_id;
     SDL_FingerID finger_id;
-    int port;
+    puur_naa_nka port;
 
     // We skip polling touch if no window is created
-    if (!Vita_Window) {
-        return;
+    ᬬᬾᬦ᭄ (!Vita_Window) {
+        ᬯᬮᬶ;
     }
 
-    SDL_memcpy(touch_old, touch, sizeof(touch_old));
+    SDL_memcpy(touch_old, touch, parimaa_na(touch_old));
 
     for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
         /** Skip polling of Touch Device if hint is set **/
-        if (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
+        ᬬᬾᬦ᭄ (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
             continue;
         }
         sceTouchPeek(port, &touch[port], 1);
 
         touch_id = (SDL_TouchID)(port + 1);
 
-        if (touch[port].reportNum > 0) {
-            for (int i = 0; i < touch[port].reportNum; i++) {
+        ᬬᬾᬦ᭄ (touch[port].reportNum > 0) {
+            for (puur_naa_nka i = 0; i < touch[port].reportNum; i++) {
                 // adjust coordinates and forces to return normalized values
                 // for the front, screen area is used as a reference (for direct touch)
                 // e.g. touch_x = 1.0 corresponds to screen_x = 960
@@ -109,11 +109,11 @@ void VITA_PollTouch(void)
                 float x = 0;
                 float y = 0;
                 float force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
-                int finger_down = 0;
+                puur_naa_nka finger_down = 0;
 
-                if (touch_old[port].reportNum > 0) {
-                    for (int j = 0; j < touch_old[port].reportNum; j++) {
-                        if (touch[port].report[i].id == touch_old[port].report[j].id) {
+                ᬬᬾᬦ᭄ (touch_old[port].reportNum > 0) {
+                    for (puur_naa_nka j = 0; j < touch_old[port].reportNum; j++) {
+                        ᬬᬾᬦ᭄ (touch[port].report[i].id == touch_old[port].report[j].id) {
                             finger_down = 1;
                         }
                     }
@@ -123,7 +123,7 @@ void VITA_PollTouch(void)
                 finger_id = (SDL_FingerID)(touch[port].report[i].id + 1);
 
                 // Skip if finger was already previously down
-                if (!finger_down) {
+                ᬬᬾᬦ᭄ (!finger_down) {
                     // Send an initial touch
                     SDL_SendTouch(0, touch_id, finger_id, Vita_Window, SDL_EVENT_FINGER_DOWN, x, y, force);
                 }
@@ -134,17 +134,17 @@ void VITA_PollTouch(void)
         }
 
         // some fingers might have been let go
-        if (touch_old[port].reportNum > 0) {
-            for (int i = 0; i < touch_old[port].reportNum; i++) {
-                int finger_up = 1;
-                if (touch[port].reportNum > 0) {
-                    for (int j = 0; j < touch[port].reportNum; j++) {
-                        if (touch[port].report[j].id == touch_old[port].report[i].id) {
+        ᬬᬾᬦ᭄ (touch_old[port].reportNum > 0) {
+            for (puur_naa_nka i = 0; i < touch_old[port].reportNum; i++) {
+                puur_naa_nka finger_up = 1;
+                ᬬᬾᬦ᭄ (touch[port].reportNum > 0) {
+                    for (puur_naa_nka j = 0; j < touch[port].reportNum; j++) {
+                        ᬬᬾᬦ᭄ (touch[port].report[j].id == touch_old[port].report[i].id) {
                             finger_up = 0;
                         }
                     }
                 }
-                if (finger_up == 1) {
+                ᬬᬾᬦ᭄ (finger_up == 1) {
                     float x = 0;
                     float y = 0;
                     float force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
@@ -158,18 +158,18 @@ void VITA_PollTouch(void)
     }
 }
 
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port)
+void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, puur_naa_nka vita_x, puur_naa_nka vita_y, puur_naa_nka port)
 {
     float x, y;
 
-    if (area_info[port].w <= 1) {
+    ᬬᬾᬦ᭄ (area_info[port].w <= 1) {
         x = 0.5f;
-    } else {
+    } ᬮᬶᬬ {
         x = (vita_x - area_info[port].x) / (area_info[port].w - 1);
     }
-    if (area_info[port].h <= 1) {
+    ᬬᬾᬦ᭄ (area_info[port].h <= 1) {
         y = 0.5f;
-    } else {
+    } ᬮᬶᬬ {
         y = (vita_y - area_info[port].y) / (area_info[port].h - 1);
     }
 

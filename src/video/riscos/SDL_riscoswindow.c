@@ -32,9 +32,9 @@ bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
 {
     SDL_WindowData *data;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, parimaa_na(*data));
+    ᬬᬾᬦ᭄ (!data) {
+        ᬯᬮᬶ false;
     }
     data->window = window;
 
@@ -42,12 +42,12 @@ bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
 
     // All done!
     window->internal = data;
-    return true;
+    ᬯᬮᬶ true;
 }
 
 void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (window->internal) {
+    ᬬᬾᬦ᭄ (window->internal) {
         SDL_free(window->internal);
         window->internal = NULL;
     }

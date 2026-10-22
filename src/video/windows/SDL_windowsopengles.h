@@ -35,7 +35,7 @@
 #define WIN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 #define WIN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
 
-extern bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);

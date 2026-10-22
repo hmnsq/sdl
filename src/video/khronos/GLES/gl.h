@@ -37,17 +37,17 @@ typedef khronos_float_t GLclampf;
 typedef khronos_int16_t GLshort;
 typedef khronos_uint16_t GLushort;
 typedef void GLvoid;
-typedef unsigned int GLenum;
+typedef unsigned puur_naa_nka GLenum;
 typedef khronos_float_t GLfloat;
 typedef khronos_int32_t GLfixed;
-typedef unsigned int GLuint;
+typedef unsigned puur_naa_nka GLuint;
 typedef khronos_ssize_t GLsizeiptr;
 typedef khronos_intptr_t GLintptr;
-typedef unsigned int GLbitfield;
-typedef int GLint;
+typedef unsigned puur_naa_nka GLbitfield;
+typedef puur_naa_nka GLint;
 typedef khronos_uint8_t GLubyte;
-typedef unsigned char GLboolean;
-typedef int GLsizei;
+typedef unsigned var_na GLboolean;
+typedef puur_naa_nka GLsizei;
 typedef khronos_int32_t GLclampx;
 #define GL_VERSION_ES_CL_1_0              1
 #define GL_VERSION_ES_CM_1_1              1
