@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 
@@ -22,40 +22,40 @@ extern "C" {
 // vulkan_video_codec_h265std_encode is a preprocessor guard. Do not pass it to API calls.
 #define vulkan_video_codec_h265std_encode 1
 
-#include "vulkan_video_codec_h265std.h"
+#ضمن "vulkan_video_codec_h265std.h"
 
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_VERSION_1_0_0 VK_MAKE_VIDEO_STD_VERSION(1, 0, 0)
 
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_H265_ENCODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_h265_encode"
 
-typedef struct StdVideoEncodeH265WeightTableFlags {
+تعريفنوع بنية StdVideoEncodeH265WeightTableFlags {
     uint16_t    luma_weight_l0_flag;
     uint16_t    chroma_weight_l0_flag;
     uint16_t    luma_weight_l1_flag;
     uint16_t    chroma_weight_l1_flag;
 } StdVideoEncodeH265WeightTableFlags;
 
-typedef struct StdVideoEncodeH265WeightTable {
+تعريفنوع بنية StdVideoEncodeH265WeightTable {
     StdVideoEncodeH265WeightTableFlags    flags;
     uint8_t                               luma_log2_weight_denom;
     int8_t                                delta_chroma_log2_weight_denom;
-    int8_t                                delta_luma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_luma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_luma_weight_l0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    int8_t                                luma_offset_l0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    int8_t                                delta_chroma_weight_l0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_offset_l0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_luma_weight_l1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    int8_t                                luma_offset_l1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    int8_t                                delta_chroma_weight_l1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
 } StdVideoEncodeH265WeightTable;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
+تعريفنوع بنية StdVideoEncodeH265SliceSegmentHeaderFlags {
     uint32_t    first_slice_segment_in_pic_flag : 1;
     uint32_t    dependent_slice_segment_flag : 1;
     uint32_t    slice_sao_luma_flag : 1;
     uint32_t    slice_sao_chroma_flag : 1;
-    uint32_t    num_ref_idx_active_override_flag : 1;
+    uint32_t    رەقەم_ref_idx_active_override_flag : 1;
     uint32_t    mvd_l1_zero_flag : 1;
     uint32_t    cabac_init_flag : 1;
     uint32_t    cu_chroma_qp_offset_enabled_flag : 1;
@@ -66,12 +66,12 @@ typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
     uint32_t    reserved : 20;
 } StdVideoEncodeH265SliceSegmentHeaderFlags;
 
-typedef struct StdVideoEncodeH265SliceSegmentHeader {
+تعريفنوع بنية StdVideoEncodeH265SliceSegmentHeader {
     StdVideoEncodeH265SliceSegmentHeaderFlags    flags;
     StdVideoH265SliceType                        slice_type;
     uint32_t                                     slice_segment_address;
     uint8_t                                      collocated_ref_idx;
-    uint8_t                                      MaxNumMergeCand;
+    uint8_t                                      Max_رەقەم_Merge_Cand;
     int8_t                                       slice_cb_qp_offset;
     int8_t                                       slice_cr_qp_offset;
     int8_t                                       slice_beta_offset_div2;
@@ -81,26 +81,26 @@ typedef struct StdVideoEncodeH265SliceSegmentHeader {
     int8_t                                       slice_act_cr_qp_offset;
     int8_t                                       slice_qp_delta;
     uint16_t                                     reserved1;
-    const StdVideoEncodeH265WeightTable*         pWeightTable;
+    ثابت StdVideoEncodeH265WeightTable*         pWeightTable;
 } StdVideoEncodeH265SliceSegmentHeader;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfoFlags {
+تعريفنوع بنية StdVideoEncodeH265ReferenceListsInfoFlags {
     uint32_t    ref_pic_list_modification_flag_l0 : 1;
     uint32_t    ref_pic_list_modification_flag_l1 : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceListsInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceListsInfo {
+تعريفنوع بنية StdVideoEncodeH265ReferenceListsInfo {
     StdVideoEncodeH265ReferenceListsInfoFlags    flags;
-    uint8_t                                      num_ref_idx_l0_active_minus1;
-    uint8_t                                      num_ref_idx_l1_active_minus1;
-    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
+    uint8_t                                      رەقەم_ref_idx_l0_active_minus1;
+    uint8_t                                      رەقەم_ref_idx_l1_active_minus1;
+    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    uint8_t                                      list_entry_l0[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
+    uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_رەقەم_LIST_REF];
 } StdVideoEncodeH265ReferenceListsInfo;
 
-typedef struct StdVideoEncodeH265PictureInfoFlags {
+تعريفنوع بنية StdVideoEncodeH265PictureInfoFlags {
     uint32_t    is_reference : 1;
     uint32_t    IrapPicFlag : 1;
     uint32_t    used_for_long_term_reference : 1;
@@ -113,9 +113,9 @@ typedef struct StdVideoEncodeH265PictureInfoFlags {
     uint32_t    reserved : 23;
 } StdVideoEncodeH265PictureInfoFlags;
 
-typedef struct StdVideoEncodeH265LongTermRefPics {
-    uint8_t     num_long_term_sps;
-    uint8_t     num_long_term_pics;
+تعريفنوع بنية StdVideoEncodeH265LongTermRefPics {
+    uint8_t     رەقەم_long_term_sps;
+    uint8_t     رەقەم_long_term_pics;
     uint8_t     lt_idx_sps[STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS];
     uint8_t     poc_lsb_lt[STD_VIDEO_H265_MAX_LONG_TERM_PICS];
     uint16_t    used_by_curr_pic_lt_flag;
@@ -123,7 +123,7 @@ typedef struct StdVideoEncodeH265LongTermRefPics {
     uint8_t     delta_poc_msb_cycle_lt[STD_VIDEO_H265_MAX_DELTA_POC];
 } StdVideoEncodeH265LongTermRefPics;
 
-typedef struct StdVideoEncodeH265PictureInfo {
+تعريفنوع بنية StdVideoEncodeH265PictureInfo {
     StdVideoEncodeH265PictureInfoFlags             flags;
     StdVideoH265PictureType                        pic_type;
     uint8_t                                        sps_video_parameter_set_id;
@@ -133,18 +133,18 @@ typedef struct StdVideoEncodeH265PictureInfo {
     int32_t                                        PicOrderCntVal;
     uint8_t                                        TemporalId;
     uint8_t                                        reserved1[7];
-    const StdVideoEncodeH265ReferenceListsInfo*    pRefLists;
-    const StdVideoH265ShortTermRefPicSet*          pShortTermRefPicSet;
-    const StdVideoEncodeH265LongTermRefPics*       pLongTermRefPics;
+    ثابت StdVideoEncodeH265ReferenceListsInfo*    pRefLists;
+    ثابت StdVideoH265ShortTermRefPicSet*          pShortTermRefPicSet;
+    ثابت StdVideoEncodeH265LongTermRefPics*       pLongTermRefPics;
 } StdVideoEncodeH265PictureInfo;
 
-typedef struct StdVideoEncodeH265ReferenceInfoFlags {
+تعريفنوع بنية StdVideoEncodeH265ReferenceInfoFlags {
     uint32_t    used_for_long_term_reference : 1;
     uint32_t    unused_for_reference : 1;
     uint32_t    reserved : 30;
 } StdVideoEncodeH265ReferenceInfoFlags;
 
-typedef struct StdVideoEncodeH265ReferenceInfo {
+تعريفنوع بنية StdVideoEncodeH265ReferenceInfo {
     StdVideoEncodeH265ReferenceInfoFlags    flags;
     StdVideoH265PictureType                 pic_type;
     int32_t                                 PicOrderCntVal;

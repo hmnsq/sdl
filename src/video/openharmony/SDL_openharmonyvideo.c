@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
 // HarmonyOS/OpenHarmony SDL video driver implementation
 
-#include <window_manager/oh_display_manager.h>
+#ضمن <window_manager/oh_display_manager.h>
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohosvideo_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohosvideo_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#define OH_MAX_TOUCH_POINTS_سان sdl_ohosvideo_OH_MAX_TOUCH_POINTS_سان
+#ضمن <ace/xcomponent/native_interface_xcomponent.h>
 
 // !!! FIXME: move stuff in from Android code
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_windowevents_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../SDL_pixels_c.h"
+#ضمن "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_windowevents_c.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyopengl.h"
-#include "SDL_openharmonyclipboard.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonykeyboard.h"
-#include "SDL_openharmonymouse.h"
+#ضمن "SDL_openharmonyvideo.h"
+#ضمن "SDL_openharmonyopengl.h"
+#ضمن "SDL_openharmonyclipboard.h"
+#ضمن "SDL_openharmonyevents.h"
+#ضمن "SDL_openharmonykeyboard.h"
+#ضمن "SDL_openharmonymouse.h"
 //#include "SDL_openharmonytouch.h"
-#include "SDL_openharmonywindow.h"
-#include "SDL_openharmonyvulkan.h"
+#ضمن "SDL_openharmonywindow.h"
+#ضمن "SDL_openharmonyvulkan.h"
 //#include "SDL_openharmonymessagebox.h"
 
 #define OPENHARMONY_VID_DRIVER_NAME "openharmony"
 
-#include "../SDL_egl_c.h"
+#ضمن "../SDL_egl_c.h"
 #define OPENHARMONY_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define OPENHARMONY_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
 #define OPENHARMONY_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
@@ -59,43 +59,43 @@
 #define OPENHARMONY_GLES_DestroyContext   SDL_EGL_DestroyContext
 
 
-static OH_NativeXComponent *native_xcomponent = NULL;
-static void *native_window = NULL;
+ساكن OH_NativeXComponent *native_xcomponent = عدم;
+ساكن فراغ *native_window = عدم;
 
-void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window)
+فراغ SDL_OpenHarmonyGetNativeWindowPointers(فراغ **xcomponent, فراغ **window)
 {
-    *xcomponent = (void *) native_xcomponent;
-    *window = (void *) native_window;
+    *xcomponent = (فراغ *) native_xcomponent;
+    *window = (فراغ *) native_window;
 }
 
-void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window)
+فراغ SDL_OpenHarmonyVideoSurfaceDestroyed(فراغ *component, فراغ *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
-    native_xcomponent = NULL;
-    native_window = NULL;
+    native_xcomponent = عدم;
+    native_window = عدم;
 }
 
-void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window)
+فراغ SDL_OpenHarmonyVideoSurfaceChanged(فراغ *component, فراغ *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
     uint64_t w, h;
     OH_NativeXComponent_GetXComponentSize(native_xcomponent, native_window, &w, &h);
-    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (int) w, (int) h);
+    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (صحيح) w, (صحيح) h);
 }
 
-void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window)
+فراغ SDL_OpenHarmonyVideoSurfaceCreated(فراغ *component, فراغ *window)
 {
-    SDL_assert(native_xcomponent == NULL);  // right now we assume one surface, one window.
+    SDL_assert(native_xcomponent == عدم);  // right now we assume one surface, one window.
     native_xcomponent = (OH_NativeXComponent *) component;
     native_window = window;
 }
 
-static bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
+ساكن bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
+    أرجع SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
 }
 
-static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
+ساكن bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
 
@@ -106,59 +106,59 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
     // !!! FIXME:  through a USB-C to HDMI adapter, or maybe there will be separate "outer" screens vs
     // !!! FIXME:  an internal foldable one, but for now let's just get _something_ on _any_ display.
     uint64_t dispid64 = 0;
-    if (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
-        return SDL_SetError("Couldn't get default display id");
+    إذا (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
+        أرجع SDL_SetError("Couldn't get default display id");
     }
-    const uint32_t dispid = (uint32_t) dispid64;
+    ثابت uint32_t dispid = (uint32_t) dispid64;
 
-    NativeDisplayManager_DisplayInfo *dispinfo = NULL;
-    if (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
-        return SDL_SetError("Couldn't get default display info");
+    NativeDisplayManager_DisplayInfo *dispinfo = عدم;
+    إذا (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
+        أرجع SDL_SetError("Couldn't get default display info");
     }
 
     SDL_DisplayMode mode;
     SDL_zero(mode);
     mode.format = SDL_PIXELFORMAT_BGRA8888;  // !!! FIXME
-    mode.w = (int) dispinfo->physicalWidth;
-    mode.h = (int) dispinfo->physicalHeight;
-    mode.refresh_rate = (float) dispinfo->refreshRate;
+    mode.w = (صحيح) dispinfo->physicalWidth;
+    mode.h = (صحيح) dispinfo->physicalHeight;
+    mode.refresh_rate = (عائم) dispinfo->refreshRate;
     mode.pixel_density = 1.0f;
 
-    const NativeDisplayManager_Rotation rotation = dispinfo->rotation;
-    const NativeDisplayManager_Orientation orientation = dispinfo->orientation;
+    ثابت NativeDisplayManager_Rotation rotation = dispinfo->rotation;
+    ثابت NativeDisplayManager_Orientation orientation = dispinfo->orientation;
 
     OH_NativeDisplayManager_DestroyDisplay(dispinfo);
 
-    const SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    ثابت SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
+    إذا (displayID == 0) {
+        أرجع false;
     }
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    switch (orientation) {
-        case DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; break;
-        case DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; break;
-        case DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; break;
-        case DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; break;
-        default: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; break;
+    بدل (orientation) {
+        حالة DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; اكسر;
+        حالة DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; اكسر;
+        حالة DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; اكسر;
+        حالة DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; اكسر;
+        افتراضي: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; اكسر;
     }
 
     // !!! FIXME: this is probably wrong, I think on OpenHarmony phones/tablets, these are setting both orientation and rotation, and this works out because most people are launching apps while holding the phone in portrait mode (0 rotation).
     // !!! FIXME: if I'm right, we should decide if this is a phone/tablet screen and just set the natural orientation to portrait and then use this code to calculate current orientation.
-    if (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else {
+    إذا (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
+        ساكن ثابت SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
+        SDL_assert(((صحيح) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(صحيح) display->natural_orientation];
+    } وإلا إذا (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
+        ساكن ثابت SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
+        SDL_assert(((صحيح) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(صحيح) display->natural_orientation];
+    } وإلا إذا (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
+        ساكن ثابت SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
+        SDL_assert(((صحيح) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(صحيح) display->natural_orientation];
+    } وإلا {
         display->current_orientation = display->natural_orientation;
     }
 
@@ -168,48 +168,48 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 
 
 // !!! FIXME
-#if 0
+#إذا 0
     OPENHARMONY_InitTouch();
     OPENHARMONY_InitMouse();
 #endif
     OPENHARMONY_InitClipboard(_this);
 
     // We're done!
-    return true;
+    أرجع true;
 }
 
-void OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
+فراغ OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
 {
     OPENHARMONY_QuitClipboard(_this);
 
 // !!! FIXME
-#if 0
+#إذا 0
     OPENHARMONY_QuitMouse();
     OPENHARMONY_QuitTouch();
 #endif
 }
 
-static void OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
+ساكن فراغ OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
+ساكن SDL_VideoDevice *OPENHARMONY_CreateDevice(فراغ)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    إذا (!device) {
+        أرجع عدم;
     }
 
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, حجم(SDL_VideoData));
+    إذا (!data) {
         SDL_free(device);
-        return NULL;
+        أرجع عدم;
     }
 
     device->internal = data;
@@ -226,7 +226,7 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
     device->SetWindowResizable = OPENHARMONY_SetWindowResizable;
     device->DestroyWindow = OPENHARMONY_DestroyWindow;
 
-    device->free = OPENHARMONY_DeleteDevice;
+    device->حرر = OPENHARMONY_DeleteDevice;
 
     // GL pointers
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -267,13 +267,13 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    أرجع device;
 }
 
 VideoBootStrap OPENHARMONY_bootstrap = {
     OPENHARMONY_VID_DRIVER_NAME, "SDL OpenHarmony/HarmonyOS video driver",
     OPENHARMONY_CreateDevice,
-    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ NULL,
+    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ عدم,
     false
 };
 

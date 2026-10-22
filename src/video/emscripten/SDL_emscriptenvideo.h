@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_emscriptenvideo_h_
 #define SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_touch_c.h"
+#ضمن <emscripten/emscripten.h>
+#ضمن <emscripten/html5.h>
 
-struct SDL_WindowData
+بنية SDL_WindowData
 {
     SDL_Window *window;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    صحيح non_fill_document_width;
+    صحيح non_fill_document_height;
 
-    char *canvas_id;
-    char *keyboard_element;
+    حرف *canvas_id;
+    حرف *keyboard_element;
 
-    float pixel_ratio;
+    عائم pixel_ratio;
 
     bool external_size;
 
@@ -54,9 +54,9 @@ struct SDL_WindowData
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+خارجي SDL_Window *Emscripten_fill_document_window;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_ShouldSetSwapInterval(صحيح interval);
+صحيح Emscripten_GetPendingSwapInterval(فراغ);
 
 #endif // SDL_emscriptenvideo_h_
