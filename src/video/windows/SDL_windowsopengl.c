@@ -93,10 +93,10 @@
 typedef HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
                                                            HGLRC
                                                                hShareContext,
-                                                           const int
+                                                           const puur_naa_nka
                                                                *attribList);
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ပေႃး defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 #define GetDC(hwnd)          (HDC) hwnd
 #define ReleaseDC(hwnd, hdc) 1
 #define SwapBuffers          _this->gl_data->wglSwapBuffers
@@ -106,7 +106,7 @@ typedef HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
 #define SetPixelFormat       _this->gl_data->wglSetPixelFormat
 #endif
 
-static bool WIN_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *path)
+static bool WIN_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const var_na *path)
 {
 #ifdef SDL_VIDEO_OPENGL_EGL
     WIN_GL_UnloadLibrary(_this);
@@ -120,44 +120,44 @@ static bool WIN_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *p
     _this->GL_SwapWindow = WIN_GLES_SwapWindow;
     _this->GL_DestroyContext = WIN_GLES_DestroyContext;
     _this->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
-    return WIN_GLES_LoadLibrary(_this, path);
-#else
-    return SDL_SetError("SDL not configured with EGL support");
+    ပွၵ်ႈ WIN_GLES_LoadLibrary(_this, path);
+#ပေႃးဢမ်ႇ
+    ပွၵ်ႈ SDL_SetError("SDL not configured with EGL support");
 #endif
 }
 
-bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const var_na *path)
 {
     void *handle;
 
-    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
+    ပေႃး ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
         SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false)) {
-        return WIN_GL_LoadLibrary_EGLFallback(_this, path);
+        ပွၵ်ႈ WIN_GL_LoadLibrary_EGLFallback(_this, path);
     }
 
-    if (path == NULL) {
+    ပေႃး (path == NULL) {
         path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
-    if (path == NULL) {
+    ပေႃး (path == NULL) {
         path = DEFAULT_OPENGL;
     }
     _this->gl_config.dll_handle = SDL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-        return false;
+    ပေႃး (!_this->gl_config.dll_handle) {
+        ပွၵ်ႈ false;
     }
     SDL_strlcpy(_this->gl_config.driver_path, path,
                 SDL_arraysize(_this->gl_config.driver_path));
 
     // Allocate OpenGL memory
-    _this->gl_data = (struct SDL_GLDriverData *)SDL_calloc(1, sizeof(struct SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_data = (sa_nracanaa SDL_GLDriverData *)SDL_calloc(1, parimaa_na(sa_nracanaa SDL_GLDriverData));
+    ပေႃး (!_this->gl_data) {
+        ပွၵ်ႈ false;
     }
 
     // Load function pointers
     handle = _this->gl_config.dll_handle;
     /* *INDENT-OFF* */ // clang-format off
-    _this->gl_data->wglGetProcAddress = (PROC (WINAPI *)(const char *))
+    _this->gl_data->wglGetProcAddress = (PROC (WINAPI *)(const var_na *))
         SDL_LoadFunction(handle, "wglGetProcAddress");
     _this->gl_data->wglCreateContext = (HGLRC (WINAPI *)(HDC))
         SDL_LoadFunction(handle, "wglCreateContext");
@@ -169,24 +169,24 @@ bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         SDL_LoadFunction(handle, "wglShareLists");
     /* *INDENT-ON* */ // clang-format on
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ပေႃး defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     _this->gl_data->wglSwapBuffers = (BOOL(WINAPI *)(HDC))
         SDL_LoadFunction(handle, "wglSwapBuffers");
-    _this->gl_data->wglDescribePixelFormat = (int(WINAPI *)(HDC, int, UINT, LPPIXELFORMATDESCRIPTOR))
+    _this->gl_data->wglDescribePixelFormat = (puur_naa_nka(WINAPI *)(HDC, puur_naa_nka, UINT, LPPIXELFORMATDESCRIPTOR))
         SDL_LoadFunction(handle, "wglDescribePixelFormat");
-    _this->gl_data->wglChoosePixelFormat = (int(WINAPI *)(HDC, const PIXELFORMATDESCRIPTOR *))
+    _this->gl_data->wglChoosePixelFormat = (puur_naa_nka(WINAPI *)(HDC, const PIXELFORMATDESCRIPTOR *))
         SDL_LoadFunction(handle, "wglChoosePixelFormat");
-    _this->gl_data->wglSetPixelFormat = (BOOL(WINAPI *)(HDC, int, const PIXELFORMATDESCRIPTOR *))
+    _this->gl_data->wglSetPixelFormat = (BOOL(WINAPI *)(HDC, puur_naa_nka, const PIXELFORMATDESCRIPTOR *))
         SDL_LoadFunction(handle, "wglSetPixelFormat");
-    _this->gl_data->wglGetPixelFormat = (int(WINAPI *)(HDC hdc))
+    _this->gl_data->wglGetPixelFormat = (puur_naa_nka(WINAPI *)(HDC hdc))
         SDL_LoadFunction(handle, "wglGetPixelFormat");
 #endif
 
-    if (!_this->gl_data->wglGetProcAddress ||
+    ပေႃး (!_this->gl_data->wglGetProcAddress ||
         !_this->gl_data->wglCreateContext ||
         !_this->gl_data->wglDeleteContext ||
         !_this->gl_data->wglMakeCurrent
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ပေႃး defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
         || !_this->gl_data->wglSwapBuffers ||
         !_this->gl_data->wglDescribePixelFormat ||
         !_this->gl_data->wglChoosePixelFormat ||
@@ -194,7 +194,7 @@ bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         !_this->gl_data->wglSetPixelFormat
 #endif
     ) {
-        return SDL_SetError("Could not retrieve OpenGL functions");
+        ပွၵ်ႈ SDL_SetError("Could not retrieve OpenGL functions");
     }
 
     /* XXX Too sleazy? WIN_GL_InitExtensions looks for certain OpenGL
@@ -235,20 +235,20 @@ bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     WIN_GL_InitExtensions(_this);
     --_this->gl_config.driver_loaded;
 
-    return true;
+    ပွၵ်ႈ true;
 }
 
-SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const var_na *proc)
 {
     SDL_FunctionPointer func;
 
     // This is to pick up extensions
     func = (SDL_FunctionPointer)_this->gl_data->wglGetProcAddress(proc);
-    if (!func) {
+    ပေႃး (!func) {
         // This is probably a normal GL function
         func = (SDL_FunctionPointer)GetProcAddress((HMODULE)_this->gl_config.dll_handle, proc);
     }
-    return func;
+    ပွၵ်ႈ func;
 }
 
 void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
@@ -264,13 +264,13 @@ void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
 static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTOR *pfd)
 {
     SDL_zerop(pfd);
-    pfd->nSize = sizeof(*pfd);
+    pfd->nSize = parimaa_na(*pfd);
     pfd->nVersion = 1;
     pfd->dwFlags = (PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL);
-    if (_this->gl_config.double_buffer) {
+    ပေႃး (_this->gl_config.double_buffer) {
         pfd->dwFlags |= PFD_DOUBLEBUFFER;
     }
-    if (_this->gl_config.stereo) {
+    ပေႃး (_this->gl_config.stereo) {
         pfd->dwFlags |= PFD_STEREO;
     }
     pfd->iLayerType = PFD_MAIN_PLANE;
@@ -279,9 +279,9 @@ static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTO
     pfd->cGreenBits = (BYTE)_this->gl_config.green_size;
     pfd->cBlueBits = (BYTE)_this->gl_config.blue_size;
     pfd->cAlphaBits = (BYTE)_this->gl_config.alpha_size;
-    if (_this->gl_config.buffer_size) {
+    ပေႃး (_this->gl_config.buffer_size) {
         pfd->cColorBits = (BYTE)(_this->gl_config.buffer_size - _this->gl_config.alpha_size);
-    } else {
+    } ပေႃးဢမ်ႇ {
         pfd->cColorBits = (pfd->cRedBits + pfd->cGreenBits + pfd->cBlueBits);
     }
     pfd->cAccumRedBits = (BYTE)_this->gl_config.accum_red_size;
@@ -301,113 +301,113 @@ static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTO
 static bool WIN_GL_ChoosePixelFormat(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *target)
 {
     PIXELFORMATDESCRIPTOR pfd;
-    int count, index, best = 0;
-    unsigned int dist, best_dist = ~0U;
+    puur_naa_nka count, index, best = 0;
+    unsigned puur_naa_nka dist, best_dist = ~0U;
 
-    count = DescribePixelFormat(hdc, 1, sizeof(pfd), NULL);
+    count = DescribePixelFormat(hdc, 1, parimaa_na(pfd), NULL);
 
     for (index = 1; index <= count; index++) {
 
-        if (!DescribePixelFormat(hdc, index, sizeof(pfd), &pfd)) {
+        ပေႃး (!DescribePixelFormat(hdc, index, parimaa_na(pfd), &pfd)) {
             continue;
         }
 
-        if ((pfd.dwFlags & target->dwFlags) != target->dwFlags) {
+        ပေႃး ((pfd.dwFlags & target->dwFlags) != target->dwFlags) {
             continue;
         }
 
-        if (pfd.iLayerType != target->iLayerType) {
+        ပေႃး (pfd.iLayerType != target->iLayerType) {
             continue;
         }
-        if (pfd.iPixelType != target->iPixelType) {
+        ပေႃး (pfd.iPixelType != target->iPixelType) {
             continue;
         }
 
         dist = 0;
 
-        if (pfd.cColorBits < target->cColorBits) {
+        ပေႃး (pfd.cColorBits < target->cColorBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cColorBits - target->cColorBits);
         }
-        if (pfd.cRedBits < target->cRedBits) {
+        ပေႃး (pfd.cRedBits < target->cRedBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cRedBits - target->cRedBits);
         }
-        if (pfd.cGreenBits < target->cGreenBits) {
+        ပေႃး (pfd.cGreenBits < target->cGreenBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cGreenBits - target->cGreenBits);
         }
-        if (pfd.cBlueBits < target->cBlueBits) {
+        ပေႃး (pfd.cBlueBits < target->cBlueBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cBlueBits - target->cBlueBits);
         }
-        if (pfd.cAlphaBits < target->cAlphaBits) {
+        ပေႃး (pfd.cAlphaBits < target->cAlphaBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAlphaBits - target->cAlphaBits);
         }
-        if (pfd.cAccumBits < target->cAccumBits) {
+        ပေႃး (pfd.cAccumBits < target->cAccumBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAccumBits - target->cAccumBits);
         }
-        if (pfd.cAccumRedBits < target->cAccumRedBits) {
+        ပေႃး (pfd.cAccumRedBits < target->cAccumRedBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAccumRedBits - target->cAccumRedBits);
         }
-        if (pfd.cAccumGreenBits < target->cAccumGreenBits) {
+        ပေႃး (pfd.cAccumGreenBits < target->cAccumGreenBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAccumGreenBits - target->cAccumGreenBits);
         }
-        if (pfd.cAccumBlueBits < target->cAccumBlueBits) {
+        ပေႃး (pfd.cAccumBlueBits < target->cAccumBlueBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAccumBlueBits - target->cAccumBlueBits);
         }
-        if (pfd.cAccumAlphaBits < target->cAccumAlphaBits) {
+        ပေႃး (pfd.cAccumAlphaBits < target->cAccumAlphaBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cAccumAlphaBits - target->cAccumAlphaBits);
         }
-        if (pfd.cDepthBits < target->cDepthBits) {
+        ပေႃး (pfd.cDepthBits < target->cDepthBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cDepthBits - target->cDepthBits);
         }
-        if (pfd.cStencilBits < target->cStencilBits) {
+        ပေႃး (pfd.cStencilBits < target->cStencilBits) {
             continue;
-        } else {
+        } ပေႃးဢမ်ႇ {
             dist += (pfd.cStencilBits - target->cStencilBits);
         }
 
-        if (dist < best_dist) {
+        ပေႃး (dist < best_dist) {
             best = index;
             best_dist = dist;
         }
     }
 
-    return best;
+    ပွၵ်ႈ best;
 }
 
-static bool HasExtension(const char *extension, const char *extensions)
+static bool HasExtension(const var_na *extension, const var_na *extensions)
 {
-    const char *start;
-    const char *where, *terminator;
+    const var_na *start;
+    const var_na *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    ပေႃး (where || *extension == '\0') {
+        ပွၵ်ႈ false;
     }
 
-    if (!extensions) {
-        return false;
+    ပေႃး (!extensions) {
+        ပွၵ်ႈ false;
     }
 
     /* It takes a bit of care to be fool-proof about parsing the
@@ -418,42 +418,42 @@ static bool HasExtension(const char *extension, const char *extensions)
 
     for (;;) {
         where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+        ပေႃး (!where) {
+            bha_nga;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == start || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        ပေႃး (where == start || *(where - 1) == ' ') {
+            ပေႃး (*terminator == ' ' || *terminator == '\0') {
+                ပွၵ်ႈ true;
             }
         }
 
         start = terminator;
     }
-    return false;
+    ပွၵ်ႈ false;
 }
 
 void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
 {
     /* *INDENT-OFF* */ // clang-format off
-    const char *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
+    const var_na *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
     /* *INDENT-ON* */ // clang-format on
-    const char *extensions;
+    const var_na *extensions;
     HWND hwnd;
     HDC hdc;
     HGLRC hglrc;
     PIXELFORMATDESCRIPTOR pfd;
 
-    if (!_this->gl_data) {
-        return;
+    ပေႃး (!_this->gl_data) {
+        ပွၵ်ႈ;
     }
 
     hwnd =
         CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
                      10, 10, NULL, NULL, SDL_Instance, NULL);
-    if (!hwnd) {
-        return;
+    ပေႃး (!hwnd) {
+        ပွၵ်ႈ;
     }
     WIN_PumpEventsForHWND(_this, hwnd);
 
@@ -464,34 +464,34 @@ void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
     SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
 
     hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (!hglrc) {
-        return;
+    ပေႃး (!hglrc) {
+        ပွၵ်ႈ;
     }
     _this->gl_data->wglMakeCurrent(hdc, hglrc);
 
     /* *INDENT-OFF* */ // clang-format off
-    wglGetExtensionsStringARB = (const char *(WINAPI *)(HDC))
+    wglGetExtensionsStringARB = (const var_na *(WINAPI *)(HDC))
         _this->gl_data->wglGetProcAddress("wglGetExtensionsStringARB");
     /* *INDENT-ON* */ // clang-format on
-    if (wglGetExtensionsStringARB) {
+    ပေႃး (wglGetExtensionsStringARB) {
         extensions = wglGetExtensionsStringARB(hdc);
-    } else {
+    } ပေႃးဢမ်ႇ {
         extensions = NULL;
     }
 
     // Check for WGL_ARB_pixel_format
     _this->gl_data->HAS_WGL_ARB_pixel_format = false;
-    if (HasExtension("WGL_ARB_pixel_format", extensions)) {
+    ပေႃး (HasExtension("WGL_ARB_pixel_format", extensions)) {
         /* *INDENT-OFF* */ // clang-format off
         _this->gl_data->wglChoosePixelFormatARB =
-            (BOOL (WINAPI *)(HDC, const int *, const FLOAT *, UINT, int *, UINT *))
+            (BOOL (WINAPI *)(HDC, const puur_naa_nka *, const FLOAT *, UINT, puur_naa_nka *, UINT *))
             WIN_GL_GetProcAddress(_this, "wglChoosePixelFormatARB");
         _this->gl_data->wglGetPixelFormatAttribivARB =
-            (BOOL (WINAPI *)(HDC, int, int, UINT, const int *, int *))
+            (BOOL (WINAPI *)(HDC, puur_naa_nka, puur_naa_nka, UINT, const puur_naa_nka *, puur_naa_nka *))
             WIN_GL_GetProcAddress(_this, "wglGetPixelFormatAttribivARB");
         /* *INDENT-ON* */ // clang-format on
 
-        if ((_this->gl_data->wglChoosePixelFormatARB != NULL) &&
+        ပေႃး ((_this->gl_data->wglChoosePixelFormatARB != NULL) &&
             (_this->gl_data->wglGetPixelFormatAttribivARB != NULL)) {
             _this->gl_data->HAS_WGL_ARB_pixel_format = true;
         }
@@ -499,17 +499,17 @@ void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
 
     // Check for WGL_EXT_swap_control
     _this->gl_data->HAS_WGL_EXT_swap_control_tear = false;
-    if (HasExtension("WGL_EXT_swap_control", extensions)) {
+    ပေႃး (HasExtension("WGL_EXT_swap_control", extensions)) {
         _this->gl_data->wglSwapIntervalEXT =
-            (BOOL (WINAPI *)(int))
+            (BOOL (WINAPI *)(puur_naa_nka))
             WIN_GL_GetProcAddress(_this, "wglSwapIntervalEXT");
         _this->gl_data->wglGetSwapIntervalEXT =
-            (int (WINAPI *)(void))
+            (puur_naa_nka (WINAPI *)(void))
             WIN_GL_GetProcAddress(_this, "wglGetSwapIntervalEXT");
-        if (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
+        ပေႃး (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
             _this->gl_data->HAS_WGL_EXT_swap_control_tear = true;
         }
-    } else {
+    } ပေႃးဢမ်ႇ {
         _this->gl_data->wglSwapIntervalEXT = NULL;
         _this->gl_data->wglGetSwapIntervalEXT = NULL;
     }
@@ -517,31 +517,31 @@ void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
     // Check for WGL_EXT_create_context_es2_profile
     // see if we can get at OpenGL ES profiles even if EGL isn't available.
     _this->gl_data->HAS_WGL_EXT_create_context_es2_profile = HasExtension("WGL_EXT_create_context_es2_profile", extensions);
-    if (_this->gl_data->HAS_WGL_EXT_create_context_es2_profile) {
+    ပေႃး (_this->gl_data->HAS_WGL_EXT_create_context_es2_profile) {
         SDL_GL_DeduceMaxSupportedESProfile(
             &_this->gl_data->es_profile_max_supported_version.major,
             &_this->gl_data->es_profile_max_supported_version.minor);
     }
 
     // Check for WGL_ARB_context_flush_control
-    if (HasExtension("WGL_ARB_context_flush_control", extensions)) {
+    ပေႃး (HasExtension("WGL_ARB_context_flush_control", extensions)) {
         _this->gl_data->HAS_WGL_ARB_context_flush_control = true;
     }
 
     // Check for WGL_ARB_create_context_robustness
-    if (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
+    ပေႃး (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
         _this->gl_data->HAS_WGL_ARB_create_context_robustness = true;
     }
 
     // Check for WGL_ARB_create_context_no_error
-    if (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
+    ပေႃး (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
         _this->gl_data->HAS_WGL_ARB_create_context_no_error = true;
     }
 
     // Check for WGL_ARB_framebuffer_sRGB
-    if (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
+    ပေႃး (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
         _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
-    } else if (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
+    } ပေႃးဢမ်ႇ ပေႃး (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
         _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
     }
 
@@ -556,14 +556,14 @@ void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
     WIN_PumpEventsForHWND(_this, hwnd);
 }
 
-static int WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, int *iAttribs, float *fAttribs)
+static puur_naa_nka WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, puur_naa_nka *iAttribs, float *fAttribs)
 {
     HWND hwnd;
     HDC hdc;
     PIXELFORMATDESCRIPTOR pfd;
     HGLRC hglrc;
-    int pixel_format = 0;
-    unsigned int matching;
+    puur_naa_nka pixel_format = 0;
+    unsigned puur_naa_nka matching;
 
     hwnd =
         CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
@@ -577,18 +577,18 @@ static int WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, int *iAttribs, fl
     SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
 
     hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (hglrc) {
+    ပေႃး (hglrc) {
         _this->gl_data->wglMakeCurrent(hdc, hglrc);
 
-        if (_this->gl_data->HAS_WGL_ARB_pixel_format) {
+        ပေႃး (_this->gl_data->HAS_WGL_ARB_pixel_format) {
             _this->gl_data->wglChoosePixelFormatARB(hdc, iAttribs, fAttribs,
                                                     1, &pixel_format,
                                                     &matching);
 
             // Check whether we actually got an SRGB capable buffer
-            int srgb = 0;
-            if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-                int qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
+            puur_naa_nka srgb = 0;
+            ပေႃး (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
+                puur_naa_nka qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 _this->gl_data->wglGetPixelFormatAttribivARB(hdc, pixel_format, 0, 1, &qAttrib, &srgb);
             }
             _this->gl_config.framebuffer_srgb_capable = srgb;
@@ -601,7 +601,7 @@ static int WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, int *iAttribs, fl
     DestroyWindow(hwnd);
     WIN_PumpEventsForHWND(_this, hwnd);
 
-    return pixel_format;
+    ပွၵ်ႈ pixel_format;
 }
 
 // actual work of WIN_GL_SetupWindow() happens here.
@@ -609,10 +609,10 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
 {
     HDC hdc = window->internal->hdc;
     PIXELFORMATDESCRIPTOR pfd;
-    int pixel_format = 0;
-    int iAttribs[64];
-    int *iAttr;
-    int *iAccelAttr;
+    puur_naa_nka pixel_format = 0;
+    puur_naa_nka iAttribs[64];
+    puur_naa_nka *iAttr;
+    puur_naa_nka *iAccelAttr;
     float fAttribs[1] = { 0 };
 
     WIN_GL_SetupPixelFormat(_this, &pfd);
@@ -629,7 +629,7 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
     *iAttr++ = WGL_BLUE_BITS_ARB;
     *iAttr++ = _this->gl_config.blue_size;
 
-    if (_this->gl_config.alpha_size) {
+    ပေႃး (_this->gl_config.alpha_size) {
         *iAttr++ = WGL_ALPHA_BITS_ARB;
         *iAttr++ = _this->gl_config.alpha_size;
     }
@@ -640,61 +640,61 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
     *iAttr++ = WGL_DEPTH_BITS_ARB;
     *iAttr++ = _this->gl_config.depth_size;
 
-    if (_this->gl_config.stencil_size) {
+    ပေႃး (_this->gl_config.stencil_size) {
         *iAttr++ = WGL_STENCIL_BITS_ARB;
         *iAttr++ = _this->gl_config.stencil_size;
     }
 
-    if (_this->gl_config.accum_red_size) {
+    ပေႃး (_this->gl_config.accum_red_size) {
         *iAttr++ = WGL_ACCUM_RED_BITS_ARB;
         *iAttr++ = _this->gl_config.accum_red_size;
     }
 
-    if (_this->gl_config.accum_green_size) {
+    ပေႃး (_this->gl_config.accum_green_size) {
         *iAttr++ = WGL_ACCUM_GREEN_BITS_ARB;
         *iAttr++ = _this->gl_config.accum_green_size;
     }
 
-    if (_this->gl_config.accum_blue_size) {
+    ပေႃး (_this->gl_config.accum_blue_size) {
         *iAttr++ = WGL_ACCUM_BLUE_BITS_ARB;
         *iAttr++ = _this->gl_config.accum_blue_size;
     }
 
-    if (_this->gl_config.accum_alpha_size) {
+    ပေႃး (_this->gl_config.accum_alpha_size) {
         *iAttr++ = WGL_ACCUM_ALPHA_BITS_ARB;
         *iAttr++ = _this->gl_config.accum_alpha_size;
     }
 
-    if (_this->gl_config.stereo) {
+    ပေႃး (_this->gl_config.stereo) {
         *iAttr++ = WGL_STEREO_ARB;
         *iAttr++ = GL_TRUE;
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    ပေႃး (_this->gl_config.multisamplebuffers) {
         *iAttr++ = WGL_SAMPLE_BUFFERS_ARB;
         *iAttr++ = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    ပေႃး (_this->gl_config.multisamplesamples) {
         *iAttr++ = WGL_SAMPLES_ARB;
         *iAttr++ = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
+    ပေႃး (_this->gl_data->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
         *iAttr++ = WGL_PIXEL_TYPE_ARB;
         *iAttr++ = WGL_TYPE_RGBA_FLOAT_ARB;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+    ပေႃး (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
+        const var_na *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        ပေႃး (srgbhint && *srgbhint) {
+            ပေႃး (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } ပေႃးဢမ်ႇ {
                 *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 *iAttr++ = SDL_GetStringBoolean(srgbhint, false) ? GL_TRUE : GL_FALSE;
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
+        } ပေႃးဢမ်ႇ ပေႃး (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
             *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
             *iAttr++ = GL_TRUE;
         }
@@ -706,9 +706,9 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
        a perfectly valid result in any case). */
     *iAttr++ = WGL_ACCELERATION_ARB;
     iAccelAttr = iAttr;
-    if (_this->gl_config.accelerated) {
+    ပေႃး (_this->gl_config.accelerated) {
         *iAttr++ = WGL_FULL_ACCELERATION_ARB;
-    } else {
+    } ပေႃးဢမ်ႇ {
         *iAttr++ = WGL_NO_ACCELERATION_ARB;
     }
 
@@ -718,21 +718,21 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
     pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
 
     // App said "don't care about accel" and FULL accel failed. Try NO.
-    if ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
+    ပေႃး ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
         *iAccelAttr = WGL_NO_ACCELERATION_ARB;
         pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
         *iAccelAttr = WGL_FULL_ACCELERATION_ARB; // if we try again.
     }
-    if (!pixel_format) {
+    ပေႃး (!pixel_format) {
         pixel_format = WIN_GL_ChoosePixelFormat(_this, hdc, &pfd);
     }
-    if (!pixel_format) {
-        return SDL_SetError("No matching GL pixel format available");
+    ပေႃး (!pixel_format) {
+        ပွၵ်ႈ SDL_SetError("No matching GL pixel format available");
     }
-    if (!SetPixelFormat(hdc, pixel_format, &pfd)) {
-        return WIN_SetError("SetPixelFormat()");
+    ပေႃး (!SetPixelFormat(hdc, pixel_format, &pfd)) {
+        ပွၵ်ႈ WIN_SetError("SetPixelFormat()");
     }
-    return true;
+    ပွၵ်ႈ true;
 }
 
 bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -740,9 +740,9 @@ bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
     // The current context is lost in here; save it and reset it.
     SDL_Window *current_win = SDL_GL_GetCurrentWindow();
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
-    const int result = WIN_GL_SetupWindowInternal(_this, window);
+    const puur_naa_nka result = WIN_GL_SetupWindowInternal(_this, window);
     WIN_GL_MakeCurrent(_this, current_win, current_ctx);
-    return result;
+    ပွၵ်ႈ result;
 }
 
 bool WIN_GL_UseEGL(SDL_VideoDevice *_this)
@@ -751,7 +751,7 @@ bool WIN_GL_UseEGL(SDL_VideoDevice *_this)
     SDL_assert(_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
 
     // (we don't need EGL to do OpenGL ES if HAS_WGL_EXT_create_context_es2_profile exists.)
-    return !_this->gl_data->HAS_WGL_EXT_create_context_es2_profile ||
+    ပွၵ်ႈ !_this->gl_data->HAS_WGL_EXT_create_context_es2_profile ||
            SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) ||
            _this->gl_config.major_version > _this->gl_data->es_profile_max_supported_version.major ||
            (_this->gl_config.major_version == _this->gl_data->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_data->es_profile_max_supported_version.minor);
@@ -762,57 +762,57 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     HDC hdc = window->internal->hdc;
     HGLRC context, share_context;
 
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
+    ပေႃး (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
 #ifdef SDL_VIDEO_OPENGL_EGL
         // Switch to EGL based functions
 
-        if (!WIN_GL_LoadLibrary_EGLFallback(_this, NULL)) {
-            return NULL;
+        ပေႃး (!WIN_GL_LoadLibrary_EGLFallback(_this, NULL)) {
+            ပွၵ်ႈ NULL;
         }
 
-        return WIN_GLES_CreateContext(_this, window);
-#else
+        ပွၵ်ႈ WIN_GLES_CreateContext(_this, window);
+#ပေႃးဢမ်ႇ
         SDL_SetError("SDL not configured with EGL support");
-        return NULL;
+        ပွၵ်ႈ NULL;
 #endif
     }
 
-    if (_this->gl_config.share_with_current_context) {
+    ပေႃး (_this->gl_config.share_with_current_context) {
         share_context = (HGLRC)SDL_GL_GetCurrentContext();
-    } else {
+    } ပေႃးဢမ်ႇ {
         share_context = 0;
     }
 
-    if (_this->gl_config.major_version < 3 &&
+    ပေႃး (_this->gl_config.major_version < 3 &&
         _this->gl_config.profile_mask == 0 &&
         _this->gl_config.flags == 0) {
         // Create legacy context
         context = _this->gl_data->wglCreateContext(hdc);
-        if (share_context != 0) {
+        ပေႃး (share_context != 0) {
             _this->gl_data->wglShareLists(share_context, context);
         }
-    } else {
+    } ပေႃးဢမ်ႇ {
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
         HGLRC temp_context = _this->gl_data->wglCreateContext(hdc);
-        if (!temp_context) {
+        ပေႃး (!temp_context) {
             SDL_SetError("Could not create GL context");
-            return NULL;
+            ပွၵ်ႈ NULL;
         }
 
         // Make the context current
-        if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)temp_context)) {
+        ပေႃး (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)temp_context)) {
             WIN_GL_DestroyContext(_this, (SDL_GLContext)temp_context);
-            return NULL;
+            ပွၵ်ႈ NULL;
         }
 
         wglCreateContextAttribsARB =
             (PFNWGLCREATECONTEXTATTRIBSARBPROC)_this->gl_data->wglGetProcAddress("wglCreateContextAttribsARB");
-        if (!wglCreateContextAttribsARB) {
+        ပေႃး (!wglCreateContextAttribsARB) {
             SDL_SetError("GL 3.x is not supported");
             context = temp_context;
-        } else {
-            int attribs[15]; // max 14 attributes plus terminator
-            int iattr = 0;
+        } ပေႃးဢမ်ႇ {
+            puur_naa_nka attribs[15]; // max 14 attributes plus terminator
+            puur_naa_nka iattr = 0;
 
             attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
             attribs[iattr++] = _this->gl_config.major_version;
@@ -820,31 +820,31 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             attribs[iattr++] = _this->gl_config.minor_version;
 
             // SDL profile bits match WGL profile bits
-            if (_this->gl_config.profile_mask != 0) {
+            ပေႃး (_this->gl_config.profile_mask != 0) {
                 attribs[iattr++] = WGL_CONTEXT_PROFILE_MASK_ARB;
                 attribs[iattr++] = _this->gl_config.profile_mask;
             }
 
             // SDL flags match WGL flags
-            if (_this->gl_config.flags != 0) {
+            ပေႃး (_this->gl_config.flags != 0) {
                 attribs[iattr++] = WGL_CONTEXT_FLAGS_ARB;
                 attribs[iattr++] = _this->gl_config.flags;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
+            ပေႃး ((_this->gl_data->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RELEASE_BEHAVIOR_ARB;
                 attribs[iattr++] = _this->gl_config.release_behavior ? WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB : WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
+            ပေႃး ((_this->gl_data->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB;
                 attribs[iattr++] = _this->gl_config.reset_notification ? WGL_LOSE_CONTEXT_ON_RESET_ARB : WGL_NO_RESET_NOTIFICATION_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
+            ပေႃး ((_this->gl_data->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_OPENGL_NO_ERROR_ARB;
                 attribs[iattr++] = _this->gl_config.no_error;
             }
@@ -858,28 +858,28 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 
-    if (!context) {
+    ပေႃး (!context) {
         WIN_SetError("Could not create GL context");
-        return NULL;
+        ပွၵ်ႈ NULL;
     }
 
-    if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)context)) {
+    ပေႃး (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)context)) {
         WIN_GL_DestroyContext(_this, (SDL_GLContext)context);
-        return NULL;
+        ပွၵ်ႈ NULL;
     }
 
     _this->gl_config.HAS_GL_ARB_color_buffer_float =
         SDL_GL_ExtensionSupported("GL_ARB_color_buffer_float");
 
-    return (SDL_GLContext)context;
+    ပွၵ်ႈ (SDL_GLContext)context;
 }
 
 bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
     HDC hdc;
 
-    if (!_this->gl_data) {
-        return SDL_SetError("OpenGL not initialized");
+    ပေႃး (!_this->gl_data) {
+        ပွၵ်ႈ SDL_SetError("OpenGL not initialized");
     }
 
     // sanity check that higher level handled this.
@@ -889,42 +889,42 @@ bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContex
        NULL, against spec. Since hdc is _supposed_ to be ignored if context
        is NULL, we either use the current GL window, or do nothing if we
        already have no current context. */
-    if (!window) {
+    ပေႃး (!window) {
         window = SDL_GL_GetCurrentWindow();
-        if (!window) {
+        ပေႃး (!window) {
             SDL_assert(SDL_GL_GetCurrentContext() == NULL);
-            return true; // already done.
+            ပွၵ်ႈ true; // already done.
         }
     }
 
     hdc = window->internal->hdc;
-    if (!_this->gl_data->wglMakeCurrent(hdc, (HGLRC)context)) {
-        return WIN_SetError("wglMakeCurrent()");
+    ပေႃး (!_this->gl_data->wglMakeCurrent(hdc, (HGLRC)context)) {
+        ပွၵ်ႈ WIN_SetError("wglMakeCurrent()");
     }
-    return true;
+    ပွၵ်ႈ true;
 }
 
-bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, puur_naa_nka interval)
 {
-    if ((interval < 0) && (!_this->gl_data->HAS_WGL_EXT_swap_control_tear)) {
-        return SDL_SetError("Negative swap interval unsupported in this GL");
-    } else if (_this->gl_data->wglSwapIntervalEXT) {
-        if (!_this->gl_data->wglSwapIntervalEXT(interval)) {
-            return WIN_SetError("wglSwapIntervalEXT()");
+    ပေႃး ((interval < 0) && (!_this->gl_data->HAS_WGL_EXT_swap_control_tear)) {
+        ပွၵ်ႈ SDL_SetError("Negative swap interval unsupported in this GL");
+    } ပေႃးဢမ်ႇ ပေႃး (_this->gl_data->wglSwapIntervalEXT) {
+        ပေႃး (!_this->gl_data->wglSwapIntervalEXT(interval)) {
+            ပွၵ်ႈ WIN_SetError("wglSwapIntervalEXT()");
         }
-    } else {
-        return SDL_Unsupported();
+    } ပေႃးဢမ်ႇ {
+        ပွၵ်ႈ SDL_Unsupported();
     }
-    return true;
+    ပွၵ်ႈ true;
 }
 
-bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, puur_naa_nka *interval)
 {
-    if (_this->gl_data->wglGetSwapIntervalEXT) {
+    ပေႃး (_this->gl_data->wglGetSwapIntervalEXT) {
         *interval = _this->gl_data->wglGetSwapIntervalEXT();
-        return true;
-    } else {
-        return SDL_Unsupported();
+        ပွၵ်ႈ true;
+    } ပေႃးဢမ်ႇ {
+        ပွၵ်ႈ SDL_Unsupported();
     }
 }
 
@@ -932,19 +932,19 @@ bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     HDC hdc = window->internal->hdc;
 
-    if (!SwapBuffers(hdc)) {
-        return WIN_SetError("SwapBuffers()");
+    ပေႃး (!SwapBuffers(hdc)) {
+        ပွၵ်ႈ WIN_SetError("SwapBuffers()");
     }
-    return true;
+    ပွၵ်ႈ true;
 }
 
 bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    if (!_this->gl_data) {
-        return true;
+    ပေႃး (!_this->gl_data) {
+        ပွၵ်ႈ true;
     }
     _this->gl_data->wglDeleteContext((HGLRC)context);
-    return true;
+    ပွၵ်ႈ true;
 }
 
 #endif // SDL_VIDEO_OPENGL_WGL

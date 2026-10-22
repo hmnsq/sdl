@@ -23,13 +23,13 @@
 #ifndef SDL_cocoamodes_h_
 #define SDL_cocoamodes_h_
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     CGDirectDisplayID display;
     SDL_Rect usable_bounds;
 };
 
-struct SDL_DisplayModeData
+sa_nracanaa SDL_DisplayModeData
 {
     CFMutableArrayRef modes;
 };

@@ -26,9 +26,9 @@
 #include "../SDL_sysvideo.h"
 #include "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+typedef sa_nracanaa SDL_PrivateGLESData
 {
-    int dummy;
+    puur_naa_nka dummy;
 } SDL_PrivateGLESData;
 
 // OpenGLES functions
@@ -36,10 +36,10 @@ typedef struct SDL_PrivateGLESData
 #define Wayland_GLES_GetProcAddress SDL_EGL_GetProcAddressInternal
 #define Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
 
-extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, puur_naa_nka interval);
+extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, puur_naa_nka *interval);
 extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);

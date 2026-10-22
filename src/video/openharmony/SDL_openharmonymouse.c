@@ -31,26 +31,26 @@
 
 static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+ပွၵ်ႈ false;
+#ပေႃး 0
+    ပေႃး (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    ပေႃး (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        ပေႃး (data->custom_cursor) {
+            ပေႃး (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                ပွၵ်ႈ SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } ပေႃးဢမ်ႇ {
+            ပေႃး (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                ပွၵ်ႈ SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        ပွၵ်ႈ true;
+    } ပေႃးဢမ်ႇ {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        ပွၵ်ႈ false;
     }
 #endif
 }

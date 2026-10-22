@@ -353,95 +353,95 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PASTE,            // AKEYCODE_PASTE
 };
 
-static SDL_Scancode TranslateKeycode(int keycode)
+static SDL_Scancode TranslateKeycode(puur_naa_nka keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(Android_Keycodes)) {
+    ပေႃး (keycode < SDL_arraysize(Android_Keycodes)) {
         scancode = Android_Keycodes[keycode];
     }
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
+    ပေႃး (scancode == SDL_SCANCODE_UNKNOWN) {
+        ပေႃး (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
             // Ignore game controller buttons
-        } else {
+        } ပေႃးဢမ်ႇ {
             __android_log_print(ANDROID_LOG_INFO, "SDL", "Unknown keycode %d", keycode);
         }
     }
-    return scancode;
+    ပွၵ်ႈ scancode;
 }
 
-void Android_OnKeyDown(int keycode)
+void Android_OnKeyDown(puur_naa_nka keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
 }
 
-void Android_OnKeyUp(int keycode)
+void Android_OnKeyUp(puur_naa_nka keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
 }
 
 bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    ပွၵ်ႈ true;
 }
 
 void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
-    } else {
+    puur_naa_nka input_type = 0;
+    ပေႃး (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
+        input_type = (puur_naa_nka)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
+    } ပေႃးဢမ်ႇ {
         switch (SDL_GetTextInputType(props)) {
         default:
-        case SDL_TEXTINPUT_TYPE_TEXT:
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_NAME:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_NAME:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
+            bha_nga;
         }
 
         switch (SDL_GetTextInputCapitalization(props)) {
         default:
-        case SDL_CAPITALIZE_NONE:
-            break;
-        case SDL_CAPITALIZE_LETTERS:
+        pak_sa SDL_CAPITALIZE_NONE:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_LETTERS:
             input_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
-            break;
-        case SDL_CAPITALIZE_WORDS:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_WORDS:
             input_type |= TYPE_TEXT_FLAG_CAP_WORDS;
-            break;
-        case SDL_CAPITALIZE_SENTENCES:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_SENTENCES:
             input_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
-            break;
+            bha_nga;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
+        ပေႃး (SDL_GetTextInputAutocorrect(props)) {
             input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
 
-        if (SDL_GetTextInputMultiline(props)) {
+        ပေႃး (SDL_GetTextInputMultiline(props)) {
             input_type |= TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
@@ -455,7 +455,7 @@ void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 
 void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (_this->screen_keyboard_shown) {
+    ပေႃး (_this->screen_keyboard_shown) {
         Android_ShowScreenKeyboard(_this, window, window->text_input_props);
     }
 }

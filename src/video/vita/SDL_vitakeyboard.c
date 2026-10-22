@@ -31,7 +31,7 @@
 #include "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
+puur_naa_nka keyboard_hid_handle = 0;
 Uint8 prev_keys[6] = { 0 };
 Uint8 prev_modifiers = 0;
 Uint8 locks = 0;
@@ -44,7 +44,7 @@ void VITA_InitKeyboard(void)
 #endif
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
+    ပေႃး (keyboard_hid_handle > 0) {
         SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
     }
 }
@@ -52,26 +52,26 @@ void VITA_InitKeyboard(void)
 void VITA_PollKeyboard(void)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    ပေႃး (!Vita_Window) {
+        ပွၵ်ႈ;
     }
 
-    if (keyboard_hid_handle > 0) {
+    ပေႃး (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        puur_naa_nka numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        ပေႃး (numReports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } ပေႃးဢမ်ႇ ပေႃး (numReports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
+            ပေႃး (k_reports[numReports - 1].modifiers[1] & 0x1) {
+                ပေႃး (!(locks & 0x1)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
+            } ပေႃးဢမ်ႇ {
+                ပေႃး (locks & 0x1) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
@@ -79,13 +79,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
+            ပေႃး (k_reports[numReports - 1].modifiers[1] & 0x2) {
+                ပေႃး (!(locks & 0x2)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
+            } ပေႃးဢမ်ႇ {
+                ပေႃး (locks & 0x2) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
@@ -93,13 +93,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
+            ပေႃး (k_reports[numReports - 1].modifiers[1] & 0x4) {
+                ပေႃး (!(locks & 0x4)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
+            } ပေႃးဢမ်ႇ {
+                ပေႃး (locks & 0x4) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
@@ -108,59 +108,59 @@ void VITA_PollKeyboard(void)
             {
                 Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
+                ပေႃး (changed_modifiers & 0x01) {
+                    ပေႃး (prev_modifiers & 0x01) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
+                ပေႃး (changed_modifiers & 0x02) {
+                    ပေႃး (prev_modifiers & 0x02) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
+                ပေႃး (changed_modifiers & 0x04) {
+                    ပေႃး (prev_modifiers & 0x04) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
+                ပေႃး (changed_modifiers & 0x08) {
+                    ပေႃး (prev_modifiers & 0x08) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
+                ပေႃး (changed_modifiers & 0x10) {
+                    ပေႃး (prev_modifiers & 0x10) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
+                ပေႃး (changed_modifiers & 0x20) {
+                    ပေႃး (prev_modifiers & 0x20) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
+                ပေႃး (changed_modifiers & 0x40) {
+                    ပေႃး (prev_modifiers & 0x40) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
+                ပေႃး (changed_modifiers & 0x80) {
+                    ပေႃး (prev_modifiers & 0x80) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
+                    } ပေႃးဢမ်ႇ {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
@@ -168,16 +168,16 @@ void VITA_PollKeyboard(void)
 
             prev_modifiers = k_reports[numReports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            for (puur_naa_nka i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                puur_naa_nka keyCode = k_reports[numReports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                ပေႃး (keyCode != prev_keys[i]) {
 
-                    if (prev_keys[i]) {
+                    ပေႃး (prev_keys[i]) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
                     }
-                    if (keyCode) {
+                    ပေႃး (keyCode) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
                     }
                     prev_keys[i] = keyCode;
