@@ -23,7 +23,7 @@
 #ifndef SDL_windowsmodes_h_
 #define SDL_windowsmodes_h_
 
-typedef enum
+typedef ga_nanaa
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+sa_nracanaa SDL_DisplayData
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,7 +39,7 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+sa_nracanaa SDL_DisplayModeData
 {
     DEVMODEW DeviceMode;
 };

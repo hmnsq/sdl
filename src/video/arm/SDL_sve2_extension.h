@@ -25,7 +25,7 @@
  *
  */
 
-#if !defined(SDL_SVE2_EXTENSION_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
+#ᰀᰧ !defined(SDL_SVE2_EXTENSION_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
 #define SDL_SVE2_EXTENSION_H
 
 #include "SDL_sve2_util.h"
@@ -57,9 +57,9 @@
 #endif
 
 #define svlenu8()  svcntb_pat(SV_ALL)
-#define svlenu16() (svcntb_pat(SV_ALL) / sizeof(uint16_t))
-#define svlenu32() (svcntb_pat(SV_ALL) / sizeof(uint32_t))
-#define svlenu64() (svcntb_pat(SV_ALL) / sizeof(uint64_t))
+#define svlenu16() (svcntb_pat(SV_ALL) / parimaa_na(uint16_t))
+#define svlenu32() (svcntb_pat(SV_ALL) / parimaa_na(uint32_t))
+#define svlenu64() (svcntb_pat(SV_ALL) / parimaa_na(uint64_t))
 
 #define svlens8()  svlenu8()
 #define svlens16() svlenu16()
@@ -122,7 +122,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             (void)sve_src_chn_idx;                                        \
@@ -132,7 +132,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             (void)sve_src_chn_idx;                                        \
@@ -142,8 +142,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_accc_foreach_chn012(ma_source_u16x4,                \
                                           ma_target_u16x4,                \
@@ -160,7 +160,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             (void)sve_src_chn_idx;                                        \
@@ -170,7 +170,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             (void)sve_src_chn_idx;                                        \
@@ -180,8 +180,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_accc_foreach_chn(ma_source_u16x4,                   \
                                        ma_target_u16x4,                   \
@@ -199,7 +199,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             (void)sve_src_chn_idx;                                        \
@@ -210,7 +210,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             (void)sve_src_chn_idx;                                        \
@@ -221,7 +221,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             (void)sve_src_chn_idx;                                        \
@@ -232,8 +232,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn(ma_source_u16x4,                  \
                                         ma_target_u16x4,                  \
@@ -250,7 +250,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             (void)sve_src_chn_idx;                                        \
@@ -260,7 +260,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             (void)sve_src_chn_idx;                                        \
@@ -270,7 +270,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             (void)sve_src_chn_idx;                                        \
@@ -280,8 +280,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_src_dst_rev(ma_source_u16x4,      \
                                                     ma_target_u16x4,      \
@@ -300,7 +300,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -312,7 +312,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -324,7 +324,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 0;                            \
@@ -336,8 +336,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_accc_ccca(ma_source_u16x4,        \
                                                   ma_target_u16x4,        \
@@ -356,7 +356,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -368,7 +368,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 3;                            \
@@ -380,7 +380,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 0;                            \
@@ -392,8 +392,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_ccca_accc(ma_source_u16x4,        \
                                                   ma_target_u16x4,        \
@@ -412,7 +412,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -424,7 +424,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -436,7 +436,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 0;                            \
             const uint8_t sve_dst_chn_idx = 3;                            \
@@ -448,8 +448,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_a123_a321(ma_source_u16x4,        \
                                                   ma_target_u16x4,        \
@@ -468,7 +468,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -480,7 +480,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 0;                            \
@@ -492,7 +492,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 3;                            \
@@ -504,8 +504,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_123a_321a(ma_source_u16x4,        \
                                                   ma_target_u16x4,        \
@@ -524,7 +524,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 3;                            \
@@ -536,7 +536,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 3, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -548,7 +548,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 2, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -560,8 +560,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x4 = svset4(ma_target_u16x4, 1, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_argb_rgb565(ma_source_u16x4,      \
                                                     ma_target_u16x3,      \
@@ -580,7 +580,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -592,7 +592,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -604,8 +604,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_rgba_rgb565(ma_source_u16x4,      \
                                                     ma_target_u16x3,      \
@@ -624,7 +624,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -636,7 +636,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 3;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -648,8 +648,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_bgra_rgb565(ma_source_u16x4,      \
                                                     ma_target_u16x3,      \
@@ -668,7 +668,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 2;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -680,7 +680,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -692,8 +692,8 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 #define sdl_sve_pixel_u16x4_foreach_chn_abgr_rgb565(ma_source_u16x4,      \
                                                     ma_target_u16x3,      \
@@ -712,7 +712,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 0, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 1;                            \
             const uint8_t sve_dst_chn_idx = 1;                            \
@@ -724,7 +724,7 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 1, sve_target_u16); \
-        } while (0);                                                      \
+        } ᰀᰬ (0);                                                      \
         do {                                                              \
             const uint8_t sve_src_chn_idx = 0;                            \
             const uint8_t sve_dst_chn_idx = 2;                            \
@@ -736,23 +736,23 @@
             (void)sve_target_u16;                                         \
             __VA_ARGS__                                                   \
             ma_target_u16x3 = svset3(ma_target_u16x3, 2, sve_target_u16); \
-        } while (0);                                                      \
-    } while (0)
+        } ᰀᰬ (0);                                                      \
+    } ᰀᰬ (0)
 
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16x3_t sdl_sve_rgb565_unpack(svuint16_t vPixels)
+static anta_hstha svuint16x3_t sdl_sve_rgb565_unpack(svuint16_t vPixels)
 {
     svuint16_t vBlue = svand_n_u16_m(svptrue_b16(), vPixels, 0x1F);
     svuint16_t vGreen = svand_n_u16_m(svptrue_b16(), vPixels, (0x3F << 5));
     svuint16_t vRed = svand_n_u16_m(svptrue_b16(), vPixels, (0x1F << 11));
 
-    return svcreate3_u16(svlsl_n_u16_m(svptrue_b16(), vBlue, 3),
+    ᰀᰧᰌ svcreate3_u16(svlsl_n_u16_m(svptrue_b16(), vBlue, 3),
                          svlsr_n_u16_m(svptrue_b16(), vGreen, 3),
                          svlsr_n_u16_m(svptrue_b16(), vRed, 8));
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_rgb565_pack(svuint16x3_t vRGB16x3)
+static anta_hstha svuint16_t sdl_sve_rgb565_pack(svuint16x3_t vRGB16x3)
 {
     svuint16_t vRed = svlsr_n_u16_m(svptrue_b16(), svget3_u16(vRGB16x3, 0), 3);
     svuint16_t vGreen = svlsl_n_u16_m(svptrue_b16(),
@@ -767,7 +767,7 @@ static inline svuint16_t sdl_sve_rgb565_pack(svuint16x3_t vRGB16x3)
                                      8);
 
     svuint16_t vPixel = svorr_u16_m(svptrue_b16(), vRed, vGreen);
-    return svorr_u16_m(svptrue_b16(), vPixel, vBlue);
+    ᰀᰧᰌ svorr_u16_m(svptrue_b16(), vPixel, vBlue);
 
     // return  (svget3_u16(vRGB16x3, 0) >> 3)
     //     |   ((svget3_u16(vRGB16x3, 1) & (0x3F << 2)) << 3)
@@ -776,7 +776,7 @@ static inline svuint16_t sdl_sve_rgb565_pack(svuint16x3_t vRGB16x3)
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2, 3, 4)
-static inline void svld3rgb565_u16(svbool_t vPredu8,
+static anta_hstha void svld3rgb565_u16(svbool_t vPredu8,
                                    uint16_t *phwSource,
                                    svuint16x3_t *pvLow,
                                    svuint16x3_t *pvHigh)
@@ -808,7 +808,7 @@ static inline void svld3rgb565_u16(svbool_t vPredu8,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2)
-static inline void svst3rgb565_u16(svbool_t vPredu8,
+static anta_hstha void svst3rgb565_u16(svbool_t vPredu8,
                                    uint16_t *phwTarget,
                                    svuint16x3_t vLow,
                                    svuint16x3_t vHigh)
@@ -825,7 +825,7 @@ static inline void svst3rgb565_u16(svbool_t vPredu8,
 
         // vHighByteLowHalf = vPixel >> 8;
         vHighByteLowHalf = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
-    } while (0);
+    } ᰀᰬ (0);
 
     svuint16_t vLowByteHighHalf = svundef_u16();
     svuint16_t vHighByteHighHalf = svundef_u16();
@@ -839,7 +839,7 @@ static inline void svst3rgb565_u16(svbool_t vPredu8,
 
         // vHighByteHighHalf = vPixel >> 8;
         vHighByteHighHalf = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
-    } while (0);
+    } ᰀᰬ (0);
 
     /* save rgb565 pixels */
     svuint8_t vLowByte = svuzp1_u8(svreinterpret_u8(vLowByteLowHalf),
@@ -851,7 +851,7 @@ static inline void svst3rgb565_u16(svbool_t vPredu8,
     svst2_u8(vPredu8, (uint8_t *)phwTarget, svcreate2_u8(vLowByte, vHighByte));
 }
 
-#if defined(__GNUC__) && !defined(__clang__)
+#ᰀᰧ defined(__GNUC__) && !defined(__clang__)
 #define svld4ub_u16(ma_pred,                                                                                         \
                     ma_src_ptr,                                                                                      \
                     ma_svuint16x4_low_ptr,                                                                           \
@@ -868,7 +868,7 @@ static inline void svst3rgb565_u16(svbool_t vPredu8,
         *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 1, svunpkhi_u16(svget4_u8(vInput8x4, 1))); \
         *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 2, svunpkhi_u16(svget4_u8(vInput8x4, 2))); \
         *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 3, svunpkhi_u16(svget4_u8(vInput8x4, 3))); \
-    } while (0)
+    } ᰀᰬ (0)
 
 #define svst4ub_u16(ma_pred,                                                                 \
                     ma_dst_ptr,                                                              \
@@ -888,11 +888,11 @@ static inline void svst3rgb565_u16(svbool_t vPredu8,
                                      svreinterpret_u8(svget4_u16((ma_svuint16x4_high), 3))); \
                                                                                              \
         svst4_u8((ma_pred), (ma_dst_ptr), svcreate4_u8(vCH0u8, vCH1u8, vCH2u8, vCH3u8));     \
-    } while (0)
-#else
+    } ᰀᰬ (0)
+#ᰀᰧᰀ
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2, 3, 4)
-static inline void svld4ub_u16(svbool_t vPredu8,
+static anta_hstha void svld4ub_u16(svbool_t vPredu8,
                                uint8_t *pchSource,
                                svuint16x4_t *pvLow,
                                svuint16x4_t *pvHigh)
@@ -912,7 +912,7 @@ static inline void svld4ub_u16(svbool_t vPredu8,
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2)
-static inline void svst4ub_u16(svbool_t vPredu8,
+static anta_hstha void svst4ub_u16(svbool_t vPredu8,
                                uint8_t *pchTarget,
                                svuint16x4_t vLow,
                                svuint16x4_t vHigh)
@@ -937,7 +937,7 @@ static inline void svst4ub_u16(svbool_t vPredu8,
 /*! \note the Element range of vMask is [0, 0xFF]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_mask(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_mask(svuint16_t vSource,
                                                      svuint16_t vTarget,
                                                      svuint16_t vMask)
 {
@@ -952,7 +952,7 @@ static inline svuint16_t sdl_sve_chn_blend_with_mask(svuint16_t vSource,
                                      vMask));
 
     /* x += x >> 8 */
-    return svreinterpret_u16_u8(
+    ᰀᰧᰌ svreinterpret_u16_u8(
         svaddhnb_u16(vTemp0,
                      svlsr_n_u16_m(svptrue_b16(),
                                    vTemp0,
@@ -961,7 +961,7 @@ static inline svuint16_t sdl_sve_chn_blend_with_mask(svuint16_t vSource,
 /*! \note the Element range of vMask is [0, 0xFF]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_mask_fast(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_mask_fast(svuint16_t vSource,
                                                           svuint16_t vTarget,
                                                           svuint16_t vMask)
 {
@@ -974,13 +974,13 @@ static inline svuint16_t sdl_sve_chn_blend_with_mask_fast(svuint16_t vSource,
                                      svdup_u16(255),
                                      vMask));
 
-    return svlsr_n_u16_m(svptrue_b16(), vTemp0, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTemp0, 8); // vTarget >> 8;
 }
 
 /*! \note the hwOpacity range [0, 0x100]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_opacity(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_opacity(svuint16_t vSource,
                                                         svuint16_t vTarget,
                                                         uint16_t hwOpacity)
 {
@@ -993,13 +993,13 @@ static inline svuint16_t sdl_sve_chn_blend_with_opacity(svuint16_t vSource,
                                       256 - hwOpacity);
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 /*! \note the hwOpacity range [0, 0x100]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_opacity_fast(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_opacity_fast(svuint16_t vSource,
                                                              svuint16_t vTarget,
                                                              uint16_t hwOpacity)
 {
@@ -1010,14 +1010,14 @@ static inline svuint16_t sdl_sve_chn_blend_with_opacity_fast(svuint16_t vSource,
                            vTarget,
                            256 - hwOpacity);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTemp0, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTemp0, 8); // vTarget >> 8;
 }
 
 /*! \note the Element range of vMask is [0, 0xFF]
  *  \note the hwOpacity range [0, 0x100]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_mask_and_opacity(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_mask_and_opacity(svuint16_t vSource,
                                                                  svuint16_t vTarget,
                                                                  svuint16_t vMask,
                                                                  uint16_t hwOpacity)
@@ -1038,13 +1038,13 @@ static inline svuint16_t sdl_sve_chn_blend_with_mask_and_opacity(svuint16_t vSou
                                                 vMask));
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 /*! \note the Element range of vMask0/1 is [0, 0xFF]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_masks(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_masks(svuint16_t vSource,
                                                       svuint16_t vTarget,
                                                       svuint16_t vMask0,
                                                       svuint16_t vMask1)
@@ -1070,14 +1070,14 @@ static inline svuint16_t sdl_sve_chn_blend_with_masks(svuint16_t vSource,
                                                 vMask));
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 /*! \note the Element range of vMask0/1 is [0, 0xFF]
  *  \note the hwOpacity range [0, 0x100]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_masks_and_opacity(
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_masks_and_opacity(
     svuint16_t vSource,
     svuint16_t vTarget,
     svuint16_t vMask0,
@@ -1113,13 +1113,13 @@ static inline svuint16_t sdl_sve_chn_blend_with_masks_and_opacity(
                                                 vMask));
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 /*! \note the Element range of vMask0/1 is [0, 0xFF]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_3masks(svuint16_t vSource,
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_3masks(svuint16_t vSource,
                                                        svuint16_t vTarget,
                                                        svuint16_t vMask0,
                                                        svuint16_t vMask1,
@@ -1154,14 +1154,14 @@ static inline svuint16_t sdl_sve_chn_blend_with_3masks(svuint16_t vSource,
                                                 vMask));
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 /*! \note the Element range of vMask0/1 is [0, 0xFF]
  *  \note the hwOpacity range [0, 0x100]
  */
 SDL_TARGETING("arch=armv8-a+sve2")
-static inline svuint16_t sdl_sve_chn_blend_with_3masks_and_opacity(
+static anta_hstha svuint16_t sdl_sve_chn_blend_with_3masks_and_opacity(
     svuint16_t vSource,
     svuint16_t vTarget,
     svuint16_t vMask0,
@@ -1206,7 +1206,7 @@ static inline svuint16_t sdl_sve_chn_blend_with_3masks_and_opacity(
                                                 vMask));
     vTarget = svadd_u16_m(svptrue_b16(), vTemp0, vTemp1);
 
-    return svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
+    ᰀᰧᰌ svlsr_n_u16_m(svptrue_b16(), vTarget, 8); // vTarget >> 8;
 }
 
 #endif /* SDL_SVE2_EXTENSION_H */

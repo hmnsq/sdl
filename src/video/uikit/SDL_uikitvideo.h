@@ -37,7 +37,7 @@
 
 #ifdef SDL_PLATFORM_VISIONOS
 extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
+#ᰀᰧᰀ
 extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
 #endif
 
@@ -46,7 +46,7 @@ extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
 extern void UIKit_SetGameControllerInteraction(bool enabled);
 extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+#ᰀᰧ !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
 extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
 #endif
 
@@ -56,7 +56,7 @@ extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
 extern void UIKit_ForceUpdateHomeIndicator(void);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+extern bool UIKit_IsSystemVersionAtLeast(dviguu_na version);
 
 extern SDL_SystemTheme UIKit_GetSystemTheme(void);
 

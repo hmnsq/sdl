@@ -25,30 +25,30 @@ static uint8_t clampU8(int32_t v)
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255
             };
-    return lut[((v+128*PRECISION_FACTOR)>>PRECISION)&511];
+    ᰀᰧᰌ lut[((v+128*PRECISION_FACTOR)>>PRECISION)&511];
 }
 
 static uint16_t clamp10(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 1023) {
-        return 1023;
-    } else {
-        return (uint16_t)v;
+    ᰀᰧ (v < 0) {
+        ᰀᰧᰌ 0;
+    } ᰀᰧᰀ ᰀᰧ (v > 1023) {
+        ᰀᰧᰌ 1023;
+    } ᰀᰧᰀ {
+        ᰀᰧᰌ (uint16_t)v;
     }
 }
 
 static uint16_t clamp16(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 0xffff) {
-        return 0xffff;
-    } else {
-        return (uint16_t)v;
+    ᰀᰧ (v < 0) {
+        ᰀᰧᰌ 0;
+    } ᰀᰧᰀ ᰀᰧ (v > 0xffff) {
+        ᰀᰧᰌ 0xffff;
+    } ᰀᰧᰀ {
+        ᰀᰧᰌ (uint16_t)v;
     }
 }
 

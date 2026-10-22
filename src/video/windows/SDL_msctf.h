@@ -30,30 +30,30 @@
 
 /* *INDENT-OFF* */ // clang-format off
 
-typedef struct ITfThreadMgr ITfThreadMgr;
-typedef struct ITfDocumentMgr ITfDocumentMgr;
-typedef struct ITfClientId ITfClientId;
+typedef sa_nracanaa ITfThreadMgr ITfThreadMgr;
+typedef sa_nracanaa ITfDocumentMgr ITfDocumentMgr;
+typedef sa_nracanaa ITfClientId ITfClientId;
 
-typedef struct IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
-typedef struct IEnumTfFunctionProviders IEnumTfFunctionProviders;
-typedef struct ITfFunctionProvider ITfFunctionProvider;
-typedef struct ITfCompartmentMgr ITfCompartmentMgr;
-typedef struct ITfContext ITfContext;
-typedef struct IEnumTfContexts IEnumTfContexts;
-typedef struct ITfUIElementSink ITfUIElementSink;
-typedef struct ITfUIElement ITfUIElement;
-typedef struct ITfUIElementMgr ITfUIElementMgr;
-typedef struct IEnumTfUIElements IEnumTfUIElements;
-typedef struct ITfThreadMgrEx ITfThreadMgrEx;
-typedef struct ITfCandidateListUIElement ITfCandidateListUIElement;
-typedef struct ITfReadingInformationUIElement ITfReadingInformationUIElement;
-typedef struct ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
-typedef struct ITfSource ITfSource;
+typedef sa_nracanaa IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
+typedef sa_nracanaa IEnumTfFunctionProviders IEnumTfFunctionProviders;
+typedef sa_nracanaa ITfFunctionProvider ITfFunctionProvider;
+typedef sa_nracanaa ITfCompartmentMgr ITfCompartmentMgr;
+typedef sa_nracanaa ITfContext ITfContext;
+typedef sa_nracanaa IEnumTfContexts IEnumTfContexts;
+typedef sa_nracanaa ITfUIElementSink ITfUIElementSink;
+typedef sa_nracanaa ITfUIElement ITfUIElement;
+typedef sa_nracanaa ITfUIElementMgr ITfUIElementMgr;
+typedef sa_nracanaa IEnumTfUIElements IEnumTfUIElements;
+typedef sa_nracanaa ITfThreadMgrEx ITfThreadMgrEx;
+typedef sa_nracanaa ITfCandidateListUIElement ITfCandidateListUIElement;
+typedef sa_nracanaa ITfReadingInformationUIElement ITfReadingInformationUIElement;
+typedef sa_nracanaa ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
+typedef sa_nracanaa ITfSource ITfSource;
 
 typedef DWORD TfClientId;
 typedef DWORD TfEditCookie;
 
-typedef struct ITfThreadMgrVtbl
+typedef sa_nracanaa ITfThreadMgrVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgr *);
@@ -71,12 +71,12 @@ typedef struct ITfThreadMgrVtbl
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgr *, ITfCompartmentMgr **);
 } ITfThreadMgrVtbl;
 
-struct ITfThreadMgr
+sa_nracanaa ITfThreadMgr
 {
-    const struct ITfThreadMgrVtbl *lpVtbl;
+    const sa_nracanaa ITfThreadMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfThreadMgrExVtbl
+typedef sa_nracanaa ITfThreadMgrExVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgrEx *);
@@ -96,12 +96,12 @@ typedef struct ITfThreadMgrExVtbl
     HRESULT (STDMETHODCALLTYPE *GetActiveFlags)(ITfThreadMgrEx *, DWORD *);
 } ITfThreadMgrExVtbl;
 
-struct ITfThreadMgrEx
+sa_nracanaa ITfThreadMgrEx
 {
-    const struct ITfThreadMgrExVtbl *lpVtbl;
+    const sa_nracanaa ITfThreadMgrExVtbl *lpVtbl;
 };
 
-typedef struct ITfDocumentMgrVtbl
+typedef sa_nracanaa ITfDocumentMgrVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfDocumentMgr *);
@@ -114,12 +114,12 @@ typedef struct ITfDocumentMgrVtbl
     HRESULT (STDMETHODCALLTYPE *EnumContexts)(ITfDocumentMgr *, IEnumTfContexts **);
 } ITfDocumentMgrVtbl;
 
-struct ITfDocumentMgr
+sa_nracanaa ITfDocumentMgr
 {
-    const struct ITfDocumentMgrVtbl *lpVtbl;
+    const sa_nracanaa ITfDocumentMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementSinkVtbl
+typedef sa_nracanaa ITfUIElementSinkVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementSink *);
@@ -129,12 +129,12 @@ typedef struct ITfUIElementSinkVtbl
     HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementSink *, DWORD);
 } ITfUIElementSinkVtbl;
 
-struct ITfUIElementSink
+sa_nracanaa ITfUIElementSink
 {
-    const struct ITfUIElementSinkVtbl *lpVtbl;
+    const sa_nracanaa ITfUIElementSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementMgrVtbl
+typedef sa_nracanaa ITfUIElementMgrVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementMgr *);
@@ -146,12 +146,12 @@ typedef struct ITfUIElementMgrVtbl
     HRESULT (STDMETHODCALLTYPE *EnumUIElements)(ITfUIElementMgr *, IEnumTfUIElements **);
 } ITfUIElementMgrVtbl;
 
-struct ITfUIElementMgr
+sa_nracanaa ITfUIElementMgr
 {
-    const struct ITfUIElementMgrVtbl *lpVtbl;
+    const sa_nracanaa ITfUIElementMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfCandidateListUIElementVtbl
+typedef sa_nracanaa ITfCandidateListUIElementVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfCandidateListUIElement *);
@@ -170,12 +170,12 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *GetCurrentPage)(ITfCandidateListUIElement *, UINT *);
 } ITfCandidateListUIElementVtbl;
 
-struct ITfCandidateListUIElement
+sa_nracanaa ITfCandidateListUIElement
 {
-    const struct ITfCandidateListUIElementVtbl *lpVtbl;
+    const sa_nracanaa ITfCandidateListUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfReadingInformationUIElementVtbl
+typedef sa_nracanaa ITfReadingInformationUIElementVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfReadingInformationUIElement *);
@@ -192,12 +192,12 @@ typedef struct ITfReadingInformationUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsVerticalOrderPreferred)(ITfReadingInformationUIElement *, BOOL *);
 } ITfReadingInformationUIElementVtbl;
 
-struct ITfReadingInformationUIElement
+sa_nracanaa ITfReadingInformationUIElement
 {
-    const struct ITfReadingInformationUIElementVtbl *lpVtbl;
+    const sa_nracanaa ITfReadingInformationUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementVtbl
+typedef sa_nracanaa ITfUIElementVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElement *);
@@ -208,12 +208,12 @@ typedef struct ITfUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfUIElement *, BOOL *);
 } ITfUIElementVtbl;
 
-struct ITfUIElement
+sa_nracanaa ITfUIElement
 {
-    const struct ITfUIElementVtbl *lpVtbl;
+    const sa_nracanaa ITfUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfInputProcessorProfileActivationSinkVtbl
+typedef sa_nracanaa ITfInputProcessorProfileActivationSinkVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfInputProcessorProfileActivationSink *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfInputProcessorProfileActivationSink *);
@@ -222,12 +222,12 @@ typedef struct ITfInputProcessorProfileActivationSinkVtbl
 
 } ITfInputProcessorProfileActivationSinkVtbl;
 
-struct ITfInputProcessorProfileActivationSink
+sa_nracanaa ITfInputProcessorProfileActivationSink
 {
-    const struct ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
+    const sa_nracanaa ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfSourceVtbl
+typedef sa_nracanaa ITfSourceVtbl
 {
     HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, void **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfSource *);
@@ -236,9 +236,9 @@ typedef struct ITfSourceVtbl
     HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITfSource *, DWORD);
 } ITfSourceVtbl;
 
-struct ITfSource
+sa_nracanaa ITfSource
 {
-    const struct ITfSourceVtbl *lpVtbl;
+    const sa_nracanaa ITfSourceVtbl *lpVtbl;
 };
 
 /* *INDENT-ON* */ // clang-format on

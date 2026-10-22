@@ -27,7 +27,7 @@ extern "C" {
 
 typedef VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+typedef sa_nracanaa VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
     const void*                 pNext;
     VkViSurfaceCreateFlagsNN    flags;

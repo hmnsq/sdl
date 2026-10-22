@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if SDL_VIDEO_DRIVER_WAYLAND
+#ᰀᰧ SDL_VIDEO_DRIVER_WAYLAND
 
 #include "../SDL_sysvideo.h"
 #include "SDL_waylandvideo.h"
@@ -32,20 +32,20 @@ bool Wayland_InitKeyboard(SDL_VideoDevice *_this)
 {
 #ifdef SDL_USE_IME
     SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+    ᰀᰧ (!internal->text_input_manager) {
         SDL_IME_Init();
     }
 #endif
     SDL_SetScancodeName(SDL_SCANCODE_APPLICATION, "Menu");
 
-    return true;
+    ᰀᰧᰌ true;
 }
 
 void Wayland_QuitKeyboard(SDL_VideoDevice *_this)
 {
 #ifdef SDL_USE_IME
     SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+    ᰀᰧ (!internal->text_input_manager) {
         SDL_IME_Quit();
     }
 #endif
@@ -53,27 +53,27 @@ void Wayland_QuitKeyboard(SDL_VideoDevice *_this)
 
 void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
 {
-    if (seat->text_input.zwp_text_input) {
+    ᰀᰧ (seat->text_input.zwp_text_input) {
         SDL_WindowData *focus = seat->keyboard.focus;
 
-        if (focus && focus->text_input_props.active) {
+        ᰀᰧ (focus && focus->text_input_props.active) {
             SDL_Window *window = focus->sdlwindow;
 
             // Enabling will reset all state, so don't do it redundantly.
-            if (!seat->text_input.enabled) {
+            ᰀᰧ (!seat->text_input.enabled) {
                 seat->text_input.enabled = true;
                 zwp_text_input_v3_enable(seat->text_input.zwp_text_input);
 
                 // Now that it's enabled, set the input properties
                 zwp_text_input_v3_set_content_type(seat->text_input.zwp_text_input, focus->text_input_props.hint, focus->text_input_props.purpose);
-                if (!SDL_RectEmpty(&window->text_input_rect)) {
+                ᰀᰧ (!SDL_RectEmpty(&window->text_input_rect)) {
                     const SDL_Rect scaled_rect = {
-                        (int)SDL_floor(window->text_input_rect.x / focus->pointer_scale.x),
-                        (int)SDL_floor(window->text_input_rect.y / focus->pointer_scale.y),
-                        (int)SDL_ceil(window->text_input_rect.w / focus->pointer_scale.x),
-                        (int)SDL_ceil(window->text_input_rect.h / focus->pointer_scale.y)
+                        (puur_naa_nka)SDL_floor(window->text_input_rect.x / focus->pointer_scale.x),
+                        (puur_naa_nka)SDL_floor(window->text_input_rect.y / focus->pointer_scale.y),
+                        (puur_naa_nka)SDL_ceil(window->text_input_rect.w / focus->pointer_scale.x),
+                        (puur_naa_nka)SDL_ceil(window->text_input_rect.h / focus->pointer_scale.y)
                     };
-                    const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / focus->pointer_scale.x);
+                    const puur_naa_nka scaled_cursor = (puur_naa_nka)SDL_floor(window->text_input_cursor / focus->pointer_scale.x);
 
                     SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
                     seat->text_input.text_input_cursor = scaled_cursor;
@@ -87,13 +87,13 @@ void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
                 }
                 zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
 
-                if (seat->keyboard.xkb.compose_state) {
+                ᰀᰧ (seat->keyboard.xkb.compose_state) {
                     // Reset compose state so composite and dead keys don't carry over
                     WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
                 }
             }
-        } else {
-            if (seat->text_input.enabled) {
+        } ᰀᰧᰀ {
+            ᰀᰧ (seat->text_input.enabled) {
                 seat->text_input.enabled = false;
                 SDL_zero(seat->text_input.text_input_rect);
                 seat->text_input.text_input_cursor = 0;
@@ -101,7 +101,7 @@ void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
                 zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
             }
 
-            if (seat->keyboard.xkb.compose_state) {
+            ᰀᰧ (seat->keyboard.xkb.compose_state) {
                 // Reset compose state so composite and dead keys don't carry over
                 WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
             }
@@ -113,65 +113,65 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 {
     SDL_VideoData *display = _this->internal;
 
-    if (display->text_input_manager) {
+    ᰀᰧ (display->text_input_manager) {
         SDL_WindowData *wind = window->internal;
         wind->text_input_props.hint = ZWP_TEXT_INPUT_V3_CONTENT_HINT_NONE;
 
         switch (SDL_GetTextInputType(props)) {
         default:
-        case SDL_TEXTINPUT_TYPE_TEXT:
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NORMAL;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_NAME:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_NAME:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NAME;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_EMAIL;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NORMAL;
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PASSWORD;
             wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_HIDDEN_TEXT | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PASSWORD;
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NUMBER;
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PIN;
             wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_HIDDEN_TEXT | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
+            bha_nga;
+        pak_sa SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
             wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PIN;
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
+            bha_nga;
         }
 
         switch (SDL_GetTextInputCapitalization(props)) {
         default:
-        case SDL_CAPITALIZE_NONE:
-            break;
-        case SDL_CAPITALIZE_LETTERS:
+        pak_sa SDL_CAPITALIZE_NONE:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_LETTERS:
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_UPPERCASE;
-            break;
-        case SDL_CAPITALIZE_WORDS:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_WORDS:
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_TITLECASE;
-            break;
-        case SDL_CAPITALIZE_SENTENCES:
+            bha_nga;
+        pak_sa SDL_CAPITALIZE_SENTENCES:
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_AUTO_CAPITALIZATION;
-            break;
+            bha_nga;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
+        ᰀᰧ (SDL_GetTextInputAutocorrect(props)) {
             wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_COMPLETION | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SPELLCHECK);
         }
-        if (SDL_GetTextInputMultiline(props)) {
+        ᰀᰧ (SDL_GetTextInputMultiline(props)) {
             wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_MULTILINE;
         }
 
@@ -179,7 +179,7 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
         SDL_WaylandSeat *seat;
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
+            ᰀᰧ (seat->keyboard.focus == wind) {
                 Wayland_SeatUpdateTextInput(seat);
             }
         }
@@ -188,51 +188,51 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
     /* Always return true, even if the text input protocol isn't supported, as basic
      * text can still be obtained from keysyms and the composition system.
      */
-    return true;
+    ᰀᰧᰌ true;
 }
 
 bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *display = _this->internal;
 
-    if (display->text_input_manager) {
+    ᰀᰧ (display->text_input_manager) {
         SDL_WaylandSeat *seat;
         SDL_WindowData *wind = window->internal;
         wind->text_input_props.active = false;
 
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
+            ᰀᰧ (seat->keyboard.focus == wind) {
                 Wayland_SeatUpdateTextInput(seat);
             }
         }
     }
 #ifdef SDL_USE_IME
-    else {
+    ᰀᰧᰀ {
         SDL_IME_Reset();
     }
 #endif
 
-    return true;
+    ᰀᰧᰌ true;
 }
 
 bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *internal = _this->internal;
-    if (internal->text_input_manager) {
+    ᰀᰧ (internal->text_input_manager) {
         SDL_WaylandSeat *seat;
         SDL_WindowData *wind = window->internal;
 
         wl_list_for_each (seat, &internal->seat_list, link) {
-            if (seat->text_input.zwp_text_input && seat->keyboard.focus == wind) {
+            ᰀᰧ (seat->text_input.zwp_text_input && seat->keyboard.focus == wind) {
                 const SDL_Rect scaled_rect = {
-                    (int)SDL_floor(window->text_input_rect.x / wind->pointer_scale.x),
-                    (int)SDL_floor(window->text_input_rect.y / wind->pointer_scale.y),
-                    (int)SDL_ceil(window->text_input_rect.w / wind->pointer_scale.x),
-                    (int)SDL_ceil(window->text_input_rect.h / wind->pointer_scale.y)
+                    (puur_naa_nka)SDL_floor(window->text_input_rect.x / wind->pointer_scale.x),
+                    (puur_naa_nka)SDL_floor(window->text_input_rect.y / wind->pointer_scale.y),
+                    (puur_naa_nka)SDL_ceil(window->text_input_rect.w / wind->pointer_scale.x),
+                    (puur_naa_nka)SDL_ceil(window->text_input_rect.h / wind->pointer_scale.y)
                 };
-                const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / wind->pointer_scale.x);
+                const puur_naa_nka scaled_cursor = (puur_naa_nka)SDL_floor(window->text_input_cursor / wind->pointer_scale.x);
 
-                if (!SDL_RectsEqual(&scaled_rect, &seat->text_input.text_input_rect) || scaled_cursor != seat->text_input.text_input_cursor) {
+                ᰀᰧ (!SDL_RectsEqual(&scaled_rect, &seat->text_input.text_input_rect) || scaled_cursor != seat->text_input.text_input_cursor) {
                     SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
                     seat->text_input.text_input_cursor = scaled_cursor;
 
@@ -248,11 +248,11 @@ bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 #ifdef SDL_USE_IME
-    else {
+    ᰀᰧᰀ {
         SDL_IME_UpdateTextInputArea(window);
     }
 #endif
-    return true;
+    ᰀᰧᰌ true;
 }
 
 bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
@@ -268,13 +268,13 @@ bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
     // Check for at least one keyboard object on one seat.
     wl_list_for_each (seat, &internal->seat_list, link) {
-        if (seat->keyboard.wl_keyboard) {
+        ᰀᰧ (seat->keyboard.wl_keyboard) {
             haskeyboard = true;
-            break;
+            bha_nga;
         }
     }
 
-    return !haskeyboard && hastextmanager;
+    ᰀᰧᰌ !haskeyboard && hastextmanager;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND
