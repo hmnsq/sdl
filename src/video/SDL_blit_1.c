@@ -30,11 +30,11 @@
 static void Blit1to1(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    цяло c;
 #endif
-    int width, height;
+    цяло width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    цяло srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -45,7 +45,7 @@ static void Blit1to1(SDL_BlitInfo *info)
     dstskip = info->dst_skip;
     map = info->table;
 
-    while (height--) {
+    докато (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
@@ -56,8 +56,8 @@ static void Blit1to1(SDL_BlitInfo *info)
             src++;
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width; c; --c) {
+#иначе
+        за (c = width; c; --c) {
             *dst = map[*src];
             dst++;
             src++;
@@ -70,10 +70,10 @@ static void Blit1to1(SDL_BlitInfo *info)
 
 // This is now endian dependent
 #ifndef USE_DUFFS_LOOP
-#if (SDL_BYTEORDER == SDL_LIL_ENDIAN)
+#ако (SDL_BYTEORDER == SDL_LIL_ENDIAN)
 #define HI 1
 #define LO 0
-#else // ( SDL_BYTEORDER == SDL_BIG_ENDIAN )
+#иначе // ( SDL_BYTEORDER == SDL_BIG_ENDIAN )
 #define HI 0
 #define LO 1
 #endif
@@ -81,12 +81,12 @@ static void Blit1to1(SDL_BlitInfo *info)
 static void Blit1to2(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    цяло c;
 #endif
-    int width, height;
+    цяло width, height;
     Uint8 *src, *dst;
     Uint16 *map;
-    int srcskip, dstskip;
+    цяло srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -98,7 +98,7 @@ static void Blit1to2(SDL_BlitInfo *info)
     map = (Uint16 *)info->table;
 
 #ifdef USE_DUFFS_LOOP
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
@@ -110,22 +110,22 @@ static void Blit1to2(SDL_BlitInfo *info)
         src += srcskip;
         dst += dstskip;
     }
-#else
+#иначе
     // Memory align at 4-byte boundary, if necessary
-    if ((long)dst & 0x03) {
+    ако ((long)dst & 0x03) {
         // Don't do anything if width is 0
-        if (width == 0) {
-            return;
+        ако (width == 0) {
+            върни;
         }
         --width;
 
-        while (height--) {
+        докато (height--) {
             // Perform copy alignment
             *(Uint16 *)dst = map[*src++];
             dst += 2;
 
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            за (c = width / 4; c; --c) {
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
@@ -152,10 +152,10 @@ static void Blit1to2(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } иначе {
+        докато (height--) {
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            за (c = width / 4; c; --c) {
                 *(Uint32 *)dst = (map[src[HI]] << 16) | (map[src[LO]]);
                 src += 2;
                 dst += 4;
@@ -189,12 +189,12 @@ static void Blit1to2(SDL_BlitInfo *info)
 static void Blit1to3(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    цяло c;
 #endif
-    int o;
-    int width, height;
+    цяло o;
+    цяло width, height;
     Uint8 *src, *map, *dst;
-    int srcskip, dstskip;
+    цяло srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -205,7 +205,7 @@ static void Blit1to3(SDL_BlitInfo *info)
     dstskip = info->dst_skip;
     map = info->table;
 
-    while (height--) {
+    докато (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
@@ -219,8 +219,8 @@ static void Blit1to3(SDL_BlitInfo *info)
             dst += 3;
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width; c; --c) {
+#иначе
+        за (c = width; c; --c) {
             o = *src * 4;
             dst[0] = map[o++];
             dst[1] = map[o++];
@@ -237,12 +237,12 @@ static void Blit1to3(SDL_BlitInfo *info)
 static void Blit1to4(SDL_BlitInfo *info)
 {
 #ifndef USE_DUFFS_LOOP
-    int c;
+    цяло c;
 #endif
-    int width, height;
+    цяло width, height;
     Uint8 *src;
     Uint32 *map, *dst;
-    int srcskip, dstskip;
+    цяло srcskip, dstskip;
 
     // Set up some basic variables
     width = info->dst_w;
@@ -253,15 +253,15 @@ static void Blit1to4(SDL_BlitInfo *info)
     dstskip = info->dst_skip / 4;
     map = (Uint32 *)info->table;
 
-    while (height--) {
+    докато (height--) {
 #ifdef USE_DUFFS_LOOP
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
             *dst++ = map[*src++];
         , width);
         /* *INDENT-ON* */ // clang-format on
-#else
-        for (c = width / 4; c; --c) {
+#иначе
+        за (c = width / 4; c; --c) {
             *dst++ = map[*src++];
             *dst++ = map[*src++];
             *dst++ = map[*src++];
@@ -285,21 +285,21 @@ static void Blit1to4(SDL_BlitInfo *info)
 
 static void Blit1to1Key(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     Uint8 *palmap = info->table;
     Uint32 ckey = info->colorkey;
 
-    if (palmap) {
-        while (height--) {
+    ако (palmap) {
+        докато (height--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                if ( *src != ckey ) {
+                ако ( *src != ckey ) {
                   *dst = palmap[*src];
                 }
                 dst++;
@@ -310,12 +310,12 @@ static void Blit1to1Key(SDL_BlitInfo *info)
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } иначе {
+        докато (height--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                if ( *src != ckey ) {
+                ако ( *src != ckey ) {
                   *dst = *src;
                 }
                 dst++;
@@ -331,23 +331,23 @@ static void Blit1to1Key(SDL_BlitInfo *info)
 
 static void Blit1to2Key(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint16 *dstp = (Uint16 *)info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     Uint16 *palmap = (Uint16 *)info->table;
     Uint32 ckey = info->colorkey;
 
     // Set up some basic variables
     dstskip /= 2;
 
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
-            if ( *src != ckey ) {
+            ако ( *src != ckey ) {
                 *dstp=palmap[*src];
             }
             src++;
@@ -362,21 +362,21 @@ static void Blit1to2Key(SDL_BlitInfo *info)
 
 static void Blit1to3Key(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     Uint8 *palmap = info->table;
     Uint32 ckey = info->colorkey;
-    int o;
+    цяло o;
 
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
-            if ( *src != ckey ) {
+            ако ( *src != ckey ) {
                 o = *src * 4;
                 dst[0] = palmap[o++];
                 dst[1] = palmap[o++];
@@ -394,23 +394,23 @@ static void Blit1to3Key(SDL_BlitInfo *info)
 
 static void Blit1to4Key(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint32 *dstp = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     Uint32 *palmap = (Uint32 *)info->table;
     Uint32 ckey = info->colorkey;
 
     // Set up some basic variables
     dstskip /= 4;
 
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
-            if ( *src != ckey ) {
+            ако ( *src != ckey ) {
                 *dstp = palmap[*src];
             }
             src++;
@@ -425,15 +425,15 @@ static void Blit1to4Key(SDL_BlitInfo *info)
 
 static void Blit1toNAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     const SDL_Color *srcpal = info->src_pal->colors;
-    int dstbpp;
+    цяло dstbpp;
     Uint32 pixelvalue;
     unsigned sR, sG, sB, sA;
     unsigned dR, dG, dB, dA;
@@ -442,7 +442,7 @@ static void Blit1toNAlpha(SDL_BlitInfo *info)
     // Set up some basic variables
     dstbpp = dstfmt->bytes_per_pixel;
 
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
@@ -465,16 +465,16 @@ static void Blit1toNAlpha(SDL_BlitInfo *info)
 
 static void Blit1toNAlphaKey(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    цяло width = info->dst_w;
+    цяло height = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    цяло srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    цяло dstskip = info->dst_skip;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     const SDL_Color *srcpal = info->src_pal->colors;
     Uint32 ckey = info->colorkey;
-    int dstbpp;
+    цяло dstbpp;
     Uint32 pixelvalue;
     unsigned sR, sG, sB, sA;
     unsigned dR, dG, dB, dA;
@@ -483,11 +483,11 @@ static void Blit1toNAlphaKey(SDL_BlitInfo *info)
     // Set up some basic variables
     dstbpp = dstfmt->bytes_per_pixel;
 
-    while (height--) {
+    докато (height--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
-            if ( *src != ckey ) {
+            ако ( *src != ckey ) {
                 sR = srcpal[*src].r;
                 sG = srcpal[*src].g;
                 sB = srcpal[*src].b;
@@ -516,34 +516,34 @@ static const SDL_BlitFunc one_blitkey[] = {
 
 SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
 {
-    int which;
+    цяло which;
 
-    if (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
+    ако (SDL_BITSPERPIXEL(surface->map.info.dst_fmt->format) < 8) {
         which = 0;
-    } else {
+    } иначе {
         which = SDL_BYTESPERPIXEL(surface->map.info.dst_fmt->format);
     }
 
     switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
     case 0:
-        if (which < SDL_arraysize(one_blit)) {
-            return one_blit[which];
+        ако (which < SDL_arraysize(one_blit)) {
+            върни one_blit[which];
         }
         break;
 
     case SDL_COPY_COLORKEY:
-        if (which < SDL_arraysize(one_blitkey)) {
-            return one_blitkey[which];
+        ако (which < SDL_arraysize(one_blitkey)) {
+            върни one_blitkey[which];
         }
         break;
 
     case SDL_COPY_COLORKEY | SDL_COPY_BLEND:  // this is not super-robust but handles a specific case we found sdl12-compat.
-        if (surface->map.info.a == 255) {
-            if (which < SDL_arraysize(one_blitkey)) {
-                return one_blitkey[which];
+        ако (surface->map.info.a == 255) {
+            ако (which < SDL_arraysize(one_blitkey)) {
+                върни one_blitkey[which];
             }
-        } else {
-            return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+        } иначе {
+            върни which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
         }
         break;
 
@@ -552,12 +552,12 @@ SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
         /* Supporting 8bpp->8bpp alpha is doable but requires lots of
            tables which consume space and takes time to precompute,
            so is better left to the user */
-        return which >= 2 ? Blit1toNAlpha : (SDL_BlitFunc)NULL;
+        върни which >= 2 ? Blit1toNAlpha : (SDL_BlitFunc)NULL;
 
     case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-        return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+        върни which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
     }
-    return (SDL_BlitFunc)NULL;
+    върни (SDL_BlitFunc)NULL;
 }
 
 #endif // SDL_HAVE_BLIT_1

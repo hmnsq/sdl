@@ -37,17 +37,17 @@ void N3DS_SwkbInit(void)
 
 void N3DS_SwkbPoll(void)
 {
-    return;
+    върни;
 }
 
 void N3DS_SwkbQuit(void)
 {
-    return;
+    върни;
 }
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    върни true;
 }
 
 bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
@@ -55,15 +55,15 @@ bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
     char buffer[BUFFER_SIZE];
     SwkbdButton button_pressed;
     button_pressed = swkbdInputText(&sw_keyboard, buffer, BUFFER_SIZE);
-    if (button_pressed == SWKBD_BUTTON_CONFIRM) {
+    ако (button_pressed == SWKBD_BUTTON_CONFIRM) {
         SDL_SendKeyboardText(buffer);
     }
-    return true;
+    върни true;
 }
 
 bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return true;
+    върни true;
 }
 
 #endif // SDL_VIDEO_DRIVER_N3DS

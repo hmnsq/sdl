@@ -51,7 +51,7 @@
 #define STB_IMAGE_STATIC
 #define STBI_NO_THREAD_LOCALS
 #define STBI_FAILURE_USERMSG
-#if defined(SDL_NEON_INTRINSICS)
+#ако defined(SDL_NEON_INTRINSICS)
 #define STBI_NEON
 #endif
 #define STBI_ONLY_PNG
@@ -70,9 +70,9 @@
 //#define memcpy SDL_memcpy
 //#undef memset
 //#define memset SDL_memset
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ако SDL_BYTEORDER == SDL_LIL_ENDIAN
 #define MINIZ_LITTLE_ENDIAN 1
-#else
+#иначе
 #define MINIZ_LITTLE_ENDIAN 0
 #endif
 #define MINIZ_USE_UNALIGNED_LOADS_AND_STORES 0
@@ -83,9 +83,9 @@
 #endif // SDL_HAVE_STB
 
 #ifdef SDL_HAVE_STB
-static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+static bool SDL_ConvertPixels_MJPG_to_NV12(цяло width, цяло height, const void *src, цяло src_pitch, void *dst, цяло dst_pitch)
 {
-    int w = 0, h = 0, format = 0;
+    цяло w = 0, h = 0, format = 0;
     stbi__context s;
     stbi__start_mem(&s, src, src_pitch);
 
@@ -103,22 +103,22 @@ static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *sr
     nv12.uv = nv12.y + (nv12.h * nv12.pitch);
 
     void *pixels = stbi__jpeg_load(&s, &w, &h, &format, 4, &nv12, &ri);
-    if (!pixels) {
-        return false;
+    ако (!pixels) {
+        върни false;
     }
-    return true;
+    върни true;
 }
 #endif // SDL_HAVE_STB
 
-bool SDL_ConvertPixels_STB(int width, int height,
-                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixels_STB(цяло width, цяло height,
+                           SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, цяло src_pitch,
+                           SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, цяло dst_pitch)
 {
 #ifdef SDL_HAVE_STB
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        if (dst_format == SDL_PIXELFORMAT_NV12) {
-            return SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
-        } else if (
+    ако (src_format == SDL_PIXELFORMAT_MJPG) {
+        ако (dst_format == SDL_PIXELFORMAT_NV12) {
+            върни SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, dst, dst_pitch);
+        } иначе ако (
             dst_format == SDL_PIXELFORMAT_YV12 ||
             dst_format == SDL_PIXELFORMAT_IYUV ||
             dst_format == SDL_PIXELFORMAT_YUY2 ||
@@ -129,81 +129,81 @@ bool SDL_ConvertPixels_STB(int width, int height,
         ) {
             size_t temp_size = 0;
             size_t temp_pitch = 0;
-            if (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
-                return false;
+            ако (!SDL_CalculateYUVSize(dst_format, width, height, &temp_size, &temp_pitch)) {
+                върни false;
             }
             void *temp_pixels = SDL_malloc(temp_size);
-            if (!temp_pixels) {
-                return false;
+            ако (!temp_pixels) {
+                върни false;
             }
 
-            if (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (int)temp_pitch)) {
+            ако (!SDL_ConvertPixels_MJPG_to_NV12(width, height, src, src_pitch, temp_pixels, (цяло)temp_pitch)) {
                 SDL_free(temp_pixels);
-                return false;
+                върни false;
             }
 
-            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (int)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+            bool result = SDL_ConvertPixelsAndColorspace(width, height, SDL_PIXELFORMAT_NV12, src_colorspace, 0 /*props*/, temp_pixels, (цяло)temp_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
             SDL_free(temp_pixels);
-            return result;
+            върни result;
         }
     }
 
     bool result;
-    int w = 0, h = 0, format = 0;
-    int len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
+    цяло w = 0, h = 0, format = 0;
+    цяло len = (src_format == SDL_PIXELFORMAT_MJPG) ? src_pitch : (height * src_pitch);
     void *pixels = stbi_load_from_memory(src, len, &w, &h, &format, 4);
-    if (!pixels) {
-        return false;
+    ако (!pixels) {
+        върни false;
     }
 
-    if (w == width && h == height) {
+    ако (w == width && h == height) {
         result = SDL_ConvertPixelsAndColorspace(w, h, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, pixels, width * 4, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else {
+    } иначе {
         result = SDL_SetError("Expected image size %dx%d, actual size %dx%d", width, height, w, h);
     }
     stbi_image_free(pixels);
 
-    return result;
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    върни result;
+#иначе
+    върни SDL_SetError("SDL not built with STB image support");
 #endif
 }
 
 #ifdef SDL_HAVE_STB
-static int IMG_LoadSTB_IO_read(void *user, char *data, int size)
+static цяло IMG_LoadSTB_IO_read(void *user, char *data, цяло size)
 {
     size_t amount = SDL_ReadIO((SDL_IOStream*)user, data, size);
-    return (int)amount;
+    върни (цяло)amount;
 }
 
-static void IMG_LoadSTB_IO_skip(void *user, int n)
+static void IMG_LoadSTB_IO_skip(void *user, цяло n)
 {
     SDL_SeekIO((SDL_IOStream*)user, n, SDL_IO_SEEK_CUR);
 }
 
-static int IMG_LoadSTB_IO_eof(void *user)
+static цяло IMG_LoadSTB_IO_eof(void *user)
 {
     SDL_IOStream *src = (SDL_IOStream*)user;
-    return SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
+    върни SDL_GetIOStatus(src) == SDL_IO_STATUS_EOF;
 }
 
 static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
 {
     Sint64 start;
     Uint8 magic[26];
-    int w, h, format;
+    цяло w, h, format;
     stbi_uc *pixels;
     stbi_io_callbacks rw_callbacks;
     SDL_Surface *surface = NULL;
     bool use_palette = false;
-    unsigned int palette_colors[256];
+    unsigned цяло palette_colors[256];
 
     // src has already been validated
     start = SDL_TellIO(src);
 
-    if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
+    ако (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
         const Uint8 PNG_COLOR_INDEXED = 3;
-        if (magic[0] == 0x89 &&
+        ако (magic[0] == 0x89 &&
             magic[1] == 'P' &&
             magic[2] == 'N' &&
             magic[3] == 'G' &&
@@ -222,7 +222,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
     rw_callbacks.skip = IMG_LoadSTB_IO_skip;
     rw_callbacks.eof = IMG_LoadSTB_IO_eof;
     w = h = format = 0; /* silence warning */
-    if (use_palette) {
+    ако (use_palette) {
         /* Unused palette entries will be opaque white */
         SDL_memset(palette_colors, 0xff, sizeof(palette_colors));
 
@@ -234,7 +234,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             palette_colors,
             SDL_arraysize(palette_colors)
         );
-    } else {
+    } иначе {
         pixels = stbi_load_from_callbacks(
             &rw_callbacks,
             src,
@@ -244,12 +244,12 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             STBI_default
         );
     }
-    if (!pixels) {
+    ако (!pixels) {
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-        return NULL;
+        върни NULL;
     }
 
-    if (use_palette) {
+    ако (use_palette) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -257,34 +257,34 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w
         );
-        if (surface) {
+        ако (surface) {
             bool has_colorkey = false;
-            int colorkey_index = -1;
+            цяло colorkey_index = -1;
             bool has_alpha = false;
             SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-            if (palette) {
-                int i;
+            ако (palette) {
+                цяло i;
                 Uint8 *palette_bytes = (Uint8 *)palette_colors;
 
-                for (i = 0; i < palette->ncolors; i++) {
+                за (i = 0; i < palette->ncolors; i++) {
                     palette->colors[i].r = *palette_bytes++;
                     palette->colors[i].g = *palette_bytes++;
                     palette->colors[i].b = *palette_bytes++;
                     palette->colors[i].a = *palette_bytes++;
-                    if (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
-                        if (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
+                    ако (palette->colors[i].a != SDL_ALPHA_OPAQUE) {
+                        ако (palette->colors[i].a == SDL_ALPHA_TRANSPARENT && !has_colorkey) {
                             has_colorkey = true;
                             colorkey_index = i;
-                        } else {
+                        } иначе {
                             /* Partial opacity or multiple colorkeys */
                             has_alpha = true;
                         }
                     }
                 }
             }
-            if (has_alpha) {
+            ако (has_alpha) {
                 SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
-            } else if (has_colorkey) {
+            } иначе ако (has_colorkey) {
                 SDL_SetSurfaceColorKey(surface, true, colorkey_index);
             }
 
@@ -296,7 +296,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
+    } иначе ако (format == STBI_grey || format == STBI_rgb || format == STBI_rgb_alpha) {
         surface = SDL_CreateSurfaceFrom(
             w,
             h,
@@ -306,14 +306,14 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             pixels,
             w * format
         );
-        if (surface) {
+        ако (surface) {
             /* Set a grayscale palette for gray images */
-            if (surface->format == SDL_PIXELFORMAT_INDEX8) {
+            ако (surface->format == SDL_PIXELFORMAT_INDEX8) {
                 SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-                if (palette) {
-                    int i;
+                ако (palette) {
+                    цяло i;
 
-                    for (i = 0; i < palette->ncolors; i++) {
+                    за (i = 0; i < palette->ncolors; i++) {
                         palette->colors[i].r = (Uint8)i;
                         palette->colors[i].g = (Uint8)i;
                         palette->colors[i].b = (Uint8)i;
@@ -329,16 +329,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             surface->flags &= ~SDL_SURFACE_PREALLOCATED;
         }
 
-    } else if (format == STBI_grey_alpha) {
+    } иначе ако (format == STBI_grey_alpha) {
         surface = SDL_CreateSurfaceUninitialized(w, h, SDL_PIXELFORMAT_RGBA32);
-        if (surface) {
+        ако (surface) {
             Uint8 *src_ptr = pixels;
             Uint8 *dst = (Uint8 *)surface->pixels;
-            int skip = surface->pitch - (surface->w * 4);
-            int row, col;
+            цяло skip = surface->pitch - (surface->w * 4);
+            цяло row, col;
 
-            for (row = 0; row < h; ++row) {
-                for (col = 0; col < w; ++col) {
+            за (row = 0; row < h; ++row) {
+                за (col = 0; col < w; ++col) {
                     Uint8 c = *src_ptr++;
                     Uint8 a = *src_ptr++;
                     *dst++ = c;
@@ -350,16 +350,16 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             }
             stbi_image_free(pixels);
         }
-    } else {
+    } иначе {
         SDL_SetError("Unknown image format: %d", format);
     }
 
-    if (!surface) {
+    ако (!surface) {
         /* The error message should already be set */
         stbi_image_free(pixels); /* calls SDL_free() */
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
-    return surface;
+    върни surface;
 }
 #endif // SDL_HAVE_STB
 
@@ -379,35 +379,35 @@ bool SDL_IsJPG(SDL_IOStream *src)
     /* Blame me, not Sam, if this doesn't work right. */
     /* And don't forget to report the problem to the the sdl list too! */
 
-    if (!src) {
-        return false;
+    ако (!src) {
+        върни false;
     }
 
     start = SDL_TellIO(src);
     is_JPG = false;
     in_scan = false;
-    if (SDL_ReadIO(src, magic, 2) == 2) {
-        if ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
+    ако (SDL_ReadIO(src, magic, 2) == 2) {
+        ако ( (magic[0] == 0xFF) && (magic[1] == 0xD8) ) {
             is_JPG = true;
-            while (is_JPG) {
-                if (SDL_ReadIO(src, magic, 2) != 2) {
+            докато (is_JPG) {
+                ако (SDL_ReadIO(src, magic, 2) != 2) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) && !in_scan ) {
+                } иначе ако ( (magic[0] != 0xFF) && !in_scan ) {
                     is_JPG = false;
-                } else if ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
+                } иначе ако ( (magic[0] != 0xFF) || (magic[1] == 0xFF) ) {
                     /* Extra padding in JPEG (legal) */
                     /* or this is data and we are scanning */
                     SDL_SeekIO(src, -1, SDL_IO_SEEK_CUR);
-                } else if (magic[1] == 0xD9) {
+                } иначе ако (magic[1] == 0xD9) {
                     /* Got to end of good JPEG */
                     break;
-                } else if ( in_scan && (magic[1] == 0x00) ) {
+                } иначе ако ( in_scan && (magic[1] == 0x00) ) {
                     /* This is an encoded 0xFF within the data */
-                } else if ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
+                } иначе ако ( (magic[1] >= 0xD0) && (magic[1] < 0xD9) ) {
                     /* These have nothing else */
-                } else if (SDL_ReadIO(src, magic+2, 2) != 2) {
+                } иначе ако (SDL_ReadIO(src, magic+2, 2) != 2) {
                     is_JPG = false;
-                } else {
+                } иначе {
                     /* Yes, it's big-endian */
                     Sint64 innerStart;
                     Uint32 size;
@@ -415,15 +415,15 @@ bool SDL_IsJPG(SDL_IOStream *src)
                     innerStart = SDL_TellIO(src);
                     size = (magic[2] << 8) + magic[3];
                     end = SDL_SeekIO(src, size-2, SDL_IO_SEEK_CUR);
-                    if ( end != innerStart + size - 2 ) {
+                    ако ( end != innerStart + size - 2 ) {
                         is_JPG = false;
                     }
-                    if ( magic[1] == 0xDA ) {
+                    ако ( magic[1] == 0xDA ) {
                         /* Now comes the actual JPEG meat */
 #ifdef  FAST_IS_JPEG
                         /* Ok, I'm convinced.  It is a JPEG. */
                         break;
-#else
+#иначе
                         /* I'm not convinced.  Prove it! */
                         in_scan = true;
 #endif
@@ -433,7 +433,7 @@ bool SDL_IsJPG(SDL_IOStream *src)
         }
     }
     SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
-    return is_JPG;
+    върни is_JPG;
 }
 
 SDL_Surface *SDL_LoadJPG_IO(SDL_IOStream *src, bool closeio)
@@ -445,32 +445,32 @@ SDL_Surface *SDL_LoadJPG_IO(SDL_IOStream *src, bool closeio)
         goto done;
     }
 
-    if (!SDL_IsJPG(src)) {
+    ако (!SDL_IsJPG(src)) {
         SDL_SetError("File is not a JPEG file");
         goto done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#иначе
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ако (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    върни surface;
 }
 
 SDL_Surface *SDL_LoadJPG(const char *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ако (!stream) {
+        върни NULL;
     }
 
-    return SDL_LoadJPG_IO(stream, true);
+    върни SDL_LoadJPG_IO(stream, true);
 }
 
 bool SDL_IsPNG(SDL_IOStream *src)
@@ -481,9 +481,9 @@ bool SDL_IsPNG(SDL_IOStream *src)
 
     is_PNG = false;
     start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 0x89 &&
+    ако (start >= 0) {
+        ако (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
+            ако (magic[0] == 0x89 &&
                 magic[1] == 'P' &&
                 magic[2] == 'N' &&
                 magic[3] == 'G') {
@@ -493,7 +493,7 @@ bool SDL_IsPNG(SDL_IOStream *src)
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
 
-    return is_PNG;
+    върни is_PNG;
 }
 
 SDL_Surface *SDL_LoadPNG_IO(SDL_IOStream *src, bool closeio)
@@ -505,32 +505,32 @@ SDL_Surface *SDL_LoadPNG_IO(SDL_IOStream *src, bool closeio)
         goto done;
     }
 
-    if (!SDL_IsPNG(src)) {
+    ако (!SDL_IsPNG(src)) {
         SDL_SetError("File is not a PNG file");
         goto done;
     }
 
 #ifdef SDL_HAVE_STB
     surface = SDL_LoadSTB_IO(src);
-#else
+#иначе
     SDL_SetError("SDL not built with STB image support");
 #endif // SDL_HAVE_STB
 
 done:
-    if (src && closeio) {
+    ако (src && closeio) {
         SDL_CloseIO(src);
     }
-    return surface;
+    върни surface;
 }
 
 SDL_Surface *SDL_LoadPNG(const char *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    ако (!stream) {
+        върни NULL;
     }
 
-    return SDL_LoadPNG_IO(stream, true);
+    върни SDL_LoadPNG_IO(stream, true);
 }
 
 bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
@@ -551,18 +551,18 @@ bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
     }
 
 #ifdef SDL_HAVE_STB
-    int plte_size = 0;
-    int trns_size = 0;
+    цяло plte_size = 0;
+    цяло trns_size = 0;
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        if (!surface->palette) {
+    ако (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+        ако (!surface->palette) {
             SDL_SetError("Indexed surfaces must have a palette");
             goto done;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_INDEX8) {
+        ако (surface->format != SDL_PIXELFORMAT_INDEX8) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_INDEX8);
-            if (!surface) {
+            ако (!surface) {
                 goto done;
             }
             free_surface = true;
@@ -572,20 +572,20 @@ bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
         trns_size = surface->palette->ncolors;
         plte = (Uint8 *)SDL_malloc(plte_size);
         trns = (Uint8 *)SDL_malloc(trns_size);
-        if (!plte || !trns) {
+        ако (!plte || !trns) {
             goto done;
         }
         SDL_Color *colors = surface->palette->colors;
-        for (int i = 0; i < surface->palette->ncolors; ++i) {
+        за (цяло i = 0; i < surface->palette->ncolors; ++i) {
             plte[i * 3 + 0] = colors[i].r;
             plte[i * 3 + 1] = colors[i].g;
             plte[i * 3 + 2] = colors[i].b;
             trns[i] = colors[i].a;
         }
-    } else {
-        if (surface->format != SDL_PIXELFORMAT_RGBA32) {
+    } иначе {
+        ако (surface->format != SDL_PIXELFORMAT_RGBA32) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-            if (!surface) {
+            ако (!surface) {
                 goto done;
             }
             free_surface = true;
@@ -594,30 +594,30 @@ bool SDL_SavePNG_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 
     size_t size = 0;
     void *png = tdefl_write_image_to_png_file_in_memory_ex(surface->pixels, surface->w, surface->h, SDL_BYTESPERPIXEL(surface->format), surface->pitch, &size, 6, MZ_FALSE, plte, plte_size, trns, trns_size);
-    if (png) {
-        if (SDL_WriteIO(dst, png, size)) {
+    ако (png) {
+        ако (SDL_WriteIO(dst, png, size)) {
             retval = true;
         }
         mz_free(png); /* calls SDL_free() */
-    } else {
+    } иначе {
         SDL_SetError("Failed to convert and save image");
     }
 
-#else
+#иначе
     SDL_SetError("SDL not built with STB image support");
 #endif
 
 done:
-    if (free_surface) {
+    ако (free_surface) {
         SDL_DestroySurface(surface);
     }
     SDL_free(plte);
     SDL_free(trns);
 
-    if (dst && closeio) {
+    ако (dst && closeio) {
         retval &= SDL_CloseIO(dst);
     }
-    return retval;
+    върни retval;
 }
 
 bool SDL_SavePNG(SDL_Surface *surface, const char *file)
@@ -625,19 +625,19 @@ bool SDL_SavePNG(SDL_Surface *surface, const char *file)
 #ifdef SDL_HAVE_STB
     // Make sure we have something to save
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        върни SDL_InvalidParamError("surface");
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
-        return SDL_SetError("Indexed surfaces must have a palette");
+    ако (SDL_ISPIXELFORMAT_INDEXED(surface->format) && !surface->palette) {
+        върни SDL_SetError("Indexed surfaces must have a palette");
     }
     SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    ако (!stream) {
+        върни false;
     }
 
-    return SDL_SavePNG_IO(surface, stream, true);
-#else
-    return SDL_SetError("SDL not built with STB image support");
+    върни SDL_SavePNG_IO(surface, stream, true);
+#иначе
+    върни SDL_SetError("SDL not built with STB image support");
 #endif
 }

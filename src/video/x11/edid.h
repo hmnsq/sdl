@@ -58,74 +58,74 @@ typedef enum
 
 struct Timing
 {
-    int width;
-    int height;
-    int frequency;
+    цяло width;
+    цяло height;
+    цяло frequency;
 };
 
 struct DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    цяло pixel_clock;
+    цяло h_addr;
+    цяло h_blank;
+    цяло h_sync;
+    цяло h_front_porch;
+    цяло v_addr;
+    цяло v_blank;
+    цяло v_sync;
+    цяло v_front_porch;
+    цяло width_mm;
+    цяло height_mm;
+    цяло right_border;
+    цяло top_border;
+    цяло interlaced;
     StereoType stereo;
 
-    int digital_sync;
+    цяло digital_sync;
     union
     {
         struct
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            цяло bipolar;
+            цяло serrations;
+            цяло sync_on_green;
         } analog;
 
         struct
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            цяло composite;
+            цяло serrations;
+            цяло negative_vsync;
+            цяло negative_hsync;
         } digital;
     } ad;
 };
 
 struct MonitorInfo
 {
-    int checksum;
+    цяло checksum;
     char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    цяло product_code;
+    unsigned цяло serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    цяло production_week; // -1 if not specified
+    цяло production_year; // -1 if not specified
+    цяло model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    цяло major_version;
+    цяло minor_version;
 
-    int is_digital;
+    цяло is_digital;
 
     union
     {
         struct
         {
-            int bits_per_primary;
+            цяло bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            цяло rgb444;
+            цяло ycrcb444;
+            цяло ycrcb422;
         } digital;
 
         struct
@@ -134,29 +134,29 @@ struct MonitorInfo
             double sync_signal_level;
             double total_signal_level;
 
-            int blank_to_black;
+            цяло blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            цяло separate_hv_sync;
+            цяло composite_sync_on_h;
+            цяло composite_sync_on_green;
+            цяло serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
+    цяло width_mm;        // -1 if not specified
+    цяло height_mm;       // -1 if not specified
     double aspect_ratio; // -1.0 if not specififed
 
     double gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    цяло standby;
+    цяло suspend;
+    цяло active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    цяло srgb_is_standard;
+    цяло preferred_timing_includes_native;
+    цяло continuous_frequency;
 
     double red_x;
     double red_y;
@@ -174,7 +174,7 @@ struct MonitorInfo
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    цяло n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is

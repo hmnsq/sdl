@@ -27,10 +27,10 @@
 #include <errno.h>
 
 
-static int SDLToScreenCursorShape(SDL_SystemCursor id)
+static цяло SDLToScreenCursorShape(SDL_SystemCursor id)
 {
     // This is reserved by screen, but still not used for anything.
-    int shape = -1;
+    цяло shape = -1;
 
     switch(id)
     {
@@ -93,10 +93,10 @@ static int SDLToScreenCursorShape(SDL_SystemCursor id)
     default:
         break;
     }
-    return shape;
+    върни shape;
 }
 
-static SDL_Cursor *genericCreateCursor(int shape)
+static SDL_Cursor *genericCreateCursor(цяло shape)
 {
     SDL_Cursor          *cursor;
     SDL_CursorData      *impl;
@@ -104,9 +104,9 @@ static SDL_Cursor *genericCreateCursor(int shape)
     screen_context_t    *context = getContext();
 
     cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
+    ако (cursor) {
         impl = SDL_calloc(1, sizeof(SDL_CursorData));;
-        if (impl == NULL) {
+        ако (impl == NULL) {
             SDL_free(cursor);
             SDL_OutOfMemory();
         }
@@ -118,72 +118,72 @@ static SDL_Cursor *genericCreateCursor(int shape)
         impl->session = session;
         impl->is_visible = true;
         cursor->internal = (void*)impl;
-    } else {
+    } иначе {
         SDL_OutOfMemory();
     }
 
-    return cursor;
+    върни cursor;
 }
 
-static SDL_Cursor *createCursor(SDL_Surface * surface, int hot_x, int hot_y)
+static SDL_Cursor *createCursor(SDL_Surface * surface, цяло hot_x, цяло hot_y)
 {
-    return genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
+    върни genericCreateCursor(SCREEN_CURSOR_SHAPE_ARROW);
 }
 
 static SDL_Cursor *createSystemCursor(SDL_SystemCursor id)
 {
-    int shape = SDLToScreenCursorShape(id);
-    if (shape < 0) {
+    цяло shape = SDLToScreenCursorShape(id);
+    ако (shape < 0) {
         SDL_assert(0);
-        return NULL;
+        върни NULL;
     }
 
-    return genericCreateCursor(shape);
+    върни genericCreateCursor(shape);
 }
 
 static bool showCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData      *impl;
     screen_session_t    session;
-    int shape;
+    цяло shape;
 
     // SDL does not provide information about previous visibility to its
     // drivers. We need to track that ourselves.
-    if (cursor) {
+    ако (cursor) {
         impl = (SDL_CursorData*)cursor->internal;
         SDL_assert(impl != NULL);
-        if (impl->is_visible) {
-            return true;
+        ако (impl->is_visible) {
+            върни true;
         }
         session = impl->session;
         shape = impl->realized_shape;
         impl->is_visible = true;
-    } else {
+    } иначе {
         cursor = SDL_GetCursor();
-        if (cursor == NULL) {
-            return false;
+        ако (cursor == NULL) {
+            върни false;
         }
         impl = (SDL_CursorData*)cursor->internal;
         SDL_assert(impl != NULL);
-        if (!impl->is_visible) {
-            return 0;
+        ако (!impl->is_visible) {
+            върни 0;
         }
         session = impl->session;
         shape = SCREEN_CURSOR_SHAPE_NONE;
         impl->is_visible = false;
     }
 
-    if (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
-        return false;
+    ако (screen_set_session_property_iv(session, SCREEN_PROPERTY_CURSOR, &shape) < 0) {
+        върни false;
     }
 
-    return true;
+    върни true;
 }
 
 static void freeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *impl = (SDL_CursorData*)cursor->internal;
-    if (impl != NULL) {
+    ако (impl != NULL) {
         screen_destroy_session(impl->session);
         SDL_free(impl);
     }
@@ -196,7 +196,7 @@ static bool setRelativeMouseMode(bool enabled)
     // SDL_SetRelativeMouseMode() & friends aren't a no-op.
     //
     // TODO: It may be possible to achieve this using SCREEN_PROPERTY_DISPLACEMENT instead.
-    return true;
+    върни true;
 }
 
 void initMouse(SDL_VideoDevice *_this)
@@ -205,8 +205,8 @@ void initMouse(SDL_VideoDevice *_this)
     SDL_MouseData   *mouse_data;
 
     mouse_data = (SDL_MouseData *)SDL_calloc(1, sizeof(SDL_MouseData));
-    if (mouse_data == NULL) {
-        return;
+    ако (mouse_data == NULL) {
+        върни;
     }
     SDL_zerop(mouse_data);
     mouse->internal = mouse_data;

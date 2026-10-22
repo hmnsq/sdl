@@ -26,9 +26,9 @@
 
 extern bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                         SDL_PixelFormat *format,
-                                        void **pixels, int *pitch);
+                                        void **pixels, цяло *pitch);
 extern bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                        const SDL_Rect *rects, int numrects);
+                                        const SDL_Rect *rects, цяло numrects);
 extern void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11framebuffer_h_

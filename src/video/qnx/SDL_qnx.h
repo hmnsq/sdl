@@ -33,7 +33,7 @@ typedef struct SDL_DisplayData
 
 typedef struct SDL_DisplayModeData
 {
-    int                   screen_format;
+    цяло                   screen_format;
     screen_display_mode_t screen_display_mode;
 } SDL_DisplayModeData;
 
@@ -49,14 +49,14 @@ typedef struct SDL_WindowData
 typedef struct SDL_CursorData
 {
     screen_session_t session;
-    int              realized_shape;
+    цяло              realized_shape;
     bool             is_visible;
 } SDL_CursorData;
 
 typedef struct SDL_MouseData
 {
-    int      x_prev;
-    int      y_prev;
+    цяло      x_prev;
+    цяло      y_prev;
 } SDL_MouseData;
 
 extern screen_context_t * getContext();
@@ -69,14 +69,14 @@ extern void handlePointerEvent(screen_event_t event);
 extern bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path);
 extern SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
 extern SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, цяло interval);
+extern bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, цяло *interval);
 extern bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool QNX_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context);
 extern bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context);
 extern void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 
-extern SDL_PixelFormat screenToPixelFormat(int screen_format);
+extern SDL_PixelFormat screenToPixelFormat(цяло screen_format);
 extern bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 extern bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
 extern bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
@@ -84,6 +84,6 @@ extern bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display
 extern void initMouse(SDL_VideoDevice *_this);
 extern void quitMouse(SDL_VideoDevice *_this);
 
-extern int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf);
+extern цяло QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf);
 
 #endif

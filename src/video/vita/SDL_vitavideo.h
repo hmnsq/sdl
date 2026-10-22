@@ -104,8 +104,8 @@ extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, cons
 extern void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, цяло interval);
+extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, цяло *interval);
 extern bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 #endif

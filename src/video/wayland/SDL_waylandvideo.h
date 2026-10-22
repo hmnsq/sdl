@@ -38,7 +38,7 @@ struct SDL_WaylandSeat;
 typedef struct
 {
     struct wl_cursor_theme *theme;
-    int size;
+    цяло size;
 } SDL_WaylandCursorTheme;
 
 typedef struct
@@ -54,7 +54,7 @@ struct SDL_VideoData
     struct wl_compositor *compositor;
     struct wl_shm *shm;
     SDL_WaylandCursorTheme *cursor_themes;
-    int num_cursor_themes;
+    цяло num_cursor_themes;
     struct
     {
         struct xdg_wm_base *xdg;
@@ -102,8 +102,8 @@ struct SDL_VideoData
     Wayland_JobThreadContext *job_thread_context;
 
     SDL_DisplayData **output_list;
-    int output_count;
-    int output_max;
+    цяло output_count;
+    цяло output_max;
 
     bool initializing;
     bool display_disconnected;
@@ -120,33 +120,33 @@ struct SDL_DisplayData
     struct Wayland_ColorInfoState *color_info_state;
     char *wl_output_name;
     double scale_factor;
-    int integer_scale_factor; // The integer scale factor set by wl_output.
+    цяло integer_scale_factor; // The integer scale factor set by wl_output.
     Uint32 registry_id;
 
     struct
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        цяло x;
+        цяло y;
+        цяло width;
+        цяло height;
     } logical;
 
     struct
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        цяло x;
+        цяло y;
+        цяло width;
+        цяло height;
     } pixel;
 
     struct
     {
-        int width_mm;  // Physical width in millimeters.
-        int height_mm; // Physical height in millimeters.
+        цяло width_mm;  // Physical width in millimeters.
+        цяло height_mm; // Physical height in millimeters.
     } physical;
 
-    int refresh;   // Refresh in mHz
-    int transform; // wl_output_transform enum
+    цяло refresh;   // Refresh in mHz
+    цяло transform; // wl_output_transform enum
     SDL_DisplayOrientation orientation;
 
     SDL_HDROutputProperties HDR;
@@ -154,7 +154,7 @@ struct SDL_DisplayData
     SDL_DisplayID display;
     SDL_VideoDisplay placeholder;
 
-    int wl_output_done_count;
+    цяло wl_output_done_count;
     bool has_logical_position;
     bool has_logical_size;
     bool geometry_changed;

@@ -78,7 +78,7 @@ extern "C" {
 extern bool SDL_WAYLAND_LoadSymbols(void);
 extern void SDL_WAYLAND_UnloadSymbols(void);
 
-#define SDL_WAYLAND_MODULE(modname) extern int SDL_WAYLAND_HAVE_##modname;
+#define SDL_WAYLAND_MODULE(modname) extern цяло SDL_WAYLAND_HAVE_##modname;
 #define SDL_WAYLAND_SYM(rc, fn, params)        \
     typedef rc(*SDL_DYNWAYLANDFN_##fn) params; \
     extern SDL_DYNWAYLANDFN_##fn WAYLAND_##fn;
@@ -94,7 +94,7 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
-#if defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
+#ако defined(_WAYLAND_CLIENT_H) || defined(WAYLAND_CLIENT_H)
 #error Do not include wayland-client ahead of SDL_waylanddyn.h in dynamic loading mode
 #endif
 
@@ -166,7 +166,7 @@ extern void SDL_WAYLAND_UnloadSymbols(void);
 #define libdecor_dispatch                       (*WAYLAND_libdecor_dispatch)
 #endif
 
-#else // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#иначе // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 /*
  * These must be included before libdecor.h, otherwise the libdecor header

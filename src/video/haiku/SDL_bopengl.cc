@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
+#ако defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
 
 #include "SDL_bopengl.h"
 
@@ -37,12 +37,12 @@ extern "C" {
 
 static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
 {
-    return (SDL_BWin *)(window->internal);
+    върни (SDL_BWin *)(window->internal);
 }
 
 static SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    върни SDL_Looper;
 }
 
 // Passing a NULL path means load pointers from the application
@@ -51,9 +51,9 @@ bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 // FIXME: Is this working correctly?
     image_info info;
             int32 cookie = 0;
-    while (get_next_image_info(0, &cookie, &info) == B_OK) {
+    докато (get_next_image_info(0, &cookie, &info) == B_OK) {
         void *location = NULL;
-        if ( get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
+        ако ( get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
                 &location) == B_OK) {
 
             _this->gl_config.dll_handle = (SDL_SharedObject *) (addr_t) info.id;
@@ -62,26 +62,26 @@ bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
                     SDL_arraysize(_this->gl_config.driver_path));
         }
     }
-    return true;
+    върни true;
 }
 
 SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
 {
-    if (_this->gl_config.dll_handle) {
+    ако (_this->gl_config.dll_handle) {
         void *location = NULL;
         status_t err;
-        if ((err =
+        ако ((err =
             get_image_symbol((image_id) (addr_t) _this->gl_config.dll_handle,
                               proc, B_SYMBOL_TYPE_ANY,
                               &location)) == B_OK) {
-            return (SDL_FunctionPointer)location;
-        } else {
+            върни (SDL_FunctionPointer)location;
+        } иначе {
                 SDL_SetError("Couldn't find OpenGL symbol");
-                return NULL;
+                върни NULL;
         }
-    } else {
+    } иначе {
         SDL_SetError("OpenGL library not loaded");
-        return NULL;
+        върни NULL;
     }
 }
 
@@ -89,20 +89,20 @@ SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *
 bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window * window)
 {
     _ToBeWin(window)->SwapBuffers();
-    return true;
+    върни true;
 }
 
 bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context)
 {
     BGLView *glView = (BGLView *)context;
     // printf("HAIKU_GL_MakeCurrent(%llx), win = %llx, thread = %d\n", (uint64)context, (uint64)window, find_thread(NULL));
-    if (glView) {
-        if ((glView->Window() == NULL) || (!window) || (_ToBeWin(window)->GetGLView() != glView)) {
-            return SDL_SetError("MakeCurrent failed");
+    ако (glView) {
+        ако ((glView->Window() == NULL) || (!window) || (_ToBeWin(window)->GetGLView() != glView)) {
+            върни SDL_SetError("MakeCurrent failed");
         }
     }
     _GetBeLooper()->SetCurrentContext(glView);
-    return true;
+    върни true;
 }
 
 
@@ -112,39 +112,39 @@ SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window * window
        most of them */
     SDL_BWin *bwin = _ToBeWin(window);
     // printf("HAIKU_GL_CreateContext, win = %llx, thread = %d\n", (uint64)window, find_thread(NULL));
-    if (bwin->GetGLView() != NULL) {
+    ако (bwin->GetGLView() != NULL) {
         SDL_SetError("Context already creaded");
-        return NULL;
+        върни NULL;
     }
     Uint32 gl_flags = BGL_RGB;
-    if (_this->gl_config.alpha_size) {
+    ако (_this->gl_config.alpha_size) {
         gl_flags |= BGL_ALPHA;
     }
-    if (_this->gl_config.depth_size) {
+    ако (_this->gl_config.depth_size) {
         gl_flags |= BGL_DEPTH;
     }
-    if (_this->gl_config.stencil_size) {
+    ако (_this->gl_config.stencil_size) {
         gl_flags |= BGL_STENCIL;
     }
-    if (_this->gl_config.double_buffer) {
+    ако (_this->gl_config.double_buffer) {
         gl_flags |= BGL_DOUBLE;
-    } else {
+    } иначе {
         gl_flags |= BGL_SINGLE;
     }
-    if (_this->gl_config.accum_red_size ||
+    ако (_this->gl_config.accum_red_size ||
             _this->gl_config.accum_green_size ||
             _this->gl_config.accum_blue_size ||
             _this->gl_config.accum_alpha_size) {
         gl_flags |= BGL_ACCUM;
     }
-#if __GNUC__ > 3
-    if (_this->gl_config.share_with_current_context) {
+#ако __GNUC__ > 3
+    ако (_this->gl_config.share_with_current_context) {
         gl_flags |= BGL_SHARE_CONTEXT;
     }
 #endif
     bwin->CreateGLView(gl_flags);
     _GetBeLooper()->SetCurrentContext(bwin->GetGLView());
-    return (SDL_GLContext)(bwin->GetGLView());
+    върни (SDL_GLContext)(bwin->GetGLView());
 }
 
 bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -152,24 +152,24 @@ bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
     // printf("HAIKU_GL_DestroyContext(%llx), thread = %d\n", (uint64)context, find_thread(NULL));
     BGLView *glView = (BGLView *)context;
     SDL_BWin *bwin = (SDL_BWin *)glView->Window();
-    if (!bwin) {
+    ако (!bwin) {
         delete glView;
-    } else {
+    } иначе {
         bwin->RemoveGLView();
     }
-    return true;
+    върни true;
 }
 
 
-bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, цяло interval)
 {
     // TODO: Implement this, if necessary?
-    return SDL_Unsupported();
+    върни SDL_Unsupported();
 }
 
-bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, цяло *interval)
 {
-    return SDL_Unsupported();
+    върни SDL_Unsupported();
 }
 
 
@@ -185,9 +185,9 @@ void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this)
 void HAIKU_GL_RebootContexts(SDL_VideoDevice *_this)
 {
     SDL_Window *window = _this->windows;
-    while (window) {
+    докато (window) {
         SDL_BWin *bwin = _ToBeWin(window);
-        if (bwin->GetGLView()) {
+        ако (bwin->GetGLView()) {
             bwin->LockLooper();
             bwin->RemoveGLView();
             bwin->CreateGLView(bwin->GetGLType());

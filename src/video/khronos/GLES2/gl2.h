@@ -49,16 +49,16 @@ typedef void GLvoid;
 typedef struct __GLsync *GLsync;
 typedef khronos_int64_t GLint64;
 typedef khronos_uint64_t GLuint64;
-typedef unsigned int GLenum;
-typedef unsigned int GLuint;
+typedef unsigned цяло GLenum;
+typedef unsigned цяло GLuint;
 typedef char GLchar;
 typedef khronos_float_t GLfloat;
 typedef khronos_ssize_t GLsizeiptr;
 typedef khronos_intptr_t GLintptr;
-typedef unsigned int GLbitfield;
-typedef int GLint;
+typedef unsigned цяло GLbitfield;
+typedef цяло GLint;
 typedef unsigned char GLboolean;
-typedef int GLsizei;
+typedef цяло GLsizei;
 typedef khronos_uint8_t GLubyte;
 #define GL_DEPTH_BUFFER_BIT               0x00000100
 #define GL_STENCIL_BUFFER_BIT             0x00000400
@@ -503,7 +503,7 @@ typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FPROC) (GLuint index, GLfloat x, GL
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FVPROC) (GLuint index, const GLfloat *v);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBPOINTERPROC) (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
 typedef void (GL_APIENTRYP PFNGLVIEWPORTPROC) (GLint x, GLint y, GLsizei width, GLsizei height);
-#if GL_GLES_PROTOTYPES
+#ако GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glActiveTexture (GLenum texture);
 GL_APICALL void GL_APIENTRY glAttachShader (GLuint program, GLuint shader);
 GL_APICALL void GL_APIENTRY glBindAttribLocation (GLuint program, GLuint index, const GLchar *name);

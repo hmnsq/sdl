@@ -132,19 +132,19 @@ struct SDL_WindowData
     SDL_AtomicInt swap_interval_ready;
 
     SDL_DisplayData **outputs;
-    int num_outputs;
+    цяло num_outputs;
 
     char *app_id;
     char *session_id;
     double scale_factor;
 
     struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    цяло icon_buffer_count;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    цяло keyboard_focus_count;
+    цяло pointer_focus_count;
+    цяло active_touch_count;
 
     struct
     {
@@ -156,35 +156,35 @@ struct SDL_WindowData
     struct
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        цяло logical_width;
+        цяло logical_height;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        цяло pixel_width;
+        цяло pixel_height;
     } requested;
 
     // The current size of the window and drawable backing store.
     struct
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        цяло logical_width;
+        цяло logical_height;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        цяло pixel_width;
+        цяло pixel_height;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        цяло viewport_width;
+        цяло viewport_height;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
     struct
     {
-        int width;
-        int height;
+        цяло width;
+        цяло height;
         bool insets_apply;
     } last_configure;
 
@@ -192,14 +192,14 @@ struct SDL_WindowData
     struct
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        цяло min_width;
+        цяло min_height;
     } system_limits;
 
     struct
     {
-        int width;
-        int height;
+        цяло width;
+        цяло height;
     } toplevel_bounds;
 
     struct
@@ -209,8 +209,8 @@ struct SDL_WindowData
         struct wl_buffer *buffer;
         struct wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        цяло offset_x;
+        цяло offset_y;
 
         bool mapped;
         bool opaque;
@@ -218,17 +218,17 @@ struct SDL_WindowData
 
     struct
     {
-        int hint;
-        int purpose;
+        цяло hint;
+        цяло purpose;
         bool active;
     } text_input_props;
 
     SDL_Rect explicit_geometry;
     SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
+    цяло pending_state_deadline_count;
     Uint64 last_focus_event_time_ns;
     Uint64 last_resize_event_time_ns;
-    int icc_fd;
+    цяло icc_fd;
     Uint32 icc_size;
     bool floating;
     bool suspended;
@@ -272,13 +272,13 @@ extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, цяло *w, цяло *h);
 extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
 extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
 extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
+extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, цяло x, цяло y);
 extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
 extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);

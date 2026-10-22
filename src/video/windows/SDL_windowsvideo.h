@@ -35,9 +35,9 @@
 #include <dxgi.h>
 #endif
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ако defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #include <msctf.h>
-#else
+#иначе
 #include "SDL_msctf.h"
 #endif
 
@@ -52,7 +52,7 @@
 #include "SDL_windowsgameinput.h"
 #include "SDL_windowsopengl.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ако !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #include "SDL_windowsshape.h"
 #include "SDL_windowskeyboard.h"
 #include "SDL_windowsmodes.h"
@@ -66,7 +66,7 @@
 #define USER_DEFAULT_SCREEN_DPI 96
 #endif
 
-#if WINVER < _WIN32_WINNT_WIN7
+#ако WINVER < _WIN32_WINNT_WIN7
 // Touch input definitions
 #define TWF_FINETOUCH 1
 #define TWF_WANTPALM  2
@@ -289,7 +289,7 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
 
 #endif // WINVER < _WIN32_WINNT_WIN7
 
-#if WINVER < _WIN32_WINNT_WIN8
+#ако WINVER < _WIN32_WINNT_WIN8
 // Pen input definitions
 #define POINTER_MESSAGE_FLAG_NEW 0x00000001
 #define POINTER_MESSAGE_FLAG_INRANGE 0x00000002
@@ -399,7 +399,7 @@ typedef enum PROCESS_DPI_AWARENESS
     PROCESS_PER_MONITOR_DPI_AWARE = 2
 } PROCESS_DPI_AWARENESS;
 
-#else
+#иначе
 #include <shellscalingapi.h>
 #endif
 
@@ -424,12 +424,12 @@ DECLARE_HANDLE(DPI_AWARENESS_CONTEXT);
 #endif // _DPI_AWARENESS_CONTEXTS_
 
 // Windows 10 Creators Update
-#if NTDDI_VERSION < 0x0A000003
+#ако NTDDI_VERSION < 0x0A000003
 #define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
 #endif // NTDDI_VERSION < 0x0A000003
 
 // Windows 10 version 1809
-#if NTDDI_VERSION < 0x0A000006
+#ако NTDDI_VERSION < 0x0A000006
 #define DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
 #endif // NTDDI_VERSION < 0x0A000006
 
@@ -439,7 +439,7 @@ typedef void (*PFCoordTransform)(SDL_Window *, POINT *);
 typedef struct
 {
     void **lpVtbl;
-    int refcount;
+    цяло refcount;
     void *data;
 } TSFSink;
 
@@ -514,16 +514,16 @@ typedef struct
 
 struct SDL_VideoData
 {
-    int render;
+    цяло render;
 
     bool coinitialized;
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#ако !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
     bool oleinitialized;
 #endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
     DWORD clipboard_count;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
+#ако !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
     SDL_SharedObject *userDLL;
 
     // DisplayConfig functions
@@ -536,7 +536,7 @@ struct SDL_VideoData
     // Touch input functions
     /* *INDENT-OFF* */ // clang-format off
     BOOL (WINAPI *CloseTouchInputHandle)( HTOUCHINPUT );
-    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
+    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, цяло );
     BOOL (WINAPI *RegisterTouchWindow)( HWND, ULONG );
     /* *INDENT-ON* */ // clang-format on
 
@@ -614,23 +614,23 @@ struct SDL_VideoData
     HIMC ime_himc;
 
     WCHAR *ime_composition;
-    int ime_composition_length;
+    цяло ime_composition_length;
     WCHAR ime_readingstring[16];
-    int ime_cursor;
-    int ime_selected_start;
-    int ime_selected_length;
+    цяло ime_cursor;
+    цяло ime_selected_start;
+    цяло ime_selected_length;
 
     bool ime_candidates_open;
     bool ime_update_candidates;
     char *ime_candidates[MAX_CANDLIST];
-    int ime_candcount;
+    цяло ime_candcount;
     DWORD ime_candref;
     DWORD ime_candsel;
-    int ime_candlistindexbase;
+    цяло ime_candlistindexbase;
     bool ime_horizontal_candidates;
 #endif
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ако !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     COMPOSITIONFORM ime_composition_area;
     CANDIDATEFORM ime_candidate_area;
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -652,7 +652,7 @@ struct SDL_VideoData
     BYTE pre_hook_key_state[256];
     UINT _SDL_WAKEUP;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ако !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     UINT WM_TASKBAR_BUTTON_CREATED;
     ITaskbarList3 *taskbar_list;
 #endif

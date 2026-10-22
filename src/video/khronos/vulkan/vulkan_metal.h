@@ -24,13 +24,13 @@ extern "C" {
 
 #ifdef __OBJC__
 @class CAMetalLayer;
-#else
+#иначе
 typedef void CAMetalLayer;
 #endif
 
 #define SDL_UNSAFE_UNRETAINED
-#if defined(__OBJC__) && defined(__has_feature)
-#if __has_feature(objc_arc)
+#ако defined(__OBJC__) && defined(__has_feature)
+#ако __has_feature(objc_arc)
 #undef SDL_UNSAFE_UNRETAINED
 #define SDL_UNSAFE_UNRETAINED __unsafe_unretained
 #endif
@@ -69,25 +69,25 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
 #ifdef __OBJC__
 @protocol MTLDevice;
 typedef __unsafe_unretained id<MTLDevice> MTLDevice_id;
-#else
+#иначе
 typedef void* MTLDevice_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLCommandQueue;
 typedef __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
-#else
+#иначе
 typedef void* MTLCommandQueue_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLBuffer;
 typedef __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
-#else
+#иначе
 typedef void* MTLBuffer_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLTexture;
 typedef __unsafe_unretained id<MTLTexture> MTLTexture_id;
-#else
+#иначе
 typedef void* MTLTexture_id;
 #endif
 typedef struct __IOSurface* IOSurfaceRef;
@@ -97,7 +97,7 @@ typedef struct __IOSurface* IOSurfaceRef;
 @protocol MTLSharedEvent;
 typedef __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
 #pragma clang diagnostic pop
-#else
+#иначе
 typedef void* MTLSharedEvent_id;
 #endif
 
