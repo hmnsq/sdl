@@ -92,55 +92,55 @@ static waylanddynlib waylandlibs[] = {
     { NULL, NULL, NULL, false }
 };
 
-static void *WAYLAND_GetSym(const char *fnname, int *pHasModule, bool required)
+static void *WAYLAND_GetSym(const char *fnname, целое *pHasModule, bool required)
 {
     void *fn = NULL;
     waylanddynlib *dynlib;
-    for (dynlib = waylandlibs; dynlib->libname; dynlib++) {
-        if (dynlib->lib) {
+    для (dynlib = waylandlibs; dynlib->libname; dynlib++) {
+        если (dynlib->lib) {
             fn = SDL_LoadFunction(dynlib->lib, fnname);
-            if (fn) {
+            если (fn) {
                 break;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_WAYLAND
-    if (fn) {
+#если DEBUG_DYNAMIC_WAYLAND
+    если (fn) {
         SDL_Log("WAYLAND: Found '%s' in %s (%p)", fnname, dynlib->libname, fn);
-    } else {
+    } иначе {
         SDL_Log("WAYLAND: Symbol '%s' NOT FOUND!", fnname);
     }
 #endif
 
-    if (!fn && required) {
+    если (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    вернуть fn;
 }
 
-#else
+#иначе
 
 #include <wayland-egl.h>
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_WAYLAND_MODULE(modname)         int SDL_WAYLAND_HAVE_##modname = 0;
+#define SDL_WAYLAND_MODULE(modname)         целое SDL_WAYLAND_HAVE_##modname = 0;
 #define SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
 #include "SDL_waylandsym.h"
 
-static int wayland_load_refcount = 0;
+static целое wayland_load_refcount = 0;
 
 void SDL_WAYLAND_UnloadSymbols(void)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (wayland_load_refcount > 0) {
-        if (--wayland_load_refcount == 0) {
+    если (wayland_load_refcount > 0) {
+        если (--wayland_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            int i;
+            целое i;
 #endif
 
             // set all the function pointers to NULL.
@@ -150,8 +150,8 @@ void SDL_WAYLAND_UnloadSymbols(void)
 #include "SDL_waylandsym.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-                if (waylandlibs[i].lib) {
+            для (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+                если (waylandlibs[i].lib) {
                     SDL_UnloadObject(waylandlibs[i].lib);
                     waylandlibs[i].lib = NULL;
                 }
@@ -167,13 +167,13 @@ bool SDL_WAYLAND_LoadSymbols(void)
     bool result = true; // always succeed if not using Dynamic WAYLAND stuff.
 
     // deal with multiple modules (dga, wayland, etc) needing these symbols...
-    if (wayland_load_refcount++ == 0) {
+    если (wayland_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-            if (waylandlibs[i].libname) {
-                if (waylandlibs[i].hint &&
+        целое i;
+        целое *thismod = NULL;
+        для (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+            если (waylandlibs[i].libname) {
+                если (waylandlibs[i].hint &&
                     !SDL_GetHintBoolean(waylandlibs[i].hint, waylandlibs[i].hint_default)) {
                     continue;
                 }
@@ -189,19 +189,19 @@ bool SDL_WAYLAND_LoadSymbols(void)
 #define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
 #include "SDL_waylandsym.h"
 
-        if (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
+        если (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
             SDL_WAYLAND_HAVE_WAYLAND_CURSOR &&
             SDL_WAYLAND_HAVE_WAYLAND_EGL &&
             SDL_WAYLAND_HAVE_WAYLAND_XKB) {
             // All required symbols loaded, only libdecor is optional.
             SDL_ClearError();
-        } else {
+        } иначе {
             // in case something got loaded...
             SDL_WAYLAND_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic WAYLAND
+#иначе // no dynamic WAYLAND
 
 #define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
 #define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
@@ -211,7 +211,7 @@ bool SDL_WAYLAND_LoadSymbols(void)
 #endif
     }
 
-    return result;
+    вернуть result;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

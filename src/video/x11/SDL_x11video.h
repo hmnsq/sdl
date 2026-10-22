@@ -50,9 +50,9 @@ struct SDL_VideoData
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
+    целое numwindows;
     SDL_WindowData **windowlist;
-    int windowlistlength;
+    целое windowlistlength;
     XID window_group;
     Window clipboard_window;
     SDLX11_ClipboardData clipboard;
@@ -139,11 +139,11 @@ struct SDL_VideoData
 
     unsigned long xinput_last_button_serial;
     unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
+    целое xinput_last_keyboard_device;
+    целое xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
 
-    int xrandr_event_base;
+    целое xrandr_event_base;
     struct
     {
         bool xkb_enabled;
@@ -157,16 +157,16 @@ struct SDL_VideoData
                 XkbDescPtr desc_ptr;
                 SDL_Keymap *keymaps[XkbNumKbdGroups];
                 unsigned long last_map_serial;
-                int event;
+                целое event;
                 Uint32 current_group;
             } xkb; // Modern XKB keyboard handling
 #endif
             struct
             {
                 KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                целое keysyms_per_key;
+                целое min_keycode;
+                целое max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;

@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PIB)
+#если defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PIB)
 #include <stdlib.h>
 #include <string.h>
 
@@ -35,11 +35,11 @@
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
+        если (err != EGL_SUCCESS) {              \
             SDL_SetError("EGL error %d", err); \
-            return NULL;                          \
+            вернуть NULL;                          \
         }                                      \
-    } while (0)
+    } пока (0)
 
 void VITA_GLES_KeyboardCallback(ScePigletPreSwapData *data)
 {
@@ -60,12 +60,12 @@ void VITA_GLES_KeyboardCallback(ScePigletPreSwapData *data)
 bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     pibInit(PIB_SHACCCG | PIB_GET_PROC_ADDR_CORE);
-    return true;
+    вернуть true;
 }
 
 SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
 {
-    return eglGetProcAddress(proc);
+    вернуть eglGetProcAddress(proc);
 }
 
 void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this)
@@ -88,7 +88,7 @@ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window
     EGLConfig config;
     EGLint num_configs;
     PFNEGLPIGLETVITASETPRESWAPCALLBACKSCEPROC preSwapCallback;
-    int i;
+    целое i;
 
     const EGLint contextAttribs[] = {
         EGL_CONTEXT_CLIENT_VERSION, 2,
@@ -130,9 +130,9 @@ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window
 
     EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
 
-    if (num_configs == 0) {
+    если (num_configs == 0) {
         SDL_SetError("No valid EGL configs for requested mode");
-        return NULL;
+        вернуть NULL;
     }
 
     EGLCHK(surface = eglCreateWindowSurface(display, config, VITA_WINDOW_960X544, NULL));
@@ -151,43 +151,43 @@ SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window
     preSwapCallback = (PFNEGLPIGLETVITASETPRESWAPCALLBACKSCEPROC)eglGetProcAddress("eglPigletVitaSetPreSwapCallbackSCE");
     preSwapCallback(VITA_GLES_KeyboardCallback);
 
-    return context;
+    вернуть context;
 }
 
 bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
+    если (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
                         _this->gl_data->surface, _this->gl_data->context)) {
-        return SDL_SetError("Unable to make EGL context current");
+        вернуть SDL_SetError("Unable to make EGL context current");
     }
-    return true;
+    вернуть true;
 }
 
-bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, целое interval)
 {
     EGLBoolean status;
     status = eglSwapInterval(_this->gl_data->display, interval);
-    if (status == EGL_TRUE) {
+    если (status == EGL_TRUE) {
         // Return success to upper level
         _this->gl_data->swapinterval = interval;
-        return true;
+        вернуть true;
     }
     // Failed to set swap interval
-    return SDL_SetError("Unable to set the EGL swap interval");
+    вернуть SDL_SetError("Unable to set the EGL swap interval");
 }
 
-bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, целое *interval)
 {
     *interval = _this->gl_data->swapinterval;
-    return true;
+    вернуть true;
 }
 
 bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
-        return SDL_SetError("eglSwapBuffers() failed");
+    если (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
+        вернуть SDL_SetError("eglSwapBuffers() failed");
     }
-    return true;
+    вернуть true;
 }
 
 bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -195,22 +195,22 @@ bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
     SDL_VideoData *phdata = _this->internal;
     EGLBoolean status;
 
-    if (phdata->egl_initialized != true) {
-        return SDL_SetError("VITA: GLES initialization failed, no OpenGL ES support");
+    если (phdata->egl_initialized != true) {
+        вернуть SDL_SetError("VITA: GLES initialization failed, no OpenGL ES support");
     }
 
     // Check if OpenGL ES connection has been initialized
-    if (_this->gl_data->display != EGL_NO_DISPLAY) {
-        if (context != EGL_NO_CONTEXT) {
+    если (_this->gl_data->display != EGL_NO_DISPLAY) {
+        если (context != EGL_NO_CONTEXT) {
             status = eglDestroyContext(_this->gl_data->display, context);
-            if (status != EGL_TRUE) {
+            если (status != EGL_TRUE) {
                 // Error during OpenGL ES context destroying
-                return SDL_SetError("VITA: OpenGL ES context destroy error");
+                вернуть SDL_SetError("VITA: OpenGL ES context destroy error");
             }
         }
     }
 
-    return true;
+    вернуть true;
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA

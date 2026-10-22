@@ -40,14 +40,14 @@
 
 #define IRKBD_CONFIG_FILE NULL // this will take ms0:/seplugins/pspirkeyb.ini
 
-static int irkbd_ready = 0;
+static целое irkbd_ready = 0;
 static SDL_Scancode keymap[256];
 #endif
 
 static enum PspHprmKeys hprm = 0;
 static SDL_Semaphore *event_sem = NULL;
 static SDL_Thread *thread = NULL;
-static int running = 0;
+static целое running = 0;
 static struct
 {
     enum PspHprmKeys id;
@@ -61,21 +61,21 @@ static struct
     { PSP_HPRM_HOLD, SDL_SCANCODE_F15 }
 };
 
-int EventUpdate(void *data)
+целое EventUpdate(void *data)
 {
-    while (running) {
+    пока (running) {
         SDL_WaitSemaphore(event_sem);
         sceHprmPeekCurrentKey((u32 *)&hprm);
         SDL_SignalSemaphore(event_sem);
         // Delay 1/60th of a second
         sceKernelDelayThread(1000000 / 60);
     }
-    return 0;
+    вернуть 0;
 }
 
 void PSP_PumpEvents(SDL_VideoDevice *_this)
 {
-    int i;
+    целое i;
     enum PspHprmKeys keys;
     enum PspHprmKeys changed;
     static enum PspHprmKeys old_keys = 0;
@@ -87,9 +87,9 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
     // HPRM Keyboard
     changed = old_keys ^ keys;
     old_keys = keys;
-    if (changed) {
-        for (i = 0; i < SDL_arraysize(keymap_psp); i++) {
-            if (changed & keymap_psp[i].id) {
+    если (changed) {
+        для (i = 0; i < SDL_arraysize(keymap_psp); i++) {
+            если (changed & keymap_psp[i].id) {
                 bool down = ((keys & keymap_psp[i].id) != 0);
                 SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
             }
@@ -97,15 +97,15 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
     }
 
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
+    если (irkbd_ready) {
         unsigned char buffer[255];
-        int i, length, count;
+        целое i, length, count;
         SIrKeybScanCodeData *scanData;
 
-        if (pspIrKeybReadinput(buffer, &length) >= 0) {
-            if ((length % sizeof(SIrKeybScanCodeData)) == 0) {
+        если (pspIrKeybReadinput(buffer, &length) >= 0) {
+            если ((length % sizeof(SIrKeybScanCodeData)) == 0) {
                 count = length / sizeof(SIrKeybScanCodeData);
-                for (i = 0; i < count; i++) {
+                для (i = 0; i < count; i++) {
                     unsigned char raw;
                     bool down;
                     scanData = (SIrKeybScanCodeData *)buffer + i;
@@ -119,14 +119,14 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
 #endif
     sceKernelDelayThread(0);
 
-    return;
+    вернуть;
 }
 
 void PSP_InitOSKeymap(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int i;
-    for (i = 0; i < SDL_arraysize(keymap); ++i) {
+    целое i;
+    для (i = 0; i < SDL_arraysize(keymap); ++i) {
         keymap[i] = SDL_SCANCODE_UNKNOWN;
     }
 
@@ -236,24 +236,24 @@ void PSP_InitOSKeymap(SDL_VideoDevice *_this)
 bool PSP_EventInit(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
-    int ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
-    if (ret == PSP_IRKBD_RESULT_OK) {
+    целое outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
+    целое ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
+    если (ret == PSP_IRKBD_RESULT_OK) {
         pspIrKeybOutputMode(outputmode);
         irkbd_ready = 1;
-    } else {
+    } иначе {
         irkbd_ready = 0;
     }
 #endif
     // Start thread to read data
-    if ((event_sem = SDL_CreateSemaphore(1)) == NULL) {
-        return SDL_SetError("Can't create input semaphore");
+    если ((event_sem = SDL_CreateSemaphore(1)) == NULL) {
+        вернуть SDL_SetError("Can't create input semaphore");
     }
     running = 1;
-    if ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, NULL)) == NULL) {
-        return SDL_SetError("Can't create input thread");
+    если ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, NULL)) == NULL) {
+        вернуть SDL_SetError("Can't create input thread");
     }
-    return true;
+    вернуть true;
 }
 
 void PSP_EventQuit(SDL_VideoDevice *_this)
@@ -262,7 +262,7 @@ void PSP_EventQuit(SDL_VideoDevice *_this)
     SDL_WaitThread(thread, NULL);
     SDL_DestroySemaphore(event_sem);
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
+    если (irkbd_ready) {
         pspIrKeybFinish();
         irkbd_ready = 0;
     }

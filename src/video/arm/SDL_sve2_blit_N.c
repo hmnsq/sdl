@@ -27,25 +27,25 @@
 #undef sdl_sve_rgb32_blend_op_fill_alpha
 #define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx) \
     do {                                                    \
-        if (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
+        если (sve_src_chn_idx == (ma_alpha_chn_idx)) {        \
             /* fill alpha */                                \
             sve_target_u16 = svdup_u16(0xFF);               \
-        } else {                                            \
+        } иначе {                                            \
             sve_target_u16 = sve_source_u16;                \
         }                                                   \
-    } while (0)
+    } пока (0)
 
 #undef sdl_sve_rgb32_blend_op_copy_alpha
 #define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx) \
     do {                                                    \
         sve_target_u16 = sve_source_u16;                    \
-    } while (0)
+    } пока (0)
 
 #undef sdl_sve_rgb32_blend_to_rgb565_op
 #define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx) \
     do {                                                   \
         sve_target_u16 = sve_source_u16;                   \
-    } while (0)
+    } пока (0)
 
 #include "SDL_sve2_swizzle.h"
 
@@ -94,15 +94,15 @@ static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
                                      size_t uSourceStride,
                                      uint8_t *SDL_RESTRICT pchTarget,
                                      size_t uTargetStride,
-                                     int nWidth,
-                                     int nHeight,
+                                     целое nWidth,
+                                     целое nHeight,
                                      uint16_t hwKey,
                                      uint16_t hwKeyMask)
 {
     assert(0 == ((uintptr_t)pchSource & 0x01));
     assert(0 == ((uintptr_t)pchTarget & 0x01));
 
-    while (nHeight--) {
+    пока (nHeight--) {
         sdl_sve_rgb16_stride_key((uint16_t *)pchSource,
                                  (uint16_t *)pchTarget,
                                  nWidth,
@@ -117,25 +117,25 @@ static inline void sdl_sve_rgb16_key(uint8_t *SDL_RESTRICT pchSource,
 SDL_TARGETING("arch=armv8-a+sve2")
 void Blit2to2KeySVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    целое width = info->dst_w;
+    целое height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    целое srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    целое dstskip = info->dst_skip;
 
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    целое srcbpp = srcfmt->bytes_per_pixel;
+    целое dstbpp = dstfmt->bytes_per_pixel;
 
     assert(srcbpp == 2);
     assert(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    целое srcstride = srcskip + srcbpp * width;
+    целое dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
@@ -229,8 +229,8 @@ static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
                                                 size_t uSourceStride,
                                                 uint8_t *SDL_RESTRICT pchTarget,
                                                 size_t uTargetStride,
-                                                int nWidth,
-                                                int nHeight,
+                                                целое nWidth,
+                                                целое nHeight,
                                                 uint32_t wKey,
                                                 uint32_t wKeyMask,
                                                 uint32_t wOpacifyMask)
@@ -238,7 +238,7 @@ static inline void sdl_sve_rgb32_key_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
     assert(0 == ((uintptr_t)pchSource & 0x03));
     assert(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
+    пока (nHeight--) {
         sdl_sve_rgb32_stride_key_copy_alpha((uint32_t *)pchSource,
                                             (uint32_t *)pchTarget,
                                             nWidth,
@@ -257,8 +257,8 @@ static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
                                               size_t uSourceStride,
                                               uint8_t *SDL_RESTRICT pchTarget,
                                               size_t uTargetStride,
-                                              int nWidth,
-                                              int nHeight,
+                                              целое nWidth,
+                                              целое nHeight,
                                               uint32_t wKey,
                                               uint32_t wKeyMask,
                                               uint32_t wActualRGBMask)
@@ -266,7 +266,7 @@ static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
     assert(0 == ((uintptr_t)pchSource & 0x03));
     assert(0 == ((uintptr_t)pchTarget & 0x03));
 
-    while (nHeight--) {
+    пока (nHeight--) {
         sdl_sve_rgb32_stride_key_no_alpha((uint32_t *)pchSource,
                                           (uint32_t *)pchTarget,
                                           nWidth,
@@ -282,31 +282,31 @@ static inline void sdl_sve_rgb32_key_no_alpha(uint8_t *SDL_RESTRICT pchSource,
 SDL_TARGETING("arch=armv8-a+sve2")
 void Blit4to4KeySVE2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    целое width = info->dst_w;
+    целое height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    целое srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    целое dstskip = info->dst_skip;
 
     const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
     const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    целое srcbpp = srcfmt->bytes_per_pixel;
+    целое dstbpp = dstfmt->bytes_per_pixel;
 
     assert(srcbpp == 4);
     assert(dstbpp == 4);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    целое srcstride = srcskip + srcbpp * width;
+    целое dststride = dstskip + dstbpp * width;
 
     uint32_t ckey = info->colorkey;
     uint32_t rgbmask = ~srcfmt->Amask;
     ckey &= rgbmask;
 
-    if (dstfmt->Amask) {
+    если (dstfmt->Amask) {
         uint32_t opamask = ((uint32_t)info->a) << dstfmt->Ashift;
         /* RGBA: set alpha from info->a */
         sdl_sve_rgb32_key_copy_alpha(src,
@@ -318,7 +318,7 @@ void Blit4to4KeySVE2(SDL_BlitInfo *info)
                                      ckey,
                                      rgbmask,
                                      opamask);
-    } else {
+    } иначе {
         /* RGBA->RGB: only copy rgb and set alpha to zero */
         uint32_t rgbmaskactual = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
         sdl_sve_rgb32_key_no_alpha(src,

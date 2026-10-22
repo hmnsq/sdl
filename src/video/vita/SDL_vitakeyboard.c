@@ -31,7 +31,7 @@
 #include "../../events/SDL_keyboard_c.h"
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
-int keyboard_hid_handle = 0;
+целое keyboard_hid_handle = 0;
 Uint8 prev_keys[6] = { 0 };
 Uint8 prev_modifiers = 0;
 Uint8 locks = 0;
@@ -44,7 +44,7 @@ void VITA_InitKeyboard(void)
 #endif
     sceHidKeyboardEnumerate(&keyboard_hid_handle, 1);
 
-    if (keyboard_hid_handle > 0) {
+    если (keyboard_hid_handle > 0) {
         SDL_AddKeyboard((SDL_KeyboardID)keyboard_hid_handle, NULL);
     }
 }
@@ -52,26 +52,26 @@ void VITA_InitKeyboard(void)
 void VITA_PollKeyboard(void)
 {
     // We skip polling keyboard if no window is created
-    if (!Vita_Window) {
-        return;
+    если (!Vita_Window) {
+        вернуть;
     }
 
-    if (keyboard_hid_handle > 0) {
+    если (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        целое numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        если (numReports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } иначе если (numReports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
-                if (!(locks & 0x1)) {
+            если (k_reports[numReports - 1].modifiers[1] & 0x1) {
+                если (!(locks & 0x1)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
-            } else {
-                if (locks & 0x1) {
+            } иначе {
+                если (locks & 0x1) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
@@ -79,13 +79,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
-                if (!(locks & 0x2)) {
+            если (k_reports[numReports - 1].modifiers[1] & 0x2) {
+                если (!(locks & 0x2)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
-            } else {
-                if (locks & 0x2) {
+            } иначе {
+                если (locks & 0x2) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
@@ -93,13 +93,13 @@ void VITA_PollKeyboard(void)
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
-                if (!(locks & 0x4)) {
+            если (k_reports[numReports - 1].modifiers[1] & 0x4) {
+                если (!(locks & 0x4)) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
-            } else {
-                if (locks & 0x4) {
+            } иначе {
+                если (locks & 0x4) {
                     SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
@@ -108,59 +108,59 @@ void VITA_PollKeyboard(void)
             {
                 Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
 
-                if (changed_modifiers & 0x01) {
-                    if (prev_modifiers & 0x01) {
+                если (changed_modifiers & 0x01) {
+                    если (prev_modifiers & 0x01) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x02) {
-                    if (prev_modifiers & 0x02) {
+                если (changed_modifiers & 0x02) {
+                    если (prev_modifiers & 0x02) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x04) {
-                    if (prev_modifiers & 0x04) {
+                если (changed_modifiers & 0x04) {
+                    если (prev_modifiers & 0x04) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
-                if (changed_modifiers & 0x08) {
-                    if (prev_modifiers & 0x08) {
+                если (changed_modifiers & 0x08) {
+                    если (prev_modifiers & 0x08) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
-                if (changed_modifiers & 0x10) {
-                    if (prev_modifiers & 0x10) {
+                если (changed_modifiers & 0x10) {
+                    если (prev_modifiers & 0x10) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
-                if (changed_modifiers & 0x20) {
-                    if (prev_modifiers & 0x20) {
+                если (changed_modifiers & 0x20) {
+                    если (prev_modifiers & 0x20) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
-                if (changed_modifiers & 0x40) {
-                    if (prev_modifiers & 0x40) {
+                если (changed_modifiers & 0x40) {
+                    если (prev_modifiers & 0x40) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
-                if (changed_modifiers & 0x80) {
-                    if (prev_modifiers & 0x80) {
+                если (changed_modifiers & 0x80) {
+                    если (prev_modifiers & 0x80) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
-                    } else {
+                    } иначе {
                         SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
@@ -168,16 +168,16 @@ void VITA_PollKeyboard(void)
 
             prev_modifiers = k_reports[numReports - 1].modifiers[0];
 
-            for (int i = 0; i < 6; i++) {
+            для (целое i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                целое keyCode = k_reports[numReports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                если (keyCode != prev_keys[i]) {
 
-                    if (prev_keys[i]) {
+                    если (prev_keys[i]) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
                     }
-                    if (keyCode) {
+                    если (keyCode) {
                         SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
                     }
                     prev_keys[i] = keyCode;

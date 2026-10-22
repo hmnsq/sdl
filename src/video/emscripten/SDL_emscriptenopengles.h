@@ -31,8 +31,8 @@
 extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, целое interval);
+extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, целое *interval);
 extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);

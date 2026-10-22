@@ -81,13 +81,13 @@ extern void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr,
                                                VkInstance instance,
                                                VkSurfaceKHR surface,
                                                const struct VkAllocationCallbacks *allocator);
-#else
+#иначе
 
 // No SDL Vulkan support, just include the header for typedefs
 #include <SDL3/SDL_vulkan.h>
 
 typedef void (*PFN_vkGetInstanceProcAddr)(void);
-typedef int (*PFN_vkEnumerateInstanceExtensionProperties)(void);
+typedef целое (*PFN_vkEnumerateInstanceExtensionProperties)(void);
 
 #endif // SDL_VIDEO_VULKAN
 

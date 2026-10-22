@@ -27,26 +27,26 @@
 #include "../../events/SDL_mouse_c.h"
 
 
-static Uint8 screenToMouseButton(int x)
+static Uint8 screenToMouseButton(целое x)
 {
     //Screen only supports 3 mouse buttons.
     switch(x){
         case SCREEN_LEFT_MOUSE_BUTTON: // 1 << 0
-        return SDL_BUTTON_LEFT;
+        вернуть SDL_BUTTON_LEFT;
         case SCREEN_RIGHT_MOUSE_BUTTON: //1 << 1
-        return SDL_BUTTON_RIGHT;
+        вернуть SDL_BUTTON_RIGHT;
         case SCREEN_MIDDLE_MOUSE_BUTTON: //1 << 2
-        return SDL_BUTTON_MIDDLE;
+        вернуть SDL_BUTTON_MIDDLE;
     }
-    return 0;
+    вернуть 0;
 }
 
 void handlePointerEvent(screen_event_t event)
 {
-    int              buttons = 0;
-    int              mouse_wheel = 0;
-    int              mouse_h_wheel = 0;
-    int              pos[2] = {0,0};
+    целое              buttons = 0;
+    целое              mouse_wheel = 0;
+    целое              mouse_h_wheel = 0;
+    целое              pos[2] = {0,0};
 
     Uint64           timestamp = SDL_GetTicksNS();
     SDL_Mouse        *mouse;
@@ -64,11 +64,11 @@ void handlePointerEvent(screen_event_t event)
     mouse_data = mouse->internal;
     SDL_assert(mouse_data != NULL);
 
-    if (mouse->relative_mode) {
+    если (mouse->relative_mode) {
         // The mouse is hidden. We don't have control over its actual position
         // with SCREEN_PROPERTY_POSITION, just the position of the icon.
         SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, true, pos[0] - mouse_data->x_prev, pos[1] - mouse_data->y_prev);
-    } else {
+    } иначе {
         SDL_SendMouseMotion(timestamp, window, SDL_DEFAULT_MOUSE_ID, false, pos[0], pos[1]);
     }
 
@@ -76,7 +76,7 @@ void handlePointerEvent(screen_event_t event)
     mouse_data->y_prev = pos[1];
 
     // Capture button presses
-    for (int i = 0; i < 3; ++i)
+    для (целое i = 0; i < 3; ++i)
     {
         Uint8 ret = screenToMouseButton(1 << i);
         SDL_SendMouseButton(timestamp, window, SDL_DEFAULT_MOUSE_ID, ret, (bool) ((buttons & (1 << i)) == (1 << i)));

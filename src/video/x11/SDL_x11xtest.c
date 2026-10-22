@@ -21,7 +21,7 @@
 
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#если defined(SDL_VIDEO_DRIVER_X11)
 
 #include "SDL_x11video.h"
 #include "SDL_x11xtest.h"
@@ -31,14 +31,14 @@ static bool xtest_initialized = false;
 void X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#если 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    целое event, error;
+    целое opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    если (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        вернуть;
     }
 
     xtest_initialized = true;
@@ -47,37 +47,37 @@ void X11_InitXTest(SDL_VideoDevice *_this)
 
 bool X11_XTestIsInitialized(void)
 {
-    return xtest_initialized;
+    вернуть xtest_initialized;
 }
 
 bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    если (!X11_XTestIsInitialized()) {
+        вернуть false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    если (!displaydata) {
+        вернуть false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    целое motion_x = (целое)SDL_roundf(x);
+    целое motion_y = (целое)SDL_roundf(y);
+    если (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    если (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        вернуть false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    вернуть true;
+#иначе
+    вернуть false;
 #endif
 }
 

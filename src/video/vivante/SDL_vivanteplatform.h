@@ -31,7 +31,7 @@
 #define VIVANTE_PLATFORM_CAVIUM
 #elif defined(MARVELL)
 #define VIVANTE_PLATFORM_MARVELL
-#else
+#иначе
 #define VIVANTE_PLATFORM_GENERIC
 #endif
 

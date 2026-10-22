@@ -38,14 +38,14 @@ static void SDL_Blit_XRGB8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             *dst = *src;
@@ -59,17 +59,17 @@ static void SDL_Blit_XRGB8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -87,9 +87,9 @@ static void SDL_Blit_XRGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -114,7 +114,7 @@ static void SDL_Blit_XRGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -127,14 +127,14 @@ static void SDL_Blit_XRGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -154,9 +154,9 @@ static void SDL_Blit_XRGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -181,21 +181,21 @@ static void SDL_Blit_XRGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -212,7 +212,7 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -226,19 +226,19 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -255,7 +255,7 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -266,22 +266,22 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -299,19 +299,19 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -324,13 +324,13 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -346,7 +346,7 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -364,27 +364,27 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -402,19 +402,19 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -427,13 +427,13 @@ static void SDL_Blit_XRGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -459,14 +459,14 @@ static void SDL_Blit_XRGB8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -483,17 +483,17 @@ static void SDL_Blit_XRGB8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -511,9 +511,9 @@ static void SDL_Blit_XRGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -538,7 +538,7 @@ static void SDL_Blit_XRGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -551,14 +551,14 @@ static void SDL_Blit_XRGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -578,9 +578,9 @@ static void SDL_Blit_XRGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -605,21 +605,21 @@ static void SDL_Blit_XRGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -636,7 +636,7 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -650,19 +650,19 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -679,7 +679,7 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -690,22 +690,22 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -723,19 +723,19 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -748,13 +748,13 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -770,7 +770,7 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -788,27 +788,27 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -826,19 +826,19 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -851,13 +851,13 @@ static void SDL_Blit_XRGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -883,14 +883,14 @@ static void SDL_Blit_XRGB8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -906,17 +906,17 @@ static void SDL_Blit_XRGB8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -936,9 +936,9 @@ static void SDL_Blit_XRGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -963,7 +963,7 @@ static void SDL_Blit_XRGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -976,14 +976,14 @@ static void SDL_Blit_XRGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -1005,9 +1005,9 @@ static void SDL_Blit_XRGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1032,7 +1032,7 @@ static void SDL_Blit_XRGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1041,14 +1041,14 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     const Uint32 A = (flags & SDL_COPY_MODULATE_ALPHA) ? modulateA : 0xFF;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1065,7 +1065,7 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1081,19 +1081,19 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1110,7 +1110,7 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1121,22 +1121,22 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -1156,22 +1156,22 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1184,13 +1184,13 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -1206,7 +1206,7 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1224,27 +1224,27 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -1264,22 +1264,22 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1292,13 +1292,13 @@ static void SDL_Blit_XRGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -1325,14 +1325,14 @@ static void SDL_Blit_XRGB8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -1349,17 +1349,17 @@ static void SDL_Blit_XRGB8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -1379,9 +1379,9 @@ static void SDL_Blit_XRGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1406,7 +1406,7 @@ static void SDL_Blit_XRGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -1419,14 +1419,14 @@ static void SDL_Blit_XRGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -1448,9 +1448,9 @@ static void SDL_Blit_XRGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1475,7 +1475,7 @@ static void SDL_Blit_XRGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1484,14 +1484,14 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     const Uint32 A = (flags & SDL_COPY_MODULATE_ALPHA) ? modulateA : 0xFF;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1508,7 +1508,7 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1524,19 +1524,19 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1553,7 +1553,7 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1564,22 +1564,22 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -1599,22 +1599,22 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1627,13 +1627,13 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -1649,7 +1649,7 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1667,27 +1667,27 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -1707,22 +1707,22 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1735,13 +1735,13 @@ static void SDL_Blit_XRGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -1767,14 +1767,14 @@ static void SDL_Blit_XBGR8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -1791,17 +1791,17 @@ static void SDL_Blit_XBGR8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -1819,9 +1819,9 @@ static void SDL_Blit_XBGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1846,7 +1846,7 @@ static void SDL_Blit_XBGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -1859,14 +1859,14 @@ static void SDL_Blit_XBGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -1886,9 +1886,9 @@ static void SDL_Blit_XBGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -1913,21 +1913,21 @@ static void SDL_Blit_XBGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1944,7 +1944,7 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1958,19 +1958,19 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -1987,7 +1987,7 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -1998,22 +1998,22 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2031,19 +2031,19 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2056,13 +2056,13 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -2078,7 +2078,7 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2096,27 +2096,27 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2134,19 +2134,19 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2159,13 +2159,13 @@ static void SDL_Blit_XBGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -2189,14 +2189,14 @@ static void SDL_Blit_XBGR8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             *dst = *src;
@@ -2210,17 +2210,17 @@ static void SDL_Blit_XBGR8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -2238,9 +2238,9 @@ static void SDL_Blit_XBGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2265,7 +2265,7 @@ static void SDL_Blit_XBGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -2278,14 +2278,14 @@ static void SDL_Blit_XBGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -2305,9 +2305,9 @@ static void SDL_Blit_XBGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2332,21 +2332,21 @@ static void SDL_Blit_XBGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -2363,7 +2363,7 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2377,19 +2377,19 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -2406,7 +2406,7 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2417,22 +2417,22 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2450,19 +2450,19 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2475,13 +2475,13 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -2497,7 +2497,7 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2515,27 +2515,27 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2553,19 +2553,19 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2578,13 +2578,13 @@ static void SDL_Blit_XBGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -2611,14 +2611,14 @@ static void SDL_Blit_XBGR8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -2635,17 +2635,17 @@ static void SDL_Blit_XBGR8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -2665,9 +2665,9 @@ static void SDL_Blit_XBGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2692,7 +2692,7 @@ static void SDL_Blit_XBGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -2705,14 +2705,14 @@ static void SDL_Blit_XBGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -2734,9 +2734,9 @@ static void SDL_Blit_XBGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2761,7 +2761,7 @@ static void SDL_Blit_XBGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2770,14 +2770,14 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     const Uint32 A = (flags & SDL_COPY_MODULATE_ALPHA) ? modulateA : 0xFF;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -2794,7 +2794,7 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2810,19 +2810,19 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -2839,7 +2839,7 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2850,22 +2850,22 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2885,22 +2885,22 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -2913,13 +2913,13 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -2935,7 +2935,7 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -2953,27 +2953,27 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -2993,22 +2993,22 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3021,13 +3021,13 @@ static void SDL_Blit_XBGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3053,14 +3053,14 @@ static void SDL_Blit_XBGR8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -3076,17 +3076,17 @@ static void SDL_Blit_XBGR8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
@@ -3106,9 +3106,9 @@ static void SDL_Blit_XBGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3133,7 +3133,7 @@ static void SDL_Blit_XBGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB;
     Uint32 dstpixel;
@@ -3146,14 +3146,14 @@ static void SDL_Blit_XBGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
@@ -3175,9 +3175,9 @@ static void SDL_Blit_XBGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3202,7 +3202,7 @@ static void SDL_Blit_XBGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3211,14 +3211,14 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     const Uint32 A = (flags & SDL_COPY_MODULATE_ALPHA) ? modulateA : 0xFF;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -3235,7 +3235,7 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3251,19 +3251,19 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -3280,7 +3280,7 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3291,22 +3291,22 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3326,22 +3326,22 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3354,13 +3354,13 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3376,7 +3376,7 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3394,27 +3394,27 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3434,22 +3434,22 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3462,13 +3462,13 @@ static void SDL_Blit_XBGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3493,14 +3493,14 @@ static void SDL_Blit_ARGB8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -3516,23 +3516,23 @@ static void SDL_Blit_ARGB8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3550,19 +3550,19 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3575,13 +3575,13 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3597,7 +3597,7 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -3610,22 +3610,22 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3643,19 +3643,19 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3668,13 +3668,13 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3690,21 +3690,21 @@ static void SDL_Blit_ARGB8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -3721,7 +3721,7 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3735,19 +3735,19 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -3764,7 +3764,7 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3774,25 +3774,25 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3810,19 +3810,19 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3835,13 +3835,13 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3857,7 +3857,7 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -3874,30 +3874,30 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -3915,19 +3915,19 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -3940,13 +3940,13 @@ static void SDL_Blit_ARGB8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -3972,14 +3972,14 @@ static void SDL_Blit_ARGB8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -3996,23 +3996,23 @@ static void SDL_Blit_ARGB8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4030,19 +4030,19 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4055,13 +4055,13 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4077,7 +4077,7 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -4090,22 +4090,22 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4123,19 +4123,19 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4148,13 +4148,13 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4170,21 +4170,21 @@ static void SDL_Blit_ARGB8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -4201,7 +4201,7 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4215,19 +4215,19 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -4244,7 +4244,7 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4254,25 +4254,25 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4290,19 +4290,19 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4315,13 +4315,13 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4337,7 +4337,7 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4354,30 +4354,30 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4395,19 +4395,19 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4420,13 +4420,13 @@ static void SDL_Blit_ARGB8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4450,14 +4450,14 @@ static void SDL_Blit_ARGB8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             *dst = *src;
@@ -4471,23 +4471,23 @@ static void SDL_Blit_ARGB8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4507,22 +4507,22 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4535,13 +4535,13 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4557,7 +4557,7 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -4570,22 +4570,22 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4605,22 +4605,22 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4633,13 +4633,13 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4655,7 +4655,7 @@ static void SDL_Blit_ARGB8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4663,19 +4663,19 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -4690,7 +4690,7 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4705,24 +4705,24 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -4737,7 +4737,7 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4747,25 +4747,25 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4785,22 +4785,22 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4813,13 +4813,13 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4835,7 +4835,7 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -4852,30 +4852,30 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -4895,22 +4895,22 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -4923,13 +4923,13 @@ static void SDL_Blit_ARGB8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -4955,14 +4955,14 @@ static void SDL_Blit_ARGB8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -4979,23 +4979,23 @@ static void SDL_Blit_ARGB8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5015,22 +5015,22 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5043,13 +5043,13 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5065,7 +5065,7 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -5078,22 +5078,22 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5113,22 +5113,22 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5141,13 +5141,13 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5163,7 +5163,7 @@ static void SDL_Blit_ARGB8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5171,19 +5171,19 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -5198,7 +5198,7 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5213,24 +5213,24 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); B = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -5245,7 +5245,7 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5255,25 +5255,25 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5293,22 +5293,22 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5321,13 +5321,13 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5343,7 +5343,7 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5360,30 +5360,30 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcB = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5403,22 +5403,22 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5431,13 +5431,13 @@ static void SDL_Blit_ARGB8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5462,14 +5462,14 @@ static void SDL_Blit_RGBA8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -5485,23 +5485,23 @@ static void SDL_Blit_RGBA8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5519,19 +5519,19 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5544,13 +5544,13 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5566,7 +5566,7 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -5579,22 +5579,22 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5612,19 +5612,19 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5637,13 +5637,13 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5659,21 +5659,21 @@ static void SDL_Blit_RGBA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -5690,7 +5690,7 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5704,19 +5704,19 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -5733,7 +5733,7 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5743,25 +5743,25 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5779,19 +5779,19 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5804,13 +5804,13 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5826,7 +5826,7 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -5843,30 +5843,30 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5884,19 +5884,19 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -5909,13 +5909,13 @@ static void SDL_Blit_RGBA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -5941,14 +5941,14 @@ static void SDL_Blit_RGBA8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -5965,23 +5965,23 @@ static void SDL_Blit_RGBA8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -5999,19 +5999,19 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6024,13 +6024,13 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6046,7 +6046,7 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -6059,22 +6059,22 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6092,19 +6092,19 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6117,13 +6117,13 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6139,21 +6139,21 @@ static void SDL_Blit_RGBA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -6170,7 +6170,7 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6184,19 +6184,19 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -6213,7 +6213,7 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6223,25 +6223,25 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6259,19 +6259,19 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6284,13 +6284,13 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6306,7 +6306,7 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6323,30 +6323,30 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6364,19 +6364,19 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6389,13 +6389,13 @@ static void SDL_Blit_RGBA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6420,14 +6420,14 @@ static void SDL_Blit_RGBA8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -6443,23 +6443,23 @@ static void SDL_Blit_RGBA8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6479,22 +6479,22 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6507,13 +6507,13 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6529,7 +6529,7 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -6542,22 +6542,22 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6577,22 +6577,22 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6605,13 +6605,13 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6627,7 +6627,7 @@ static void SDL_Blit_RGBA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6635,19 +6635,19 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -6662,7 +6662,7 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6677,24 +6677,24 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -6709,7 +6709,7 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6719,25 +6719,25 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6757,22 +6757,22 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6785,13 +6785,13 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6807,7 +6807,7 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -6824,30 +6824,30 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6867,22 +6867,22 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -6895,13 +6895,13 @@ static void SDL_Blit_RGBA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -6927,14 +6927,14 @@ static void SDL_Blit_RGBA8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -6951,23 +6951,23 @@ static void SDL_Blit_RGBA8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -6987,22 +6987,22 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7015,13 +7015,13 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7037,7 +7037,7 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -7050,22 +7050,22 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7085,22 +7085,22 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7113,13 +7113,13 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7135,7 +7135,7 @@ static void SDL_Blit_RGBA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7143,19 +7143,19 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -7170,7 +7170,7 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7185,24 +7185,24 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             R = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); B = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -7217,7 +7217,7 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7227,25 +7227,25 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7265,22 +7265,22 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7293,13 +7293,13 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7315,7 +7315,7 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7332,30 +7332,30 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcR = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcB = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7375,22 +7375,22 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7403,13 +7403,13 @@ static void SDL_Blit_RGBA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7435,14 +7435,14 @@ static void SDL_Blit_ABGR8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -7459,23 +7459,23 @@ static void SDL_Blit_ABGR8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7493,19 +7493,19 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7518,13 +7518,13 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7540,7 +7540,7 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -7553,22 +7553,22 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7586,19 +7586,19 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7611,13 +7611,13 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7633,21 +7633,21 @@ static void SDL_Blit_ABGR8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -7664,7 +7664,7 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7678,19 +7678,19 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -7707,7 +7707,7 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7717,25 +7717,25 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7753,19 +7753,19 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7778,13 +7778,13 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7800,7 +7800,7 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -7817,30 +7817,30 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7858,19 +7858,19 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7883,13 +7883,13 @@ static void SDL_Blit_ABGR8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -7914,14 +7914,14 @@ static void SDL_Blit_ABGR8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -7937,23 +7937,23 @@ static void SDL_Blit_ABGR8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -7971,19 +7971,19 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -7996,13 +7996,13 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8018,7 +8018,7 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -8031,22 +8031,22 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8064,19 +8064,19 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8089,13 +8089,13 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8111,21 +8111,21 @@ static void SDL_Blit_ABGR8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -8142,7 +8142,7 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8156,19 +8156,19 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -8185,7 +8185,7 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8195,25 +8195,25 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8231,19 +8231,19 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8256,13 +8256,13 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8278,7 +8278,7 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8295,30 +8295,30 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8336,19 +8336,19 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8361,13 +8361,13 @@ static void SDL_Blit_ABGR8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8393,14 +8393,14 @@ static void SDL_Blit_ABGR8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -8417,23 +8417,23 @@ static void SDL_Blit_ABGR8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8453,22 +8453,22 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8481,13 +8481,13 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8503,7 +8503,7 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -8516,22 +8516,22 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8551,22 +8551,22 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8579,13 +8579,13 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8601,7 +8601,7 @@ static void SDL_Blit_ABGR8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8609,19 +8609,19 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -8636,7 +8636,7 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8651,24 +8651,24 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -8683,7 +8683,7 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8693,25 +8693,25 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8731,22 +8731,22 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8759,13 +8759,13 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8781,7 +8781,7 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -8798,30 +8798,30 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8841,22 +8841,22 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8869,13 +8869,13 @@ static void SDL_Blit_ABGR8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -8899,14 +8899,14 @@ static void SDL_Blit_ABGR8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             *dst = *src;
@@ -8920,23 +8920,23 @@ static void SDL_Blit_ABGR8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -8956,22 +8956,22 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -8984,13 +8984,13 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9006,7 +9006,7 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -9019,22 +9019,22 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9054,22 +9054,22 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9082,13 +9082,13 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9104,7 +9104,7 @@ static void SDL_Blit_ABGR8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9112,19 +9112,19 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -9139,7 +9139,7 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9154,24 +9154,24 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 16); G = (Uint8)(pixelvalue >> 8); R = (Uint8)pixelvalue; A = (Uint8)(pixelvalue >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -9186,7 +9186,7 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9196,25 +9196,25 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9234,22 +9234,22 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9262,13 +9262,13 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9284,7 +9284,7 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9301,30 +9301,30 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 16); srcG = (Uint8)(srcpixel >> 8); srcR = (Uint8)srcpixel; srcA = (Uint8)(srcpixel >> 24);
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9344,22 +9344,22 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9372,13 +9372,13 @@ static void SDL_Blit_ABGR8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9404,14 +9404,14 @@ static void SDL_Blit_BGRA8888_XRGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -9428,23 +9428,23 @@ static void SDL_Blit_BGRA8888_XRGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9462,19 +9462,19 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9487,13 +9487,13 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9509,7 +9509,7 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -9522,22 +9522,22 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9555,19 +9555,19 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9580,13 +9580,13 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9602,21 +9602,21 @@ static void SDL_Blit_BGRA8888_XRGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -9633,7 +9633,7 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9647,19 +9647,19 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -9676,7 +9676,7 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9686,25 +9686,25 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9722,19 +9722,19 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9747,13 +9747,13 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9769,7 +9769,7 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -9786,30 +9786,30 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9827,19 +9827,19 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9852,13 +9852,13 @@ static void SDL_Blit_BGRA8888_XRGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9883,14 +9883,14 @@ static void SDL_Blit_BGRA8888_XBGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -9906,23 +9906,23 @@ static void SDL_Blit_BGRA8888_XBGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -9940,19 +9940,19 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -9965,13 +9965,13 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -9987,7 +9987,7 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -10000,22 +10000,22 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10033,19 +10033,19 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10058,13 +10058,13 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10080,21 +10080,21 @@ static void SDL_Blit_BGRA8888_XBGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
     Uint32 pixelvalue;
     Uint32 R, G, B;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -10111,7 +10111,7 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10125,19 +10125,19 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
@@ -10154,7 +10154,7 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10164,25 +10164,25 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10200,19 +10200,19 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10225,13 +10225,13 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10247,7 +10247,7 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10264,30 +10264,30 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10305,19 +10305,19 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10330,13 +10330,13 @@ static void SDL_Blit_BGRA8888_XBGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10362,14 +10362,14 @@ static void SDL_Blit_BGRA8888_ARGB8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -10386,23 +10386,23 @@ static void SDL_Blit_BGRA8888_ARGB8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10422,22 +10422,22 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10450,13 +10450,13 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10472,7 +10472,7 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -10485,22 +10485,22 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10520,22 +10520,22 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10548,13 +10548,13 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10570,7 +10570,7 @@ static void SDL_Blit_BGRA8888_ARGB8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10578,19 +10578,19 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -10605,7 +10605,7 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10620,24 +10620,24 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (R << 16) | (G << 8) | B;
@@ -10652,7 +10652,7 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10662,25 +10662,25 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10700,22 +10700,22 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10728,13 +10728,13 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10750,7 +10750,7 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -10767,30 +10767,30 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstR = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstB = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10810,22 +10810,22 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10838,13 +10838,13 @@ static void SDL_Blit_BGRA8888_ARGB8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10869,14 +10869,14 @@ static void SDL_Blit_BGRA8888_ABGR8888_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
@@ -10892,23 +10892,23 @@ static void SDL_Blit_BGRA8888_ABGR8888_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -10928,22 +10928,22 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -10956,13 +10956,13 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -10978,7 +10978,7 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
@@ -10991,22 +10991,22 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -11026,22 +11026,22 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -11054,13 +11054,13 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -11076,7 +11076,7 @@ static void SDL_Blit_BGRA8888_ABGR8888_Blend_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -11084,19 +11084,19 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -11111,7 +11111,7 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -11126,24 +11126,24 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             pixelvalue = *src;
             B = (Uint8)(pixelvalue >> 24); G = (Uint8)(pixelvalue >> 16); R = (Uint8)(pixelvalue >> 8); A = (Uint8)pixelvalue;
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(R, modulateR, R);
                 MULT_DIV_255(G, modulateG, G);
                 MULT_DIV_255(B, modulateB, B);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(A, modulateA, A);
             }
             pixelvalue = (A << 24) | (B << 16) | (G << 8) | R;
@@ -11158,7 +11158,7 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Scale(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -11168,25 +11168,25 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = (Uint32 *)info->src;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
-        while (n--) {
+        целое n = info->dst_w;
+        пока (n--) {
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -11206,22 +11206,22 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -11234,13 +11234,13 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }
@@ -11256,7 +11256,7 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend(SDL_BlitInfo *info)
 
 static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
+    const целое flags = info->flags;
     const Uint32 modulateR = info->r;
     const Uint32 modulateG = info->g;
     const Uint32 modulateB = info->b;
@@ -11273,30 +11273,30 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2;
 
-    while (info->dst_h--) {
+    пока (info->dst_h--) {
         Uint32 *src = NULL;
         Uint32 *dst = (Uint32 *)info->dst;
-        int n = info->dst_w;
+        целое n = info->dst_w;
         posx = incx / 2;
 
         srcy = posy >> 16;
-        while (n--) {
+        пока (n--) {
             srcx = posx >> 16;
             src = (Uint32 *)(info->src + (srcy * info->src_pitch) + (srcx * 4));
             srcpixel = *src;
             srcB = (Uint8)(srcpixel >> 24); srcG = (Uint8)(srcpixel >> 16); srcR = (Uint8)(srcpixel >> 8); srcA = (Uint8)srcpixel;
             dstpixel = *dst;
             dstB = (Uint8)(dstpixel >> 16); dstG = (Uint8)(dstpixel >> 8); dstR = (Uint8)dstpixel; dstA = (Uint8)(dstpixel >> 24);
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            если (flags & SDL_COPY_MODULATE_COLOR) {
                 MULT_DIV_255(srcR, modulateR, srcR);
                 MULT_DIV_255(srcG, modulateG, srcG);
                 MULT_DIV_255(srcB, modulateB, srcB);
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            если (flags & SDL_COPY_MODULATE_ALPHA) {
                 MULT_DIV_255(srcA, modulateA, srcA);
             }
-            if (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            если (flags & (SDL_COPY_BLEND|SDL_COPY_ADD)) {
+                если (srcA < 255) {
                     MULT_DIV_255(srcR, srcA, srcR);
                     MULT_DIV_255(srcG, srcA, srcG);
                     MULT_DIV_255(srcB, srcA, srcB);
@@ -11316,22 +11316,22 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
             case SDL_COPY_BLEND_PREMULTIPLIED:
                 MULT_DIV_255((255 - srcA), dstR, dstR);
                 dstR += srcR;
-                if (dstR > 255) dstR = 255;
+                если (dstR > 255) dstR = 255;
                 MULT_DIV_255((255 - srcA), dstG, dstG);
                 dstG += srcG;
-                if (dstG > 255) dstG = 255;
+                если (dstG > 255) dstG = 255;
                 MULT_DIV_255((255 - srcA), dstB, dstB);
                 dstB += srcB;
-                if (dstB > 255) dstB = 255;
+                если (dstB > 255) dstB = 255;
                 MULT_DIV_255((255 - srcA), dstA, dstA);
                 dstA += srcA;
-                if (dstA > 255) dstA = 255;
+                если (dstA > 255) dstA = 255;
                 break;
             case SDL_COPY_ADD:
             case SDL_COPY_ADD_PREMULTIPLIED:
-                dstR = srcR + dstR; if (dstR > 255) dstR = 255;
-                dstG = srcG + dstG; if (dstG > 255) dstG = 255;
-                dstB = srcB + dstB; if (dstB > 255) dstB = 255;
+                dstR = srcR + dstR; если (dstR > 255) dstR = 255;
+                dstG = srcG + dstG; если (dstG > 255) dstG = 255;
+                dstB = srcB + dstB; если (dstB > 255) dstB = 255;
                 break;
             case SDL_COPY_MOD:
                 MULT_DIV_255(srcR, dstR, dstR);
@@ -11344,13 +11344,13 @@ static void SDL_Blit_BGRA8888_ABGR8888_Modulate_Blend_Scale(SDL_BlitInfo *info)
 
                     MULT_DIV_255(srcR, dstR, tmp1);
                     MULT_DIV_255(dstR, (255 - srcA), tmp2);
-                    dstR = tmp1 + tmp2; if (dstR > 255) dstR = 255;
+                    dstR = tmp1 + tmp2; если (dstR > 255) dstR = 255;
                     MULT_DIV_255(srcG, dstG, tmp1);
                     MULT_DIV_255(dstG, (255 - srcA), tmp2);
-                    dstG = tmp1 + tmp2; if (dstG > 255) dstG = 255;
+                    dstG = tmp1 + tmp2; если (dstG > 255) dstG = 255;
                     MULT_DIV_255(srcB, dstB, tmp1);
                     MULT_DIV_255(dstB, (255 - srcA), tmp2);
-                    dstB = tmp1 + tmp2; if (dstB > 255) dstB = 255;
+                    dstB = tmp1 + tmp2; если (dstB > 255) dstB = 255;
                 }
                 break;
             }

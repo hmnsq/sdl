@@ -27,8 +27,8 @@
 
 void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
 {
-    if (_this->clipboard_mime_types) {
-        for (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
+    если (_this->clipboard_mime_types) {
+        для (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
             SDL_free(_this->clipboard_mime_types[i]);
         }
         SDL_free(_this->clipboard_mime_types);
@@ -42,16 +42,16 @@ void SDL_CancelClipboardData(Uint32 sequence)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return;
+    если (!_this) {
+        вернуть;
     }
 
-    if (sequence && sequence != _this->clipboard_sequence) {
+    если (sequence && sequence != _this->clipboard_sequence) {
         // This clipboard data was already canceled
-        return;
+        вернуть;
     }
 
-    if (_this->clipboard_cleanup) {
+    если (_this->clipboard_cleanup) {
         _this->clipboard_cleanup(_this->clipboard_userdata);
     }
 
@@ -66,131 +66,131 @@ bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_t
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    if (mime_types && num_mime_types > 0) {
+    если (mime_types && num_mime_types > 0) {
         size_t num_allocated = 0;
 
         _this->clipboard_mime_types = (char **)SDL_malloc(num_mime_types * sizeof(char *));
-        if (_this->clipboard_mime_types) {
-            for (size_t i = 0; i < num_mime_types; ++i) {
+        если (_this->clipboard_mime_types) {
+            для (size_t i = 0; i < num_mime_types; ++i) {
                 _this->clipboard_mime_types[i] = SDL_strdup(mime_types[i]);
-                if (_this->clipboard_mime_types[i]) {
+                если (_this->clipboard_mime_types[i]) {
                     ++num_allocated;
                 }
             }
         }
-        if (num_allocated < num_mime_types) {
+        если (num_allocated < num_mime_types) {
             SDL_FreeClipboardMimeTypes(_this);
-            return false;
+            вернуть false;
         }
         _this->num_clipboard_mime_types = num_mime_types;
     }
-    return true;
+    вернуть true;
 }
 
 bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void *userdata, const char *const *mime_types, size_t num_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
     // Parameter validation
-    if (!((callback && mime_types && num_mime_types > 0) ||
+    если (!((callback && mime_types && num_mime_types > 0) ||
           (!callback && !mime_types && num_mime_types == 0))) {
-        return SDL_SetError("Invalid parameters");
+        вернуть SDL_SetError("Invalid parameters");
     }
 
     SDL_CancelClipboardData(0);
 
     ++_this->clipboard_sequence;
-    if (!_this->clipboard_sequence) {
+    если (!_this->clipboard_sequence) {
         _this->clipboard_sequence = 1;
     }
     _this->clipboard_callback = callback;
     _this->clipboard_cleanup = cleanup;
     _this->clipboard_userdata = userdata;
 
-    if (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
+    если (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
         SDL_ClearClipboardData();
-        return false;
+        вернуть false;
     }
 
-    if (_this->SetClipboardData) {
-        if (!_this->SetClipboardData(_this)) {
-            return false;
+    если (_this->SetClipboardData) {
+        если (!_this->SetClipboardData(_this)) {
+            вернуть false;
         }
-    } else if (_this->SetClipboardText) {
+    } иначе если (_this->SetClipboardText) {
         char *text = NULL;
         size_t size;
 
-        for (size_t i = 0; i < num_mime_types; ++i) {
+        для (size_t i = 0; i < num_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
-            if (SDL_IsTextMimeType(mime_type)) {
+            если (SDL_IsTextMimeType(mime_type)) {
                 const void *data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &size);
-                if (data) {
+                если (data) {
                     text = (char *)SDL_malloc(size + 1);
                     SDL_memcpy(text, data, size);
                     text[size] = '\0';
-                    if (!_this->SetClipboardText(_this, text)) {
+                    если (!_this->SetClipboardText(_this, text)) {
                         SDL_free(text);
-                        return false;
+                        вернуть false;
                     }
                     break;
                 }
             }
         }
-        if (text) {
+        если (text) {
             SDL_free(text);
-        } else {
-            if (!_this->SetClipboardText(_this, "")) {
-                return false;
+        } иначе {
+            если (!_this->SetClipboardText(_this, "")) {
+                вернуть false;
             }
         }
     }
 
     char **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, num_mime_types, true);
-    if (!mime_types_copy) {
-        return SDL_SetError("unable to copy current mime types");
+    если (!mime_types_copy) {
+        вернуть SDL_SetError("unable to copy current mime types");
 	}
     SDL_SendClipboardUpdate(true, mime_types_copy, num_mime_types);
-    return true;
+    вернуть true;
 }
 
 bool SDL_ClearClipboardData(void)
 {
-    return SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
+    вернуть SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
 }
 
 void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
 {
     void *data = NULL;
 
-    if (_this->clipboard_callback) {
-        if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    если (_this->clipboard_callback) {
+        если (!SDL_HasInternalClipboardData(_this, mime_type)) {
             // The callback hasn't advertised that it can handle this mime type
-            return NULL;
+            вернуть NULL;
         }
 
         const void *provided_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, size);
-        if (provided_data) {
+        если (provided_data) {
             // Make a copy of it for the caller and guarantee null termination
             data = SDL_malloc(*size + sizeof(Uint32));
-            if (data) {
+            если (data) {
                 SDL_memcpy(data, provided_data, *size);
                 SDL_memset((Uint8 *)data + *size, 0, sizeof(Uint32));
-            } else {
+            } иначе {
                 *size = 0;
             }
         }
     }
-    return data;
+    вернуть data;
 }
 
 void *SDL_GetClipboardData(const char *mime_type, size_t *size)
@@ -198,37 +198,37 @@ void *SDL_GetClipboardData(const char *mime_type, size_t *size)
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     size_t unused;
 
-    if (!_this) {
+    если (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        вернуть NULL;
     }
 
     CHECK_PARAM(!mime_type) {
         SDL_InvalidParamError("mime_type");
-        return NULL;
+        вернуть NULL;
     }
-    if (!size) {
+    если (!size) {
         size = &unused;
     }
 
     // Initialize size to empty, so implementations don't have to worry about it
     *size = 0;
 
-    if (_this->GetClipboardData) {
-        return _this->GetClipboardData(_this, mime_type, size);
-    } else if (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
+    если (_this->GetClipboardData) {
+        вернуть _this->GetClipboardData(_this, mime_type, size);
+    } иначе если (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
         char *text = _this->GetClipboardText(_this);
-        if (text) {
-            if (*text == '\0') {
+        если (text) {
+            если (*text == '\0') {
                 SDL_free(text);
                 text = NULL;
-            } else {
+            } иначе {
                 *size = SDL_strlen(text);
             }
         }
-        return text;
-    } else {
-        return SDL_GetInternalClipboardData(_this, mime_type, size);
+        вернуть text;
+    } иначе {
+        вернуть SDL_GetInternalClipboardData(_this, mime_type, size);
     }
 }
 
@@ -236,55 +236,55 @@ bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type)
 {
     size_t i;
 
-    for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-        if (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
-            return true;
+    для (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        если (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
+            вернуть true;
         }
     }
-    return false;
+    вернуть false;
 }
 
 bool SDL_HasClipboardData(const char *mime_type)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
     CHECK_PARAM(!mime_type) {
-        return SDL_InvalidParamError("mime_type");
+        вернуть SDL_InvalidParamError("mime_type");
     }
 
-    if (_this->HasClipboardData) {
-        return _this->HasClipboardData(_this, mime_type);
-    } else if (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
-        return _this->HasClipboardText(_this);
-    } else {
-        return SDL_HasInternalClipboardData(_this, mime_type);
+    если (_this->HasClipboardData) {
+        вернуть _this->HasClipboardData(_this, mime_type);
+    } иначе если (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
+        вернуть _this->HasClipboardText(_this);
+    } иначе {
+        вернуть SDL_HasInternalClipboardData(_this, mime_type);
     }
 }
 
 char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary)
 {
     size_t allocSize = sizeof(char *);
-    for (size_t i = 0; i < num_mime_types; i++) {
+    для (size_t i = 0; i < num_mime_types; i++) {
         allocSize += sizeof(char *) + SDL_strlen(clipboard_mime_types[i]) + 1;
     }
 
     char *ret;
-    if (temporary)
+    если (temporary)
         ret = (char *)SDL_AllocateTemporaryMemory(allocSize);
-    else
+    иначе
         ret = (char *)SDL_malloc(allocSize);
-    if (!ret) {
-        return NULL;
+    если (!ret) {
+        вернуть NULL;
     }
 
     char **result = (char **)ret;
     ret += sizeof(char *) * (num_mime_types + 1);
 
-    for (size_t i = 0; i < num_mime_types; i++) {
+    для (size_t i = 0; i < num_mime_types; i++) {
         result[i] = ret;
 
         const char *mime_type = clipboard_mime_types[i];
@@ -292,11 +292,11 @@ char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_
         char c;
         do {
             c = *ret++ = *mime_type++;
-        } while (c != '\0');
+        } пока (c != '\0');
     }
     result[num_mime_types] = NULL;
 
-    return result;
+    вернуть result;
 
 }
 
@@ -304,51 +304,51 @@ char **SDL_GetClipboardMimeTypes(size_t *num_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (num_mime_types) {
+    если (num_mime_types) {
         *num_mime_types = 0;
     }
 
-    if (!_this) {
+    если (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        вернуть NULL;
     }
 
-    if (num_mime_types) {
+    если (num_mime_types) {
         *num_mime_types = _this->num_clipboard_mime_types;
     }
-    return SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
+    вернуть SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
 }
 
 // Clipboard text
 
 bool SDL_IsTextMimeType(const char *mime_type)
 {
-    return (SDL_strncmp(mime_type, "text", 4) == 0);
+    вернуть (SDL_strncmp(mime_type, "text", 4) == 0);
 }
 
 static const char *const *SDL_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
 {
-    if (_this->GetTextMimeTypes) {
-        return _this->GetTextMimeTypes(_this, num_mime_types);
-    } else {
+    если (_this->GetTextMimeTypes) {
+        вернуть _this->GetTextMimeTypes(_this, num_mime_types);
+    } иначе {
         static const char *const text_mime_types[] = {
             "text/plain;charset=utf-8"
         };
 
         *num_mime_types = SDL_arraysize(text_mime_types);
-        return text_mime_types;
+        вернуть text_mime_types;
     }
 }
 
 const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size)
 {
     char *text = (char *)userdata;
-    if (text) {
+    если (text) {
         *size = SDL_strlen(text);
-    } else {
+    } иначе {
         *size = 0;
     }
-    return text;
+    вернуть text;
 }
 
 bool SDL_SetClipboardText(const char *text)
@@ -357,16 +357,16 @@ bool SDL_SetClipboardText(const char *text)
     size_t num_mime_types;
     const char *const *text_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
-    if (text && *text) {
+    если (text && *text) {
         text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
 
-        return SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
+        вернуть SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
     }
-    return SDL_ClearClipboardData();
+    вернуть SDL_ClearClipboardData();
 }
 
 char *SDL_GetClipboardText(void)
@@ -377,24 +377,24 @@ char *SDL_GetClipboardText(void)
     size_t length;
     char *text = NULL;
 
-    if (!_this) {
+    если (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        вернуть SDL_strdup("");
     }
 
     text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
+    для (i = 0; i < num_mime_types; ++i) {
         void *clipdata = SDL_GetClipboardData(text_mime_types[i], &length);
-        if (clipdata) {
+        если (clipdata) {
             text = (char *)clipdata;
             break;
         }
     }
 
-    if (!text) {
+    если (!text) {
         text = SDL_strdup("");
     }
-    return text;
+    вернуть text;
 }
 
 bool SDL_HasClipboardText(void)
@@ -403,17 +403,17 @@ bool SDL_HasClipboardText(void)
     size_t i, num_mime_types;
     const char *const *text_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
     text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        if (SDL_HasClipboardData(text_mime_types[i])) {
-            return true;
+    для (i = 0; i < num_mime_types; ++i) {
+        если (SDL_HasClipboardData(text_mime_types[i])) {
+            вернуть true;
         }
     }
-    return false;
+    вернуть false;
 }
 
 // Primary selection text
@@ -422,47 +422,47 @@ bool SDL_SetPrimarySelectionText(const char *text)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
-    if (!text) {
+    если (!text) {
         text = "";
     }
-    if (_this->SetPrimarySelectionText) {
-        if (!_this->SetPrimarySelectionText(_this, text)) {
-            return false;
+    если (_this->SetPrimarySelectionText) {
+        если (!_this->SetPrimarySelectionText(_this, text)) {
+            вернуть false;
         }
-    } else {
+    } иначе {
         SDL_free(_this->primary_selection_text);
         _this->primary_selection_text = SDL_strdup(text);
     }
 
     char **mime_types = SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, true);
-    if (!mime_types) {
-        return SDL_SetError("unable to copy current mime types");
+    если (!mime_types) {
+        вернуть SDL_SetError("unable to copy current mime types");
 	}
     SDL_SendClipboardUpdate(true, mime_types, _this->num_clipboard_mime_types);
-    return true;
+    вернуть true;
 }
 
 char *SDL_GetPrimarySelectionText(void)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
+    если (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        вернуть SDL_strdup("");
     }
 
-    if (_this->GetPrimarySelectionText) {
-        return _this->GetPrimarySelectionText(_this);
-    } else {
+    если (_this->GetPrimarySelectionText) {
+        вернуть _this->GetPrimarySelectionText(_this);
+    } иначе {
         const char *text = _this->primary_selection_text;
-        if (!text) {
+        если (!text) {
             text = "";
         }
-        return SDL_strdup(text);
+        вернуть SDL_strdup(text);
     }
 }
 
@@ -470,17 +470,17 @@ bool SDL_HasPrimarySelectionText(void)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    если (!_this) {
+        вернуть SDL_UninitializedVideo();
     }
 
-    if (_this->HasPrimarySelectionText) {
-        return _this->HasPrimarySelectionText(_this);
-    } else {
-        if (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
-            return true;
-        } else {
-            return false;
+    если (_this->HasPrimarySelectionText) {
+        вернуть _this->HasPrimarySelectionText(_this);
+    } иначе {
+        если (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
+            вернуть true;
+        } иначе {
+            вернуть false;
         }
     }
 }

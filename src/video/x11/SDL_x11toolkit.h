@@ -79,7 +79,7 @@ typedef struct SDL_ToolkitWindowX11
 
     /* Display */
     Display *display;
-    int screen;
+    целое screen;
     bool display_close;
 
     /* Parent */
@@ -93,7 +93,7 @@ typedef struct SDL_ToolkitWindowX11
 #ifndef NO_SHARED_MEMORY
     XImage *image;
     XShmSegmentInfo shm_info;
-    int shm_bytes_per_line;
+    целое shm_bytes_per_line;
 #endif
 
     /* Visuals and drawing */
@@ -101,7 +101,7 @@ typedef struct SDL_ToolkitWindowX11
     XVisualInfo vi;
     Colormap cmap;
     GC ctx;
-    int depth;
+    целое depth;
     bool pixmap;
 
     /* X11 extensions */
@@ -122,17 +122,17 @@ typedef struct SDL_ToolkitWindowX11
     Atom wm_delete_message;
 
     /* Window and pixmap sizes */
-    int window_width;  // Window width.
-    int window_height; // Window height.
-    int pixmap_width;
-    int pixmap_height;
-    int window_x;
-    int window_y;
+    целое window_width;  // Window width.
+    целое window_height; // Window height.
+    целое pixmap_width;
+    целое pixmap_height;
+    целое window_x;
+    целое window_y;
 
     /* XSettings and scaling */
     XSettingsClient *xsettings;
     bool xsettings_first_time;
-    int iscale;
+    целое iscale;
     float scale;
 
     /* Font */
@@ -172,7 +172,7 @@ typedef struct SDL_ToolkitWindowX11
     struct SDL_ToolkitControlX11 *key_control_esc;
     struct SDL_ToolkitControlX11 *key_control_enter;
     KeySym last_key_pressed;
-    int ev_i;
+    целое ev_i;
     float ev_scale;
     float ev_iscale;
     bool draw;
@@ -238,16 +238,16 @@ typedef struct SDL_ToolkitMenuItemX11
     SDL_Rect hover_rect;
     SDL_Rect check_rect;
     SDL_ToolkitControlStateX11 state;
-    int arrow_x;
-    int arrow_y;
+    целое arrow_x;
+    целое arrow_y;
     bool reverse_arrows;
 } SDL_ToolkitMenuItemX11;
 
 /* WINDOW FUNCTIONS */
 extern SDL_ToolkitWindowX11 *X11Toolkit_CreateWindowStruct(SDL_Window *parent, SDL_ToolkitWindowX11 *tkparent, SDL_ToolkitWindowModeX11 mode, const SDL_MessageBoxColor *colorhints, bool create_new_display);
-extern bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, int w, int h, int cx, int cy, char *title);
+extern bool X11Toolkit_CreateWindowRes(SDL_ToolkitWindowX11 *data, целое w, целое h, целое cx, целое cy, char *title);
 extern void X11Toolkit_DoWindowEventLoop(SDL_ToolkitWindowX11 *data);
-extern void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, int w, int h);
+extern void X11Toolkit_ResizeWindow(SDL_ToolkitWindowX11 *data, целое w, целое h);
 extern void X11Toolkit_DestroyWindow(SDL_ToolkitWindowX11 *data);
 extern void X11Toolkit_SignalWindowClose(SDL_ToolkitWindowX11 *data);
 
@@ -259,7 +259,7 @@ extern SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 
 
 /* LABEL CONTROL FUNCTIONS */
 extern SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8);
-extern int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control);
+extern целое X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control);
 
 /* BUTTON CONTROL FUNCTIONS */
 extern SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, const SDL_MessageBoxButtonData *data);

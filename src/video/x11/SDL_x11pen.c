@@ -32,34 +32,34 @@
 static bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
 {
     const SDL_VideoData *data = _this->internal;
-    for (int i = 0; i < dev->num_classes; i++) {
+    для (целое i = 0; i < dev->num_classes; i++) {
         const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIValuatorClass) {
+        если (classinfo->type == XIValuatorClass) {
             const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            if (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
-                return true;
+            если (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
+                вернуть true;
             }
         }
     }
 
-    return false;
+    вернуть false;
 }
 
 // Heuristically determines if device is an eraser
-static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *devicename)
+static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, целое deviceid, char *devicename)
 {
     #define PEN_ERASER_NAME_TAG  "eraser" // String constant to identify erasers
     SDL_VideoData *data = _this->internal;
 
-    if (data->atoms.pen_atom_wacom_tool_type != None) {
+    если (data->atoms.pen_atom_wacom_tool_type != None) {
         Atom type_return;
-        int format_return;
+        целое format_return;
         unsigned long num_items_return;
         unsigned long bytes_after_return;
         unsigned char *tooltype_name_info = NULL;
 
         // Try Wacom-specific method
-        if (Success == X11_XIGetProperty(data->display, deviceid,
+        если (Success == X11_XIGetProperty(data->display, deviceid,
                                          data->atoms.pen_atom_wacom_tool_type,
                                          0, 32, False,
                                          AnyPropertyType, &type_return, &format_return,
@@ -70,26 +70,26 @@ static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *d
             bool result = false;
             char *tooltype_name = NULL;
 
-            if (type_return == XA_ATOM) {
+            если (type_return == XA_ATOM) {
                 // Atom instead of string?  Un-intern
                 Atom atom = *((Atom *)tooltype_name_info);
-                if (atom != None) {
+                если (atom != None) {
                     tooltype_name = X11_XGetAtomName(data->display, atom);
                 }
-            } else if (type_return == XA_STRING && format_return == 8) {
+            } иначе если (type_return == XA_STRING && format_return == 8) {
                 tooltype_name = (char *)tooltype_name_info;
             }
 
-            if (tooltype_name) {
-                if (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
+            если (tooltype_name) {
+                если (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
                     result = true;
                 }
-                if (tooltype_name != (char *)tooltype_name_info) {
+                если (tooltype_name != (char *)tooltype_name_info) {
                     X11_XFree(tooltype_name_info);
                 }
                 X11_XFree(tooltype_name);
 
-                return result;
+                вернуть result;
             }
         }
     }
@@ -98,91 +98,91 @@ static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *d
 
     /* We assume that a device is an eraser if its name contains the string "eraser".
      * Unfortunately there doesn't seem to be a clean way to distinguish these cases (as of 2022-03). */
-    return (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
+    вернуть (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
 }
 
 // Read out an integer property and store into a preallocated Sint32 array, extending 8 and 16 bit values suitably.
 // Returns number of Sint32s written (<= max_words), or 0 on error.
-static size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, int deviceid, Atom property, Sint32 *dest, size_t max_words)
+static size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, целое deviceid, Atom property, Sint32 *dest, size_t max_words)
 {
     const SDL_VideoData *data = _this->internal;
     Atom type_return;
-    int format_return;
+    целое format_return;
     unsigned long num_items_return;
     unsigned long bytes_after_return;
     unsigned char *output;
 
-    if (property == None) {
-        return 0;
+    если (property == None) {
+        вернуть 0;
     }
 
-    if (Success != X11_XIGetProperty(data->display, deviceid,
+    если (Success != X11_XIGetProperty(data->display, deviceid,
                                      property,
                                      0, max_words, False,
                                      XA_INTEGER, &type_return, &format_return,
                                      &num_items_return, &bytes_after_return,
                                      &output) ||
         num_items_return == 0 || output == NULL) {
-        return 0;
+        вернуть 0;
     }
 
-    if (type_return == XA_INTEGER) {
-        int k;
-        const int to_copy = SDL_min(max_words, num_items_return);
+    если (type_return == XA_INTEGER) {
+        целое k;
+        const целое to_copy = SDL_min(max_words, num_items_return);
 
-        if (format_return == 8) {
+        если (format_return == 8) {
             Sint8 *numdata = (Sint8 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            для (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else if (format_return == 16) {
+        } иначе если (format_return == 16) {
             Sint16 *numdata = (Sint16 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            для (k = 0; k < to_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else {
+        } иначе {
             SDL_memcpy(dest, output, sizeof(Sint32) * to_copy);
         }
         X11_XFree(output);
-        return to_copy;
+        вернуть to_copy;
     }
 
-    return 0; // type mismatch
+    вернуть 0; // type mismatch
 }
 
 // Identify Wacom devices (if true is returned) and extract their device type and serial IDs
-static bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, int deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
+static bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, целое deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[3];
-    int result;
+    целое result;
 
-    if ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
+    если ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
         *wacom_devicetype_id = serial_id_buf[2];
         *wacom_serial = serial_id_buf[1];
-        return true;
+        вернуть true;
     }
 
     *wacom_devicetype_id = *wacom_serial = 0;
-    return false;
+    вернуть false;
 }
 
 // Check if a Wacom device is in proximity of the tablet
-static bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, int deviceid, bool *in_proximity)
+static bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, целое deviceid, bool *in_proximity)
 {
     SDL_VideoData *data = _this->internal;
     Sint32 serial_id_buf[5];
-    if (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
+    если (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
         *in_proximity = serial_id_buf[4] != 0 || serial_id_buf[3] != 0;
-        return true;
+        вернуть true;
     }
-    return false;
+    вернуть false;
 }
 
 
 typedef struct FindPenByDeviceIDData
 {
-    int x11_deviceid;
+    целое x11_deviceid;
     void *handle;
 } FindPenByDeviceIDData;
 
@@ -190,20 +190,20 @@ static bool FindPenByDeviceID(void *handle, void *userdata)
 {
     const X11_PenHandle *x11_handle = (const X11_PenHandle *) handle;
     FindPenByDeviceIDData *data = (FindPenByDeviceIDData *) userdata;
-    if (x11_handle->x11_deviceid != data->x11_deviceid) {
-        return false;
+    если (x11_handle->x11_deviceid != data->x11_deviceid) {
+        вернуть false;
     }
     data->handle = handle;
-    return true;
+    вернуть true;
 }
 
-X11_PenHandle *X11_FindPenByDeviceID(int deviceid)
+X11_PenHandle *X11_FindPenByDeviceID(целое deviceid)
 {
     FindPenByDeviceIDData data;
     data.x11_deviceid = deviceid;
     data.handle = NULL;
     SDL_FindPenByCallback(FindPenByDeviceID, &data);
-    return (X11_PenHandle *) data.handle;
+    вернуть (X11_PenHandle *) data.handle;
 }
 
 static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
@@ -212,25 +212,25 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     SDL_PenCapabilityFlags capabilities = 0;
     X11_PenHandle *handle = NULL;
 
-    if ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
-        return NULL;  // Only track physical devices that are enabled and look like pens
-    } else if ((handle = X11_FindPenByDeviceID(dev->deviceid)) != NULL) {
-        return handle;  // already have this pen, skip it.
-    } else if ((handle = SDL_calloc(1, sizeof(*handle))) == NULL) {
-        return NULL;  // oh well.
+    если ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
+        вернуть NULL;  // Only track physical devices that are enabled and look like pens
+    } иначе если ((handle = X11_FindPenByDeviceID(dev->deviceid)) != NULL) {
+        вернуть handle;  // already have this pen, skip it.
+    } иначе если ((handle = SDL_calloc(1, sizeof(*handle))) == NULL) {
+        вернуть NULL;  // oh well.
     }
 
-    for (int i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
+    для (целое i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
         handle->valuator_for_axis[i] = SDL_X11_PEN_AXIS_VALUATOR_MISSING;  // until proven otherwise
     }
 
-    int total_buttons = 0;
-    for (int i = 0; i < dev->num_classes; i++) {
+    целое total_buttons = 0;
+    для (целое i = 0; i < dev->num_classes; i++) {
         const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIButtonClass) {
+        если (classinfo->type == XIButtonClass) {
             const XIButtonClassInfo *button_classinfo = (const XIButtonClassInfo *)classinfo;
             total_buttons += button_classinfo->num_buttons;
-        } else if (classinfo->type == XIValuatorClass) {
+        } иначе если (classinfo->type == XIValuatorClass) {
             const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
             const Sint8 valuator_nr = val_classinfo->number;
             const Atom vname = val_classinfo->label;
@@ -240,19 +240,19 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
             SDL_PenAxis axis = SDL_PEN_AXIS_COUNT;
 
             // afaict, SDL_PEN_AXIS_DISTANCE is never reported by XInput2 (Wayland can offer it, though)
-            if (vname == data->atoms.pen_atom_abs_pressure) {
+            если (vname == data->atoms.pen_atom_abs_pressure) {
                 axis = SDL_PEN_AXIS_PRESSURE;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_x) {
+            } иначе если (vname == data->atoms.pen_atom_abs_tilt_x) {
                 axis = SDL_PEN_AXIS_XTILT;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_y) {
+            } иначе если (vname == data->atoms.pen_atom_abs_tilt_y) {
                 axis = SDL_PEN_AXIS_YTILT;
-            } else {
+            } иначе {
                 use_this_axis = false;
             }
 
             // !!! FIXME: there are wacom-specific hacks for getting SDL_PEN_AXIS_(ROTATION|SLIDER) on some devices, but for simplicity, we're skipping all that for now.
 
-            if (use_this_axis) {
+            если (use_this_axis) {
                 capabilities |= SDL_GetPenCapabilityFromAxis(axis);
                 handle->valuator_for_axis[axis] = valuator_nr;
                 handle->axis_min[axis] = min;
@@ -277,7 +277,7 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     peninfo.wacom_id = wacom_devicetype_id;
     peninfo.num_buttons = total_buttons;
     peninfo.subtype = is_eraser ? SDL_PEN_TYPE_ERASER : SDL_PEN_TYPE_PEN;
-    if (is_eraser) {
+    если (is_eraser) {
         peninfo.capabilities |= SDL_PEN_CAPABILITY_ERASER;
     }
 
@@ -285,57 +285,57 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     handle->x11_deviceid = dev->deviceid;
 
     bool in_proximity = false;
-    if (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
+    если (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
         in_proximity = true;  // just say it's in proximity if we can't detect this state.
     }
 
     handle->pen = SDL_AddPenDevice(0, dev->name, NULL, &peninfo, handle, in_proximity);
-    if (!handle->pen) {
+    если (!handle->pen) {
         SDL_free(handle);
-        return NULL;
+        вернуть NULL;
     }
 
-    return handle;
+    вернуть handle;
 }
 
-X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid)
+X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, целое deviceid)
 {
-    if (X11_Xinput2IsInitialized()) {
+    если (X11_Xinput2IsInitialized()) {
         SDL_VideoData *data = _this->internal;
-        int num_device_info = 0;
+        целое num_device_info = 0;
         XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &num_device_info);
-        if (device_info) {
+        если (device_info) {
             SDL_assert(num_device_info == 1);
             X11_PenHandle *handle = X11_MaybeAddPen(_this, device_info);
             X11_XIFreeDeviceInfo(device_info);
-            return handle;
+            вернуть handle;
         }
     }
-    return NULL;
+    вернуть NULL;
 }
 
-void X11_RemovePenByDeviceID(int deviceid)
+void X11_RemovePenByDeviceID(целое deviceid)
 {
     X11_PenHandle *handle = X11_FindPenByDeviceID(deviceid);
-    if (handle) {
+    если (handle) {
         SDL_RemovePenDevice(0, NULL, handle->pen);
         SDL_free(handle);
     }
 }
 
-void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid)
+void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, целое deviceid)
 {
     bool in_proximity;
     X11_PenHandle *pen = X11_FindPenByDeviceID(deviceid);
-    if (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
+    если (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
         SDL_SendPenProximity(0, pen->pen, window, in_proximity, in_proximity);
     }
 }
 
 void X11_InitPen(SDL_VideoDevice *_this)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return;  // we need XIQueryDevice() for this.
+    если (!X11_Xinput2IsInitialized()) {
+        вернуть;  // we need XIQueryDevice() for this.
     }
 
     SDL_VideoData *data = _this->internal;
@@ -350,10 +350,10 @@ void X11_InitPen(SDL_VideoDevice *_this)
     #undef LOOKUP_PEN_ATOM
 
     // Do an initial check on devices. After this, we'll add/remove individual pens when XI_HierarchyChanged events alert us.
-    int num_device_info = 0;
+    целое num_device_info = 0;
     XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &num_device_info);
-    if (device_info) {
-        for (int i = 0; i < num_device_info; i++) {
+    если (device_info) {
+        для (целое i = 0; i < num_device_info; i++) {
             X11_MaybeAddPen(_this, &device_info[i]);
         }
         X11_XIFreeDeviceInfo(device_info);
@@ -373,9 +373,9 @@ void X11_QuitPen(SDL_VideoDevice *_this)
 static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
 {
     // Normalise axes
-    for (int axis = 0; axis < SDL_PEN_AXIS_COUNT; ++axis) {
-        const int valuator = pen->valuator_for_axis[axis];
-        if (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
+    для (целое axis = 0; axis < SDL_PEN_AXIS_COUNT; ++axis) {
+        const целое valuator = pen->valuator_for_axis[axis];
+        если (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
             continue;
         }
 
@@ -383,28 +383,28 @@ static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
         const float min = pen->axis_min[axis];
         const float max = pen->axis_max[axis];
 
-        if (axis == SDL_PEN_AXIS_SLIDER) {
+        если (axis == SDL_PEN_AXIS_SLIDER) {
             value += pen->slider_bias;
         }
 
         // min ... 0 ... max
-        if (min < 0.0) {
+        если (min < 0.0) {
             // Normalise so that 0 remains 0.0
-            if (value < 0) {
+            если (value < 0) {
                 value = value / (-min);
-            } else {
-                if (max == 0.0f) {
+            } иначе {
+                если (max == 0.0f) {
                     value = 0.0f;
-                } else {
+                } иначе {
                     value = value / max;
                 }
             }
-        } else {
+        } иначе {
             // 0 ... min ... max
             // including 0.0 = min
-            if (max == 0.0f) {
+            если (max == 0.0f) {
                 value = 0.0f;
-            } else {
+            } иначе {
                 value = (value - min) / max;
             }
         }
@@ -423,9 +423,9 @@ static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
                 value += pen->rotation_bias;
 
                 // handle simple over/underflow
-                if (value >= 180.0f) {
+                если (value >= 180.0f) {
                     value -= 360.0f;
-                } else if (value < -180.0f) {
+                } иначе если (value < -180.0f) {
                     value += 360.0f;
                 }
                 break;
@@ -439,21 +439,21 @@ static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
 }
 
 void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                              const double *input_values, const unsigned char *mask, int mask_len,
+                              const double *input_values, const unsigned char *mask, целое mask_len,
                               float axis_values[SDL_PEN_AXIS_COUNT])
 {
-    for (int i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
-        const int valuator = pen->valuator_for_axis[i];
-        if ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
+    для (целое i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
+        const целое valuator = pen->valuator_for_axis[i];
+        если ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
             axis_values[i] = 0.0f;
-        } else {
+        } иначе {
             axis_values[i] = (float)input_values[valuator];
         }
     }
     X11_XInput2NormalizePenAxes(pen, axis_values);
 }
 
-#else
+#иначе
 
 void X11_InitPen(SDL_VideoDevice *_this)
 {

@@ -31,9 +31,9 @@
 extern void X11_InitXfixes(SDL_VideoDevice *_this);
 extern bool X11_XfixesIsInitialized(void);
 extern bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags);
+extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, целое flags);
 extern void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
-extern int X11_GetXFixesSelectionNotifyEvent(void);
+extern целое X11_GetXFixesSelectionNotifyEvent(void);
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
 
 #endif // SDL_x11xfixes_h_
